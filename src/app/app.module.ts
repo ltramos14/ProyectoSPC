@@ -16,12 +16,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     PageNotFoundComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AuthModule,
     SharedModule,
-    SpcModule
+    SpcModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

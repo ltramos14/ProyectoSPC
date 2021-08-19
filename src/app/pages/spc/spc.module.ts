@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
@@ -12,18 +13,22 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
-    HomeComponent, 
-    ProductsComponent, 
-    ProductDetailsComponent, 
-    ShoppingCartComponent, UsersComponent, ContactUsComponent, AboutUsComponent
+    HomeComponent,
+    ProductsComponent,
+    ProductDetailsComponent,
+    ShoppingCartComponent,
+    UsersComponent,
+    ContactUsComponent,
+    AboutUsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AppRoutingModule
   ],
   exports: [
-    HomeComponent, 
-    ProductsComponent, 
-    ProductDetailsComponent, 
+    HomeComponent,
+    ProductsComponent,
+    ProductDetailsComponent,
     ShoppingCartComponent
   ]
 })
