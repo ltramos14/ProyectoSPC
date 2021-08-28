@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { AuthRoutingModule } from './auth/auth.routing';
-import { SPCRoutingModule } from './pages/spc/spc.routing';
-
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RouterModule, Routes } from '@angular/router';
+import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: '',
+    component: CustomLayoutComponent,
+    children: []
+  }
 ];
 
 @NgModule({
-  imports: [
-  RouterModule.forRoot(routes),
-    AuthRoutingModule,
-    SPCRoutingModule
-  ],
+  imports: [RouterModule.forRoot(routes, {
+    // preloadingStrategy: PreloadAllModules,
+    scrollPositionRestoration: 'enabled',
+    relativeLinkResolution: 'corrected',
+    anchorScrolling: 'enabled'
+  })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
