@@ -19,12 +19,12 @@
   Uncomment the below code and adjust the values to fit your colors, the application will automatically adjust
  */
 :root {
-  // --color-primary: blue;
-  // --color-primary-contrast: white;
-
-  // --color-accent: yellow;
-  // --color-accent-contrast: black;
-
-  // --color-warn: yellow;
-  // --color-warn-contrast: black;
+  --color-primary: 238, 115, 27;
+  --color-primary-contrast: 255, 255, 255;
+  
+  --color-accent: 5, 141, 56;
+  --color-accent-contrast: 255, 255, 255;
+  
+  --color-warn: 244, 67, 54;
+  --color-warn-contrast: 255, 255, 255;
 }

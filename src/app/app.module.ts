@@ -8,6 +8,10 @@ import { VexModule } from '../@vex/vex.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 
+
+import { SpcModule } from './pages/spc/spc.module';
+import { AuthModule } from './pages/auth/auth.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,7 +22,11 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 
     // Vex
     VexModule,
-    CustomLayoutModule
+    CustomLayoutModule,
+
+    //SPC
+    AuthModule,
+    SpcModule
   ],
   providers: [],
   bootstrap: [AppComponent]
