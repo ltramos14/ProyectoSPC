@@ -11,9 +11,15 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 
 import { SpcModule } from './pages/spc/spc.module';
 import { AuthModule } from './pages/auth/auth.module';
+import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
+import { ServerInternalErrorComponent } from './pages/error/server-internal-error/server-internal-error.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    PageNotFoundComponent,
+    ServerInternalErrorComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

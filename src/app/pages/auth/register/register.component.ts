@@ -15,6 +15,8 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icEmail from '@iconify/icons-ic/twotone-email';
 import icCalendar from '@iconify/icons-ic/twotone-date-range';
 import icLock from '@iconify/icons-ic/twotone-lock';
+import icFeaturedVideo from '@iconify/icons-ic/twotone-featured-video';
+import icPhone from '@iconify/icons-ic/twotone-phone';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -32,12 +34,13 @@ export class RegisterComponent implements OnInit {
 
   typeUserFormGroup: FormGroup;
   generalDataFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
+  especificDataFormGroup: FormGroup;
   confirmFormGroup: FormGroup;
 
   phonePrefixOptions = ['+57'];
 
   usertypesPrefixOptions = ['Productor', 'Transportador', 'Consumidor'];
+  idTypesPrefixOptions = ['Cédula de cuidadanía', 'Tarjeta de identidad', 'Cédula de extrajería', 'Pasaporte', 'NIT']
 
   icDoneAll = icDoneAll;
   icDescription = icDescription;
@@ -49,6 +52,8 @@ export class RegisterComponent implements OnInit {
   icEmail = icEmail;
   icCalendar = icCalendar;
   icLock = icLock;
+  icPhone = icPhone;
+  icFeaturedVideo = icFeaturedVideo;
 
   passwordInputType = 'password';
 
@@ -77,17 +82,15 @@ export class RegisterComponent implements OnInit {
       ]]
     });
 
-    this.passwordFormGroup = this.fb.group({
-      password: [
-        null,
-        Validators.compose(
-          [
-            Validators.required,
-            Validators.minLength(6)
-          ]
-        )
-      ],
-      passwordConfirm: [null, Validators.required]
+    this.especificDataFormGroup = this.fb.group({
+      identificationType: [this.idTypesPrefixOptions[5], Validators.required],
+      identification: ['', Validators.required],
+      phone: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(10),
+        Validators.pattern('[0-9]*')
+      ]]
     });
 
     this.confirmFormGroup = this.fb.group({
@@ -106,6 +109,12 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
+
+    console.log(this.typeUserFormGroup.value);
+    console.log(this.generalDataFormGroup.value);
+    console.log(this.especificDataFormGroup.value);
+    
+    
     this.snackbar.open('Hooray! You successfully created your account.', null, {
       duration: 5000
     });

@@ -224,13 +224,75 @@
         </form>
       </mat-step>
 
-      <mat-step [stepControl]="generalDataFormGroup">
-        <form [formGroup]="generalDataFormGroup">
+      <mat-step [stepControl]="especificDataFormGroup">
+        <form [formGroup]="especificDataFormGroup">
           <ng-template matStepLabel>Datos Específicos</ng-template>
 
           <h2 class="title m-0">Datos Específicos</h2>
           <div class="subheading-1">
-            Por favor déjanos saber tus siguientes datos de acuerdo a tu rol:
+            Datos específicos para el tipo de usuario: <strong>{{ typeUserFormGroup.get('typeuser').value }}</strong>
+          </div>
+
+          <div class="mt-4" fxLayout="column">
+            <mat-form-field class="vex-flex-form-field" fxFlex="none">
+              <mat-label>Seleccionar tipo de identificación</mat-label>
+              <mat-select formControlName="identificationType">
+                <mat-option
+                  *ngFor="let identificationType of idTypesPrefixOptions"
+                  [value]="identificationType"
+                  >{{ identificationType }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
+              >
+                El tipo de documento<strong> obligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+  
+            <ng-container *ngIf="especificDataFormGroup.get('identificationType').value === 'Pasaporte'; else elseTemplate">
+              <mat-form-field fxFlex="auto">
+                <mat-label>Identificación</mat-label>
+                <input formControlName="identification" type="text" matInput required />
+                <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
+                <mat-error
+                  *ngIf="especificDataFormGroup.controls.identification.hasError('required')"
+                >
+                  El campo es<strong> obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <mat-form-field fxFlex="auto">
+                <mat-label>Número de identificación</mat-label>
+                <input formControlName="identification" type="number" matInput required />
+                <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
+                <mat-error
+                  *ngIf="especificDataFormGroup.controls.identification.hasError('required')"
+                >
+                  El campo es<strong> obligatorio</strong>
+                </mat-error>
+              </mat-form-field>
+            </ng-template>
+            
+            <mat-form-field fxFlex="auto">
+              <mat-label>Celular</mat-label>
+              <input formControlName="phone" matInput required />
+              <mat-icon matPrefix [icIcon]="icPhone"></mat-icon>
+              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('required')">
+                El celular es<strong> obligatorio</strong>
+              </mat-error>
+              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('minlength')">
+                  Debe tener como mínimo 6 caracteres
+              </mat-error>
+              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('maxlength')">
+                  Debe tener como máximo 10 caracteres
+              </mat-error>
+              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('pattern')">
+                Por favor ingresar valores numéricos
+              </mat-error>
+            </mat-form-field>
+            
           </div>
 
           <div
@@ -243,7 +305,7 @@
               ANTERIOR
             </button>
             <button
-              [disabled]="generalDataFormGroup.invalid"
+              [disabled]="especificDataFormGroup.invalid"
               color="primary"
               mat-raised-button
               matStepperNext
@@ -258,18 +320,17 @@
         <form [formGroup]="confirmFormGroup">
           <ng-template matStepLabel>Hecho</ng-template>
 
-          <div class="title m-0">You're almost there!</div>
+          <div class="title m-0">¡Estás a un paso de registrarte en SPC y vivir la experiencia del campo!</div>
           <div class="subheading-1">
-            To finish registration, accept our terms of service and click on
-            "Create Account".
+            Para finalizar con el proceso de registro acepta los términos y condiciones y da clic en "REGISTRAR CUENTA"
           </div>
-
+        
           <div class="mt-4" fxLayout="column" fxLayoutGap="8px">
             <mat-checkbox class="checkbox" formControlName="terms">
-              I agree to the terms of service and the usual stuff. *
+              Acepto lo términos y condiciones establecidos por SPC
             </mat-checkbox>
           </div>
-
+        
           <div
             class="actions"
             fxLayout="row"
@@ -286,10 +347,22 @@
               REGISTRAR CUENTA
             </button>
           </div>
-          <div>
-            <button mat-button matStepperPrevious>Anterior</button>
-            <button mat-button (click)="stepper.reset()">
-              Iniciar de nuevo
+          <div
+            class="actions"
+            fxLayout="row"
+            fxLayoutAlign="end center"
+            fxLayoutGap="8px"
+          >
+            <button color="primary" mat-button matStepperPrevious type="button">
+              ANTERIOR
+            </button>
+            <button
+              (click)="stepper.reset()"
+              color="primary"
+              mat-raised-button
+              matStepperNext
+            >
+              REINICIAR
             </button>
           </div>
         </form>
