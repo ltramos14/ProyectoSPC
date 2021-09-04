@@ -1,1 +1,299 @@
-<p>register works!</p>
+<div class="register-container" fxLayoutAlign="center center">
+  <div @fadeInUp class="card overflow-hidden">
+    <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
+      <div class="fill-current text-center">
+        <img class="logoSPC" src="../../../../assets/img/logoSPC.png" />
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <h2 class="title m-0">REGISTRO DE USUARIO</h2>
+      <h4 class="body-2 text-secondary m-0">
+        Regístrate en SPC ingresando tus datos
+      </h4>
+    </div>
+
+    <mat-horizontal-stepper #stepper="matHorizontalStepper" [linear]="true">
+      <ng-template matStepperIcon="edit">
+        <mat-icon [icIcon]="icDoneAll"></mat-icon>
+      </ng-template>
+
+      <ng-template matStepperIcon="done">
+        <mat-icon [icIcon]="icDoneAll"></mat-icon>
+      </ng-template>
+
+      <mat-step [stepControl]="typeUserFormGroup">
+        <form [formGroup]="typeUserFormGroup">
+          <ng-template matStepLabel>Tipo de usuario</ng-template>
+
+          <h2 class="title m-0">Tipo de usuario</h2>
+          <div class="subheading-1">
+            Por favor déjanos saber a que rol de usuario aspiras.
+          </div>
+
+          <div class="mt-4" fxLayout="column" fxLayoutGap="8px">
+            <mat-form-field class="vex-flex-form-field" fxFlex="none">
+              <mat-label>Seleccionar una opción</mat-label>
+              <mat-select formControlName="typeuser">
+                <mat-option
+                  *ngFor="let typeuser of usertypesPrefixOptions"
+                  [value]="typeuser"
+                  >{{ typeuser }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
+              >
+                El tipo de usuario<strong> obligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div
+            class="actions"
+            fxLayout="row"
+            fxLayoutAlign="end center"
+            fxLayoutGap="8px"
+          >
+            <button
+              [disabled]="typeUserFormGroup.invalid"
+              color="primary"
+              mat-raised-button
+              matStepperNext
+            >
+              SIGUIENTE
+            </button>
+          </div>
+        </form>
+        <a
+          fxLayoutAlign="center center"
+          [routerLink]="['/iniciar-sesion']"
+          class="text-prmary text-center links"
+          >¿Ya tienes una cuenta? Inicia sesión</a
+        >
+      </mat-step>
+
+      <mat-step [stepControl]="generalDataFormGroup">
+        <form [formGroup]="generalDataFormGroup">
+          <ng-template matStepLabel>Datos Generales</ng-template>
+
+          <h2 class="title m-0">Datos Generales</h2>
+          <div class="subheading-1">
+            Por favor déjanos saber tus siguientes datos personales:
+          </div>
+          <div class="mt-2" fxLayout="row" fxLayoutGap="4px">
+            <mat-form-field fxFlex="auto">
+              <mat-label>Nombres</mat-label>
+              <input formControlName="names" matInput required />
+              <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
+              <mat-error
+                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
+              >
+                El campo es<strong> obligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="auto">
+              <mat-label>Apellidos</mat-label>
+              <input formControlName="lastnames" matInput required />
+              <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
+              <mat-error
+                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
+              >
+                El campo es<strong> obligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="mt-4" fxLayout="column">
+            <mat-form-field fxFlex="auto">
+              <mat-label>Correo electrónico</mat-label>
+              <input formControlName="email" matInput required />
+              <mat-icon matPrefix [icIcon]="icEmail"></mat-icon>
+              <mat-error
+                *ngIf="
+                  generalDataFormGroup.controls.email.hasError('email') &&
+                  !generalDataFormGroup.controls.email.hasError('required')
+                "
+              >
+                Digita un correo electrónico válido...
+              </mat-error>
+              <mat-error
+                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
+              >
+                El correo es<strong> obligatorio</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div class="mt-2" fxLayout="row" fxLayoutGap="4px">
+              <mat-form-field>
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  (click)="formDatepickerRef.open()"
+                  (focus)="formDatepickerRef.open()"
+                  [matDatepicker]="formDatepickerRef"
+                  formControlName="dateBirth"
+                  matInput
+                  readonly
+                />
+                <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
+
+                <mat-hint>Tienes que ser mayor de edad</mat-hint>
+                <mat-datepicker #formDatepickerRef></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    generalDataFormGroup.controls.email.hasError('required')
+                  "
+                >
+                  La fecha es<strong> obligatoria</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field fxFlex="auto">
+                <mat-label>Contraseña</mat-label>
+                <input
+                  [type]="passwordInputType"
+                  formControlName="password"
+                  matInput
+                  required
+                />
+                <mat-icon matPrefix [icIcon]="icLock"></mat-icon>
+                <button
+                  (click)="showPassword()"
+                  *ngIf="passwordInputType === 'password'"
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                >
+                  <mat-icon [icIcon]="icVisibility"></mat-icon>
+                </button>
+                <button
+                  (click)="hidePassword()"
+                  *ngIf="passwordInputType === 'text'"
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                >
+                  <mat-icon [icIcon]="icVisibilityOff"></mat-icon>
+                </button>
+                <mat-hint
+                  >Tu contraseña debe contar con al menos 6
+                  caracteres.</mat-hint
+                >
+                <mat-error
+                  *ngIf="
+                    generalDataFormGroup.controls.password.hasError('required')
+                  "
+                >
+                  Este campo es<strong> obligatorio</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    generalDataFormGroup.controls.password.hasError('minlength')
+                  "
+                >
+                  Debe tener como mínimo 6 caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="actions"
+              fxLayout="row"
+              fxLayoutAlign="end center"
+              fxLayoutGap="8px"
+            >
+              <button
+                color="primary"
+                mat-button
+                matStepperPrevious
+                type="button"
+              >
+                ANTERIOR
+              </button>
+              <button
+                [disabled]="generalDataFormGroup.invalid"
+                color="primary"
+                mat-raised-button
+                matStepperNext
+              >
+                SIGUIENTE
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="generalDataFormGroup">
+        <form [formGroup]="generalDataFormGroup">
+          <ng-template matStepLabel>Datos Específicos</ng-template>
+
+          <h2 class="title m-0">Datos Específicos</h2>
+          <div class="subheading-1">
+            Por favor déjanos saber tus siguientes datos de acuerdo a tu rol:
+          </div>
+
+          <div
+            class="actions"
+            fxLayout="row"
+            fxLayoutAlign="end center"
+            fxLayoutGap="8px"
+          >
+            <button color="primary" mat-button matStepperPrevious type="button">
+              ANTERIOR
+            </button>
+            <button
+              [disabled]="generalDataFormGroup.invalid"
+              color="primary"
+              mat-raised-button
+              matStepperNext
+            >
+              SIGUIENTE
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="confirmFormGroup">
+        <form [formGroup]="confirmFormGroup">
+          <ng-template matStepLabel>Hecho</ng-template>
+
+          <div class="title m-0">You're almost there!</div>
+          <div class="subheading-1">
+            To finish registration, accept our terms of service and click on
+            "Create Account".
+          </div>
+
+          <div class="mt-4" fxLayout="column" fxLayoutGap="8px">
+            <mat-checkbox class="checkbox" formControlName="terms">
+              I agree to the terms of service and the usual stuff. *
+            </mat-checkbox>
+          </div>
+
+          <div
+            class="actions"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="8px"
+          >
+            <button
+              (click)="submit()"
+              [disabled]="confirmFormGroup.invalid"
+              color="primary"
+              mat-raised-button
+              matStepperNext
+            >
+              REGISTRAR CUENTA
+            </button>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Anterior</button>
+            <button mat-button (click)="stepper.reset()">
+              Iniciar de nuevo
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.register-container {
+    background-color: #058D38;
+    width: 100%;
+    height: 100%;
+}
+
+.logoSPC {
+    width: 200px;
+}
+
+.links:hover  {
+    text-decoration: underline;
+}
+.udec {
+    width: 200px;
+}
