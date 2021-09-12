@@ -1,0 +1,9 @@
+<div #originRef
+     (click)="showPopover(originRef)"
+     [class.bg-hover]="dropdownOpen"
+     class="flex items-center rounded cursor-pointer relative trans-ease-out select-none py-1 pr-1 pl-3 hover:bg-hover"
+     matRipple>
+  <div style="width: 35px; height:35px; background: rgba(255, 255, 255, 0.2); border-radius: 999999px;">
+    <mat-icon style=" color: white; font-size: 35px;" [icIcon]="icPerson"></mat-icon>
+  </div>
+</div>

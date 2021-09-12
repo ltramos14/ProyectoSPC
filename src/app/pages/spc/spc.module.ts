@@ -8,6 +8,7 @@ import { ProductDetailModule } from './product-detail/product-detail.module';
 import { ProductsModule } from './products/products.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { UsersModule } from './users/users.module';
+import { ToolbarModule } from './shared/toolbar/toolbar.module';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     ProductsModule,
     ShoppingCartModule,
     UsersModule,
+    ToolbarModule
     
   ]
 })
