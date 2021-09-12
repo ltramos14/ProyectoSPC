@@ -18,6 +18,9 @@ import icLock from '@iconify/icons-ic/twotone-lock';
 import icFeaturedVideo from '@iconify/icons-ic/twotone-featured-video';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { UsersService } from 'src/app/service/users/users.service';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'vex-register',
@@ -60,8 +63,11 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
-    private snackbar: MatSnackBar
-  ) { }
+    private snackbar: MatSnackBar,
+    private authService: AuthService,
+    private userService: UsersService
+  ) {
+  }
 
   ngOnInit(): void {
     this.typeUserFormGroup = this.fb.group({
@@ -108,15 +114,33 @@ export class RegisterComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-  submit() {
+  async submit(): Promise<void> {
 
-    console.log(this.typeUserFormGroup.value);
-    console.log(this.generalDataFormGroup.value);
-    console.log(this.especificDataFormGroup.value);
-    
-    
-    this.snackbar.open('Hooray! You successfully created your account.', null, {
-      duration: 5000
+    const email = this.generalDataFormGroup.get('email').value;
+    const password = this.generalDataFormGroup.get('password').value;
+
+    const user: User = {
+      typeuser: this.typeUserFormGroup.get('typeuser').value,
+      names: this.generalDataFormGroup.get('names').value,
+      lastnames: this.generalDataFormGroup.get('lastnames').value,
+      email: this.generalDataFormGroup.get('email').value,
+      dateBirth: this.generalDataFormGroup.get('dateBirth').value,
+      identificationType: this.especificDataFormGroup.get('identificationType').value,
+      identification: this.especificDataFormGroup.get('identification').value,
+      phone: this.especificDataFormGroup.get('phone').value,
+      profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
+      stateUser: true,
+      verifyEmail: false,
+    }
+
+    this.authService.register(user, password)
+    .then(res => {
+      this.snackbar.open('Hooray! You successfully created your account.', null, {
+        duration: 5000
+      });
+    }, err => {
+      console.log(err);
     });
+
   }
 }

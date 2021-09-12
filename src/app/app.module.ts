@@ -7,7 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VexModule } from '../@vex/vex.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomLayoutModule } from './custom-layout/custom-layout.module';
+import { environment } from 'src/environments/environment';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { SpcModule } from './pages/spc/spc.module';
 import { AuthModule } from './pages/auth/auth.module';
@@ -30,11 +34,18 @@ import { ServerInternalErrorComponent } from './pages/error/server-internal-erro
     VexModule,
     CustomLayoutModule,
 
+    //Firebase
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+
     //SPC
     AuthModule,
     SpcModule
   ],
-  providers: [],
+  providers: [
+    AngularFirestore
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
