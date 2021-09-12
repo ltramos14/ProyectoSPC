@@ -8,6 +8,8 @@ import icEmail from '@iconify/icons-ic/twotone-email';
 import icLock from '@iconify/icons-ic/twotone-lock';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 
+import { AuthService } from '../../../service/auth/auth.service';
+
 @Component({
   selector: 'vex-login',
   templateUrl: './login.component.html',
@@ -32,7 +34,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef,
-              private snackbar: MatSnackBar
+              private snackbar: MatSnackBar,
+              private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -45,10 +48,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  send() {
+  onLogin() {
+
+    const { email, password } = this.form.value;
+
+    this.authService.login(email, password)
+      .then((rest) => {
+        this.router.navigate(['']);
+        console.log(rest);
+      })
+
     this.router.navigate(['/']);
     this.snackbar.open('Lucky you! Looks like you didn\'t need a password or email address! For a real application we provide validators to prevent this. ;)', 'LOL THANKS', {
-      duration: 10000
+      duration: 1000
     });
   }
 

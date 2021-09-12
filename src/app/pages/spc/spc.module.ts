@@ -8,7 +8,6 @@ import { ProductDetailModule } from './product-detail/product-detail.module';
 import { ProductsModule } from './products/products.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { UsersModule } from './users/users.module';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [],
@@ -21,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
     ProductsModule,
     ShoppingCartModule,
     UsersModule,
-    SharedModule
+    
   ]
 })
 export class SpcModule { }

@@ -21,12 +21,9 @@ export class AuthService {
     public router: Router
   ) { }
 
-  login(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.router.navigate(['home']);
-
-      })
+  async login(email: string, password: string) {
+    const result =  await this.afAuth.signInWithEmailAndPassword(email, password)
+    return result;
   }
 
 /*   // Send email verfificaiton when new user sign up
@@ -52,8 +49,13 @@ export class AuthService {
 
   }
 
-  logout() {
-
+  async logout() {
+    try {
+      await this.afAuth.signOut();
+      //this.router.navigate(['/login']);     
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   getCurrentUser() {
