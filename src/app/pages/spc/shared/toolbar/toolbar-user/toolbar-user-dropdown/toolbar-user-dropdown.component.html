@@ -46,7 +46,7 @@
         </span>
       </ng-container>
     </button>
-    <a (click)="close()" [routerLink]="['/login']" color="primary" mat-button>LOGOUT</a>
+    <a (click)="close()" (click)="onLogout()" color="primary" mat-button>LOGOUT</a>
   </div>
 </div>
 

@@ -8,17 +8,18 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductsComponent } from './products/products.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { UsersComponent } from './users/users.component';
+import { SpcComponent } from './spc.component';
 
 const routes: Routes = [
-    { path: 'inicio', component: HomeComponent, children: [
+    { path: 'inicio', component: SpcComponent, children: [
         { path: '', component: HomeComponent , data: { title: 'Inicio - SPC' } },
         { path: 'quienes-somos', component: AboutUsComponent , data: { title: '¿Quiénes somos?' } },
-        { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' }}
+        { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' }},
+        { path: 'productos', component: ProductsComponent, data: { title: 'Productos agrícolas' } },
+        { path: 'detalles-producto', component: ProductDetailComponent },
+        { path: 'carrito', component: ShoppingCartComponent , data: { title: 'Carrito de compras' } },
+        { path: 'usuarios', component: UsersComponent },
     ] },
-    { path: 'productos', component: ProductsComponent, data: { title: 'Productos agrícolas' } },
-    { path: 'detalles-producto', component: ProductDetailComponent },
-    { path: 'carrito', component: ShoppingCartComponent , data: { title: 'Carrito de compras' } },
-    { path: 'usuarios', component: UsersComponent },
 ];
 
 @NgModule({

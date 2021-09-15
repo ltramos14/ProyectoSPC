@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password)
       .then((rest) => {
         this.router.navigate(['']);
-        console.log(rest);
       })
 
     this.router.navigate(['/']);

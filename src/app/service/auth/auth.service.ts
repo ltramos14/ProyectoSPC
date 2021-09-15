@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 
 import { User } from '../../interfaces/user.interface';
 import { UsersService } from '../users/users.service';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,14 @@ export class AuthService {
   ) { }
 
   async login(email: string, password: string) {
-    const result =  await this.afAuth.signInWithEmailAndPassword(email, password)
-    return result;
+    await this.afAuth.signInWithEmailAndPassword(email, password)
+          .then(
+            response => {
+              this.afAuth.idToken.subscribe(token => {
+                localStorage.setItem('access-token', token);
+              })
+            }
+          )
   }
 
 /*   // Send email verfificaiton when new user sign up
@@ -52,14 +59,14 @@ export class AuthService {
   async logout() {
     try {
       await this.afAuth.signOut();
-      //this.router.navigate(['/login']);     
+      localStorage.removeItem('access-token');
     } catch(error) {
       console.log(error);
     }
   }
 
   getCurrentUser() {
-
+    return this.afAuth.authState.pipe(first()).toPromise();
   }
 
   /* Setting up user data when sign in with username/password, 

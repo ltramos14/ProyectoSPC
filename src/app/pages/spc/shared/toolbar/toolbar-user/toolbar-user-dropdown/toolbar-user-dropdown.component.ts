@@ -19,6 +19,8 @@ import icLock from '@iconify/icons-ic/twotone-lock';
 import icNotificationsOff from '@iconify/icons-ic/twotone-notifications-off';
 import { Icon } from '@visurel/iconify-angular';
 import { PopoverRef } from '../../../../../../../@vex/components/popover/popover-ref';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { Router } from '@angular/router';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -110,7 +112,9 @@ export class ToolbarUserDropdownComponent implements OnInit {
   icNotificationsOff = icNotificationsOff;
 
   constructor(private cd: ChangeDetectorRef,
-              private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
+              private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -123,4 +127,12 @@ export class ToolbarUserDropdownComponent implements OnInit {
   close() {
     this.popoverRef.close();
   }
+
+  onLogout() {
+    this.authService.logout()
+        .then(resp => {
+          this.router.navigate(['iniciar-sesion']);
+        });
+  }
+
 }

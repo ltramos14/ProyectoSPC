@@ -7,6 +7,7 @@ import icMenu from '@iconify/icons-ic/twotone-menu';
 import { ConfigService } from '../../../../../@vex/services/config.service';
 import { map } from 'rxjs/operators';
 import { NavigationService } from '../../../../../@vex/services/navigation.service';
+import { AuthService } from '../../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -33,14 +34,19 @@ export class ToolbarComponent implements OnInit {
   icShoppingCart = icShoppingCart;
   icMenu = icMenu;
 
+  isLogged = false;
 
   constructor(private layoutService: LayoutService,
               private configService: ConfigService,
-              private navigationService: NavigationService) { }
+              private navigationService: NavigationService,
+              private authService: AuthService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const user = await this.authService.getCurrentUser();
+    if (user) {
+      this.isLogged = true;
+    }
   }
-
 
   openSearch() {
     this.layoutService.openSearch();

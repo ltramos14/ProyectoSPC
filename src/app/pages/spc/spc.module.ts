@@ -9,9 +9,11 @@ import { ProductsModule } from './products/products.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { UsersModule } from './users/users.module';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
+import { SpcComponent } from './spc.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [],
+  declarations: [SpcComponent],
   imports: [
     CommonModule,
     AboutUsModule,
@@ -21,8 +23,8 @@ import { ToolbarModule } from './shared/toolbar/toolbar.module';
     ProductsModule,
     ShoppingCartModule,
     UsersModule,
-    ToolbarModule
-    
+    ToolbarModule,
+    RouterModule
   ]
 })
 export class SpcModule { }
