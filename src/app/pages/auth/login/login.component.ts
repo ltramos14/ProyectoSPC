@@ -40,11 +40,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: ['', [
+      email: [localStorage.getItem('spc-email') || '', [
         Validators.required,
         Validators.email
       ]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      remember: [false]
     });
   }
 
@@ -54,13 +55,17 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password)
       .then((rest) => {
-        this.router.navigate(['']);
+        if (this.form.get('remember').value) {
+          localStorage.setItem('spc-email', this.form.get('email').value);
+        } else {
+          localStorage.removeItem('spc-email');
+        }
+        this.router.navigate(['/']);
+        this.snackbar.open('Lucky you! Looks like you didn\'t need a password or email address! For a real application we provide validators to prevent this. ;)', 'LOL THANKS', {
+          duration: 1000
+        });
       })
 
-    this.router.navigate(['/']);
-    this.snackbar.open('Lucky you! Looks like you didn\'t need a password or email address! For a real application we provide validators to prevent this. ;)', 'LOL THANKS', {
-      duration: 1000
-    });
   }
 
   toggleVisibility() {
