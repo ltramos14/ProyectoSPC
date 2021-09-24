@@ -19,6 +19,7 @@ import { SpcModule } from './pages/spc/spc.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
 import { ServerInternalErrorComponent } from './pages/error/server-internal-error/server-internal-error.component';
+import { ProducerModule } from './pages/producer/producer.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ServerInternalErrorComponent } from './pages/error/server-internal-erro
 
     //SPC
     AuthModule,
-    SpcModule
+    SpcModule,
+    ProducerModule
   ],
   providers: [
     AngularFirestore

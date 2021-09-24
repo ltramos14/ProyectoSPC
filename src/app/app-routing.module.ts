@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-fou
 
 import { AuthRoutingModule } from './pages/auth/auth.routing';
 import { SPCRoutingModule } from './pages/spc/spc.routing';
+import { ProducerRouting } from './pages/producer/producer.routing';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const routes: Routes = [
     anchorScrolling: 'enabled'
   }),
     AuthRoutingModule,
-    SPCRoutingModule
+    SPCRoutingModule,
+    ProducerRouting
   ],
   exports: [RouterModule]
 })

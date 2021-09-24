@@ -50,6 +50,22 @@
       <app-toolbar-user></app-toolbar-user>
     </div>
 
+    <div class="px-1" *ngIf="!isLogged">
+      <button [matMenuTriggerFor]="authMenu" mat-icon-button type="button">
+        <mat-icon [icIcon]="icPerson"></mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #authMenu="matMenu" overlapTrigger="false" xPosition="before" yPosition="below">
+      <button mat-menu-item routerLink="/iniciar-sesion">
+        <span>Iniciar sesión</span>
+      </button>
+
+      <button mat-menu-item routerLink="/registrarse">
+        <span>Registrarse</span>
+      </button>
+    </mat-menu>
+
     <div class="px-1">
       <button mat-icon-button type="button">
         <mat-icon [icIcon]="icMenu"></mat-icon>

@@ -4,6 +4,7 @@ import icSearch from '@iconify/icons-ic/twotone-search';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icMenu from '@iconify/icons-ic/twotone-menu';
+import icPerson from '@iconify/icons-ic/twotone-person';
 import { ConfigService } from '../../../../../@vex/services/config.service';
 import { map } from 'rxjs/operators';
 import { NavigationService } from '../../../../../@vex/services/navigation.service';
@@ -33,6 +34,7 @@ export class ToolbarComponent implements OnInit {
   icHome = icHome;
   icShoppingCart = icShoppingCart;
   icMenu = icMenu;
+  icPerson = icPerson;
 
   isLogged = false;
 
