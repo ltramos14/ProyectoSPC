@@ -36,44 +36,16 @@
     </a>
   </div>
 
-  <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="space-between center">
-    <button [matMenuTriggerFor]="statusMenu" class="dropdown-footer-select" mat-button type="button">
-      <ng-container *ngFor="let status of statuses; trackBy: trackById">
-        <span *ngIf="status === activeStatus">
-          <mat-icon [icIcon]="status.icon" [ngClass]="status.colorClass"></mat-icon>
-          <span>{{ status.label }}</span>
-          <mat-icon [icIcon]="icArrowDropDown" class="dropdown-footer-select-caret"></mat-icon>
-        </span>
-      </ng-container>
-    </button>
-    <a (click)="close()" (click)="onLogout()" color="primary" mat-button>LOGOUT</a>
+  <div class="dropdown-footer">
+      <a (click)="close()" (click)="onLogout()" color="primary" mat-button>CERRAR SESIÓN</a>
   </div>
 </div>
 
-<mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
-  <button (click)="setStatus(status)"
-          *ngFor="let status of statuses; trackBy: trackById"
-          mat-menu-item>
-    <ic-icon [icon]="status.icon" [ngClass]="status.colorClass" inline="true" size="24px"></ic-icon>
-    <span>{{ status.label }}</span>
-  </button>
-</mat-menu>
-
-
 <mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icBusiness"></mat-icon>
-    <span>Change Address</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icVerifiedUser"></mat-icon>
-    <span>Change Username</span>
-  </button>
 
   <button mat-menu-item>
     <mat-icon [icIcon]="icLock"></mat-icon>
-    <span>Change Password</span>
+    <span>Cambiar contraseña</span>
   </button>
   
 </mat-menu>

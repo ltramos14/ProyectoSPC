@@ -9,7 +9,7 @@
     <div class="text-center mt-4">
       <h2 class="title m-0">REGISTRO DE USUARIO</h2>
       <h4 class="body-2 text-secondary m-0">
-        Regístrate en SPC ingresando tus datos
+        Regístrate completando el formulario paso a paso
       </h4>
     </div>
 
@@ -28,12 +28,12 @@
 
           <h2 class="title m-0">Tipo de usuario</h2>
           <div class="subheading-1">
-            Por favor déjanos saber a que rol de usuario aspiras.
+            Por favor déjanos cual es el rol de usuario al que aspiras
           </div>
 
           <div class="mt-4" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field class="vex-flex-form-field" fxFlex="none">
-              <mat-label>Seleccionar una opción</mat-label>
+              <mat-label>Selecciona una opción</mat-label>
               <mat-select formControlName="typeuser">
                 <mat-option
                   *ngFor="let typeuser of usertypesPrefixOptions"
@@ -44,7 +44,7 @@
               <mat-error
                 *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
               >
-                El tipo de usuario<strong> obligatorio</strong>
+                El tipo de usuario<strong> es obligatorio</strong>
               </mat-error>
             </mat-form-field>
           </div>
@@ -79,7 +79,7 @@
 
           <h2 class="title m-0">Datos Generales</h2>
           <div class="subheading-1">
-            Por favor déjanos saber tus siguientes datos personales:
+            Ingresa tus siguientes datos personales:
           </div>
           <div class="mt-2" fxLayout="row" fxLayoutGap="4px">
             <mat-form-field fxFlex="auto">
@@ -89,7 +89,7 @@
               <mat-error
                 *ngIf="generalDataFormGroup.controls.email.hasError('required')"
               >
-                El campo es<strong> obligatorio</strong>
+                El nombre es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
 
@@ -100,7 +100,7 @@
               <mat-error
                 *ngIf="generalDataFormGroup.controls.email.hasError('required')"
               >
-                El campo es<strong> obligatorio</strong>
+                El apellido es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
           </div>
@@ -138,7 +138,7 @@
                 />
                 <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
 
-                <mat-hint>Tienes que ser mayor de edad</mat-hint>
+                <mat-hint>Debes ser mayor de edad</mat-hint>
                 <mat-datepicker #formDatepickerRef></mat-datepicker>
                 <mat-error
                   *ngIf="
@@ -177,22 +177,21 @@
                   <mat-icon [icIcon]="icVisibilityOff"></mat-icon>
                 </button>
                 <mat-hint
-                  >Tu contraseña debe contar con al menos 6
-                  caracteres.</mat-hint
+                  >Tu contraseña debe contar con al menos 6 caracteres</mat-hint
                 >
                 <mat-error
                   *ngIf="
                     generalDataFormGroup.controls.password.hasError('required')
                   "
                 >
-                  Este campo es<strong> obligatorio</strong>
+                  La contraseña es<strong> obligatorio</strong>
                 </mat-error>
                 <mat-error
                   *ngIf="
                     generalDataFormGroup.controls.password.hasError('minlength')
                   "
                 >
-                  Debe tener como mínimo 6 caracteres
+                  Tu contraseña debe contar con al menos 6 caracteres
                 </mat-error>
               </mat-form-field>
             </div>
@@ -230,12 +229,13 @@
 
           <h2 class="title m-0">Datos Específicos</h2>
           <div class="subheading-1">
-            Datos específicos para el tipo de usuario: <strong>{{ typeUserFormGroup.get('typeuser').value }}</strong>
+            Ingresa los siguientes datos requeridos para el tipo de usuario:
+            <strong>{{ typeUserFormGroup.get("typeuser").value }}</strong>
           </div>
 
           <div class="mt-4" fxLayout="column">
             <mat-form-field class="vex-flex-form-field" fxFlex="none">
-              <mat-label>Seleccionar tipo de identificación</mat-label>
+              <mat-label>Selecciona un tipo de identificación</mat-label>
               <mat-select formControlName="identificationType">
                 <mat-option
                   *ngFor="let identificationType of idTypesPrefixOptions"
@@ -246,53 +246,92 @@
               <mat-error
                 *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
               >
-                El tipo de documento<strong> obligatorio</strong>
+                El tipo de documento es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
-  
-            <ng-container *ngIf="especificDataFormGroup.get('identificationType').value === 'Pasaporte'; else elseTemplate">
+
+            <ng-container
+              *ngIf="
+                especificDataFormGroup.get('identificationType').value ===
+                  'Pasaporte';
+                else elseTemplate
+              "
+            >
               <mat-form-field fxFlex="auto">
                 <mat-label>Identificación</mat-label>
-                <input formControlName="identification" type="text" matInput required />
+                <input
+                  formControlName="identification"
+                  type="text"
+                  matInput
+                  required
+                />
                 <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
                 <mat-error
-                  *ngIf="especificDataFormGroup.controls.identification.hasError('required')"
+                  *ngIf="
+                    especificDataFormGroup.controls.identification.hasError(
+                      'required'
+                    )
+                  "
                 >
-                  El campo es<strong> obligatorio</strong>
+                  La identificación es<strong> obligatoria</strong>
                 </mat-error>
               </mat-form-field>
             </ng-container>
             <ng-template #elseTemplate>
               <mat-form-field fxFlex="auto">
                 <mat-label>Número de identificación</mat-label>
-                <input formControlName="identification" type="number" matInput required />
+                <input
+                  formControlName="identification"
+                  type="number"
+                  matInput
+                  required
+                />
                 <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
                 <mat-error
-                  *ngIf="especificDataFormGroup.controls.identification.hasError('required')"
+                  *ngIf="
+                    especificDataFormGroup.controls.identification.hasError(
+                      'required'
+                    )
+                  "
                 >
-                  El campo es<strong> obligatorio</strong>
+                  El número de identificación es<strong> obligatorio</strong>
                 </mat-error>
               </mat-form-field>
             </ng-template>
-            
+
             <mat-form-field fxFlex="auto">
               <mat-label>Celular</mat-label>
               <input formControlName="phone" matInput required />
               <mat-icon matPrefix [icIcon]="icPhone"></mat-icon>
-              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('required')">
-                El celular es<strong> obligatorio</strong>
+              <mat-error
+                *ngIf="
+                  especificDataFormGroup.controls.phone.hasError('required')
+                "
+              >
+                El número de celular es<strong> obligatorio</strong>
               </mat-error>
-              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('minlength')">
-                  Debe tener como mínimo 6 caracteres
+              <mat-error
+                *ngIf="
+                  especificDataFormGroup.controls.phone.hasError('minlength')
+                "
+              >
+                Tu número de celular debe tener como mínimo 6 caracteres
               </mat-error>
-              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('maxlength')">
-                  Debe tener como máximo 10 caracteres
+              <mat-error
+                *ngIf="
+                  especificDataFormGroup.controls.phone.hasError('maxlength')
+                "
+              >
+                Tu número de celular debe tener como máximo 10 caracteres
               </mat-error>
-              <mat-error *ngIf="especificDataFormGroup.controls.phone.hasError('pattern')">
-                Por favor ingresar valores numéricos
+              <mat-error
+                *ngIf="
+                  especificDataFormGroup.controls.phone.hasError('pattern')
+                "
+              >
+                Por favor ingresa valores numéricos
               </mat-error>
             </mat-form-field>
-            
           </div>
 
           <div
@@ -320,17 +359,26 @@
         <form [formGroup]="confirmFormGroup">
           <ng-template matStepLabel>Hecho</ng-template>
 
-          <div class="title m-0">¡Estás a un paso de registrarte en SPC y vivir la experiencia del campo!</div>
-          <div class="subheading-1">
-            Para finalizar con el proceso de registro acepta los términos y condiciones y da clic en "REGISTRAR CUENTA"
+          <div class="title m-0">
+            ¡Estás a un paso de registrarte y tener el campo cundinamarqués a tu
+            alcance!
           </div>
-        
+          <br />
+          <div class="subheading-1">
+            Para completar tu proceso exitoso de registro, debes aceptar los
+            Términos y Condiciones, posteriormente darás clic en el botón
+            denominado "REGISTRAR CUENTA"
+          </div>
+
           <div class="mt-4" fxLayout="column" fxLayoutGap="8px">
             <mat-checkbox class="checkbox" formControlName="terms">
-              Acepto lo términos y condiciones establecidos por SPC
+              He leído y acepto los términos y condiciones de uso del sistema de
+              productividad para el campo
             </mat-checkbox>
           </div>
-        
+
+          <br />
+
           <div
             class="actions"
             fxLayout="row"

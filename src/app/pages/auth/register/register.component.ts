@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
   phonePrefixOptions = ['+57'];
 
   usertypesPrefixOptions = ['Productor', 'Transportador', 'Consumidor'];
-  idTypesPrefixOptions = ['Cédula de cuidadanía', 'Tarjeta de identidad', 'Cédula de extrajería', 'Pasaporte', 'NIT']
+  idTypesPrefixOptions = ['Cédula de ciudadanía', 'Tarjeta de identidad', 'Cédula de extranjería', 'Pasaporte', 'NIT']
 
   icDoneAll = icDoneAll;
   icDescription = icDescription;
