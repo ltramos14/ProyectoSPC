@@ -1,14 +1,17 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { LayoutService } from '../../../../../@vex/services/layout.service';
+import { Component, OnInit } from '@angular/core';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icMenu from '@iconify/icons-ic/twotone-menu';
 import icPerson from '@iconify/icons-ic/twotone-person';
-import { ConfigService } from '../../../../../@vex/services/config.service';
-import { map } from 'rxjs/operators';
-import { NavigationService } from '../../../../../@vex/services/navigation.service';
+import icGrass from '@iconify/icons-ic/twotone-grass';
+import icNature from '@iconify/icons-ic/twotone-nature';
+import icPhone from '@iconify/icons-ic/twotone-phone';
+import icInfo from '@iconify/icons-ic/twotone-info';
 import { AuthService } from '../../../../service/auth/auth.service';
+import { MenuHome } from './toolbar-user/interfaces/menu-home';
 
 @Component({
   selector: 'app-toolbar',
@@ -17,18 +20,7 @@ import { AuthService } from '../../../../service/auth/auth.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  @Input() mobileQuery: boolean;
-
-  @Input()
-  @HostBinding('class.shadow-b')
-  hasShadow: boolean;
-
-  navigationItems = this.navigationService.items;
-
-  isHorizontalLayout$ = this.configService.config$.pipe(map(config => config.layout === 'horizontal'));
-  isVerticalLayout$ = this.configService.config$.pipe(map(config => config.layout === 'vertical'));
-  isNavbarInToolbar$ = this.configService.config$.pipe(map(config => config.navbar.position === 'in-toolbar'));
-  isNavbarBelowToolbar$ = this.configService.config$.pipe(map(config => config.navbar.position === 'below-toolbar'));
+  visibleSidebar2;
 
   icSearch = icSearch;
   icHome = icHome;
@@ -37,11 +29,71 @@ export class ToolbarComponent implements OnInit {
   icPerson = icPerson;
 
   isLogged = false;
+  
+  menu: MenuHome[] = [
+    {
+      name: 'PRODUCTOS',
+      children: [
+        {
+          name: 'Frutas',
+          icon: icNature,
+          router: '/frutas'
+        },
+        {
+          name: 'Verduras',
+          icon: icGrass,
+          router: '/verduras'
+        },
+        {
+          name: 'Hortalizas',
+          icon: icGrass,
+          router: '/hortalizas'
+        },
+        {
+          name: 'Hierbas y aromáticas',
+          icon: icNature,
+          router: '/hierbas-y-aromaticas'
+        }
+      ]
+    },
+    {
+      name: 'USUARIOS',
+      children: [
+        {
+          name: 'Productores',
+          icon: icNature,
+          router: '/productores'
+        },
+        {
+          name: 'Transportadores',
+          icon: icNature,
+          router: '/transportadores'
+        },
+        {
+          name: 'Cosumidores',
+          icon: icNature,
+          router: '/consumidores'
+        }
+      ]
+    },
+    {
+      name: 'SPC',
+      children: [
+        {
+          name: '¿Quiénes somos?',
+          icon: icInfo,
+          router: '/inicio/quienes-somos'
+        },
+        {
+          name: 'Contáctanos',
+          icon: icPhone,
+          router: '/inicio/contactanos'
+        }
+      ]
+    }
+  ]
 
-  constructor(private layoutService: LayoutService,
-              private configService: ConfigService,
-              private navigationService: NavigationService,
-              private authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 
   async ngOnInit() {
     const user = await this.authService.getCurrentUser();
@@ -50,7 +102,4 @@ export class ToolbarComponent implements OnInit {
     }
   }
 
-  openSearch() {
-    this.layoutService.openSearch();
-  }
 }

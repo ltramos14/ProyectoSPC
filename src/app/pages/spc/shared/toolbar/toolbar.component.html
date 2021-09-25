@@ -30,7 +30,7 @@
 
   <div class="-mx-1 flex items-center">
     
-    <button (click)="openSearch()" mat-icon-button class="px-1" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+    <button mat-icon-button class="px-1" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
       <mat-icon [icIcon]="icSearch"></mat-icon>
     </button>
 
@@ -67,14 +67,19 @@
     </mat-menu>
 
     <div class="px-1">
-      <button mat-icon-button type="button">
+      <button mat-icon-button type="button" (click)="visibleSidebar2 = true">
         <mat-icon [icIcon]="icMenu"></mat-icon>
       </button>
     </div>
   </div>
 </div>
 
-<vex-navigation
-  *ngIf="(isVerticalLayout$ | async) && isNavbarBelowToolbar$ | async"
-  [fxHide]="mobileQuery"
-></vex-navigation>
+<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
+  <mat-list *ngFor="let itemMenu of menu">
+    <div mat-subheader>{{itemMenu.name}}</div>
+    <mat-list-item *ngFor="let item of itemMenu.children">
+      <button type="button" [routerLink]="item.router"><mat-icon [icIcon]="item.icon"></mat-icon>{{item.name}}</button>
+    </mat-list-item>
+  </mat-list>
+</p-sidebar>
+

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { MenuItem } from '../interfaces/menu-item.interface';
 import { trackById } from '../../../../../../../@vex/utils/track-by';
 import icPerson from '@iconify/icons-ic/twotone-person';
@@ -111,13 +112,21 @@ export class ToolbarUserDropdownComponent implements OnInit {
   icLock = icLock;
   icNotificationsOff = icNotificationsOff;
 
+  
+  
   constructor(private cd: ChangeDetectorRef,
-              private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
-              private router: Router,
-              private authService: AuthService) { }
+    private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
+    private router: Router,
+    private authService: AuthService) {
 
-  ngOnInit() {
-  }
+      const helper = new JwtHelperService(); 
+      const decodeToken = helper.decodeToken(localStorage.getItem('access-token'));
+      console.log(decodeToken);
+      
+    }
+    
+    ngOnInit() {
+    }
 
   setStatus(status: OnlineStatus) {
     this.activeStatus = status;
