@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VexModule } from '../@vex/vex.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 import { IconModule } from '@visurel/iconify-angular';
 import { environment } from 'src/environments/environment';
@@ -20,6 +20,7 @@ import { AuthModule } from './pages/auth/auth.module';
 import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
 import { ServerInternalErrorComponent } from './pages/error/server-internal-error/server-internal-error.component';
 import { ProducerModule } from './pages/producer/producer.module';
+import { InterceptorService } from './service/interceptors/interceptor.service';
 
 
 @NgModule({
@@ -51,7 +52,12 @@ import { ProducerModule } from './pages/producer/producer.module';
     ProducerModule
   ],
   providers: [
-    AngularFirestore
+    AngularFirestore,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

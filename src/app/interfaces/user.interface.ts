@@ -9,6 +9,5 @@ export interface User {
     identification: string,
     phone: string,
     profileURL: string,
-    stateUser: boolean,
-    verifyEmail: boolean,
+    stateUser: boolean
 }

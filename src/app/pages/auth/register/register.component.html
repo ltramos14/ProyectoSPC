@@ -138,14 +138,21 @@
                 />
                 <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
 
-                <mat-hint>Debes ser mayor de edad</mat-hint>
+                <mat-hint>Debes ser mayor a 15 años</mat-hint>
                 <mat-datepicker #formDatepickerRef></mat-datepicker>
                 <mat-error
                   *ngIf="
-                    generalDataFormGroup.controls.email.hasError('required')
+                    generalDataFormGroup.controls.dateBirth.hasError('required')
                   "
                 >
                   La fecha es<strong> obligatoria</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    generalDataFormGroup.controls.dateBirth.hasError('validAge')
+                  "
+                >
+                  Tienes que ser<strong> mayor de 15 años</strong>
                 </mat-error>
               </mat-form-field>
 

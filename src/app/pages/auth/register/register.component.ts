@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { stagger80ms } from '../../../../@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
@@ -19,8 +20,8 @@ import icFeaturedVideo from '@iconify/icons-ic/twotone-featured-video';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { UsersService } from 'src/app/service/users/users.service';
 import { User } from 'src/app/interfaces/user.interface';
+import { OwnValidations } from 'src/app/service/helpers/ownValidations';
 
 @Component({
   selector: 'vex-register',
@@ -63,9 +64,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
+    private router: Router,
     private snackbar: MatSnackBar,
-    private authService: AuthService,
-    private userService: UsersService
+    private authService: AuthService
   ) {
   }
 
@@ -81,7 +82,10 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-      dateBirth: ['', Validators.required],
+      dateBirth: ['', [
+        Validators.required,
+        OwnValidations.validAge
+      ]],
       password: ['', [
         Validators.required,
         Validators.minLength(6)
@@ -129,17 +133,19 @@ export class RegisterComponent implements OnInit {
       identification: this.especificDataFormGroup.get('identification').value,
       phone: this.especificDataFormGroup.get('phone').value,
       profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
-      stateUser: true,
-      verifyEmail: false,
+      stateUser: true
     }
 
     this.authService.register(user, password)
     .then(res => {
-      this.snackbar.open('Hooray! You successfully created your account.', null, {
+      this.snackbar.open(`Te enviamos un correo de verificación de cuenta al correo: ${user.email}. ¡Verifícalo!`, 'OK', {
         duration: 5000
       });
-    }, err => {
-      console.log(err);
+      this.router.navigate['/login'];
+    }).catch(error => {
+      this.snackbar.open('¡Ocurrió un error al crear la cuenta en SPC!', 'OK', {
+        duration: 5000
+      });
     });
 
   }

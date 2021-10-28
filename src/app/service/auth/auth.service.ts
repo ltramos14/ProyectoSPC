@@ -35,19 +35,27 @@ export class AuthService {
 
 /*   // Send email verfificaiton when new user sign up
   verificationMail() {
-    return this.afAuth.currentUser.sendEmailVerification()
+    return this.afAuth.currentUser.
     .then(() => {
       this.router.navigate(['verify-email-address']);
     })
   } */
 
   register(user: User, password: string) {
+    const userAuth = this.afAuth.currentUser;
     return new Promise<any>((resolve, reject) => {
       this.afAuth.createUserWithEmailAndPassword(user.email, password)
         .then(async (res) => {
   
+          (await this.afAuth.currentUser).updateProfile({
+            displayName: user.names + ' ' + user.lastnames,
+            photoURL: "https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d"
+          })
+
           await this.usersService.onSaveUserInformation(user, res.user.uid);
   
+          this.logout();
+
           resolve(res);
           
         }, err => reject(err));
@@ -67,30 +75,6 @@ export class AuthService {
 
   getCurrentUser() {
     return this.afAuth.authState.pipe(first()).toPromise();
-  }
-
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  setUserData(user: User) {
-    const userRef: AngularFirestoreDocument<any> = this.afFirestore.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
-      email: user.email, 
-      names: user.names,
-      lastnames: user.lastnames,
-      dateBirth: user.dateBirth,
-      typeuser: user.typeuser,
-      identificationType: user.identificationType,
-      identification: user.identification,
-      phone: user.phone,
-      profileURL: user.profileURL,
-      stateUser: user.stateUser,
-      verifyEmail: user.verifyEmail
-    }
-    return userRef.set(userData, {
-      merge: true
-    })
   }
 
 }

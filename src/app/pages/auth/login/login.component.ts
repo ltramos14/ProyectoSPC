@@ -65,6 +65,11 @@ export class LoginComponent implements OnInit {
           duration: 1000
         });
       })
+      .catch((error) => {
+        this.snackbar.open(error.code, 'Cancelar', {
+          duration: 3000  
+        });
+      })
 
   }
 
