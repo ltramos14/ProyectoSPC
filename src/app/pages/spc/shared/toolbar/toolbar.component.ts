@@ -28,6 +28,8 @@ export class ToolbarComponent implements OnInit {
   icMenu = icMenu;
   icPerson = icPerson;
 
+  public userDisplayName: string;
+
   isLogged = false;
   
   menu: MenuHome[] = [
@@ -99,6 +101,7 @@ export class ToolbarComponent implements OnInit {
     const user = await this.authService.getCurrentUser();
     if (user) {
       this.isLogged = true;
+      this.userDisplayName = user.displayName;
     }
   }
 

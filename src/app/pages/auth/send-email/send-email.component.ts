@@ -27,4 +27,9 @@ export class SendEmailComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSendEmail(): void {
+    // Se envía el correo para verificar la cuenta
+    this.authSvc.verificationEmail();
+  }
+
 }

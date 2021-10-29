@@ -41,8 +41,6 @@ export class RegisterComponent implements OnInit {
   especificDataFormGroup: FormGroup;
   confirmFormGroup: FormGroup;
 
-  phonePrefixOptions = ['+57'];
-
   usertypesPrefixOptions = ['Productor', 'Transportador', 'Consumidor'];
   idTypesPrefixOptions = ['Cédula de ciudadanía', 'Tarjeta de identidad', 'Cédula de extranjería', 'Pasaporte', 'NIT']
 
@@ -141,7 +139,7 @@ export class RegisterComponent implements OnInit {
       this.snackbar.open(`Te enviamos un correo de verificación de cuenta al correo: ${user.email}. ¡Verifícalo!`, 'OK', {
         duration: 5000
       });
-      this.router.navigate['/login'];
+      this.router.navigate(['/verificacion-cuenta']);
     }).catch(error => {
       this.snackbar.open('¡Ocurrió un error al crear la cuenta en SPC!', 'OK', {
         duration: 5000

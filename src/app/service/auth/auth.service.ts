@@ -22,42 +22,42 @@ export class AuthService {
     public router: Router
   ) { }
 
-  async login(email: string, password: string) {
-    await this.afAuth.signInWithEmailAndPassword(email, password)
-          .then(
-            response => {
-              this.afAuth.idToken.subscribe(token => {
-                localStorage.setItem('access-token', token);
-              })
-            }
-          )
+  login(email: string, password: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          resolve(userCredential.user);
+        }, err => reject(err));
+    })
   }
 
-/*   // Send email verfificaiton when new user sign up
-  verificationMail() {
-    return this.afAuth.currentUser.
-    .then(() => {
-      this.router.navigate(['verify-email-address']);
-    })
-  } */
+  async verificationEmail() {
+    return (await this.afAuth.currentUser).sendEmailVerification()
+      .then(res => {
+
+      })
+      .catch(erro => {
+        console.log(erro);
+        
+      })
+  }
 
   register(user: User, password: string) {
     const userAuth = this.afAuth.currentUser;
     return new Promise<any>((resolve, reject) => {
+      // Se mandan los datos de correo y contraseña a Authenticaction
       this.afAuth.createUserWithEmailAndPassword(user.email, password)
         .then(async (res) => {
-  
+          // Actualizar la información del displayName y photoUrl del usuario en Authenticaction
           (await this.afAuth.currentUser).updateProfile({
             displayName: user.names + ' ' + user.lastnames,
             photoURL: "https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d"
-          })
-
+          });
+          // Se envía el resto de información un nuevo documento de la colección de 'users'
           await this.usersService.onSaveUserInformation(user, res.user.uid);
-  
-          this.logout();
-
+          // Se envía el correo de verificación de cuenta
+          this.verificationEmail();
           resolve(res);
-          
         }, err => reject(err));
 
     });

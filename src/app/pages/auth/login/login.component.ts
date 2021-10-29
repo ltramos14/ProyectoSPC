@@ -55,17 +55,26 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password)
       .then((rest) => {
-        if (this.form.get('remember').value) {
-          localStorage.setItem('spc-email', this.form.get('email').value);
+        if (rest && rest.emailVerified) {
+          if (this.form.get('remember').value) {
+            localStorage.setItem('spc-email', this.form.get('email').value);
+          } else {
+            localStorage.removeItem('spc-email');
+          }
+          this.snackbar.open(`Bienvenido ${ rest.displayName }`, 'OK', {
+            duration: 2000
+          });
+          this.router.navigate(['/']);
         } else {
-          localStorage.removeItem('spc-email');
+          this.snackbar.open('Cuenta no verificada', 'OK', {
+            duration: 2000
+          });
         }
-        this.router.navigate(['/']);
-        this.snackbar.open('Lucky you! Looks like you didn\'t need a password or email address! For a real application we provide validators to prevent this. ;)', 'LOL THANKS', {
-          duration: 1000
-        });
+        
       })
       .catch((error) => {
+        console.log(error);
+        
         this.snackbar.open(error.code, 'Cancelar', {
           duration: 3000  
         });

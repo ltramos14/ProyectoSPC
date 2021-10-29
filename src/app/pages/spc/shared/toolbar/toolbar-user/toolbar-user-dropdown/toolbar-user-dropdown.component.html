@@ -2,14 +2,14 @@
   <div class="dropdown-header" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="row" fxLayoutAlign="start center">
       <div class="dropdown-heading-icon" fxLayout="row" fxLayoutAlign="center center">
-        <mat-icon [icIcon]="icPerson"></mat-icon>
+        <img [src]="photoURL" width="30px" height="30px">
       </div>
-      <div class="dropdown-heading">David Smith</div>
+      <div class="dropdown-heading">{{ displayName }}</div>
     </div>
 
     <button [matMenuTriggerFor]="settingsMenu"
             mat-icon-button
-            matTooltip="Settings"
+            matTooltip="Configuración"
             matTooltipPosition="before"
             type="button">
       <mat-icon [icIcon]="icSettings" class="notifications-header-icon"></mat-icon>

@@ -7,7 +7,6 @@ import {
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { MenuItem } from "../interfaces/menu-item.interface";
 import { trackById } from "../../../../../../../@vex/utils/track-by";
-import icPerson from "@iconify/icons-ic/twotone-person";
 import icSettings from "@iconify/icons-ic/twotone-settings";
 import icAccountCircle from "@iconify/icons-ic/twotone-account-circle";
 import icDns from "@iconify/icons-ic/twotone-dns";
@@ -31,6 +30,10 @@ export interface OnlineStatus {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarUserDropdownComponent implements OnInit {
+
+  public photoURL: string;
+  public displayName: string;
+
   items: MenuItem[] = [
     {
       id: "1",
@@ -51,7 +54,6 @@ export class ToolbarUserDropdownComponent implements OnInit {
   ];
 
   trackById = trackById;
-  icPerson = icPerson;
   icSettings = icSettings;
   icChevronRight = icChevronRight;
   icLock = icLock;
@@ -62,14 +64,14 @@ export class ToolbarUserDropdownComponent implements OnInit {
     private router: Router,
     private authService: AuthService
   ) {
-    const helper = new JwtHelperService();
-    const decodeToken = helper.decodeToken(
-      localStorage.getItem("access-token")
-    );
-    console.log(decodeToken);
-  }
 
-  ngOnInit() {}
+  }
+  
+  async ngOnInit() {
+    const user = await this.authService.getCurrentUser();
+    this.photoURL = user.photoURL;
+    this.displayName = user.displayName;
+  }
 
   close() {
     this.popoverRef.close();

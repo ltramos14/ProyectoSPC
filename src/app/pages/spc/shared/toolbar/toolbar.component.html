@@ -47,7 +47,7 @@
     </div>
 
     <div class="px-1" *ngIf="isLogged">
-      <app-toolbar-user></app-toolbar-user>
+      <app-toolbar-user [displayName]="userDisplayName"></app-toolbar-user>
     </div>
 
     <div class="px-1" *ngIf="!isLogged">
