@@ -1,4 +1,4 @@
-<div class="bg-pattern w-full h-full forgot-container" *ngIf="user$ | async as user; else loading" fxLayout="column" fxLayoutAlign="center center">
+<div class="bg-pattern w-full h-full forgot-container" *ngIf="user$ | async as user;" fxLayout="column" fxLayoutAlign="center center">
     <div [@fadeInUp] class="card overflow-hidden w-full max-w-xs p-10">
         <div class="p-5" fxLayout="column" fxLayoutAlign="center center">
             <div class="fill-current text-center">
@@ -17,7 +17,4 @@
     </div>
 </div>
 
-<ng-template #loading>
-    Cargando...
-</ng-template>
 

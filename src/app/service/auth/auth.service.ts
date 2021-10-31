@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { User } from '../../interfaces/user.interface';
 import { UsersService } from '../users/users.service';
-import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,27 +22,20 @@ export class AuthService {
     public router: Router
   ) { }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           resolve(userCredential.user);
         }, err => reject(err));
-    })
+    });
   }
 
-  async verificationEmail() {
-    return (await this.afAuth.currentUser).sendEmailVerification()
-      .then(res => {
-
-      })
-      .catch(erro => {
-        console.log(erro);
-        
-      })
+  async verificationEmail(): Promise<void> {
+    return (await this.afAuth.currentUser).sendEmailVerification();
   }
 
-  register(user: User, password: string) {
+  register(user: User, password: string): Promise<any> {
     const userAuth = this.afAuth.currentUser;
     return new Promise<any>((resolve, reject) => {
       // Se mandan los datos de correo y contraseña a Authenticaction
@@ -64,7 +57,7 @@ export class AuthService {
 
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     try {
       await this.afAuth.signOut();
       localStorage.removeItem('access-token');

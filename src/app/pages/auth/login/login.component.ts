@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import icVisibility from '@iconify/icons-ic/twotone-visibility';
 import icVisibilityOff from '@iconify/icons-ic/twotone-visibility-off';
 import icEmail from '@iconify/icons-ic/twotone-email';
 import icLock from '@iconify/icons-ic/twotone-lock';
-import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 
 import { AuthService } from '../../../service/auth/auth.service';
+import { CryptoService } from 'src/app/service/auth/crypto.service';
 
 @Component({
   selector: 'vex-login',
@@ -22,9 +24,11 @@ import { AuthService } from '../../../service/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  private password: string;
 
   inputType = 'password';
   visible = false;
+
 
   icVisibility = icVisibility;
   icVisibilityOff = icVisibilityOff;
@@ -35,8 +39,11 @@ export class LoginComponent implements OnInit {
               private fb: FormBuilder,
               private cd: ChangeDetectorRef,
               private snackbar: MatSnackBar,
-              private authService: AuthService
-  ) {}
+              private authService: AuthService,
+              private cryptoService: CryptoService
+  ) {
+    this.isLocalStoragePassword();
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -44,8 +51,8 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-      password: ['', Validators.required],
-      remember: [false]
+      password: [this.password || '', Validators.required],
+      remember: [Boolean(localStorage.getItem('isRemember')) || false]
     });
   }
 
@@ -58,6 +65,8 @@ export class LoginComponent implements OnInit {
         if (rest && rest.emailVerified) {
           if (this.form.get('remember').value) {
             localStorage.setItem('spc-email', this.form.get('email').value);
+            this.cryptoService.encryptUsingAES256(this.form.get('password').value);
+            localStorage.setItem('isRemember', this.form.get('remember').value);
           } else {
             localStorage.removeItem('spc-email');
           }
@@ -91,6 +100,14 @@ export class LoginComponent implements OnInit {
       this.inputType = 'text';
       this.visible = true;
       this.cd.markForCheck();
+    }
+  }
+
+  isLocalStoragePassword() {
+    if (!localStorage.getItem('SPC-pass')) {
+      this.password = '';
+    } else {
+      this.password = this.cryptoService.decryptUsingAES256();
     }
   }
 }
