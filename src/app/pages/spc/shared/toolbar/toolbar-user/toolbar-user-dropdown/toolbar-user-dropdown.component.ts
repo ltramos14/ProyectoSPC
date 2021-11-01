@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { MenuItem } from "../interfaces/menu-item.interface";
 import { trackById } from "../../../../../../../@vex/utils/track-by";
 import icSettings from "@iconify/icons-ic/twotone-settings";

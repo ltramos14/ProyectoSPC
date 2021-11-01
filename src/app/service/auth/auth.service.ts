@@ -49,7 +49,8 @@ export class AuthService {
           // Se envía el resto de información un nuevo documento de la colección de 'users'
           await this.usersService.onSaveUserInformation(user, res.user.uid);
           // Se envía el correo de verificación de cuenta
-          this.verificationEmail();
+          await this.verificationEmail();
+          this.logout();
           resolve(res);
         }, err => reject(err));
 
@@ -60,7 +61,6 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await this.afAuth.signOut();
-      localStorage.removeItem('access-token');
     } catch(error) {
       console.log(error);
     }

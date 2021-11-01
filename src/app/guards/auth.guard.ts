@@ -13,12 +13,13 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(
+  async canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-/*       if (!this.authService.getCurrentUser) {
-        this.router.navigate(['/iniciar-sesion'])
-      } */
+    state: RouterStateSnapshot) {
+      const user = await this.authService.getCurrentUser();
+      if (!user) {
+        this.router.navigate(['/iniciar-sesion']).then(() => false);
+      } 
       return true;
   }
   

@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
       .catch((error) => {
         console.log(error);
         
-        this.snackbar.open(error.code, 'Cancelar', {
+        this.snackbar.open(error.message, 'Cancelar', {
           duration: 3000  
         });
       })

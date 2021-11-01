@@ -38,9 +38,9 @@ export class SendEmailComponent implements OnInit {
     }
   }
 
-  onSendEmail(): void {
+  async onSendEmail() {
     // Se envía el correo para verificar la cuenta
-    this.authSvc.verificationEmail();
+    await this.authSvc.verificationEmail();
   }
 
 }
