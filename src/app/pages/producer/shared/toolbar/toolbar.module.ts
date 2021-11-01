@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
 import { SidebarModule } from 'primeng/sidebar';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ToolbarComponent],
@@ -16,6 +17,7 @@ import { SidebarModule } from 'primeng/sidebar';
     MatIconModule,
     IconModule,
     SidebarModule,
+    RouterModule
    
   ],
   exports: [

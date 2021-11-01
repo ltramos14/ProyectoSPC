@@ -5,6 +5,7 @@ import icSpa from "@iconify/icons-ic/twotone-spa";
 import icPinDrop from "@iconify/icons-ic/twotone-pin-drop";
 import icMarkUnReadMailbox from "@iconify/icons-ic/twotone-markunread-mailbox";
 import icVoiceOverOff from "@iconify/icons-ic/round-voice-over-off";
+import icPowerSettingsNew from "@iconify/icons-ic/power-settings-new";
 
 
 @Component({
@@ -19,9 +20,9 @@ export class ToolbarComponent implements OnInit {
   icSpa = icSpa;
   icPinDrop = icPinDrop;
   icMarkUnReadMailbox = icMarkUnReadMailbox;
-  icVoiceOverOff = icVoiceOverOff;
+  icPowerSettingsNew = icPowerSettingsNew;
   
-  toggleClass: boolean = false;
+  toggleClass: boolean = true;
 
   constructor() { }
 
