@@ -4,10 +4,15 @@ import { ProducerComponent } from './producer.component';
 import { ProfileProducerComponent } from './profile-producer/profile-producer.component';
 import { MyProductsComponent } from './my-products/my-products.component';
 import { MyFarmsComponent } from './my-farms/my-farms.component';
+import { MyDataComponent } from './profile-producer/my-data/my-data.component';
+import { MyPaymentMethodsComponent } from './profile-producer/my-payment-methods/my-payment-methods.component';
 
 const routes: Routes = [
     { path: 'perfil-productor', component: ProducerComponent, children: [
-        { path: 'mis-datos', component: ProfileProducerComponent},
+        { path: 'mis-datos', component: ProfileProducerComponent, children: [
+            { path: '', component: MyDataComponent},
+            { path: 'mis-medios-de-pago', component: MyPaymentMethodsComponent},
+        ]},
         { path: 'mis-productos', component: MyProductsComponent },
         { path: 'mis-fincas', component: MyFarmsComponent },
     ]}

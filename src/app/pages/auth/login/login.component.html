@@ -1,8 +1,4 @@
-<mat-card
-  class="w-full h-full login-container"
-  fxLayout="column"
-  fxLayoutAlign="center center"
->
+<mat-card class="w-full h-full login-container" fxLayout="column" fxLayoutAlign="center center">
   <div @fadeInUp class="card overflow-hidden w-full max-w-xs">
     <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
       <div class="fill-current text-center">
@@ -25,50 +21,33 @@
             Digita un correo electrónico válido...
           </mat-error>
           <mat-error *ngIf="form.controls.email.hasError('required')">
-              El correo es<strong> obligatorio</strong>
+            El correo es<strong> obligatorio</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="grow">
           <mat-label>Contraseña</mat-label>
-          <input
-            [type]="inputType"
-            formControlName="password"
-            matInput
-            required
-          />
+          <input [type]="inputType" formControlName="password" matInput required />
           <mat-icon matPrefix [icIcon]="icLock"></mat-icon>
-          <button
-            (click)="toggleVisibility()"
-            mat-icon-button
-            matSuffix
-            matTooltip="Toggle Visibility"
-            type="button"
-          >
+          <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
             <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
             <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
           </button>
           <mat-error *ngIf="form.controls.password.hasError('required')">
             La contraseña es<strong> obligatoria</strong>
-        </mat-error>
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-checkbox class="caption" color="accent" formControlName="remember"
-          >Recordar datos</mat-checkbox
-        >
-        <a [routerLink]="['/olvide-contraseña']" class="caption links"
-          >¿Olvidé mi contraseña?</a
-        >
+        <mat-checkbox class="caption" color="accent" formControlName="remember">Recordar datos</mat-checkbox>
+        <a [routerLink]="['/olvide-contraseña']" class="caption links">¿Olvidé mi contraseña?</a>
       </div>
 
       <button (click)="onLogin()" color="accent" mat-raised-button type="button" [disabled]="form.invalid">
         INGRESAR
       </button>
 
-      <a [routerLink]="['/registrarse']" class="text-prmary text-center links"
-        >¿No tienes una cuenta? Regístrate</a
-      >
+      <a [routerLink]="['/registrarse']" class="text-prmary text-center links">¿No tienes una cuenta? Regístrate</a>
     </div>
   </div>
   <div class="fill-current text-center">

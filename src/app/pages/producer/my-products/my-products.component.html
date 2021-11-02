@@ -1,64 +1,66 @@
-<div class="title m-0" fxLayoutAlign="center center">
-    <h1>Bienvenido a las sección de MIS PRODUCTOS</h1>
-</div>
+<div style="overflow-y:scroll; height:100%">
+    <div class="title m-0" fxLayoutAlign="center center">
+        <h1>Bienvenido a la sección de MIS PRODUCTOS</h1>
+    </div>
 
-<div [@stagger]="true" class="p-gutter" vexContainer>
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px">
-        <div @fadeInUp class="card" fxFlex="auto">
-            <div class="px-6 py-4 border-b" fxLayout="row" fxLayoutAlign="center center">
-                <h2 class="title m-0">Añada un nuevo producto a su perfil</h2>
-            </div>
-
-            <div class="px-24 py-4" fxLayout="column">
-                <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" fxLayoutGap.lt-sm="0">
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>Nombre del producto</mat-label>
-                        <input matInput required>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>Finca</mat-label>
-                        <mat-select>
-                            <mat-option>Finca 1</mat-option>
-                            <mat-option>Finca 2</mat-option>
-                            <mat-option>Finca 3</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>Unidad de medida</mat-label>
-                        <mat-select>
-                            <mat-option>Finca 1</mat-option>
-                            <mat-option>Finca 2</mat-option>
-                            <mat-option>Finca 3</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" fxLayoutGap.lt-sm="0">
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>First Name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>First Name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="auto">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput required>
-                    </mat-form-field>
+    <div [@stagger]="true" class="p-gutter" vexContainer>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px">
+            <div @fadeInUp class="card" fxFlex="auto">
+                <div class="px-6 py-4 border-b" fxLayout="row" fxLayoutAlign="center center">
+                    <h2 class="title m-0">Añada un nuevo producto a su perfil</h2>
                 </div>
 
-                <mat-form-field>
-                    <mat-label>State</mat-label>
-                    <mat-select>
-                        <mat-option>New York</mat-option>
-                        <mat-option>Washington</mat-option>
-                        <mat-option>Florida</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <div class="px-24 py-4" fxLayout="column">
+                    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" fxLayoutGap.lt-sm="0">
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>Nombre del producto</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>Finca</mat-label>
+                            <mat-select>
+                                <mat-option>Finca 1</mat-option>
+                                <mat-option>Finca 2</mat-option>
+                                <mat-option>Finca 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>Unidad de medida</mat-label>
+                            <mat-select>
+                                <mat-option>Finca 1</mat-option>
+                                <mat-option>Finca 2</mat-option>
+                                <mat-option>Finca 3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="16px" fxLayoutGap.lt-sm="0">
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>First Name</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>First Name</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput required>
+                        </mat-form-field>
+                    </div>
 
-                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
-                    <button mat-button type="button">CANCEL</button>
-                    <button color="primary" mat-raised-button type="button">SUBMIT</button>
+                    <mat-form-field>
+                        <mat-label>State</mat-label>
+                        <mat-select>
+                            <mat-option>New York</mat-option>
+                            <mat-option>Washington</mat-option>
+                            <mat-option>Florida</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+                        <button mat-button type="button">CANCEL</button>
+                        <button color="primary" mat-raised-button type="button">SUBMIT</button>
+                    </div>
                 </div>
             </div>
         </div>
