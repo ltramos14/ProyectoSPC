@@ -1,0 +1,136 @@
+<form (ngSubmit)="save()" [formGroup]="formProduct">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+      <!-- <img *ngIf="formProduct.get('imageSrc').value" [src]="formProduct.get('imageSrc').value" class="avatar mr-5"> -->
+  
+      <h2 *ngIf="formProduct.get('name').value"
+          class="headline m-0"
+          fxFlex="auto">{{ formProduct.get('name').value }}</h2>
+      <h2 *ngIf="!formProduct.get('name').value"
+          class="headline m-0"
+          fxFlex="auto">Nuevo producto</h2>
+  
+      <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+        <mat-icon [icIcon]="icClose"></mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+  
+    <mat-dialog-content fxLayout="column">
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="mt-6 flex-auto">
+          <mat-label>Nombre del producto</mat-label>
+          <input #message minlength="3" maxlength="20" cdkFocusInitial formControlName="name" matInput>
+          <mat-hint align="end">{{message.value.length}} / 20</mat-hint>
+          <mat-icon [icIcon]="icNature" class="mr-3" matPrefix></mat-icon>
+          <mat-error *ngIf="formProduct.controls.name.hasError('required')">
+                El nombre del producto es <strong>obligatorio</strong>
+          </mat-error>
+          <mat-error *ngIf="formProduct.controls.name.errors?.minlength">
+                El nombre del producto debe tener mínimo <strong>3 caracteres</strong>
+          </mat-error>
+          <mat-error *ngIf="formProduct.controls.name.errors?.maxlength">
+            El nombre del producto debe tener máximo <strong>20 caracteres</strong>
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+            <mat-label>Tipo de producto</mat-label>
+            <mat-select formControlName="productType">
+              <mat-option *ngFor="let productType of productTypePrefixOptions" [value]="productType">
+                  {{ productType }}
+                  </mat-option>
+            </mat-select>
+            <mat-icon [icIcon]="icToc" class="mr-3" matPrefix></mat-icon>
+            <mat-error *ngIf="formProduct.controls.productType.hasError('required')">
+              El tipo de producto<strong> es obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+          <mat-form-field class="mt-6 flex-auto">
+              <mat-label>Precio unitario</mat-label>
+              <input cdkFocusInitial min="0" type="number" formControlName="price" matInput>
+              
+              <mat-icon [icIcon]="icAttachMoney" class="mr-3" matPrefix></mat-icon>
+              <mat-error *ngIf="formProduct.controls.price.hasError('required')">
+                  El precio es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.price.errors?.min">
+                    El precio debe ser <strong> mayor que 0</strong>
+              </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Selecciona una opción</mat-label>
+                <mat-select formControlName="unit">
+                    <mat-option *ngFor="let unit of unitPrefixOptions" [value]="unit">
+                        {{ unit }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icTimeLine" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.unit.hasError('required')">
+                    La unidad de medida<strong> es obligatoria</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Selecciona una opción</mat-label>
+                <mat-select formControlName="productive_state">
+                    <mat-option *ngFor="let productive_state of statePrefixOptions" [value]="productive_state">
+                        {{ productive_state }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icEventAvailable" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.productive_state.hasError('required')">
+                    El estado productivo<strong> es obligatorio</strong>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Selecciona una opción</mat-label>
+                <mat-select formControlName="farm">
+                    <mat-option *ngFor="let farm of farmPrefixOptions" [value]="farm">
+                        {{ farm }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+            <mat-error *ngIf="formProduct.controls.farm.hasError('required')">
+                La finca<strong> es obligatoria</strong>
+            </mat-error>
+    </mat-form-field>
+</div>
+
+<mat-form-field>
+    <mat-label>Fecha de disponibilidad</mat-label>
+    <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()" [matDatepicker]="formDatepickerRef"
+            formControlName="available_date" matInput readonly/>
+        <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
+        
+        <mat-hint>Selecciona una fecha futura</mat-hint>
+        <mat-datepicker #formDatepickerRef></mat-datepicker>
+        <mat-error *ngIf="formProduct.controls.available_date.hasError('required')">
+            La fecha de disponibilidad<strong> obligatoria</strong>
+        </mat-error>
+       <!--  <mat-error *ngIf="formProduct.controls.available_date.hasError('futureDate')">
+            La fecha de disponibilidad no puede ponerse un día que ya pasó
+        </mat-error> -->
+    </mat-form-field>
+    
+    <mat-form-field class="flex-auto">
+        <mat-label>Descripción</mat-label>
+        <textarea formControlName="description" matInput></textarea>
+        <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
+    </mat-form-field> 
+  
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end">
+      <button mat-raised-button mat-dialog-close color="warn" type="button">CANCEL</button>
+      <button *ngIf="isCreateMode()" [disabled]="formProduct.invalid" color="accent" mat-raised-button type="submit">AGREGAR PRODUCTO</button>
+      <button *ngIf="isUpdateMode()" [disabled]="formProduct.invalid" color="accent" mat-raised-button type="submit">UPDATE CUSTOMER</button>
+    </mat-dialog-actions>
+  </form>
+  

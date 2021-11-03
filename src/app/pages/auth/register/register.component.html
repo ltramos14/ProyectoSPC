@@ -87,7 +87,7 @@
               <input formControlName="names" matInput required />
               <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
               <mat-error
-                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
+                *ngIf="generalDataFormGroup.controls.names.hasError('required')"
               >
                 El nombre es<strong> obligatorio</strong>
               </mat-error>
@@ -251,7 +251,7 @@
                 >
               </mat-select>
               <mat-error
-                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
+                *ngIf="typeUserFormGroup.controls.identificationType.hasError('required')"
               >
                 El tipo de documento es<strong> obligatorio</strong>
               </mat-error>

@@ -28,4 +28,19 @@ export class OwnValidations {
 
     }
 
+    static futureDate(control: AbstractControl) {
+
+        if (control.value != '') {
+
+            let date: Date = new Date(control.value);
+            let dateNow = new Date();
+
+            if (date.getDay >= dateNow.getDay && date.getMonth >= dateNow.getMonth && date.getFullYear >= dateNow.getFullYear) {
+                return { futureDate: true }
+            }
+        }
+        return null;
+
+    }
+
 }
