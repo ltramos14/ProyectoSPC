@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyDataComponent } from './my-data.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -13,7 +14,8 @@ import { IconModule } from '@visurel/iconify-angular';
   imports: [
     CommonModule,
     MatIconModule,
-    IconModule
+    IconModule,
+    FlexLayoutModule
   ]
 })
 export class MyDataModule { }

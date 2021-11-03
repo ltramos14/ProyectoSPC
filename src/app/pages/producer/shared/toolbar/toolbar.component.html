@@ -1,9 +1,4 @@
-<div
-  class="toolbar w-full px-gutter"
-  fxLayout="row"
-  fxLayoutAlign="start center"
-  vexContainer
->
+<div class="toolbar w-full px-gutter" fxLayout="row" fxLayoutAlign="start center" vexContainer>
   <div class="px-1">
     <button (click)="toggleClass = !toggleClass" mat-icon-button type="button">
       <mat-icon class="iconMenu" [icIcon]="icMenu"></mat-icon>
@@ -26,41 +21,46 @@
     <ul>
       <li>
         <a href="/">
-          <span>
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d"
-            />
-          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOMBRE DE USUARIO
         </a>
       </li>
       <li>
-        <a [routerLink]="['/perfil-productor/mis-datos']" >
-          <span><mat-icon [icIcon]="icAssignmentInd"></mat-icon></span>
+        <a [routerLink]="['/perfil-productor/mis-datos']">
+          <span>
+            <mat-icon [icIcon]="icAssignmentInd"></mat-icon>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIS DATOS
         </a>
       </li>
       <li>
         <a [routerLink]="['/perfil-productor/mis-productos']">
-          <span><mat-icon [icIcon]="icSpa"></mat-icon></span>
+          <span>
+            <mat-icon [icIcon]="icSpa"></mat-icon>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIS PRODUCTOS
         </a>
       </li>
       <li>
         <a [routerLink]="['/perfil-productor/mis-fincas']">
-          <span><mat-icon [icIcon]="icPinDrop"></mat-icon></span>
+          <span>
+            <mat-icon [icIcon]="icPinDrop"></mat-icon>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MIS FINCAS
         </a>
       </li>
       <li>
         <a [routerLink]="['/perfil-productor/buzon-pqr']">
-          <span><mat-icon [icIcon]="icMarkUnReadMailbox"></mat-icon></span>
+          <span>
+            <mat-icon [icIcon]="icMarkUnReadMailbox"></mat-icon>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUZÓN PQR
         </a>
       </li>
       <li>
         <a href="/">
-          <span><mat-icon [icIcon]="icPowerSettingsNew"></mat-icon></span>
+          <span>
+            <mat-icon [icIcon]="icPowerSettingsNew"></mat-icon>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SALIR
         </a>
       </li>

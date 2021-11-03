@@ -1,97 +1,124 @@
-<div style="overflow-y:scroll; height:100%">
-  <div class="mt-6 flex flex-col md:flex-row md:items-start">
-    <div class="flex-auto">
-      <div class="card">
-        <div class="px-gutter py-4 border-b">
-          <h2 class="title m-0">About</h2>
-        </div>
+<div class="mt-6 flex flex-col md:flex-row md:items-start">
+  <div class="flex-auto" style="margin-bottom: 60px;">
+    <div class="card">
+      <div class="px-gutter py-4 border-b">
+        <h2 class="title m-0">Información personal</h2>
+      </div>
+      <div class="px-gutter py-4 border-b">
+        <h5>Actualiza tu información para mantener la seguridad de tu cuenta</h5>
 
         <div class="px-gutter py-4" gdColumns="1fr 1fr" gdColumns.xs="1fr" gdGap="16px">
+
           <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
             <div @scaleIn
               class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
-              <mat-icon [icIcon]="icPhone" size="20px"></mat-icon>
+              <mat-icon [icIcon]="icPermIdentity" size="25px"></mat-icon>
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">+1 (930) 502-3182</p>
-              <p class="m-0 caption text-hint">Business</p>
+              <p class="m-0 body-1">NOMBRES USUARIO</p>
+              <p class="m-0 caption text-hint">Nombres</p>
             </div>
           </div>
 
           <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
             <div @scaleIn
               class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
-              <mat-icon [icIcon]="icWork" size="20px"></mat-icon>
+              <mat-icon [icIcon]="icPermIdentity" size="25px"></mat-icon>
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">Web Developer at IceCube</p>
-              <p class="m-0 caption text-hint">Previously Designer at HotStuff</p>
+              <p class="m-0 body-1">APELLIDOS USUARIO</p>
+              <p class="m-0 caption text-hint">Apellidos</p>
             </div>
           </div>
 
           <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
             <div @scaleIn
               class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
-              <mat-icon [icIcon]="icMail" size="20px"></mat-icon>
+              <mat-icon [icIcon]="icWeb" size="25px"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">IDENTIFICACIÓN USUARIO</p>
+              <p class="m-0 caption text-hint">Tipo de identificación</p>
+            </div>
+          </div>
+
+
+          <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+            <div @scaleIn
+              class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon [icIcon]="icWeb" size="25px"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">IDENTIFICACIÓN USUARIO</p>
+              <p class="m-0 caption text-hint">Número de identificación</p>
+            </div>
+          </div>
+
+          <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+            <div @scaleIn
+              class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon [icIcon]="icMail" size="25px"></mat-icon>
             </div>
 
             <div @fadeInRight>
               <p class="m-0 body-1">david.smith@example.com</p>
-              <p class="m-0 caption text-hint">Business inquiries only</p>
+              <p class="m-0 caption text-hint">Correo electrónico</p>
             </div>
           </div>
 
           <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+
             <div @scaleIn
               class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
-              <mat-icon [icIcon]="icAccessTime" size="20px"></mat-icon>
+              <mat-icon [icIcon]="icPhone" size="25px"></mat-icon>
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">Usually available 9am-5pm</p>
-              <p class="m-0 caption text-hint">Call +1 (930) 242-5186 for important things</p>
+              <p class="m-0 body-1">+1 (930) 502-3182</p>
+              <p class="m-0 caption text-hint">Número de teléfono</p>
+            </div>
+          </div>
+
+          <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+
+            <div @scaleIn
+              class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon [icIcon]="icPlace" size="25px"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">MUNICIPIO CUNDINAMARCA</p>
+              <p class="m-0 caption text-hint">Municipio de residencia</p>
             </div>
           </div>
 
           <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
             <div @scaleIn
               class="w-10 h-10 rounded-full bg-gray-light text-dark ltr:mr-3 rtl:ml-3 cursor-pointer flex items-center justify-center">
-              <mat-icon [icIcon]="icAdd" size="20px"></mat-icon>
+              <mat-icon [icIcon]="icEdit" size="25px"></mat-icon>
             </div>
 
-            <p @fadeInRight class="m-0 body-1 cursor-pointer">Add an address</p>
-          </div>
-
-          <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
-            <div @scaleIn
-              class="w-10 h-10 rounded-full bg-gray-light text-dark ltr:mr-3 rtl:ml-3 cursor-pointer flex items-center justify-center">
-              <mat-icon [icIcon]="icWhatshot" size="20px"></mat-icon>
-            </div>
-
-            <p @fadeInRight class="m-0 body-1 cursor-pointer">Add social profiles</p>
+            <p @fadeInRight class="m-0 body-1 cursor-pointer">Editar información</p>
           </div>
         </div>
       </div>
-
-      <div class="card mt-6">
-        <div class="px-gutter py-4 border-b">
-          <h2 class="title m-0">Latest Photos</h2>
-        </div>
-
-        <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-lg="1fr 1fr 1fr"
-          gdColumns.xs="1fr 1fr" gdGap="24px">
-          <img *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" @scaleIn class="rounded w-full"
-            gdGridAlign="center" src="assets/img/avatars/{{ i }}.jpg" />
-        </div>
-      </div>
     </div>
+  </div>
 
-    <div class="card max-w-unset md:max-w-xs w-full flex-none md:ltr:ml-6 md:rtl:mr-6 mt-6 md:mt-0">
-      <div class="px-6 py-4 border-b">
-        <h2 class="title m-0">Friend Suggestions</h2>
-      </div>
+  <div class="card max-w-unset md:max-w-xs w-full flex-none md:ltr:ml-6 md:rtl:mr-6 mt-6 md:mt-0">
+    <div class="px-6 py-4 border-b">
+      <h2 class="title m-0">Actualizar foto de perfil</h2>
     </div>
+    <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d"
+        id="fotoPerfilUsuario" width="80%" height="80%">
+      <br>
+    </div>
+    <input style=" width: 100%; margin-bottom: 60px;" type="file" id="nuevaFoto" onchange="cambiarFotoDePerfil()">
   </div>
 </div>
