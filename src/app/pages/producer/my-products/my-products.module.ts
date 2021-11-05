@@ -16,6 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { ProductsCreateUpdateModule } from './products-create-update/products-create-update.module';
+import { ProductsService } from 'src/app/service/producer/products.service';
 
 @NgModule({
   declarations: [MyProductsComponent],
@@ -38,6 +39,7 @@ import { ProductsCreateUpdateModule } from './products-create-update/products-cr
     ContainerModule,
     MatSelectModule,
     MatButtonModule
-  ]
+  ],
+  providers: [ProductsService]
 })
 export class MyProductsModule { }

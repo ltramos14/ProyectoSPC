@@ -25,6 +25,8 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @UntilDestroy()
 @Component({
@@ -57,21 +59,20 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   subject$: ReplaySubject<Product[]> = new ReplaySubject<Product[]>(1);
   data$: Observable<Product[]> = this.subject$.asObservable();
   products: Product[];
+  isProducts: boolean;
 
   @Input()
   columns: TableColumn<Product>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Image', property: 'image', type: 'image', visible: true },
-    { label: 'Name', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'First Name', property: 'firstName', type: 'text', visible: false },
-    { label: 'Last Name', property: 'lastName', type: 'text', visible: false },
-    { label: 'Contact', property: 'contact', type: 'button', visible: true },
-    { label: 'Address', property: 'address', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Street', property: 'street', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Zipcode', property: 'zipcode', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'City', property: 'city', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Phone', property: 'phoneNumber', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Labels', property: 'labels', type: 'button', visible: true },
+    { label: 'Imagen', property: 'image', type: 'image', visible: true },
+    { label: 'Nombre', property: 'name', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Tipo Producto', property: 'productType', type: 'text', visible: true },
+    { label: 'Precio', property: 'price', type: 'text', visible: true },
+    { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: false },
+    { label: 'Estado Productivo', property: 'productive_state', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Finca', property: 'farm', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Disponibilidad', property: 'available_date', type: 'text', visible: false },
+    { label: 'Descripción', property: 'description', type: 'text', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
 
@@ -97,7 +98,11 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
+    private productService: ProductsService
+    ) { }
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
@@ -109,12 +114,21 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   getData() {
     //return of(aioTableData.map(customer => new Customer(customer)));
+    return this.productService.products;
   }
 
   ngOnInit() {
-   /*  this.getData().subscribe(customers => {
-      this.subject$.next(customers);
-    }); */
+
+    this.getData().subscribe(product => {
+      if (product.length === 0) {
+        this.isProducts = false;
+      }
+      else {
+        this.isProducts = true;
+      }
+      this.subject$.next(product);
+    });
+
     this.dataSource = new MatTableDataSource();
 
     this.data$.pipe(
@@ -134,7 +148,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  createCustomer() {
+  createProduct() {
     this.dialog.open(ProductsCreateUpdateComponent).afterClosed().subscribe((product: Product) => {
       if (product) {
         this.products.unshift(new Product(product));
@@ -167,9 +181,18 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
      * Here we are updating our local array.
      * You would probably make an HTTP request here.
      */
-    this.products.splice(this.products.findIndex((existingProduct) => existingProduct.id === product.id), 1);
-    this.selection.deselect(product);
-    this.subject$.next(this.products);
+    this.productService.deleteProduct(product.id).then(() => {
+      this.products.splice(this.products.findIndex((existingProduct) => existingProduct.id === product.id), 1);
+      this.snackbar.open(`Producto eliminado satisfactoriamente`, 'OK', {
+        duration: 2000
+      });
+      this.selection.deselect(product);
+      this.subject$.next(this.products);
+    }).catch(err => {
+      this.snackbar.open(`Error: ${ err.message }`, 'OK', {
+        duration: 2000
+      });
+    })
   }
 
   deteleProducts(products: Product[]) {

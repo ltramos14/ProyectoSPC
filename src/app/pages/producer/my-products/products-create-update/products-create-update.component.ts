@@ -12,6 +12,8 @@ import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
 import { OwnValidations } from 'src/app/service/helpers/ownValidations';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-products-create-update',
@@ -39,7 +41,9 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private snackbar: MatSnackBar,
+              private productService: ProductsService) {
   }
 
   ngOnInit() {
@@ -50,6 +54,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
 
     this.formProduct = this.fb.group({
+      id: [this.defaults.id || ''],
       name: [this.defaults.name || '', [
         Validators.required,
         Validators.minLength(3),
@@ -89,27 +94,39 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   save() {
     if (this.mode === 'create') {
-      this.createCustomer();
+      this.createProduct();
     } else if (this.mode === 'update') {
-      this.updateCustomer();
+      this.updateProduct();
     }
   }
 
-  createCustomer() {
-    const customer = this.formProduct.value;
+  async createProduct() {
+    const product = this.formProduct.value;
 
-    if (!customer.imageSrc) {
+    await this.productService.saveProduct(product, null).then(() => {
+      this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
+        duration: 3000
+      });
+    }).catch(err => console.log(err.message));
+    this.dialogRef.close(product);
+    /* if (!product.) {
       customer.imageSrc = 'assets/img/avatars/1.jpg';
-    }
-
-    this.dialogRef.close(customer);
+    } */
   }
 
-  updateCustomer() {
-    const customer = this.formProduct.value;
-    customer.id = this.defaults.id;
-
-    this.dialogRef.close(customer);
+  async updateProduct() {
+    const product = this.formProduct.value;
+    product.id = this.defaults.id;
+    await this.productService.saveProduct(product, product.id).then(() => {
+      this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
+        duration: 3000
+      });
+    }).catch(err => {
+      this.snackbar.open(`Error: ${ err.message }`, 'OK', {
+        duration: 3000
+      });
+    })
+    this.dialogRef.close(product);
   }
 
   isCreateMode() {
