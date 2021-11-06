@@ -19,7 +19,7 @@ export class ProfileProducerComponent implements OnInit {
   links: Link[] = [
     {
       label: 'ACTUALIZAR PERFIL',
-      route: './',
+      route: './actualizar-perfil',
       routerLinkActiveOptions: { exact: true }
     },
     {

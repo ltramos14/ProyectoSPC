@@ -11,22 +11,14 @@ import icAccountCircle from "@iconify/icons-ic/twotone-account-circle";
 import icDns from "@iconify/icons-ic/twotone-dns";
 import icChevronRight from "@iconify/icons-ic/twotone-chevron-right";
 import icLock from "@iconify/icons-ic/twotone-lock";
-import { Icon } from "@visurel/iconify-angular";
 import { PopoverRef } from "../../../../../../../@vex/components/popover/popover-ref";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { Router } from "@angular/router";
-
-export interface OnlineStatus {
-  label: string;
-  icon: Icon;
-  colorClass: string;
-}
 
 @Component({
   selector: "app-toolbar-user-dropdown",
   templateUrl: "./toolbar-user-dropdown.component.html",
   styleUrls: ["./toolbar-user-dropdown.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarUserDropdownComponent implements OnInit {
 
@@ -38,9 +30,9 @@ export class ToolbarUserDropdownComponent implements OnInit {
       id: "1",
       icon: icAccountCircle,
       label: "Perfil de usuario",
-      description: "Información Personal",
+      description: "Información y opciones de usuario",
       colorClass: "text-teal",
-      route: "/apps/social",
+      route: "/perfil-productor/mis-datos/actualizar-perfil",
     },
     {
       id: "2",
@@ -48,7 +40,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
       label: "Mis pedidos",
       description: "Estado y detalles de tus pedidos",
       colorClass: "text-primary",
-      route: "/apps/chat",
+      route: "/",
     },
   ];
 
@@ -58,14 +50,13 @@ export class ToolbarUserDropdownComponent implements OnInit {
   icLock = icLock;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
     private router: Router,
     private authService: AuthService
   ) {
 
   }
-  
+
   async ngOnInit() {
     const user = await this.authService.getCurrentUser();
     this.photoURL = user.photoURL;
@@ -77,7 +68,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout().then((resp) => {
+    this.authService.logout().then(() => {
       this.router.navigate(["iniciar-sesion"]);
     });
   }

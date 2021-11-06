@@ -10,11 +10,12 @@ import { MyPaymentMethodsComponent } from './profile-producer/my-payment-methods
 const routes: Routes = [
     { path: 'perfil-productor', component: ProducerComponent, children: [
         { path: 'mis-datos', component: ProfileProducerComponent, children: [
-            { path: '', component: MyDataComponent},
+            { path: 'actualizar-perfil', component: MyDataComponent},
             { path: 'mis-medios-de-pago', component: MyPaymentMethodsComponent},
         ]},
         { path: 'mis-productos', component: MyProductsComponent },
         { path: 'mis-fincas', component: MyFarmsComponent },
+        { path: '', redirectTo: '/mis-datos/actualizar-perfil', pathMatch: 'full' },
     ]}
 ];
 
