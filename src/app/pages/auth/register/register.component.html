@@ -87,7 +87,7 @@
               <input formControlName="names" matInput required />
               <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
               <mat-error
-                *ngIf="generalDataFormGroup.controls.names.hasError('required')"
+                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
               >
                 El nombre es<strong> obligatorio</strong>
               </mat-error>
@@ -251,7 +251,7 @@
                 >
               </mat-select>
               <mat-error
-                *ngIf="typeUserFormGroup.controls.identificationType.hasError('required')"
+                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
               >
                 El tipo de documento es<strong> obligatorio</strong>
               </mat-error>
@@ -322,14 +322,14 @@
                   especificDataFormGroup.controls.phone.hasError('minlength')
                 "
               >
-                Tu número de celular debe tener como mínimo 6 caracteres
+                Tu número de celular debe tener como mínimo 6 digitos
               </mat-error>
               <mat-error
                 *ngIf="
                   especificDataFormGroup.controls.phone.hasError('maxlength')
                 "
               >
-                Tu número de celular debe tener como máximo 10 caracteres
+                Tu número de celular debe tener como máximo 10 digitos
               </mat-error>
               <mat-error
                 *ngIf="

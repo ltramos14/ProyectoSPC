@@ -5,6 +5,8 @@ import icSpa from "@iconify/icons-ic/twotone-spa";
 import icPinDrop from "@iconify/icons-ic/twotone-pin-drop";
 import icMarkUnReadMailbox from "@iconify/icons-ic/twotone-markunread-mailbox";
 import icPowerSettingsNew from "@iconify/icons-ic/power-settings-new";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/service/auth/auth.service";
 
 @Component({
   selector: "app-toolbar",
@@ -22,9 +24,17 @@ export class ToolbarComponent implements OnInit {
   
   toggleClass: boolean = true;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
+  onLogout() {
+    this.authService.logout().then(() => {
+      this.router.navigate(["iniciar-sesion"]);
+    });
+  }
 }

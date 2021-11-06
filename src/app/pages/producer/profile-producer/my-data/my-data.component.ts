@@ -10,6 +10,9 @@ import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animati
 import { fadeInRight400ms } from '../../../../../@vex/animations/fade-in-right.animation';
 import { scaleIn400ms } from '../../../../../@vex/animations/scale-in.animation';
 import { stagger40ms } from '../../../../../@vex/animations/stagger.animation';
+import { User } from 'src/app/interfaces/user.interface';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -32,9 +35,25 @@ export class MyDataComponent implements OnInit {
   icPlace = icPlace;
   icEdit = icEdit;
 
-  constructor() { }
+  constructor( private dialog: MatDialog ) { }
 
   ngOnInit(): void {
   }
 
+  updateUserProfile() {
+    this.dialog.open(UpdateProfileComponent, {
+
+    }).afterClosed().subscribe(updateUserProfile => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updateUserProfile) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        
+      }
+    });
+  }
 }

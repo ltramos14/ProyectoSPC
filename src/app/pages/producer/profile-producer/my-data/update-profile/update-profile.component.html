@@ -1,0 +1,93 @@
+<form (ngSubmit)="saveChanges()" [formGroup]="formUpdateProfile">
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <!-- <img *ngIf="formUpdateProfile.get('imageSrc').value" [src]="formProduct.get('imageSrc').value" class="avatar mr-5"> -->
+    <h2 class="headline m-0" fxFlex="auto">Editar información del perfil</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+    <div class="flex flex-col sm:flex-row">
+
+      <mat-form-field class="mt-6 flex-auto">
+        <mat-label>Nombre</mat-label>
+        <input #messagename minlength="3" maxlength="30" cdkFocusInitial formControlName="name" matInput>
+        <mat-hint align="end">{{messagename.value.length}} / 30</mat-hint>
+        <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
+        <mat-error *ngIf="formUpdateProfile.controls.name.hasError('required')">
+          El nombre es <strong>obligatorio</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.name.errors?.minlength">
+          El nombre debe tener mínimo <strong>3 caracteres</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.name.errors?.maxlength">
+          El nombre debe tener máximo <strong>30 caracteres</strong>
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+        <mat-label>Apellido</mat-label>
+        <input #messagelastname minlength="3" maxlength="30" cdkFocusInitial formControlName="lastnames" matInput>
+        <mat-hint align="end">{{messagelastname.value.length}} / 30</mat-hint>
+        <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
+        <mat-error *ngIf="formUpdateProfile.controls.lastnames.hasError('required')">
+          El apellido es <strong>obligatorio</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.lastnames.errors?.minlength">
+          El apellido debe tener mínimo <strong>3 caracteres</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.lastnames.errors?.maxlength">
+          El apellido debe tener máximo <strong>30 caracteres</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="flex flex-col sm:flex-row">
+
+      <mat-form-field class="mt-6 flex-auto">
+        <mat-label>Número telefónico</mat-label>
+        <input minlength="3" maxlength="30" cdkFocusInitial formControlName="phone" matInput>
+
+        <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.hasError('required')">
+          El número telefónico es <strong>obligatorio</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.minlength">
+          El teléfono debe contener <strong> mínimo 6 digitos</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.maxlength">
+          El teléfono debe contener <strong> máximo 10 digitos</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.hasError('pattern')">
+          Por favor ingresa valores numéricos
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+        <mat-label>Municipio de residencia</mat-label>
+        <mat-select formControlName="productive_state">
+          <mat-option *ngFor="let productive_state of unitPrefixOptions" [value]="productive_state">
+            {{ productive_state }}
+          </mat-option>
+        </mat-select>
+        <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
+        <mat-error *ngIf="formUpdateProfile.controls.productive_state.hasError('required')">
+          El municipio de residencia<strong> es obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn" type="button">CANCELAR</button>
+    <button *ngIf="isUpdateMode()" [disabled]="formUpdateProfile.invalid" color="accent" mat-raised-button
+      type="submit">ACTUALIZAR PERFIL</button>
+  </mat-dialog-actions>
+</form>
