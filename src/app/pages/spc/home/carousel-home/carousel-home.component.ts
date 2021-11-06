@@ -10,10 +10,10 @@ export class CarouselHomeComponent implements OnInit {
 	responsiveOptions;
 
   images = [
-    {"previewImageSrc": "../../../../../assets/img/1.png"},
-    {"previewImageSrc": "../../../../../assets/img/2.png"},
-    {"previewImageSrc": "../../../../../assets/img/3.png"},
-    {"previewImageSrc": "../../../../../assets/img/4.png"}
+    {"previewImageSrc": "../../../../../assets/images/1.png"},
+    {"previewImageSrc": "../../../../../assets/images/2.png"},
+    {"previewImageSrc": "../../../../../assets/images/3.png"},
+    {"previewImageSrc": "../../../../../assets/images/4.png"}
   ]
 
 	constructor() { 
