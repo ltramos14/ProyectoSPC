@@ -1,4 +1,4 @@
-<div class="mt-6 flex flex-col md:flex-row md:items-start">
+<div class="mt-6 flex flex-col md:flex-row md:items-start" *ngIf="user">
   <div class="flex-auto" style="margin-bottom: 60px;">
     <div class="card">
       <div class="px-gutter py-4 border-b">
@@ -16,7 +16,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">NOMBRES USUARIO</p>
+              <p class="m-0 body-1">{{ user.names | uppercase }}</p>
               <p class="m-0 caption text-hint">Nombres</p>
             </div>
           </div>
@@ -28,7 +28,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">APELLIDOS USUARIO</p>
+              <p class="m-0 body-1">{{ user.lastnames | uppercase }}</p>
               <p class="m-0 caption text-hint">Apellidos</p>
             </div>
           </div>
@@ -40,7 +40,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">IDENTIFICACIÓN USUARIO</p>
+              <p class="m-0 body-1">{{ user.identificationType | uppercase }}</p>
               <p class="m-0 caption text-hint">Tipo de identificación</p>
             </div>
           </div>
@@ -53,7 +53,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">IDENTIFICACIÓN USUARIO</p>
+              <p class="m-0 body-1">{{ user.identification }}</p>
               <p class="m-0 caption text-hint">Número de identificación</p>
             </div>
           </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">david.smith@example.com</p>
+              <p class="m-0 body-1">{{ user.email }}</p>
               <p class="m-0 caption text-hint">Correo electrónico</p>
             </div>
           </div>
@@ -78,7 +78,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">+1 (930) 502-3182</p>
+              <p class="m-0 body-1">{{ user.phone }}</p>
               <p class="m-0 caption text-hint">Número de teléfono</p>
             </div>
           </div>
@@ -91,7 +91,7 @@
             </div>
 
             <div @fadeInRight>
-              <p class="m-0 body-1">MUNICIPIO CUNDINAMARCA</p>
+              <p class="m-0 body-1">{{ user.municipality }}</p>
               <p class="m-0 caption text-hint">Municipio de residencia</p>
             </div>
           </div>
@@ -102,7 +102,7 @@
               <mat-icon [icIcon]="icEdit" size="25px"></mat-icon>
             </div>
 
-            <button (click)="updateUserProfile()"  class="m-0 body-1 cursor-pointer">Editar información</button>
+            <button (click)="updateUserProfile(user)"  class="m-0 body-1 cursor-pointer">Editar información</button>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
     </div>
     <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d"
+        [src]="user.profileURL"
         id="fotoPerfilUsuario" width="80%" height="80%">
       <br>
     </div>

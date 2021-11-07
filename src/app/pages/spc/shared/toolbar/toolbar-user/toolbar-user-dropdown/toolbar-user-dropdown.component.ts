@@ -20,8 +20,12 @@ import { Router } from "@angular/router";
 })
 export class ToolbarUserDropdownComponent implements OnInit {
 
-  public photoURL: string;
-  public displayName: string;
+  public user: any;
+
+  trackById = trackById;
+  icSettings = icSettings;
+  icChevronRight = icChevronRight;
+  icLock = icLock;
 
   items: MenuItem[] = [
     {
@@ -30,7 +34,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
       label: "Perfil de usuario",
       description: "Información y opciones de usuario",
       colorClass: "text-teal",
-      route: "/perfil-productor/mis-datos/actualizar-perfil",
+      route: "/perfil-productor/mis-datos/actualizar-perfil/",
     },
     {
       id: "2",
@@ -42,11 +46,6 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
   ];
 
-  trackById = trackById;
-  icSettings = icSettings;
-  icChevronRight = icChevronRight;
-  icLock = icLock;
-
   constructor(
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
     private router: Router,
@@ -56,9 +55,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const user = await this.authService.getCurrentUser();
-    this.photoURL = user.photoURL;
-    this.displayName = user.displayName;
+    this.user = await this.authService.getCurrentUser();
   }
 
   close() {

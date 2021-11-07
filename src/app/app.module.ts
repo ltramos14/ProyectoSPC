@@ -12,7 +12,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { environment } from 'src/environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuthModule, LANGUAGE_CODE } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { SpcModule } from './pages/spc/spc.module';
@@ -57,6 +57,10 @@ import { InterceptorService } from './service/interceptors/interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: LANGUAGE_CODE,
+      useValue: 'es'
     }
   ],
   bootstrap: [AppComponent]

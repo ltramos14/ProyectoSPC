@@ -70,4 +70,10 @@ export class AuthService {
     return this.afAuth.authState.pipe(first()).toPromise();
   }
 
+  async updateUserProfile(user: any) {
+    await (await this.afAuth.currentUser).updateProfile({
+      // Actualizar
+    })
+  }
+
 }

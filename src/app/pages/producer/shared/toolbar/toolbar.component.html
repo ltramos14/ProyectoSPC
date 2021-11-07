@@ -20,12 +20,15 @@
   <aside class="keep" [ngClass]="{ width: !toggleClass }">
     <ul>
       <li>
-        <a href="/">
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOMBRE DE USUARIO
-        </a>
+        <h2>
+          ¡Bienvenido!
+        </h2>
+        <h3>
+         {{ user?.displayName }}
+        </h3>
       </li>
       <li>
-        <a [routerLink]="['/perfil-productor/mis-datos/actualizar-perfil']">
+        <a [routerLink]="['/perfil-productor/mis-datos/actualizar-perfil', user?.uid ]">
           <span>
             <mat-icon [icIcon]="icAssignmentInd"></mat-icon>
           </span>
@@ -33,7 +36,7 @@
         </a>
       </li>
       <li>
-        <a [routerLink]="['/perfil-productor/mis-productos']">
+        <a [routerLink]="['/perfil-productor/mis-productos', user?.uid ]">
           <span>
             <mat-icon [icIcon]="icSpa"></mat-icon>
           </span>
@@ -41,7 +44,7 @@
         </a>
       </li>
       <li>
-        <a [routerLink]="['/perfil-productor/mis-fincas']">
+        <a [routerLink]="['/perfil-productor/mis-fincas', user?.uid ]">
           <span>
             <mat-icon [icIcon]="icPinDrop"></mat-icon>
           </span>

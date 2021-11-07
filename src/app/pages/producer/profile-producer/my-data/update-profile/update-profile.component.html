@@ -71,13 +71,13 @@
 
       <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
         <mat-label>Municipio de residencia</mat-label>
-        <mat-select formControlName="productive_state">
-          <mat-option *ngFor="let productive_state of unitPrefixOptions" [value]="productive_state">
-            {{ productive_state }}
+        <mat-select formControlName="municipality">
+          <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
+            {{ municipality.name }}
           </mat-option>
         </mat-select>
         <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
-        <mat-error *ngIf="formUpdateProfile.controls.productive_state.hasError('required')">
+        <mat-error *ngIf="formUpdateProfile.controls.municipality.hasError('required')">
           El municipio de residencia<strong> es obligatorio</strong>
         </mat-error>
       </mat-form-field>

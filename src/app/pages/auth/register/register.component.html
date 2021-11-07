@@ -38,8 +38,8 @@
                 <mat-option
                   *ngFor="let typeuser of usertypesPrefixOptions"
                   [value]="typeuser"
-                  >{{ typeuser }}</mat-option
-                >
+                  >{{ typeuser }}
+                </mat-option>
               </mat-select>
               <mat-error
                 *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
@@ -240,8 +240,8 @@
             <strong>{{ typeUserFormGroup.get("typeuser").value }}</strong>
           </div>
 
-          <div class="mt-4" fxLayout="column">
-            <mat-form-field class="vex-flex-form-field" fxFlex="none">
+          <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
               <mat-label>Selecciona un tipo de identificación</mat-label>
               <mat-select formControlName="identificationType">
                 <mat-option
@@ -285,7 +285,7 @@
               </mat-form-field>
             </ng-container>
             <ng-template #elseTemplate>
-              <mat-form-field fxFlex="auto">
+              <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
                 <mat-label>Número de identificación</mat-label>
                 <input
                   formControlName="identification"
@@ -305,8 +305,10 @@
                 </mat-error>
               </mat-form-field>
             </ng-template>
+          </div>
 
-            <mat-form-field fxFlex="auto">
+          <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
               <mat-label>Celular</mat-label>
               <input formControlName="phone" matInput required />
               <mat-icon matPrefix [icIcon]="icPhone"></mat-icon>
@@ -337,6 +339,28 @@
                 "
               >
                 Por favor ingresa valores numéricos
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+              <mat-label>Municipio de residencia</mat-label>
+              <mat-select formControlName="municipality">
+                <mat-option
+                  *ngFor="let municipality of municipalities"
+                  [value]="municipality.name "
+                >
+                  {{ municipality.name }}
+                </mat-option>
+              </mat-select>
+              <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
+              <mat-error
+                *ngIf="
+                  especificDataFormGroup.controls.municipality.hasError(
+                    'required'
+                  )
+                "
+              >
+                El municipio de residencia<strong> es obligatorio</strong>
               </mat-error>
             </mat-form-field>
           </div>

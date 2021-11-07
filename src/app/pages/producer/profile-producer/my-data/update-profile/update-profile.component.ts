@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { Product } from 'src/app/models/product.model';
+import { municipalities } from 'src/static/municipalities-data';
 
 import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
 import icWeb from "@iconify/icons-ic/twotone-web";
@@ -10,11 +14,6 @@ import icPlace from "@iconify/icons-ic/twotone-place";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icClose from '@iconify/icons-ic/twotone-close';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { ProductsCreateUpdateComponent } from '../../../my-products/products-create-update/products-create-update.component';
-import { Product } from 'src/app/models/product.model';
-
 @Component({
   selector: 'app-update-profile',
   templateUrl: './update-profile.component.html'
@@ -22,9 +21,7 @@ import { Product } from 'src/app/models/product.model';
 export class UpdateProfileComponent implements OnInit {
 
   formUpdateProfile: FormGroup;
-  mode: 'create' | 'update' = 'create';
-
-  unitPrefixOptions = ['Kilogramos', 'Libras', 'Bultos', 'Arrobas'];
+  mode: 'update';
 
   icPermIdentity = icPermIdentity;
   icWeb = icWeb;
@@ -34,40 +31,39 @@ export class UpdateProfileComponent implements OnInit {
   icEdit = icEdit;
   icClose = icClose;
 
+  municipalities = municipalities;
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
+              private dialogRef: MatDialogRef<UpdateProfileComponent>,
               private fb: FormBuilder,
               private snackbar: MatSnackBar,
               private productService: ProductsService) {
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as Product;
-    }
+ 
+    this.mode = 'update';
 
     this.formUpdateProfile = this.fb.group({
-      id: [this.defaults.id || ''],
-      name: [this.defaults.name || '', [
+      id: [this.defaults.id],
+      name: [this.defaults.names, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30)
       ]],
-      lastnames: [this.defaults.lastnames || '', [
+      lastnames: [this.defaults.lastnames, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30)
       ]],
-      phone: [this.defaults.phone || '', [
+      phone: [this.defaults.phone, [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(10),
         Validators.pattern('[0-9]*')
       ]],
-      productive_state: [
-        this.unitPrefixOptions[2],
+      municipality: [
+        this.defaults.municipality || municipalities, 
         Validators.required
       ],
     });

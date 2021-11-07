@@ -6,6 +6,12 @@ import { stagger80ms } from '../../../../@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { scaleIn400ms } from '../../../../@vex/animations/scale-in.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { User } from 'src/app/interfaces/user.interface';
+import { OwnValidations } from 'src/app/service/helpers/ownValidations';
+
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icVerticalSplit from '@iconify/icons-ic/twotone-vertical-split';
 import icVisiblity from '@iconify/icons-ic/twotone-visibility';
@@ -18,10 +24,9 @@ import icCalendar from '@iconify/icons-ic/twotone-date-range';
 import icLock from '@iconify/icons-ic/twotone-lock';
 import icFeaturedVideo from '@iconify/icons-ic/twotone-featured-video';
 import icPhone from '@iconify/icons-ic/twotone-phone';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/service/auth/auth.service';
-import { User } from 'src/app/interfaces/user.interface';
-import { OwnValidations } from 'src/app/service/helpers/ownValidations';
+import icPlace from '@iconify/icons-ic/twotone-place'
+
+import { municipalities } from 'src/static/municipalities-data';
 
 @Component({
   selector: 'vex-register',
@@ -56,8 +61,12 @@ export class RegisterComponent implements OnInit {
   icLock = icLock;
   icPhone = icPhone;
   icFeaturedVideo = icFeaturedVideo;
+  icPlace = icPlace;
 
   passwordInputType = 'password';
+
+  municipalities = municipalities;
+
 
   constructor(
     private fb: FormBuilder,
@@ -98,7 +107,8 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(10),
         Validators.pattern('[0-9]*')
-      ]]
+      ]],
+      municipality: [municipalities, Validators.required],
     });
 
     this.confirmFormGroup = this.fb.group({
@@ -131,6 +141,7 @@ export class RegisterComponent implements OnInit {
       identification: this.especificDataFormGroup.get('identification').value,
       phone: this.especificDataFormGroup.get('phone').value,
       profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
+      municipality: this.especificDataFormGroup.get('municipality').value,
       stateUser: true
     }
 

@@ -10,9 +10,11 @@ import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animati
 import { fadeInRight400ms } from '../../../../../@vex/animations/fade-in-right.animation';
 import { scaleIn400ms } from '../../../../../@vex/animations/scale-in.animation';
 import { stagger40ms } from '../../../../../@vex/animations/stagger.animation';
-import { User } from 'src/app/interfaces/user.interface';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { UsersService } from 'src/app/service/users/users.service';
+import { User } from 'src/app/interfaces/user.interface';
 
 
 @Component({
@@ -28,6 +30,10 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class MyDataComponent implements OnInit {
 
+  public idUser: string;
+
+  user: User;
+
   icPermIdentity = icPermIdentity;
   icWeb = icWeb;
   icMail = icMail;
@@ -35,14 +41,22 @@ export class MyDataComponent implements OnInit {
   icPlace = icPlace;
   icEdit = icEdit;
 
-  constructor( private dialog: MatDialog ) { }
+  constructor( 
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private userService: UsersService ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(data => {
+      this.idUser = data.id;
+    });
+
+    this.onGetUserInfo();
   }
 
-  updateUserProfile() {
+  updateUserProfile(user: User) {
     this.dialog.open(UpdateProfileComponent, {
-
+      data: user
     }).afterClosed().subscribe(updateUserProfile => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
@@ -54,6 +68,12 @@ export class MyDataComponent implements OnInit {
          */
         
       }
+    });
+  }
+
+  onGetUserInfo() {
+    this.userService.getUserInfo(this.idUser).subscribe((data) => {
+      this.user = data;
     });
   }
 }

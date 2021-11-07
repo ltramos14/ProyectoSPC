@@ -8,6 +8,7 @@ export interface User {
     identificationType: string,
     identification: string,
     phone: string,
+    municipality: string,
     profileURL: string,
     stateUser: boolean
 }
