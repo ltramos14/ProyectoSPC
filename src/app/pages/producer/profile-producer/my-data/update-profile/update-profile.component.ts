@@ -2,8 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { Product } from 'src/app/models/product.model';
 import { municipalities } from 'src/static/municipalities-data';
 
 import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
@@ -13,6 +11,7 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icPlace from "@iconify/icons-ic/twotone-place";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icClose from '@iconify/icons-ic/twotone-close';
+import { UsersService } from 'src/app/service/users/users.service';
 
 @Component({
   selector: 'app-update-profile',
@@ -22,6 +21,8 @@ export class UpdateProfileComponent implements OnInit {
 
   formUpdateProfile: FormGroup;
   mode: 'update';
+
+  docId: string;
 
   icPermIdentity = icPermIdentity;
   icWeb = icWeb;
@@ -37,16 +38,17 @@ export class UpdateProfileComponent implements OnInit {
               private dialogRef: MatDialogRef<UpdateProfileComponent>,
               private fb: FormBuilder,
               private snackbar: MatSnackBar,
-              private productService: ProductsService) {
+              private userService: UsersService) {
   }
 
   ngOnInit() {
- 
     this.mode = 'update';
+    this.initFormData();
+  }
 
+  initFormData() {
     this.formUpdateProfile = this.fb.group({
-      id: [this.defaults.id],
-      name: [this.defaults.names, [
+      names: [this.defaults.names, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30)
@@ -63,7 +65,7 @@ export class UpdateProfileComponent implements OnInit {
         Validators.pattern('[0-9]*')
       ]],
       municipality: [
-        this.defaults.municipality || municipalities, 
+        this.defaults.municipality || municipalities,
         Validators.required
       ],
     });
@@ -72,20 +74,20 @@ export class UpdateProfileComponent implements OnInit {
   saveChanges() {
     this.updateProfile();
   }
+  
+  updateProfile() {
+    
+    this.defaults.names = this.formUpdateProfile.get('names').value;
+    this.defaults.lastnames = this.formUpdateProfile.get('lastnames').value;
+    this.defaults.phone = this.formUpdateProfile.get('phone').value;
+    this.defaults.municipality = this.formUpdateProfile.get('municipality').value;
+    
+    this.userService.updateUserDocument(this.defaults);
+    this.dialogRef.close(this.defaults);
+    this.snackbar.open("Su información de usuario ha sido actualizada satisfatoriamente", 'OK', {
+      duration: 3000
+    });
 
-  async updateProfile() {
-    const product = this.formUpdateProfile.value;
-    product.id = this.defaults.id;
-    await this.productService.saveProduct(product, product.id).then(() => {
-      this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
-        duration: 3000
-      });
-    }).catch(err => {
-      this.snackbar.open(`Error: ${ err.message }`, 'OK', {
-        duration: 3000
-      });
-    })
-    this.dialogRef.close(product);
   }
 
   isUpdateMode() {

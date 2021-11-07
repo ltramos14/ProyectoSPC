@@ -15,16 +15,16 @@
 
       <mat-form-field class="mt-6 flex-auto">
         <mat-label>Nombre</mat-label>
-        <input #messagename minlength="3" maxlength="30" cdkFocusInitial formControlName="name" matInput>
+        <input #messagename minlength="3" maxlength="30" cdkFocusInitial formControlName="names" matInput>
         <mat-hint align="end">{{messagename.value.length}} / 30</mat-hint>
         <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
-        <mat-error *ngIf="formUpdateProfile.controls.name.hasError('required')">
+        <mat-error *ngIf="formUpdateProfile.controls.names.hasError('required')">
           El nombre es <strong>obligatorio</strong>
         </mat-error>
-        <mat-error *ngIf="formUpdateProfile.controls.name.errors?.minlength">
+        <mat-error *ngIf="formUpdateProfile.controls.names.errors?.minlength">
           El nombre debe tener mínimo <strong>3 caracteres</strong>
         </mat-error>
-        <mat-error *ngIf="formUpdateProfile.controls.name.errors?.maxlength">
+        <mat-error *ngIf="formUpdateProfile.controls.names.errors?.maxlength">
           El nombre debe tener máximo <strong>30 caracteres</strong>
         </mat-error>
       </mat-form-field>

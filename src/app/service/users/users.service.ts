@@ -21,7 +21,7 @@ export class UsersService {
   constructor(private afs: AngularFirestore) {
     this.usersCollection = afs.collection<User>('users')
   }
-  
+
   async onSaveUserInformation(user: User, uid: string) {
     await this.usersCollection.doc(uid).set(user)
   }
@@ -29,5 +29,9 @@ export class UsersService {
   getUserInfo(userId: string) {
     this.userDoc = this.afs.doc<User>(`users/${ userId }`);
     return this.user = this.userDoc.valueChanges();
+  }
+
+  updateUserDocument(user: User) {
+    this.userDoc.update(user);
   }
 }
