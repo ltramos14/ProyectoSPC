@@ -1,7 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/service/auth/auth.service";
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
+import { delay } from 'rxjs/operators';
+
 import icMenu from "@iconify/icons-ic/twotone-menu";
+import icClose from "@iconify/icons-ic/twotone-close";
 import icAssignmentInd from "@iconify/icons-ic/twotone-assignment-ind";
 import icSpa from "@iconify/icons-ic/twotone-spa";
 import icPinDrop from "@iconify/icons-ic/twotone-pin-drop";
@@ -16,20 +21,38 @@ import icPowerSettingsNew from "@iconify/icons-ic/power-settings-new";
 export class ToolbarComponent implements OnInit {
 
   icMenu = icMenu;
+  icClose = icClose;
   icAssignmentInd = icAssignmentInd;
   icSpa = icSpa;
   icPinDrop = icPinDrop;
   icMarkUnReadMailbox = icMarkUnReadMailbox;
   icPowerSettingsNew = icPowerSettingsNew;
-  
-  toggleClass: boolean = true;
 
   public user: any;
 
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private observer: BreakpointObserver
   ) { }
+
+  ngAfterViewInit() {
+    this.observer
+      .observe(['(max-width: 800px)'])
+      .pipe(delay(1))
+      .subscribe((res) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
+  }
 
   async ngOnInit() {   
     this.user = await this.authService.getCurrentUser();
