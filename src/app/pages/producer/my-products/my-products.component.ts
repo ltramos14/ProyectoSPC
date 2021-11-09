@@ -1,6 +1,4 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Observable, of, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,6 +14,12 @@ import { FormControl } from '@angular/forms';
 import { Product } from 'src/app/models/product.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MatSelectChange } from '@angular/material/select';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, ReplaySubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icEdit from '@iconify/icons-ic/twotone-edit';
@@ -26,10 +30,6 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-
 @UntilDestroy()
 @Component({
   selector: 'vex-my-products',
@@ -183,7 +183,6 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
         duration: 2000
       });
       this.selection.deselect(product);
-      this.subject$.next(this.products);
     }).catch(err => {
       this.snackbar.open(`Error: ${ err.message }`, 'OK', {
         duration: 2000

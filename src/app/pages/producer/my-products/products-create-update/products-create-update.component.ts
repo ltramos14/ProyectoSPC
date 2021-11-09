@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../../../../models/product.model';
+import { ProductsService } from 'src/app/service/producer/products.service';
+
 import icAttachMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCalendar from '@iconify/icons-ic/twotone-calendar-today';
 import icClose from '@iconify/icons-ic/twotone-close';
@@ -11,22 +13,21 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
-import { OwnValidations } from 'src/app/service/helpers/ownValidations';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/service/auth/auth.service';
-
 @Component({
   selector: 'vex-products-create-update',
   templateUrl: './products-create-update.component.html'
 })
 export class ProductsCreateUpdateComponent implements OnInit {
 
+  
+  public product: Product;
+
+  urlFile: File; 
+
   formProduct: FormGroup;
   mode: 'create' | 'update' = 'create';
 
-  imageDefault: string = '../../../../../assets/illustrations/file-product.png';
+  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
 
   productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
   unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
@@ -43,14 +44,12 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icTimeLine = icTimeLine;
   icToc = icToc;
 
-  public product: Product;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
-              private fb: FormBuilder,
-              private snackbar: MatSnackBar,
-              private productService: ProductsService) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
+    private fb: FormBuilder,
+    private productService: ProductsService) {
   }
 
   ngOnInit() {
@@ -59,7 +58,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
       this.mode = 'create';
     } else if (this.defaults) {
       this.mode = 'update';
-    } else { 
+    } else {
       this.defaults = {} as Product;
     }
 
@@ -86,7 +85,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.required,
       ],
       farm: [
-        this.defaults.farm ||this.farmPrefixOptions,
+        this.defaults.farm || this.farmPrefixOptions,
         Validators.required
       ],
       available_date: [this.defaults.available_date || '', [
@@ -96,10 +95,10 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(500)
-      ]],
+      ]]
     });
   }
-  
+
   save() {
     if (this.mode === 'create') {
       this.createProduct();
@@ -108,35 +107,34 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
   }
 
+  uploadProductImage(file: File[]) {
+    this.urlFile = file[0];
+  }
+
   createProduct() {
-   this.product = new Product();
-   console.log(this.data.idUser)
-   this.product.idProducer = this.data.idUser;
-   this.product.farm = this.formProduct.get('farm').value;
-   this.product.productType = this.formProduct.get('productType').value;
-   this.product.name = this.formProduct.get('name').value;
-   this.product.price = this.formProduct.get('price').value;
-   this.product.unit = this.formProduct.get('unit').value;
-   this.product.productiveStatus = this.formProduct.get('productiveStatus').value;
-   
-   if (this.formProduct.get('productiveStatus').value === 'Disponible')
+    this.product = new Product();
+    console.log(this.data.idUser)
+    this.product.idProducer = this.data.idUser;
+    this.product.farm = this.formProduct.get('farm').value;
+    this.product.productType = this.formProduct.get('productType').value;
+    this.product.name = this.formProduct.get('name').value;
+    this.product.price = this.formProduct.get('price').value;
+    this.product.unit = this.formProduct.get('unit').value;
+    this.product.productiveStatus = this.formProduct.get('productiveStatus').value;
+
+    
+    if (this.formProduct.get('productiveStatus').value === 'Disponible')
     this.product.availabilityDate = new Date();
     else
-      this.product.availabilityDate = this.formProduct.get('available_date').value;
-   
-   this.product.description = this.formProduct.get('description').value;
-   this.product.image = "Aqui va la ruta de imagen de Storage";
-   console.log(this.product);
-  
-    this.productService.saveProduct(this.product, null).then(() => {
-      this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
-        duration: 3000
-      });
-    }).catch(err => console.log(err.message));
+    this.product.availabilityDate = this.formProduct.get('available_date').value;
+    
+    this.product.description = this.formProduct.get('description').value;
+    this.product.image = "";
+    
+    this.productService.uploadProductImage(null, this.product, this.urlFile);
+
     this.dialogRef.close(this.product);
-    /* if (!product.) {
-      customer.imageSrc = 'assets/img/avatars/1.jpg';
-    } */
+
   }
 
   async updateProduct() {
@@ -147,15 +145,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
     this.defaults.unit = this.formProduct.get('unit').value;
     this.defaults.productiveStatus = this.formProduct.get('productiveStatus').value;
 
-    await this.productService.saveProduct(this.defaults, this.defaults.id).then(() => {
-      this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
-        duration: 3000
-      });
-    }).catch(err => {
-      this.snackbar.open(`Error: ${ err.message }`, 'OK', {
-        duration: 3000
-      });
-    })
+    this.productService.uploadProductImage(this.defaults.id, this.product, this.urlFile);
+    
     this.dialogRef.close(this.defaults);
   }
 

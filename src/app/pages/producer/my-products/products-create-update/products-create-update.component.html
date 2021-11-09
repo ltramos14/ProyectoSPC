@@ -1,6 +1,6 @@
 <form (ngSubmit)="save()" [formGroup]="formProduct">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-        <!-- <img *ngIf="formProduct.get('imageSrc').value" [src]="formProduct.get('imageSrc').value" class="avatar mr-5"> -->
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
 
         <h2 *ngIf="formProduct.get('name').value" class="headline m-0" fxFlex="auto">
             {{ formProduct.get("name").value }}
@@ -123,11 +123,11 @@
             <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
         </mat-form-field>
 
-        <div fxLayout="column" fxFlexAlign="center">
+        <div fxLayout="column" fxFlexAlign="center" >
             <h4>Imagen del producto:</h4>
             <img id="imgFoto" width="200" height="200" class="d-block" 
                 [src]="defaults.image || imageDefault" />
-            <input type="file" id="fileImage" accept="image/*" onchange="subirImage(this)" />
+            <input type="file" id="fileProductImage" accept="image/*" (change)="uploadProductImage($event.target.files)" />
         </div>
         
 

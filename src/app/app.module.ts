@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule, LANGUAGE_CODE } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { SpcModule } from './pages/spc/spc.module';
 import { AuthModule } from './pages/auth/auth.module';
@@ -45,6 +46,7 @@ import { InterceptorService } from './service/interceptors/interceptor.service';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
 
     //SPC
     AuthModule,

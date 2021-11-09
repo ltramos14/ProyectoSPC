@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Product } from 'src/app/models/product.model';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class ProductsService {
 
   /**
-   * Variable qie instancia la colección de los productos del usuario
+   * Variable que instancia la colección de los productos del usuario
    */
   productsCollection: AngularFirestoreCollection<Product>;
 
@@ -28,8 +30,14 @@ export class ProductsService {
    * Variable de tipo string que almacena el id de usuario para indicar la ruta de la colección
    */  
   productDoc: AngularFirestoreDocument<Product>;
+
+  uploadPercentage: Observable<number>;
+
+  urlProductImage: Observable<string>;
    
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore,
+    private storage: AngularFireStorage,
+    private snackbar: MatSnackBar) {
     this.productsCollection = afs.collection<Product>('products');
     this.getProducts();
   }
@@ -49,20 +57,39 @@ export class ProductsService {
     );
   }
 
+  uploadProductImage(id: string, product: Product, file: File) {
+    const filePath = `products/${product.name}${product.idProducer}`;
+    const ref =  this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);  
+
+    this.uploadPercentage = task.percentageChanges();
+    task.snapshotChanges().pipe(finalize(() => {
+      ref.getDownloadURL().subscribe(urlImage => {
+        product.image = urlImage;
+        this.saveProduct(product, id).then(() => {
+          this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
+            duration: 3000
+          })
+        }).catch(err => console.log(err)) 
+      });
+    })).subscribe();
+  
+  }
+
   /**
    * Método que guarda a un nuevo producto en la colección o actualiza un documento
    * @param product el objeto de tipo Product que contiene la información del Producto a editar o crear
    * @param productId el id del documento en caso de que se vaya a actualizar el producto
    * @returns 
    */
-  saveProduct(product: Product, productId: string): Promise<void> {
+  saveProduct(product: Product, productId: string): Promise<string> {
 
     return new Promise(async (resolve, reject) => {
       try {
         const id = productId || this.afs.createId();
         const data = { id, ...product }
         const result = await this.productsCollection.doc(id).set(data);
-        resolve(result);
+        resolve(id);
       } catch (err) {
         reject(err);
       }
