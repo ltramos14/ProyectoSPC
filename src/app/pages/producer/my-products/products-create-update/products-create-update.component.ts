@@ -14,6 +14,8 @@ import icToc from '@iconify/icons-ic/twotone-toc';
 import { OwnValidations } from 'src/app/service/helpers/ownValidations';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'vex-products-create-update',
@@ -24,8 +26,10 @@ export class ProductsCreateUpdateComponent implements OnInit {
   formProduct: FormGroup;
   mode: 'create' | 'update' = 'create';
 
-  productTypePrefixOptions = ['Fruta', 'Vegetal', 'Hortaliza'];
-  unitPrefixOptions = ['Kilogramos', 'Libras', 'Bultos', 'Arrobas'];
+  imageDefault: string = '../../../../../assets/illustrations/file-product.png';
+
+  productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
+  unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
   statePrefixOptions = ['Disponible', 'En cosecha'];
   farmPrefixOptions = ['Finca 1', 'Finca 2', 'Finca 3'];
 
@@ -39,7 +43,10 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icTimeLine = icTimeLine;
   icToc = icToc;
 
+  public product: Product;
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
               private fb: FormBuilder,
               private snackbar: MatSnackBar,
@@ -47,21 +54,23 @@ export class ProductsCreateUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.defaults) {
+
+    if (this.defaults.idUser) {
+      this.mode = 'create';
+    } else if (this.defaults) {
       this.mode = 'update';
-    } else {
+    } else { 
       this.defaults = {} as Product;
     }
 
     this.formProduct = this.fb.group({
-      id: [this.defaults.id || ''],
       name: [this.defaults.name || '', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ]],
       productType: [
-        this.productTypePrefixOptions[3],
+        this.defaults.productType || this.productTypePrefixOptions,
         Validators.required,
       ],
       price: [this.defaults.price || '', [
@@ -69,29 +78,28 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.min(0)
       ]],
       unit: [
-        this.unitPrefixOptions[4],
+        this.defaults.unit || this.unitPrefixOptions,
         Validators.required
       ],
-      productive_state: [
-        this.statePrefixOptions[2],
-        Validators.required
+      productiveStatus: [
+        this.defaults.productiveStatus || this.statePrefixOptions,
+        Validators.required,
       ],
       farm: [
-        this.farmPrefixOptions[3],
+        this.defaults.farm ||this.farmPrefixOptions,
         Validators.required
       ],
       available_date: [this.defaults.available_date || '', [
-        Validators.required,
         //OwnValidations.futureDate
       ]],
       description: [this.defaults.description || '', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(500)
-      ]]
+      ]],
     });
   }
-
+  
   save() {
     if (this.mode === 'create') {
       this.createProduct();
@@ -100,24 +108,46 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
   }
 
-  async createProduct() {
-    const product = this.formProduct.value;
-
-    await this.productService.saveProduct(product, null).then(() => {
+  createProduct() {
+   this.product = new Product();
+   console.log(this.data.idUser)
+   this.product.idProducer = this.data.idUser;
+   this.product.farm = this.formProduct.get('farm').value;
+   this.product.productType = this.formProduct.get('productType').value;
+   this.product.name = this.formProduct.get('name').value;
+   this.product.price = this.formProduct.get('price').value;
+   this.product.unit = this.formProduct.get('unit').value;
+   this.product.productiveStatus = this.formProduct.get('productiveStatus').value;
+   
+   if (this.formProduct.get('productiveStatus').value === 'Disponible')
+    this.product.availabilityDate = new Date();
+    else
+      this.product.availabilityDate = this.formProduct.get('available_date').value;
+   
+   this.product.description = this.formProduct.get('description').value;
+   this.product.image = "Aqui va la ruta de imagen de Storage";
+   console.log(this.product);
+  
+    this.productService.saveProduct(this.product, null).then(() => {
       this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
         duration: 3000
       });
     }).catch(err => console.log(err.message));
-    this.dialogRef.close(product);
+    this.dialogRef.close(this.product);
     /* if (!product.) {
       customer.imageSrc = 'assets/img/avatars/1.jpg';
     } */
   }
 
   async updateProduct() {
-    const product = this.formProduct.value;
-    product.id = this.defaults.id;
-    await this.productService.saveProduct(product, product.id).then(() => {
+    this.defaults.farm = this.formProduct.get('farm').value;
+    this.defaults.productType = this.formProduct.get('productType').value;
+    this.defaults.name = this.formProduct.get('name').value;
+    this.defaults.price = this.formProduct.get('price').value;
+    this.defaults.unit = this.formProduct.get('unit').value;
+    this.defaults.productiveStatus = this.formProduct.get('productiveStatus').value;
+
+    await this.productService.saveProduct(this.defaults, this.defaults.id).then(() => {
       this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
         duration: 3000
       });
@@ -126,7 +156,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         duration: 3000
       });
     })
-    this.dialogRef.close(product);
+    this.dialogRef.close(this.defaults);
   }
 
   isCreateMode() {
@@ -136,5 +166,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
   isUpdateMode() {
     return this.mode === 'update';
   }
+
 
 }

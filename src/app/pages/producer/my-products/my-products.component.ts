@@ -9,6 +9,7 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { ProductsCreateUpdateComponent } from './products-create-update/products-create-update.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
+import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
 import { FormControl } from '@angular/forms';
@@ -27,6 +28,7 @@ import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -35,7 +37,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./my-products.component.scss'],
   animations: [
     fadeInUp400ms,
-    stagger40ms
+    stagger40ms,
+    fadeInRight400ms
   ],
   providers: [
     {
@@ -60,6 +63,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   data$: Observable<Product[]> = this.subject$.asObservable();
   products: Product[];
   isProducts: boolean;
+  idUser: string;
 
   @Input()
   columns: TableColumn<Product>[] = [
@@ -69,9 +73,9 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     { label: 'Tipo Producto', property: 'productType', type: 'text', visible: true },
     { label: 'Precio', property: 'price', type: 'text', visible: true },
     { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: false },
-    { label: 'Estado Productivo', property: 'productive_state', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Estado Productivo', property: 'productiveStatus', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Finca', property: 'farm', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Disponibilidad', property: 'available_date', type: 'text', visible: false },
+    { label: 'Disponibilidad', property: 'availabilityDate', type: 'text', visible: false },
     { label: 'Descripción', property: 'description', type: 'text', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
@@ -101,6 +105,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
+    private route: ActivatedRoute,
     private productService: ProductsService
     ) { }
 
@@ -114,11 +119,14 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   getData() {
     //return of(aioTableData.map(customer => new Customer(customer)));
-    return this.productService.products;
+    return this.productService.producerProducts;
   }
 
   ngOnInit() {
-
+    this.route.params.subscribe(data => {
+      this.idUser = data.id;
+    })
+    this.productService.getProducerProducts(this.idUser);
     this.getData().subscribe(product => {
       if (product.length === 0) {
         this.isProducts = false;
@@ -149,30 +157,18 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   }
 
   createProduct() {
-    this.dialog.open(ProductsCreateUpdateComponent).afterClosed().subscribe((product: Product) => {
-      if (product) {
-        this.products.unshift(new Product(product));
-        this.subject$.next(this.products);
-      }
+    let idUser;
+    this.route.params.subscribe(data => {
+      idUser = data.id;
+    })
+    this.dialog.open(ProductsCreateUpdateComponent, {
+      data: { idUser }
     });
   }
 
   updateProduct(product: Product) {
     this.dialog.open(ProductsCreateUpdateComponent, {
       data: product
-    }).afterClosed().subscribe(updatedProduct => {
-      /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
-       */
-      if (updatedProduct) {
-        /**
-         * Here we are updating our local array.
-         * You would probably make an HTTP request here.
-         */
-        const index = this.products.findIndex((existingProduct) => existingProduct.id === updatedProduct.id);
-        this.products[index] = new Product(updatedProduct);
-        this.subject$.next(this.products);
-      }
     });
   }
 
