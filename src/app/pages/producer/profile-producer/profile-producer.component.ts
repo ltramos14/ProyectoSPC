@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 @Component({
   selector: 'app-profile-producer',
   templateUrl: './profile-producer.component.html',
-  styleUrls: ['./profile-producer.component.css'],
   animations: [
     stagger60ms,
     scaleIn400ms,

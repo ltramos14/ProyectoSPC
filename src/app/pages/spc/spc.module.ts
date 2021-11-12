@@ -5,12 +5,13 @@ import { AboutUsModule } from './about-us/about-us.module';
 import { ContactUsModule } from './contact-us/contact-us.module';
 import { HomeModule } from './home/home.module';
 import { ProductDetailModule } from './product-detail/product-detail.module';
-import { ProductsModule } from './products/products.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { UsersModule } from './users/users.module';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
 import { SpcComponent } from './spc.component';
 import { RouterModule } from '@angular/router';
+import { ProductsCatalogModule } from './products-catalog/products-catalog.module';
+
 
 @NgModule({
   declarations: [SpcComponent],
@@ -19,8 +20,8 @@ import { RouterModule } from '@angular/router';
     AboutUsModule,
     ContactUsModule,
     HomeModule,
+    ProductsCatalogModule,
     ProductDetailModule,
-    ProductsModule,
     ShoppingCartModule,
     UsersModule,
     ToolbarModule,

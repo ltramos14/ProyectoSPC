@@ -39,22 +39,22 @@ export class ToolbarComponent implements OnInit {
         {
           name: 'Frutas',
           icon: icNature,
-          router: '/frutas'
+          router: '/inicio/productos'
         },
         {
           name: 'Verduras',
           icon: icGrass,
-          router: '/verduras'
+          router: '/inicio/productos'
         },
         {
           name: 'Hortalizas',
           icon: icGrass,
-          router: '/hortalizas'
+          router: '/inicio/productos'
         },
         {
           name: 'Hierbas y aromáticas',
           icon: icNature,
-          router: '/hierbas-y-aromaticas'
+          router: '/inicio/productos'
         }
       ]
     },
@@ -72,7 +72,7 @@ export class ToolbarComponent implements OnInit {
           router: '/transportadores'
         },
         {
-          name: 'Cosumidores',
+          name: 'Consumidores',
           icon: icNature,
           router: '/consumidores'
         }
