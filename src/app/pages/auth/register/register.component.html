@@ -35,42 +35,23 @@
             <mat-form-field class="vex-flex-form-field" fxFlex="none">
               <mat-label>Selecciona una opción</mat-label>
               <mat-select formControlName="typeuser">
-                <mat-option
-                  *ngFor="let typeuser of usertypesPrefixOptions"
-                  [value]="typeuser"
-                  >{{ typeuser }}
+                <mat-option *ngFor="let typeuser of usertypesPrefixOptions" [value]="typeuser">{{ typeuser }}
                 </mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
-              >
+              <mat-error *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')">
                 El tipo de usuario<strong> es obligatorio</strong>
               </mat-error>
             </mat-form-field>
           </div>
 
-          <div
-            class="actions"
-            fxLayout="row"
-            fxLayoutAlign="end center"
-            fxLayoutGap="8px"
-          >
-            <button
-              [disabled]="typeUserFormGroup.invalid"
-              color="primary"
-              mat-raised-button
-              matStepperNext
-            >
+          <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+            <button [disabled]="typeUserFormGroup.invalid" color="primary" mat-raised-button matStepperNext>
               SIGUIENTE
             </button>
           </div>
         </form>
-        <a
-          fxLayoutAlign="center center"
-          [routerLink]="['/iniciar-sesion']"
-          class="text-prmary text-center links"
-          >¿Ya tienes una cuenta? Inicia sesión</a
-        >
+        <a fxLayoutAlign="center center" [routerLink]="['/iniciar-sesion']" class="text-prmary text-center links">¿Ya
+          tienes una cuenta? Inicia sesión</a>
       </mat-step>
 
       <mat-step [stepControl]="generalDataFormGroup">
@@ -86,9 +67,7 @@
               <mat-label>Nombres</mat-label>
               <input formControlName="names" matInput required />
               <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
-              <mat-error
-                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
-              >
+              <mat-error *ngIf="generalDataFormGroup.controls.email.hasError('required')">
                 El nombre es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
@@ -97,9 +76,7 @@
               <mat-label>Apellidos</mat-label>
               <input formControlName="lastnames" matInput required />
               <mat-icon matPrefix [icIcon]="icPerson"></mat-icon>
-              <mat-error
-                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
-              >
+              <mat-error *ngIf="generalDataFormGroup.controls.email.hasError('required')">
                 El apellido es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
@@ -110,17 +87,13 @@
               <mat-label>Correo electrónico</mat-label>
               <input formControlName="email" matInput required />
               <mat-icon matPrefix [icIcon]="icEmail"></mat-icon>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   generalDataFormGroup.controls.email.hasError('email') &&
                   !generalDataFormGroup.controls.email.hasError('required')
-                "
-              >
+                ">
                 Digita un correo electrónico válido...
               </mat-error>
-              <mat-error
-                *ngIf="generalDataFormGroup.controls.email.hasError('required')"
-              >
+              <mat-error *ngIf="generalDataFormGroup.controls.email.hasError('required')">
                 El correo es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
@@ -128,101 +101,55 @@
             <div class="mt-2" fxLayout="row" fxLayoutGap="4px">
               <mat-form-field>
                 <mat-label>Fecha de nacimiento</mat-label>
-                <input
-                  (click)="formDatepickerRef.open()"
-                  (focus)="formDatepickerRef.open()"
-                  [matDatepicker]="formDatepickerRef"
-                  formControlName="dateBirth"
-                  matInput
-                  readonly
-                />
+                <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
+                  [matDatepicker]="formDatepickerRef" formControlName="dateBirth" matInput readonly />
                 <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
 
                 <mat-hint>Debes ser mayor a 15 años</mat-hint>
                 <mat-datepicker #formDatepickerRef></mat-datepicker>
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     generalDataFormGroup.controls.dateBirth.hasError('required')
-                  "
-                >
+                  ">
                   La fecha es<strong> obligatoria</strong>
                 </mat-error>
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     generalDataFormGroup.controls.dateBirth.hasError('validAge')
-                  "
-                >
+                  ">
                   Tienes que ser<strong> mayor de 15 años</strong>
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field fxFlex="auto">
                 <mat-label>Contraseña</mat-label>
-                <input
-                  [type]="passwordInputType"
-                  formControlName="password"
-                  matInput
-                  required
-                />
+                <input [type]="passwordInputType" formControlName="password" matInput required />
                 <mat-icon matPrefix [icIcon]="icLock"></mat-icon>
-                <button
-                  (click)="showPassword()"
-                  *ngIf="passwordInputType === 'password'"
-                  mat-icon-button
-                  matSuffix
-                  type="button"
-                >
+                <button (click)="showPassword()" *ngIf="passwordInputType === 'password'" mat-icon-button matSuffix
+                  type="button">
                   <mat-icon [icIcon]="icVisibility"></mat-icon>
                 </button>
-                <button
-                  (click)="hidePassword()"
-                  *ngIf="passwordInputType === 'text'"
-                  mat-icon-button
-                  matSuffix
-                  type="button"
-                >
+                <button (click)="hidePassword()" *ngIf="passwordInputType === 'text'" mat-icon-button matSuffix
+                  type="button">
                   <mat-icon [icIcon]="icVisibilityOff"></mat-icon>
                 </button>
-                <mat-hint
-                  >Tu contraseña debe contar con al menos 6 caracteres</mat-hint
-                >
-                <mat-error
-                  *ngIf="
+                <mat-hint>Tu contraseña debe contar con al menos 6 caracteres</mat-hint>
+                <mat-error *ngIf="
                     generalDataFormGroup.controls.password.hasError('required')
-                  "
-                >
+                  ">
                   La contraseña es<strong> obligatorio</strong>
                 </mat-error>
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     generalDataFormGroup.controls.password.hasError('minlength')
-                  "
-                >
+                  ">
                   Tu contraseña debe contar con al menos 6 caracteres
                 </mat-error>
               </mat-form-field>
             </div>
 
-            <div
-              class="actions"
-              fxLayout="row"
-              fxLayoutAlign="end center"
-              fxLayoutGap="8px"
-            >
-              <button
-                color="primary"
-                mat-button
-                matStepperPrevious
-                type="button"
-              >
+            <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+              <button color="primary" mat-button matStepperPrevious type="button">
                 ANTERIOR
               </button>
-              <button
-                [disabled]="generalDataFormGroup.invalid"
-                color="primary"
-                mat-raised-button
-                matStepperNext
-              >
+              <button [disabled]="generalDataFormGroup.invalid" color="primary" mat-raised-button matStepperNext>
                 SIGUIENTE
               </button>
             </div>
@@ -244,42 +171,28 @@
             <mat-form-field class="mt-6 flex-auto">
               <mat-label>Selecciona un tipo de identificación</mat-label>
               <mat-select formControlName="identificationType">
-                <mat-option
-                  *ngFor="let identificationType of idTypesPrefixOptions"
-                  [value]="identificationType"
-                  >{{ identificationType }}</mat-option
-                >
+                <mat-option *ngFor="let identificationType of idTypesPrefixOptions" [value]="identificationType">{{
+                  identificationType }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')"
-              >
+              <mat-error *ngIf="typeUserFormGroup.controls.typeuser.hasError('required')">
                 El tipo de documento es<strong> obligatorio</strong>
               </mat-error>
             </mat-form-field>
 
-            <ng-container
-              *ngIf="
+            <ng-container *ngIf="
                 especificDataFormGroup.get('identificationType').value ===
                   'Pasaporte';
                 else elseTemplate
-              "
-            >
+              ">
               <mat-form-field fxFlex="auto">
                 <mat-label>Identificación</mat-label>
-                <input
-                  formControlName="identification"
-                  type="text"
-                  matInput
-                  required
-                />
+                <input formControlName="identification" type="text" matInput required />
                 <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     especificDataFormGroup.controls.identification.hasError(
                       'required'
                     )
-                  "
-                >
+                  ">
                   La identificación es<strong> obligatoria</strong>
                 </mat-error>
               </mat-form-field>
@@ -287,20 +200,13 @@
             <ng-template #elseTemplate>
               <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
                 <mat-label>Número de identificación</mat-label>
-                <input
-                  formControlName="identification"
-                  type="number"
-                  matInput
-                  required
-                />
+                <input formControlName="identification" type="number" matInput required />
                 <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
-                <mat-error
-                  *ngIf="
+                <mat-error *ngIf="
                     especificDataFormGroup.controls.identification.hasError(
                       'required'
                     )
-                  "
-                >
+                  ">
                   El número de identificación es<strong> obligatorio</strong>
                 </mat-error>
               </mat-form-field>
@@ -312,32 +218,24 @@
               <mat-label>Celular</mat-label>
               <input formControlName="phone" matInput required />
               <mat-icon matPrefix [icIcon]="icPhone"></mat-icon>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   especificDataFormGroup.controls.phone.hasError('required')
-                "
-              >
+                ">
                 El número de celular es<strong> obligatorio</strong>
               </mat-error>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   especificDataFormGroup.controls.phone.hasError('minlength')
-                "
-              >
+                ">
                 Tu número de celular debe tener como mínimo 6 digitos
               </mat-error>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   especificDataFormGroup.controls.phone.hasError('maxlength')
-                "
-              >
+                ">
                 Tu número de celular debe tener como máximo 10 digitos
               </mat-error>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   especificDataFormGroup.controls.phone.hasError('pattern')
-                "
-              >
+                ">
                 Por favor ingresa valores numéricos
               </mat-error>
             </mat-form-field>
@@ -345,41 +243,26 @@
             <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
               <mat-label>Municipio de residencia</mat-label>
               <mat-select formControlName="municipality">
-                <mat-option
-                  *ngFor="let municipality of municipalities"
-                  [value]="municipality.name "
-                >
+                <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name ">
                   {{ municipality.name }}
                 </mat-option>
               </mat-select>
               <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   especificDataFormGroup.controls.municipality.hasError(
                     'required'
                   )
-                "
-              >
+                ">
                 El municipio de residencia<strong> es obligatorio</strong>
               </mat-error>
             </mat-form-field>
           </div>
 
-          <div
-            class="actions"
-            fxLayout="row"
-            fxLayoutAlign="end center"
-            fxLayoutGap="8px"
-          >
+          <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
             <button color="primary" mat-button matStepperPrevious type="button">
               ANTERIOR
             </button>
-            <button
-              [disabled]="especificDataFormGroup.invalid"
-              color="primary"
-              mat-raised-button
-              matStepperNext
-            >
+            <button [disabled]="especificDataFormGroup.invalid" color="primary" mat-raised-button matStepperNext>
               SIGUIENTE
             </button>
           </div>
@@ -410,37 +293,17 @@
 
           <br />
 
-          <div
-            class="actions"
-            fxLayout="row"
-            fxLayoutAlign="start center"
-            fxLayoutGap="8px"
-          >
-            <button
-              (click)="submit()"
-              [disabled]="confirmFormGroup.invalid"
-              color="primary"
-              mat-raised-button
-              matStepperNext
-            >
+          <div class="actions" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+            <button (click)="submit()" [disabled]="confirmFormGroup.invalid" color="primary" mat-raised-button
+              matStepperNext>
               REGISTRAR CUENTA
             </button>
           </div>
-          <div
-            class="actions"
-            fxLayout="row"
-            fxLayoutAlign="end center"
-            fxLayoutGap="8px"
-          >
+          <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
             <button color="primary" mat-button matStepperPrevious type="button">
               ANTERIOR
             </button>
-            <button
-              (click)="stepper.reset()"
-              color="primary"
-              mat-raised-button
-              matStepperNext
-            >
+            <button (click)="stepper.reset()" color="primary" mat-raised-button matStepperNext>
               REINICIAR
             </button>
           </div>

@@ -34,7 +34,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
       label: "Perfil de usuario",
       description: "Información y opciones de usuario",
       colorClass: "text-teal",
-      route: "/perfil-productor/mis-datos/actualizar-perfil/",
+      route: "/perfil-productor/mis-productos/",
     },
     {
       id: "2",

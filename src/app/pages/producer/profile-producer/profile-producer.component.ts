@@ -21,8 +21,7 @@ export class ProfileProducerComponent implements OnInit {
   links: Link[] = [
     {
       label: 'ACTUALIZAR PERFIL',
-      route: './actualizar-perfil',
-      routerLinkActiveOptions: { exact: true }
+      route: './actualizar-perfil'
     },
     {
       label: 'MEDIOS DE PAGO',

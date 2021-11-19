@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateUpdatePaymentMethodComponent } from './create-update-payment-method/create-update-payment-method.component';
+import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
+import { PaymentMethod } from 'src/app/models/payment-method.model';
+import { Observable, ReplaySubject } from 'rxjs';
+
 import icAttachMoney from "@iconify/icons-ic/twotone-attach-money";
 import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
-  selector: 'vex-my-payment-methods',
-  templateUrl: './my-payment-methods.component.html',
-  styleUrls: ['./my-payment-methods.component.scss']
+  selector: 'app-my-payment-methods',
+  templateUrl: './my-payment-methods.component.html'
 })
 export class MyPaymentMethodsComponent implements OnInit {
 
@@ -18,9 +24,51 @@ export class MyPaymentMethodsComponent implements OnInit {
   icEdit = icEdit;
   icDelete = icDelete;
 
-  constructor() { }
+  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
 
-  ngOnInit(): void {
+  subject$: ReplaySubject<PaymentMethod[]> = new ReplaySubject<PaymentMethod[]>(1);
+  data$: Observable<PaymentMethod[]> = this.subject$.asObservable();
+  paymentMethods: PaymentMethod[];
+  selection = new SelectionModel<PaymentMethod>(true, []);
+
+  constructor(
+    private paymentMethodsService: PaymentsMethodsService,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
+  ) { }
+
+  ngOnInit() {
+    this.getData().subscribe(paymentMethods => this.paymentMethods = paymentMethods);
+  }
+
+  getData() {
+    return this.paymentMethodsService.paymentMethods;
+  }
+
+  createPaymentMethod() {
+    this.dialog.open(CreateUpdatePaymentMethodComponent);
+  }
+
+  updatePaymentMethod() {
+    this.dialog.open(CreateUpdatePaymentMethodComponent, {
+      //data: payment
+    });
+  }
+
+  deletePaymentMethod(paymentMethod: PaymentMethod) {
+
+    this.paymentMethodsService.deletePaymentMethod(paymentMethod.id).then(() => {
+      this.paymentMethods.splice(this.paymentMethods.findIndex((existingPaymentMethod) => existingPaymentMethod.id === paymentMethod.id), 1);
+      this.snackbar.open(`El medio de pago fue eliminado satisfactoriamente`, 'OK', {
+        duration: 2000
+      });
+      this.selection.deselect(paymentMethod);
+    }).catch(err => {
+      this.snackbar.open(`Error: ${err.message}`, 'OK', {
+        duration: 2000
+      });
+    })
+    
   }
 
 }

@@ -229,7 +229,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deteleProduct(product: Product) {
+  deleteProduct(product: Product) {
 
     this.productService.deleteProduct(product.id).then(() => {
       this.products.splice(this.products.findIndex((existingProduct) => existingProduct.id === product.id), 1);
@@ -245,8 +245,8 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
 
   }
 
-  deteleProducts(products: Product[]) {
-    products.forEach(c => this.deteleProduct(c));
+  deleteProducts(products: Product[]) {
+    products.forEach(c => this.deleteProduct(c));
   }
 
   onFilterChange(value: string) {

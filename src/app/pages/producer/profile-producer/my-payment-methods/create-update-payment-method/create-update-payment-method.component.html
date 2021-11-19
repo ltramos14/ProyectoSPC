@@ -1,0 +1,88 @@
+<form (ngSubmit)="save()" [formGroup]="formPaymentMethod">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+        <h2 class="headline m-0" fxFlex="auto">
+            Añadir medio de pago
+        </h2>
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content fxLayout="row">
+        <div class="flex flex-col sm:flex-col">
+
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Selecciona un medio de pago</mat-label>
+                <mat-select  (selectionChange)="uploadPaymentMethodImage()" formControlName="payment">
+                    <mat-option *ngFor="let payment of PaymentOptions" [value]="payment">
+                        {{ payment }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icAttachMoney" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formPaymentMethod.controls.payment.hasError('required')">
+                    El medio de pago<strong> es obligatorio</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Número telefónico</mat-label>
+                <input minlength="3" maxlength="10" cdkFocusInitial formControlName="phone" matInput>
+
+                <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formPaymentMethod.controls.phone.hasError('required')">
+                    El número telefónico es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.phone.errors?.minlength">
+                    El número telefónico debe contener <strong> mínimo 6 digitos</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.phone.errors?.maxlength">
+                    El número telefónico debe contener <strong> máximo 10 digitos</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.phone.hasError('pattern')">
+                    Por favor ingresa valores numéricos
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Número de identificación</mat-label>
+                <input minlength="6" maxlength="12" cdkFocusInitial formControlName="identification" matInput>
+
+                <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formPaymentMethod.controls.identification.hasError('required')">
+                    El número de identificación es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.identification.errors?.minlength">
+                    El número de identificación debe contener <strong> mínimo 6 digitos</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.identification.errors?.maxlength">
+                    El número de identificación debe contener <strong> máximo 12 digitos</strong>
+                </mat-error>
+                <mat-error *ngIf="formPaymentMethod.controls.identification.hasError('pattern')">
+                    Por favor ingresa valores numéricos
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+            <div class="sm:mt-6 sm:ml-6 flex-auto" fxLayout="column" fxFlexAlign="center">
+                <img id="imgFoto" width="150" height="150" class="d-block" [src]="defaults.image || imageDefault" />
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close color="warn" type="button">
+            CANCELAR
+        </button>
+        <button *ngIf="isCreateMode()" [disabled]="formPaymentMethod.invalid" color="accent" mat-raised-button
+            type="submit">
+            AGREGAR MEDIO DE PAGO
+        </button>
+        <button *ngIf="isUpdateMode()" [disabled]="formPaymentMethod.invalid" color="accent" mat-raised-button
+            type="submit">
+            EDITAR MEDIO DE PAGO
+        </button>
+    </mat-dialog-actions>
+</form>

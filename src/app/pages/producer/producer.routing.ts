@@ -15,7 +15,7 @@ const routes: Routes = [
         ]},
         { path: 'mis-productos/:id', component: MyProductsComponent },
         { path: 'mis-fincas/:id', component: MyFarmsComponent },
-        { path: '', redirectTo: '/mis-datos/actualizar-perfil/:id', pathMatch: 'full' },
+        { path: '', redirectTo: '/mis-productos/:id', pathMatch: 'full' },
     ]}
 ];
 
