@@ -13,6 +13,7 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
+import { interval, Observable } from 'rxjs';
 @Component({
   selector: 'vex-products-create-update',
   templateUrl: './products-create-update.component.html'
@@ -24,7 +25,14 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   urlFile: File; 
 
+  value = 0;
+
+  seconds: number = 0;
+
+  imageUrl: string;
+
   formProduct: FormGroup;
+
   mode: 'create' | 'update' = 'create';
 
   imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
@@ -44,7 +52,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icTimeLine = icTimeLine;
   icToc = icToc;
 
-
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
@@ -63,6 +70,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
 
     this.formProduct = this.fb.group({
+      id: [this.defaults.id || ''],
+      idProducer: [this.defaults.idProducer, ''],
       name: [this.defaults.name || '', [
         Validators.required,
         Validators.minLength(3),
@@ -95,7 +104,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(500)
-      ]]
+      ]],
+      image: [this.defaults.image || '']
     });
   }
 
@@ -112,42 +122,46 @@ export class ProductsCreateUpdateComponent implements OnInit {
   }
 
   createProduct() {
-    this.product = new Product();
-    console.log(this.data.idUser)
-    this.product.idProducer = this.data.idUser;
-    this.product.farm = this.formProduct.get('farm').value;
-    this.product.productType = this.formProduct.get('productType').value;
-    this.product.name = this.formProduct.get('name').value;
-    this.product.price = this.formProduct.get('price').value;
-    this.product.unit = this.formProduct.get('unit').value;
-    this.product.productiveStatus = this.formProduct.get('productiveStatus').value;
 
+    let productToCreate = this.convertToProduct();
     
-    if (this.formProduct.get('productiveStatus').value === 'Disponible')
-    this.product.availabilityDate = new Date();
-    else
-    this.product.availabilityDate = this.formProduct.get('available_date').value;
-    
-    this.product.description = this.formProduct.get('description').value;
-    this.product.image = "";
-    
-    this.productService.uploadProductImage(null, this.product, this.urlFile);
+    this.productService.uploadProductImage(null, productToCreate, this.urlFile);
 
     this.dialogRef.close(this.product);
 
   }
 
   async updateProduct() {
-    this.defaults.farm = this.formProduct.get('farm').value;
-    this.defaults.productType = this.formProduct.get('productType').value;
-    this.defaults.name = this.formProduct.get('name').value;
-    this.defaults.price = this.formProduct.get('price').value;
-    this.defaults.unit = this.formProduct.get('unit').value;
-    this.defaults.productiveStatus = this.formProduct.get('productiveStatus').value;
 
-    this.productService.uploadProductImage(this.defaults.id, this.product, this.urlFile);
+    let productToEdit = this.convertToProduct();
+    
+    this.productService.uploadProductImage(productToEdit.id, productToEdit, this.urlFile);
     
     this.dialogRef.close(this.defaults);
+  }
+
+  convertToProduct(): Product {
+
+    let product = new Product();
+
+    product.id = this.formProduct.get('id').value;
+    product.idProducer = this.formProduct.get('idProducer').value || this.data.idUser;
+    product.name = this.formProduct.get('name').value;
+    product.farm = this.formProduct.get('farm').value;
+    product.productType = this.formProduct.get('productType').value;
+    product.price = this.formProduct.get('price').value;
+    product.unit = this.formProduct.get('unit').value;
+    product.productiveStatus = this.formProduct.get('productiveStatus').value;
+
+    if (this.formProduct.get('productiveStatus').value === 'Disponible')
+      product.availabilityDate = new Date();
+    else
+      product.availabilityDate = this.formProduct.get('available_date').value;
+  
+    product.description = this.formProduct.get('description').value;
+    product.image = this.formProduct.get('image').value;
+    return product;
+
   }
 
   isCreateMode() {
@@ -158,5 +172,21 @@ export class ProductsCreateUpdateComponent implements OnInit {
     return this.mode === 'update';
   }
 
+  showPreviewImage(event: Event) {
+
+    for (let i = 0; i<=100; i++) {
+      this.value = i;
+    }
+
+    const file = (event.target as HTMLInputElement).files[0];
+    this.urlFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result as string;
+      
+    }
+    reader.readAsDataURL(file);
+
+  }
 
 }

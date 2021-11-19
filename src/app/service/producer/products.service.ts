@@ -57,23 +57,33 @@ export class ProductsService {
     );
   }
 
-  uploadProductImage(id: string, product: Product, file: File) {
-    const filePath = `products/${product.name}${product.idProducer}`;
-    const ref =  this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file);  
-
-    this.uploadPercentage = task.percentageChanges();
-    task.snapshotChanges().pipe(finalize(() => {
+  uploadProductImage(productId: string, product: Product, file: File) {
+    const id = productId || this.afs.createId();
+    const filePath = `products/${id}`;
+    product.id = id;
+    if (file != undefined) {  
+      const ref =  this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);  
+      this.uploadPercentage = task.percentageChanges();
+      task.snapshotChanges().pipe(finalize(() => {
       ref.getDownloadURL().subscribe(urlImage => {
         product.image = urlImage;
-        this.saveProduct(product, id).then(() => {
-          this.snackbar.open("Producto creado satisfatoriamente", 'OK', {
+        this.saveProduct(product).then(() => {
+          let operacion = productId ? 'editado' : 'creado';
+          this.snackbar.open(`Producto ${ operacion } satisfactoriamente`, 'OK', {
             duration: 3000
           })
         }).catch(err => console.log(err)) 
       });
     })).subscribe();
-  
+    } else {
+      this.saveProduct(product).then(() => {
+        let operacion = productId ? 'editado' : 'creado';
+        this.snackbar.open(`Producto ${ operacion } satisfactoriamente`, 'OK', {
+          duration: 3000
+        })
+      }).catch(err => console.log(err)) 
+    }
   }
 
   /**
@@ -82,13 +92,13 @@ export class ProductsService {
    * @param productId el id del documento en caso de que se vaya a actualizar el producto
    * @returns 
    */
-  saveProduct(product: Product, productId: string): Promise<string> {
+  saveProduct(product: Product): Promise<string> {
 
     return new Promise(async (resolve, reject) => {
       try {
-        const id = productId || this.afs.createId();
+        const { id } = product;
         const data = { id, ...product }
-        const result = await this.productsCollection.doc(id).set(data);
+        await this.productsCollection.doc(id).set(data);
         resolve(id);
       } catch (err) {
         reject(err);

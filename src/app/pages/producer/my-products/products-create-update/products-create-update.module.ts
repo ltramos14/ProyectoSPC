@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatMenuModule,
     IconModule,
     MatDividerModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatProgressBarModule
   ],
   entryComponents: [ProductsCreateUpdateComponent],
   exports: [ProductsCreateUpdateComponent]

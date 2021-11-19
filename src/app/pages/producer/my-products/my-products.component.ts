@@ -56,15 +56,34 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   layoutCtrl = new FormControl('boxed');
 
   /**
-   * Simulating a service with HTTP that returns Observables
-   * You probably want to remove this and do all requests in a service with HTTP
+   * El sujeto que se subscribe a a el Observable que trae de lista de productos en ProductService
    */
   subject$: ReplaySubject<Product[]> = new ReplaySubject<Product[]>(1);
+  
+  /**
+   * Variable de tipo Observable que almacena la lista de productos que vienen de ProductService
+   */
   data$: Observable<Product[]> = this.subject$.asObservable();
+
+  /**
+   * La lista de productos del productor en sesiòn que se encuantra en Firestore
+   */
   products: Product[];
+
+  /**
+   * Bandera que sirve para determinar si se muestra la tabla de productos en caso de que hayan
+   */
   isProducts: boolean;
+
+  /**
+   * Variable de tipo string que contiene el id de productor en sesión que viene desde 
+   * los parámetros de la URL
+   */
   idUser: string;
 
+  /**
+   * Todas la columnas que van a estar en la tabla de mis productos
+   */
   @Input()
   columns: TableColumn<Product>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
@@ -80,14 +99,33 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
 
+  /**
+   * Variable en donde se establece el número de páginas mostradas en la tabla
+   */
   pageSize = 10;
+
+  /**
+   * Variable que establece los intérvalor de datos a mostrar en una sola vista de la tabla
+   */
   pageSizeOptions: number[] = [5, 10, 20, 50];
+
+  /**
+   * Variable a la que se le incializar como una Tabla de Angular Material 
+   * en este caso, una tabla  de lista de Productos
+   */
   dataSource: MatTableDataSource<Product> | null;
+
+  /**
+   * Variable que almacena el objeto de tipo producto seleccionado en la interfaz para ser editado o eliminado
+   */
   selection = new SelectionModel<Product>(true, []);
+
+  /**
+   * Variable de 
+   */
   searchCtrl = new FormControl();
 
-  //labels = aioTableLabels;
-
+  // Inicialización de los nombres de los íconos a mostrar
   icPhone = icPhone;
   icMail = icMail;
   icMap = icMap;
@@ -102,6 +140,13 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  /**
+   * Contructor de MyProductsComponent en donde se inyectan las dependencias a usar
+   * @param dialog 
+   * @param snackbar 
+   * @param route 
+   * @param productService 
+   */
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
@@ -109,24 +154,34 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     private productService: ProductsService
     ) { }
 
+  /**
+   * Método de tipo get en donde se establecen las columnas que serán visibles en la interfaz  
+   */
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
   /**
-   * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
-   * We are simulating this request here.
+   * Método que obtiene y retonar la variable producerProducts de ProductService
    */
   getData() {
-    //return of(aioTableData.map(customer => new Customer(customer)));
     return this.productService.producerProducts;
   }
 
+  /**
+   * Método que se ejecuta uma vez se crea el componente
+   */
   ngOnInit() {
+
+    // Se obtiene el id del productor que viene desde la URL del navegador
     this.route.params.subscribe(data => {
       this.idUser = data.id;
-    })
+    });
+
+    // Se obtiene la lista de productos del productor que está en sesión
     this.productService.getProducerProducts(this.idUser);
+
+    // Se hace un recorrido de todos los productos en Firestore
     this.getData().subscribe(product => {
       if (product.length === 0) {
         this.isProducts = false;
@@ -137,8 +192,10 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
       this.subject$.next(product);
     });
 
+    // Se incializa la tabla de Angular Material
     this.dataSource = new MatTableDataSource();
 
+    // Filtro de datos en la tabla
     this.data$.pipe(
       filter<Product[]>(Boolean)
     ).subscribe(products => {
@@ -173,10 +230,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   }
 
   deteleProduct(product: Product) {
-    /**
-     * Here we are updating our local array.
-     * You would probably make an HTTP request here.
-     */
+
     this.productService.deleteProduct(product.id).then(() => {
       this.products.splice(this.products.findIndex((existingProduct) => existingProduct.id === product.id), 1);
       this.snackbar.open(`Producto eliminado satisfactoriamente`, 'OK', {
@@ -188,13 +242,10 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
         duration: 2000
       });
     })
+
   }
 
   deteleProducts(products: Product[]) {
-    /**
-     * Here we are updating our local array.
-     * You would probably make an HTTP request here.
-     */
     products.forEach(c => this.deteleProduct(c));
   }
 
