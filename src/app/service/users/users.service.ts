@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { User } from 'src/app/interfaces/user.interface';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +20,45 @@ export class UsersService {
 
   private user: Observable<User>;
 
-  constructor(private afs: AngularFirestore) {
+  public uploadPercentage: Observable<number>;
+
+  public urlProductImage: Observable<string>;
+
+  constructor(private afs: AngularFirestore, private storage: AngularFireStorage) {
     this.usersCollection = afs.collection<User>('users')
   }
 
   async onSaveUserInformation(user: User, uid: string) {
-    await this.usersCollection.doc(uid).set(user)
+    const data = { uid, ...user }
+    await this.usersCollection.doc(uid).set(data)
   }
 
   getUserInfo(userId: string) {
     this.userDoc = this.afs.doc<User>(`users/${ userId }`);
-    return this.user = this.userDoc.valueChanges();
+    this.user = this.userDoc.valueChanges();
+    return this.user;
   }
 
   updateUserDocument(user: User) {
     this.userDoc.update(user);
   }
+
+  updatePhoto(uid: string, file: File): string {
+    const filePath = `Profile Image/${uid}`;
+    
+    const ref =  this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);  
+
+    this.uploadPercentage = task.percentageChanges();
+    task.snapshotChanges().pipe(finalize(() => {
+      ref.getDownloadURL().subscribe(urlImage => {
+        console.log(urlImage)
+        return urlImage;
+      });
+    })).subscribe();
+
+    return null;
+
+  }
+
 }

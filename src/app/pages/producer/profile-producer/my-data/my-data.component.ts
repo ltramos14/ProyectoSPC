@@ -15,6 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from 'src/app/service/users/users.service';
 import { User } from 'src/app/interfaces/user.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 
 @Component({
@@ -32,7 +35,15 @@ export class MyDataComponent implements OnInit {
 
   public idUser: string;
 
-  user: User;
+  public user: User;
+
+  public urlFile: File;
+
+  public imageUrl: string;
+
+  public storageUrl: string;
+
+  percent: Observable<number>;
 
   icPermIdentity = icPermIdentity;
   icWeb = icWeb;
@@ -44,7 +55,10 @@ export class MyDataComponent implements OnInit {
   constructor( 
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private userService: UsersService ) { }
+    private userService: UsersService,
+    private snackbar: MatSnackBar,
+    private authService: AuthService
+    ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
@@ -58,15 +72,10 @@ export class MyDataComponent implements OnInit {
     this.dialog.open(UpdateProfileComponent, {
       data: user
     }).afterClosed().subscribe(updateUserProfile => {
-      /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
-       */
       if (updateUserProfile) {
-        /**
-         * Here we are updating our local array.
-         * You would probably make an HTTP request here.
-         */
-        
+        this.snackbar.open("Su información de usuario ha sido actualizada satisfatoriamente", 'OK', {
+          duration: 3000
+        });
       }
     });
   }
@@ -74,6 +83,31 @@ export class MyDataComponent implements OnInit {
   onGetUserInfo() {
     this.userService.getUserInfo(this.idUser).subscribe((data) => {
       this.user = data;
+    });
+  }
+
+  async showPreviewImage(event: Event) {
+
+    const file = (event.target as HTMLInputElement).files[0];
+    this.urlFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result as string;
+      
+    }
+    reader.readAsDataURL(file);
+
+    this.storageUrl = await this.userService.updatePhoto(this.idUser, this.urlFile);
+
+  
+    this.percent = this.userService.uploadPercentage;
+
+  }
+
+  updateProfileUrl() {
+    this.user.profileURL = this.storageUrl;
+    this.authService.updatePhotoUrl(this.storageUrl).then(() => {
+      this.userService.updateUserDocument(this.user);
     });
   }
 }
