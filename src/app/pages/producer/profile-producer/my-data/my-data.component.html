@@ -110,15 +110,17 @@
   </div>
 
   <div class="card max-w-unset md:max-w-xs w-full flex-none md:ltr:ml-6 md:rtl:mr-6 mt-6 md:mt-0">
+    <mat-progress-bar mode="determinate" [value]="percent | async"></mat-progress-bar>
     <div class="px-6 py-4 border-b">
       <h2 class="title m-0">Actualizar foto de perfil</h2>
     </div>
     <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
-      <img
-        [src]="user.profileURL"
-        id="fotoPerfilUsuario" width="80%" height="80%">
+      <img id="imgFoto" width="200" height="200" class="d-block" [src]="imageUrl || user.profileURL" />
       <br>
     </div>
-    <input style=" width: 100%; margin-bottom: 60px;" type="file" id="nuevaFoto" onchange="cambiarFotoDePerfil()">
+    <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />
+    <br>
+    <br>
+    <button mat-raised-button color="primary" (click)="updateProfileUrl()">Actualizar imagen</button>
   </div>
 </div>
