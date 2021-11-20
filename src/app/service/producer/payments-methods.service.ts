@@ -45,6 +45,7 @@ export class PaymentsMethodsService {
             map(actions => actions.map(a => a.payload.doc.data() as PaymentMethod))
         );
     }
+    
 
     /**
      * 

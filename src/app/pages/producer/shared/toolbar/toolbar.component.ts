@@ -8,6 +8,7 @@ import { delay } from 'rxjs/operators';
 import icMenu from "@iconify/icons-ic/twotone-menu";
 import icClose from "@iconify/icons-ic/twotone-close";
 import icAssignmentInd from "@iconify/icons-ic/twotone-assignment-ind";
+import icMoney from "@iconify/icons-ic/twotone-payment";
 import icSpa from "@iconify/icons-ic/twotone-spa";
 import icPinDrop from "@iconify/icons-ic/twotone-pin-drop";
 import icMarkUnReadMailbox from "@iconify/icons-ic/twotone-markunread-mailbox";
@@ -23,6 +24,7 @@ export class ToolbarComponent implements OnInit {
   icMenu = icMenu;
   icClose = icClose;
   icAssignmentInd = icAssignmentInd;
+  icMoney = icMoney;
   icSpa = icSpa;
   icPinDrop = icPinDrop;
   icMarkUnReadMailbox = icMarkUnReadMailbox;

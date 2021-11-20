@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ProfileProducerComponent } from './profile-producer.component';
+import { MyDataModule } from './my-data/my-data.module';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { IconModule } from '@visurel/iconify-angular';
-import { ProfileProducerComponent } from './profile-producer.component';
-import { RouterModule } from '@angular/router';
-import { MyDataModule } from './my-data/my-data.module';
-import { MyPaymentMethodsModule } from './my-payment-methods/my-payment-methods.module';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { IconModule } from '@visurel/iconify-angular';
 
 @NgModule({
   declarations: [ 
@@ -15,13 +14,12 @@ import { MatTabsModule } from '@angular/material/tabs';
   ],
   imports: [
     CommonModule,
-    MatIconModule,
-    IconModule,
     RouterModule,
     MyDataModule,
-    MyPaymentMethodsModule,
+    MatIconModule,
+    IconModule,
+    MatTabsModule,
     MatRippleModule,
-    MatTabsModule
   ]
 })
 export class ProfileProducerModule { }

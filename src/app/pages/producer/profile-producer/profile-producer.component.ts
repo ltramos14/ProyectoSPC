@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { scaleIn400ms } from '../../../../@vex/animations/scale-in.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
-import { Link } from '../../../../@vex/interfaces/link.interface';
 import { stagger60ms } from 'src/@vex/animations/stagger.animation';
-import { AuthService } from 'src/app/service/auth/auth.service';
+import { Link } from '../../../../@vex/interfaces/link.interface';
 
 @Component({
   selector: 'app-profile-producer',
@@ -17,23 +17,20 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 export class ProfileProducerComponent implements OnInit {
 
   public user: any;
-  
-  links: Link[] = [
-    {
-      label: 'ACTUALIZAR PERFIL',
-      route: './actualizar-perfil'
-    },
-    {
-      label: 'MEDIOS DE PAGO',
-      route: './mis-medios-de-pago'
-    },
-  ];
 
-  constructor( private authService: AuthService ) { }
+  links: Link[];
+
+  constructor(private authService: AuthService) { }
 
   async ngOnInit() {
     this.user = await this.authService.getCurrentUser();
-    
+
+    this.links = [
+      {
+        label: 'DATOS PERFIL USUARIO',
+        route: `./informacion-perfil/${this.user.uid}`
+      },
+    ];
   }
 
 }

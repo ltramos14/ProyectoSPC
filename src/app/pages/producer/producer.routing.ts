@@ -5,17 +5,17 @@ import { ProfileProducerComponent } from './profile-producer/profile-producer.co
 import { MyProductsComponent } from './my-products/my-products.component';
 import { MyFarmsComponent } from './my-farms/my-farms.component';
 import { MyDataComponent } from './profile-producer/my-data/my-data.component';
-import { MyPaymentMethodsComponent } from './profile-producer/my-payment-methods/my-payment-methods.component';
+import { MyPaymentMethodsComponent } from './my-payment-methods/my-payment-methods.component';
 
 const routes: Routes = [
     { path: 'perfil-productor', component: ProducerComponent, children: [
         { path: 'mis-datos', component: ProfileProducerComponent, children: [
-            { path: 'actualizar-perfil/:id', component: MyDataComponent},
-            { path: 'mis-medios-de-pago/:id', component: MyPaymentMethodsComponent},
+            { path: 'informacion-perfil/:id', component: MyDataComponent },
         ]},
+        { path: 'mis-medios-de-pago', component: MyPaymentMethodsComponent },
         { path: 'mis-productos/:id', component: MyProductsComponent },
         { path: 'mis-fincas/:id', component: MyFarmsComponent },
-        { path: '', redirectTo: '/mis-productos/:id', pathMatch: 'full' },
+        { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
     ]}
 ];
 

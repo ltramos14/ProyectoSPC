@@ -41,9 +41,9 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
   ngOnInit() {
 
     if (this.defaults) {
-      this.mode = 'create';
-    } else  {
       this.mode = 'update';
+    } else  {
+      this.mode = 'create';
       this.defaults = {} as PaymentMethod;
     }
 

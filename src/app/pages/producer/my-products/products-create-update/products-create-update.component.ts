@@ -117,10 +117,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
   }
 
-  uploadProductImage(file: File[]) {
-    this.urlFile = file[0];
-  }
-
   createProduct() {
 
     let productToCreate = this.convertToProduct();

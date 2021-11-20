@@ -21,13 +21,20 @@
 
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/perfil-productor/mis-datos/actualizar-perfil', user?.uid ]">
+    <button mat-button class="menu-button" [routerLink]="['/perfil-productor/mis-datos/informacion-perfil', user?.uid ]">
       <mat-icon [icIcon]="icAssignmentInd"></mat-icon>
       <span>MIS DATOS</span>
     </button>
 
     <mat-divider></mat-divider>
 
+    <button mat-button class="menu-button" [routerLink]="['/perfil-productor/mis-medios-de-pago']">
+      <mat-icon [icIcon]="icMoney"></mat-icon>
+      <span>MEDIOS DE PAGO</span>
+    </button>
+    
+    <mat-divider></mat-divider>
+    
     <button mat-button class="menu-button" [routerLink]="['/perfil-productor/mis-productos', user?.uid ]">
       <mat-icon [icIcon]="icSpa"></mat-icon>
       <span>MIS PRODUCTOS</span>
