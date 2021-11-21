@@ -121,6 +121,9 @@
             <mat-label>Descripción</mat-label>
             <textarea formControlName="description" matInput></textarea>
             <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
+            <mat-error *ngIf="formProduct.controls.description.hasError('required')">
+                La descripción<strong> es obligatoria</strong>
+            </mat-error>
         </mat-form-field>
 
         <div fxLayout="column" fxFlexAlign="center" >

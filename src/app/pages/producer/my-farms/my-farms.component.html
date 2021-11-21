@@ -1,3 +1,77 @@
-<div  style="overflow-y:scroll; height:100%">
-    <p>my-farms works!</p>
+<div style="overflow-y:scroll; height:100%;">
+
+    <div class="container py-gutter">
+      <div class="card overflow-hidden">
+        <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
+          <h1 @fadeInRight class="headline text-contrast-black m-0">MIS FINCAS</h1>
+        </div>
+        <div class="h-64 relative overflow-hidden">
+          <img class="w-full h-full object-cover" src="assets/illustrations/cultivo.jpg">
+        </div>
+
+        <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+          <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+            <span>Fincas de cultivo vinculadas</span>
+          </h2>
+
+          <span fxFlex></span>
+
+          <button (click)="createFarm()"  class="ml-4" color="accent" fxFlex="none" mat-mini-fab
+            matTooltip="Vincular una nueva finca" type="button">
+            <mat-icon [icIcon]="icAdd"></mat-icon>
+          </button>
+        </div>
+
+        <div class="flex-auto">
+          <div class="card">
+              <div class="px-gutter py-4 border-b">
+                  <h4>Productor, no olvides registrar cada una de las fincas desde donde cultivas tus productos agrícolas</h4>
+
+                  <div class="px-gutter py-9" >
+                      <div class="p-gutter" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr"
+                          gdColumns.xs="1fr" gdGap="24px">
+
+                          <div class="card overflow-hidden" >
+                              <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
+                                  matRipple>
+                                  <img [src]="imageDefault" class="avatar h-24 w-24 mx-auto">
+
+                                  <h2 class="title mb-1 mt-3">NOMBRE DE LA FINCA</h2>
+                                  <div class="body-2 text-secondary">
+                                      <ic-icon [icon]="icPlace" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                      <span>Ubicación: </span>
+                                  </div>
+
+                                  <div class="body-2 text-secondary">
+                                      <ic-icon [icon]="icLocation" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                      <span>Municipio: </span>
+                                  </div>
+
+                                  <div class="body-2 text-secondary">
+                                    <ic-icon [icon]="icDescription" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                    <span>Descripción: </span>
+                                </div>
+                              </div>
+
+                              <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
+                                  style="background-color: rgba(255, 160, 122, 0.4);">
+                                  <button (click)="updateFarm()" class="text-secondary" mat-icon-button
+                                      type="button">
+                                      <mat-icon [icIcon]="icEdit" matTooltip="Editar medio de pago"></mat-icon>
+                                  </button>
+
+                                  <button (click)="deleteFarm()" class="text-secondary"
+                                      mat-icon-button type="button">
+                                      <mat-icon [icIcon]="icDelete" matTooltip="Eliminar medio de pago">
+                                      </mat-icon>
+                                  </button>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>     
+    </div>
 </div>

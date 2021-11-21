@@ -50,7 +50,7 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
     this.formPaymentMethod = this.fb.group({
       id: [this.defaults.id || ''],
       payment: [
-        this.defaults.payment || this.PaymentOptions,
+        this.defaults.name || this.PaymentOptions,
         Validators.required
       ],
       phone: [this.defaults.phone || '', [
@@ -105,8 +105,8 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
   createPaymentMethod() {
 
     let payment = new PaymentMethod();
-    payment.name = this.formPaymentMethod.get("payment").value;
     payment.identification = this.formPaymentMethod.get("identification").value;
+    payment.name = this.formPaymentMethod.get("payment").value;
     payment.phone = this.formPaymentMethod.get("phone").value;
     payment.image = this.imageDefault;
 
@@ -121,6 +121,20 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
   }
 
   updatePaymentMethod() {
+
+    let payment = new PaymentMethod();
+    payment.name = this.formPaymentMethod.get("payment").value;
+    payment.identification = this.formPaymentMethod.get("identification").value;
+    payment.phone = this.formPaymentMethod.get("phone").value;
+    payment.image = this.imageDefault;
+
+    this.paymentMethodService.savePaymentMethod(this.defaults.id, payment).then(() => {
+      this.snackbar.open(`El medio de pago fue editado satisfactoriamente`, 'OK', {
+        duration: 3000
+      })
+    })
+
+    this.dialogRef.close(this.defaults);
 
   }
 

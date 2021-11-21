@@ -1,0 +1,85 @@
+<form (ngSubmit)="save()" [formGroup]="formFarms">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
+
+        <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
+            Editar información finca
+        </h2>
+        <h2 *ngIf="!defaults.id" class="headline m-0" fxFlex="auto">
+            Vincular nueva finca
+        </h2>
+
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content fxLayout="column">
+        <div class="flex flex-col sm:flex-row">
+
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Nombre de la finca </mat-label>
+                <input #message minlength="5" maxlength="20" cdkFocusInitial formControlName="name" matInput />
+                <mat-hint align="end">{{ message.value.length }} / 20</mat-hint>
+                <mat-icon [icIcon]="icSpa" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formFarms.controls.name.hasError('required')">
+                    El nombre de la finca es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="formFarms.controls.name.errors?.minlength">
+                    El nombre de la finca debe tener mínimo <strong>5 caracteres</strong>
+                </mat-error>
+                <mat-error *ngIf="formFarms.controls.name.errors?.maxlength">
+                    El nombre de la finca debe tener máximo
+                    <strong>20 caracteres</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Municipio de ubicación de la finca</mat-label>
+                <mat-select formControlName="municipality">
+                    <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
+                        {{ municipality.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formFarms.controls.municipality.hasError('required')">
+                    El municipio de ubicación de la finca<strong> es obligatorio</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Descripción</mat-label>
+                <textarea #message minlength="10" maxlength="300" formControlName="description" matInput></textarea>
+                <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
+                <mat-error *ngIf="formFarms.controls.description.hasError('required')">
+                    La descripción de la finca<strong> es obligatoria</strong>
+                </mat-error>
+                <mat-error *ngIf="formFarms.controls.description.errors?.minlength">
+                    La descripción de la finca debe ser de mínimo <strong>10 caracteres</strong>
+                </mat-error>
+                <mat-error *ngIf="formFarms.controls.description.errors?.maxlength">
+                    La descripción de la finca debe ser de máximo
+                    <strong>300 caracteres</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <!--  AQUI VA EL MAT FORM FIELD DE LA UBICACION DE LA FINCA -->
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close color="warn" type="button">
+            CANCELAR
+        </button>
+        <button *ngIf="isCreateMode()" [disabled]="formFarms.invalid" color="accent" mat-raised-button type="submit">
+            VINCULAR FINCA
+        </button>
+        <button *ngIf="isUpdateMode()" [disabled]="formFarms.invalid" color="accent" mat-raised-button type="submit">
+            EDITAR FINCA
+        </button>
+    </mat-dialog-actions>
+</form>

@@ -1,8 +1,14 @@
 <form (ngSubmit)="save()" [formGroup]="formPaymentMethod">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-        <h2 class="headline m-0" fxFlex="auto">
-            Añadir medio de pago
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
+
+        <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
+           Editar información medio de pago 
         </h2>
+        <h2 *ngIf="!defaults.id" class="headline m-0" fxFlex="auto">
+           Registrar medio de pago
+        </h2>
+
         <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
             <mat-icon [icIcon]="icClose"></mat-icon>
         </button>

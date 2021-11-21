@@ -24,6 +24,8 @@ export class UsersService {
 
   public urlProductImage: Observable<string>;
 
+  public urlProfileImage: string;
+
   constructor(private afs: AngularFirestore, private storage: AngularFireStorage) {
     this.usersCollection = afs.collection<User>('users')
   }
@@ -43,7 +45,7 @@ export class UsersService {
     this.userDoc.update(user);
   }
 
-  updatePhoto(uid: string, file: File): string {
+  updatePhoto(uid: string, file: File) {
     const filePath = `Profile Image/${uid}`;
     
     const ref =  this.storage.ref(filePath);
@@ -52,13 +54,9 @@ export class UsersService {
     this.uploadPercentage = task.percentageChanges();
     task.snapshotChanges().pipe(finalize(() => {
       ref.getDownloadURL().subscribe(urlImage => {
-        console.log(urlImage)
-        return urlImage;
+        this.urlProfileImage = urlImage
       });
     })).subscribe();
-
-    return null;
-
   }
 
 }

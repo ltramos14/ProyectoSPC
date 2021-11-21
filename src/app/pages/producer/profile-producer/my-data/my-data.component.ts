@@ -41,8 +41,6 @@ export class MyDataComponent implements OnInit {
 
   public imageUrl: string;
 
-  public storageUrl: string;
-
   percent: Observable<number>;
 
   icPermIdentity = icPermIdentity;
@@ -86,7 +84,7 @@ export class MyDataComponent implements OnInit {
     });
   }
 
-  async showPreviewImage(event: Event) {
+  showPreviewImage(event: Event) {
 
     const file = (event.target as HTMLInputElement).files[0];
     this.urlFile = file;
@@ -97,16 +95,15 @@ export class MyDataComponent implements OnInit {
     }
     reader.readAsDataURL(file);
 
-    this.storageUrl = await this.userService.updatePhoto(this.idUser, this.urlFile);
-
-  
+    this.userService.updatePhoto(this.idUser, this.urlFile);
+ 
     this.percent = this.userService.uploadPercentage;
 
   }
 
   updateProfileUrl() {
-    this.user.profileURL = this.storageUrl;
-    this.authService.updatePhotoUrl(this.storageUrl).then(() => {
+    this.user.profileURL = this.userService.urlProfileImage;
+    this.authService.updatePhotoUrl(this.user.profileURL).then(() => {
       this.userService.updateUserDocument(this.user);
     });
   }

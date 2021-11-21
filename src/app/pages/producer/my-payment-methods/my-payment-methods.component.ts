@@ -61,16 +61,15 @@ export class MyPaymentMethodsComponent implements OnInit {
     this.dialog.open(CreateUpdatePaymentMethodComponent);
   }
 
-  updatePaymentMethod() {
+  updatePaymentMethod(payment: PaymentMethod) {
     this.dialog.open(CreateUpdatePaymentMethodComponent, {
-      //data: payment
+      data: payment
     });
   }
 
   deletePaymentMethod(paymentMethod: PaymentMethod) {
 
     this.paymentMethodsService.deletePaymentMethod(paymentMethod.id).then(() => {
-      this.paymentMethods.splice(this.paymentMethods.findIndex((existingPaymentMethod) => existingPaymentMethod.id === paymentMethod.id), 1);
       this.snackbar.open(`El medio de pago fue eliminado satisfactoriamente`, 'OK', {
         duration: 2000
       });

@@ -4,4 +4,7 @@ export class Farm {
     municipality: string;
     location: string[];
     description: string;
+
+    constructor(farm?: Farm) {
+    }
 }
