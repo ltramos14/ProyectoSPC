@@ -18,7 +18,7 @@ export class FarmsService {
   /**
    * Variable que instancia la colección de las fincas del productor
    */
-  farmsCollecition: AngularFirestoreCollection<Farm>;
+  farmsCollection: AngularFirestoreCollection<Farm>;
 
   /**
    * Variable de tipo Observable que contiene la lista de fincas vinculados al productor
@@ -38,7 +38,7 @@ export class FarmsService {
   constructor(public afs: AngularFirestore, private authService: AuthService) {
     this.authService.getCurrentUser().then((data) => {
     this.producerDoc = afs.doc<User>(`users/${data.uid}`);
-    this.farmsCollecition = this.producerDoc.collection<Farm>('farms');
+    this.farmsCollection = this.producerDoc.collection<Farm>('farms');
     this.getFarms();
   });
   }
@@ -47,7 +47,7 @@ export class FarmsService {
    * Método que obtiene los documentos de la colección de Fincas del productor
    */
   getFarms() {
-    this.farms = this.farmsCollecition.snapshotChanges()
+    this.farms = this.farmsCollection.snapshotChanges()
       .pipe(map((actions) => actions.map((a) => a.payload.doc.data() as Farm)));
   }
 
@@ -62,7 +62,7 @@ export class FarmsService {
       try {
         const id = idFarm || this.afs.createId();
         const data = { id, ...farm };
-        const result = await this.farmsCollecition.doc(id).set(data);
+        const result = await this.farmsCollection.doc(id).set(data);
         resolve(result);
       } catch (err) {
         reject(err);
@@ -78,7 +78,7 @@ export class FarmsService {
   deletePaymentMethod(idFarm: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await this.farmsCollecition
+        const result = await this.farmsCollection
           .doc(idFarm)
           .delete();
         resolve(result);

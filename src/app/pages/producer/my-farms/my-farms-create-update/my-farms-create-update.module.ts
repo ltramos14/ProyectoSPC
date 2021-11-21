@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MyFarmsCreateUpdateComponent } from './my-farms-create-update.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [MyFarmsCreateUpdateComponent],
@@ -31,7 +33,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatMenuModule,
     MatDividerModule,
     MatDatepickerModule,
-    MatProgressBarModule
-  ]
+    MatProgressBarModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+    FormsModule
+  ],
+  entryComponents: [MyFarmsCreateUpdateComponent],
+  exports: [MyFarmsCreateUpdateComponent]
 })
-export class MyFarmsCreateUpdateModule { }
+export class MyFarmsCreateUpdateModule {}

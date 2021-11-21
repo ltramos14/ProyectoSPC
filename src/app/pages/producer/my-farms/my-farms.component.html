@@ -31,36 +31,31 @@
                       <div class="p-gutter" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr"
                           gdColumns.xs="1fr" gdGap="24px">
 
-                          <div class="card overflow-hidden" >
+                          <div class="card overflow-hidden" *ngFor="let farm of farms">
                               <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
                                   matRipple>
                                   <img [src]="imageDefault" class="avatar h-24 w-24 mx-auto">
 
-                                  <h2 class="title mb-1 mt-3">NOMBRE DE LA FINCA</h2>
+                                  <h2 class="title mb-1 mt-3">{{ farm.name }}</h2>
                                   <div class="body-2 text-secondary">
                                       <ic-icon [icon]="icPlace" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                      <span>Ubicación: </span>
+                                      <span>Ubicación: {{ farm.location }}</span>
                                   </div>
 
                                   <div class="body-2 text-secondary">
                                       <ic-icon [icon]="icLocation" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                      <span>Municipio: </span>
+                                      <span>Municipio: {{ farm.municipality }}</span>
                                   </div>
-
-                                  <div class="body-2 text-secondary">
-                                    <ic-icon [icon]="icDescription" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                    <span>Descripción: </span>
-                                </div>
                               </div>
 
                               <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
                                   style="background-color: rgba(255, 160, 122, 0.4);">
-                                  <button (click)="updateFarm()" class="text-secondary" mat-icon-button
+                                  <button (click)="updateFarm(farm)" class="text-secondary" mat-icon-button
                                       type="button">
                                       <mat-icon [icIcon]="icEdit" matTooltip="Editar medio de pago"></mat-icon>
                                   </button>
 
-                                  <button (click)="deleteFarm()" class="text-secondary"
+                                  <button (click)="deleteFarm(farm.id)" class="text-secondary"
                                       mat-icon-button type="button">
                                       <mat-icon [icIcon]="icDelete" matTooltip="Eliminar medio de pago">
                                       </mat-icon>

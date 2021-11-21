@@ -15,6 +15,7 @@ import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { Farm } from 'src/app/models/farm.model';
 
 @Component({
   selector: 'app-my-farms',
@@ -27,6 +28,8 @@ import icDelete from "@iconify/icons-ic/twotone-delete";
   
 })
 export class MyFarmsComponent implements OnInit {
+
+  farms: Farm[]; 
 
   icAdd = icAdd;
   icClose = icClose;
@@ -46,23 +49,32 @@ export class MyFarmsComponent implements OnInit {
 
   ngOnInit():void {
 
-   
+    if (this.getData() !== undefined) {
+      this.getData().subscribe(farms => this.farms = farms);
+    }
+
   }
 
   getData() {
-    
+    return this.farmService.farms;
   }
 
   createFarm() {
     this.dialog.open(MyFarmsCreateUpdateComponent);
   }
 
-  updateFarm() {
-    this.dialog.open(MyFarmsCreateUpdateComponent);
+  updateFarm(farm: Farm) {
+    this.dialog.open(MyFarmsCreateUpdateComponent, {
+      data: farm
+    });
   }
 
-  deleteFarm() {
-
+  deleteFarm(idFarm: string) {
+    this.farmService.deletePaymentMethod(idFarm).then(() => {
+      this.snackbar.open('Finca desvinculada satisfactoriamente', 'OK', {
+        duration: 3000
+      })
+    })
   }
 
 }

@@ -9,6 +9,10 @@ import icSpa from '@iconify/icons-ic/twotone-spa';
 import icPlace from '@iconify/icons-ic/twotone-place';
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icClose from '@iconify/icons-ic/twotone-close';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { FarmsService } from 'src/app/service/producer/farms.service';
 
 
 @Component({
@@ -27,13 +31,22 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
   icDescription = icDescription;
   icClose = icClose;
 
+  apiLoaded: Observable<boolean>;
+
   municipalities = municipalities;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private fb: FormBuilder,
     private snackbar: MatSnackBar,
-    private dialogRef: MatDialogRef<MyFarmsCreateUpdateComponent>,) {
+    private farmService: FarmsService,
+    private dialogRef: MatDialogRef<MyFarmsCreateUpdateComponent>,
+    httpClient: HttpClient) {
+      this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyDovs02EzOw0Ldd4IjoOMzoNJ22ckUFI0Y', 'callback')
+        .pipe(
+          map(() => true),
+          catchError(() => of(false)),
+        );
   }
 
   ngOnInit() {
@@ -48,24 +61,28 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     this.formFarms = this.fb.group({
       id: [this.defaults.id || ''],
       name: [
-        this.defaults.name || '',
+        this.defaults.name || '',[
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20)
+      ]
       ],
       municipality: [
         this.defaults.municipality || municipalities,
         Validators.required
       ],
       location: [
-        this.defaults.location || '',
-        Validators.required
+        this.defaults.location || '', [
+          Validators.required,
+          Validators.minLength(5)
+        ]
       ],
       description: [
-        this.defaults.description || '',
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(500)
+        this.defaults.description || '',[
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(500)
+        ]
       ],
     });
   }
@@ -80,14 +97,42 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   createFarm() {
 
+    let farm = new Farm();
 
-   // this.dialogRef.close(payment);
+    farm.name = this.formFarms.get("name").value;
+    farm.municipality = this.formFarms.get("municipality").value;
+    farm.description = this.formFarms.get("description").value;
+    farm.location = this.formFarms.get("location").value;
+    
+
+    this.farmService.saveFarm(null, farm).then(() => {
+      this.snackbar.open('Finca agregada satisfactoriamente', 'OK', {
+        duration: 3000
+      });
+    })
+
+   this.dialogRef.close();
 
   }
 
   updateFarm() {
 
-    this.dialogRef.close(this.defaults);
+    let farm: Farm;
+
+    farm.id = this.formFarms.get('id').value;
+    farm.name = this.formFarms.get('name').value;
+    farm.municipality = this.formFarms.get('municipality').value;
+    farm.description = this.formFarms.get('description').value;
+    farm.location = this.formFarms.get('location').value;
+    
+
+    this.farmService.saveFarm(farm.id, farm).then(() => {
+      this.snackbar.open('Finca editada satisfactoriamente', 'OK', {
+        duration: 3000
+      });
+    })
+
+    this.dialogRef.close();
 
   }
 
