@@ -54,7 +54,7 @@
                 <input #message minlength="10" maxlength="300" formControlName="location" matInput/>
                 <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
                 <mat-error *ngIf="formFarms.controls.location.hasError('required')">
-                    La location de la finca<strong> es obligatoria</strong>
+                    La ubicación de la finca<strong> es obligatoria</strong>
                 </mat-error>
                 <mat-error *ngIf="formFarms.controls.location.errors?.minlength">
                     La ubicación de la finca debe ser de mínimo <strong>5 caracteres</strong>

@@ -107,8 +107,8 @@
         <mat-form-field>
             <mat-label>Selecciona la finca en donde cultivas este producto</mat-label>
             <mat-select formControlName="farm">
-                <mat-option *ngFor="let farm of farmPrefixOptions" [value]="farm">
-                    {{ farm }}
+                <mat-option *ngFor="let farm of farm" [value]="farm.name">
+                    {{ farm.name }}
                 </mat-option>
             </mat-select>
             <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>

@@ -35,12 +35,11 @@ export class FarmsService {
    * @param afs 
    * @param authService 
    */
-  constructor(public afs: AngularFirestore, private authService: AuthService) {
-    this.authService.getCurrentUser().then((data) => {
-    this.producerDoc = afs.doc<User>(`users/${data.uid}`);
+  constructor(public afs: AngularFirestore) {
+    let uid = localStorage.getItem("uid");
+    this.producerDoc = afs.doc<User>(`users/${uid}`);
     this.farmsCollection = this.producerDoc.collection<Farm>('farms');
     this.getFarms();
-  });
   }
 
   /**

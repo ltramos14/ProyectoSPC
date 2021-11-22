@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../../../../models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
+import { FarmsService } from 'src/app/service/producer/farms.service';
+import { Farm } from 'src/app/models/farm.model';
 
 import icAttachMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCalendar from '@iconify/icons-ic/twotone-calendar-today';
@@ -13,7 +16,6 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
-import { interval, Observable } from 'rxjs';
 @Component({
   selector: 'vex-products-create-update',
   templateUrl: './products-create-update.component.html'
@@ -23,6 +25,10 @@ export class ProductsCreateUpdateComponent implements OnInit {
   
   public product: Product;
 
+  formProduct: FormGroup;
+
+  mode: 'create' | 'update' = 'create';
+
   urlFile: File; 
 
   value = 0;
@@ -31,16 +37,13 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   imageUrl: string;
 
-  formProduct: FormGroup;
-
-  mode: 'create' | 'update' = 'create';
-
   imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
+
+  farm: Farm[];
 
   productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
   unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
   statePrefixOptions = ['Disponible', 'En cosecha'];
-  farmPrefixOptions = ['Finca 1', 'Finca 2', 'Finca 3'];
 
   icAttachMoney = icAttachMoney;
   icCalendar = icCalendar;
@@ -53,13 +56,18 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icToc = icToc;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
-    private fb: FormBuilder,
-    private productService: ProductsService) {
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
+              private fb: FormBuilder,
+              private productService: ProductsService,
+              private farmsService: FarmsService) {
   }
 
   ngOnInit() {
+
+    this.getFarmsData().subscribe(farms => {
+     this.farm = farms;
+    })
 
     if (this.defaults.idUser) {
       this.mode = 'create';
@@ -94,7 +102,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.required,
       ],
       farm: [
-        this.defaults.farm || this.farmPrefixOptions,
+        this.defaults.farm || this.farm,
         Validators.required
       ],
       available_date: [this.defaults.available_date || '', [
@@ -107,6 +115,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
       ]],
       image: [this.defaults.image || '']
     });
+    
+  
   }
 
   save() {
@@ -160,12 +170,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   }
 
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
+  getFarmsData() {
+    return this.farmsService.farms;
   }
 
   showPreviewImage(event: Event) {
@@ -185,4 +191,13 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   }
 
+  isCreateMode() {
+
+    return this.mode === 'create';
+  }
+
+  isUpdateMode() {
+    return this.mode === 'update';
+  }
+  
 }

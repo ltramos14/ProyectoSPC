@@ -26,15 +26,11 @@ export class PaymentsMethodsService {
      */
     producerDoc: AngularFirestoreDocument<User>;
 
-    constructor(
-        public afs: AngularFirestore,
-        private authService: AuthService
-    ) {
-        this.authService.getCurrentUser().then((data) => {
-            this.producerDoc = afs.doc<User>(`users/${data.uid}`);
-            this.paymentMethodsCollection = this.producerDoc.collection<PaymentMethod>('paymentmethods');
-            this.getPaymentMethods();
-        });
+    constructor(public afs: AngularFirestore) {
+        let uid = localStorage.getItem("uid");
+        this.producerDoc = afs.doc<User>(`users/${uid}`);
+        this.paymentMethodsCollection = this.producerDoc.collection<PaymentMethod>('paymentmethods');
+        this.getPaymentMethods();
     }
 
     /**

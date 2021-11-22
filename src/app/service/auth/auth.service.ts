@@ -26,6 +26,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
+          localStorage.setItem("uid", userCredential.user.uid);
           resolve(userCredential.user);
         }, err => reject(err));
     });
@@ -61,6 +62,7 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await this.afAuth.signOut();
+      localStorage.removeItem("uid");
     } catch(error) {
       console.log(error);
     }

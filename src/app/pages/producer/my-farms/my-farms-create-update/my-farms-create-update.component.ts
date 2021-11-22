@@ -117,7 +117,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   updateFarm() {
 
-    let farm: Farm;
+    let farm = new Farm;
 
     farm.id = this.formFarms.get('id').value;
     farm.name = this.formFarms.get('name').value;
