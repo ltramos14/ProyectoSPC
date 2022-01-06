@@ -36,6 +36,14 @@ export class AuthService {
     return (await this.afAuth.currentUser).sendEmailVerification();
   }
 
+  async resetPassword(email: string): Promise<void> {
+    try {
+      return this.afAuth.sendPasswordResetEmail(email);
+    } catch (error) {
+      throw new Error(`Ocurrió el siguiente error: ${ error }`);
+    }
+  }
+
   register(user: User, password: string): Promise<any> {
     const userAuth = this.afAuth.currentUser;
     return new Promise<any>((resolve, reject) => {
