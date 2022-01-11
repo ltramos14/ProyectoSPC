@@ -1,24 +1,25 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
-import { ProductsCreateUpdateComponent } from './products-create-update/products-create-update.component';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FormControl } from '@angular/forms';
+import { Observable, ReplaySubject } from 'rxjs';
+import { ProductsCreateUpdateComponent } from './products-create-update/products-create-update.component';
+import { Product } from 'src/app/models/product.model';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { filter } from 'rxjs/operators';
+
+import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
-import { FormControl } from '@angular/forms';
-import { Product } from 'src/app/models/product.model';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MatSelectChange } from '@angular/material/select';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from '@iconify/icons-ic/twotone-delete';
@@ -30,11 +31,11 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
+
 @UntilDestroy()
 @Component({
   selector: 'vex-my-products',
   templateUrl: './my-products.component.html',
-  styleUrls: ['./my-products.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms,
@@ -59,7 +60,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    * El sujeto que se subscribe a a el Observable que trae de lista de productos en ProductService
    */
   subject$: ReplaySubject<Product[]> = new ReplaySubject<Product[]>(1);
-  
+
   /**
    * Variable de tipo Observable que almacena la lista de productos que vienen de ProductService
    */
@@ -152,7 +153,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private productService: ProductsService
-    ) { }
+  ) { }
 
   /**
    * Método de tipo get en donde se establecen las columnas que serán visibles en la interfaz  
@@ -238,7 +239,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
       });
       this.selection.deselect(product);
     }).catch(err => {
-      this.snackbar.open(`Error: ${ err.message }`, 'OK', {
+      this.snackbar.open(`Error: ${err.message}`, 'OK', {
         duration: 2000
       });
     })

@@ -1,10 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
-import icWeb from "@iconify/icons-ic/twotone-web";
-import icMail from "@iconify/icons-ic/twotone-mail";
-import icPhone from "@iconify/icons-ic/twotone-phone";
-import icPlace from "@iconify/icons-ic/twotone-place";
-import icEdit from "@iconify/icons-ic/twotone-edit";
 
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../../@vex/animations/fade-in-right.animation';
@@ -19,11 +13,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/service/auth/auth.service';
 
+import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
+import icWeb from "@iconify/icons-ic/twotone-web";
+import icMail from "@iconify/icons-ic/twotone-mail";
+import icPhone from "@iconify/icons-ic/twotone-phone";
+import icPlace from "@iconify/icons-ic/twotone-place";
+import icEdit from "@iconify/icons-ic/twotone-edit";
 
 @Component({
-  selector: 'vex-my-data',
+  selector: 'app-my-data',
   templateUrl: './my-data.component.html',
-  styleUrls: ['./my-data.component.scss'],
   animations: [
     fadeInUp400ms,
     fadeInRight400ms,
@@ -50,13 +49,13 @@ export class MyDataComponent implements OnInit {
   icPlace = icPlace;
   icEdit = icEdit;
 
-  constructor( 
+  constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private userService: UsersService,
     private snackbar: MatSnackBar,
     private authService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
@@ -91,12 +90,12 @@ export class MyDataComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.imageUrl = reader.result as string;
-      
+
     }
     reader.readAsDataURL(file);
 
     this.userService.updatePhoto(this.idUser, this.urlFile);
- 
+
     this.percent = this.userService.uploadPercentage;
 
   }

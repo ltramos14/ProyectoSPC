@@ -1,11 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, ReplaySubject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Product } from '../../../../models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
-import { FarmsService } from 'src/app/service/producer/farms.service';
 import { Farm } from 'src/app/models/farm.model';
+import { FarmsService } from 'src/app/service/producer/farms.service';
 
 import icAttachMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCalendar from '@iconify/icons-ic/twotone-calendar-today';
@@ -16,20 +15,21 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
+
 @Component({
   selector: 'vex-products-create-update',
   templateUrl: './products-create-update.component.html'
 })
 export class ProductsCreateUpdateComponent implements OnInit {
 
-  
+
   public product: Product;
 
   formProduct: FormGroup;
 
   mode: 'create' | 'update' = 'create';
 
-  urlFile: File; 
+  urlFile: File;
 
   value = 0;
 
@@ -56,17 +56,17 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icToc = icToc;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
-              private fb: FormBuilder,
-              private productService: ProductsService,
-              private farmsService: FarmsService) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
+    private fb: FormBuilder,
+    private productService: ProductsService,
+    private farmsService: FarmsService) {
   }
 
   ngOnInit() {
 
     this.getFarmsData().subscribe(farms => {
-     this.farm = farms;
+      this.farm = farms;
     })
 
     if (this.defaults.idUser) {
@@ -115,8 +115,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
       ]],
       image: [this.defaults.image || '']
     });
-    
-  
+
+
   }
 
   save() {
@@ -130,7 +130,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
   createProduct() {
 
     let productToCreate = this.convertToProduct();
-    
+
     this.productService.uploadProductImage(null, productToCreate, this.urlFile);
 
     this.dialogRef.close(this.product);
@@ -140,9 +140,9 @@ export class ProductsCreateUpdateComponent implements OnInit {
   async updateProduct() {
 
     let productToEdit = this.convertToProduct();
-    
+
     this.productService.uploadProductImage(productToEdit.id, productToEdit, this.urlFile);
-    
+
     this.dialogRef.close(this.defaults);
   }
 
@@ -163,7 +163,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
       product.availabilityDate = new Date();
     else
       product.availabilityDate = this.formProduct.get('available_date').value;
-  
+
     product.description = this.formProduct.get('description').value;
     product.image = this.formProduct.get('image').value;
     return product;
@@ -176,7 +176,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   showPreviewImage(event: Event) {
 
-    for (let i = 0; i<=100; i++) {
+    for (let i = 0; i <= 100; i++) {
       this.value = i;
     }
 
@@ -185,7 +185,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.imageUrl = reader.result as string;
-      
+
     }
     reader.readAsDataURL(file);
 
@@ -199,5 +199,5 @@ export class ProductsCreateUpdateComponent implements OnInit {
   isUpdateMode() {
     return this.mode === 'update';
   }
-  
+
 }

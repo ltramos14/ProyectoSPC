@@ -16,7 +16,6 @@ import { ConfigName } from '../@vex/interfaces/config-name.model';
 @Component({
   selector: 'vex-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'vex';

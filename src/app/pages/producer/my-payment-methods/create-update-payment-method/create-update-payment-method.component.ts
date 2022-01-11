@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentMethod } from 'src/app/models/payment-method.model';
 import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
 
@@ -8,7 +9,6 @@ import icAttachMoney from '@iconify/icons-ic/twotone-attach-money';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icPermIdentity from '@iconify/icons-ic/twotone-perm-identity';
 import icClose from '@iconify/icons-ic/twotone-close';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-update-payment-method',
@@ -42,7 +42,7 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
 
     if (this.defaults) {
       this.mode = 'update';
-    } else  {
+    } else {
       this.mode = 'create';
       this.defaults = {} as PaymentMethod;
     }

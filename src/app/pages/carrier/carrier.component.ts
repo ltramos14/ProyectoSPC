@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'vex-carrier',
+  selector: 'app-carrier',
   templateUrl: './carrier.component.html',
-  styleUrls: ['./carrier.component.scss']
+  styleUrls: []
 })
 export class CarrierComponent implements OnInit {
 

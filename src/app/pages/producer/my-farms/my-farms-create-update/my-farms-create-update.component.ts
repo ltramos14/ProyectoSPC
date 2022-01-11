@@ -1,19 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Farm } from 'src/app/models/farm.model';
-import { municipalities } from 'src/static/municipalities-data';
+import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { municipalities } from 'src/static/municipalities-data';
+import { Farm } from 'src/app/models/farm.model';
+import { FarmsService } from 'src/app/service/producer/farms.service';
 
 import icSpa from '@iconify/icons-ic/twotone-spa';
 import icPlace from '@iconify/icons-ic/twotone-place';
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icClose from '@iconify/icons-ic/twotone-close';
-import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { FarmsService } from 'src/app/service/producer/farms.service';
-
 
 @Component({
   selector: 'app-my-farms-create-update',
@@ -42,18 +41,18 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     private farmService: FarmsService,
     private dialogRef: MatDialogRef<MyFarmsCreateUpdateComponent>,
     httpClient: HttpClient) {
-      this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyDovs02EzOw0Ldd4IjoOMzoNJ22ckUFI0Y', 'callback')
-        .pipe(
-          map(() => true),
-          catchError(() => of(false)),
-        );
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyDovs02EzOw0Ldd4IjoOMzoNJ22ckUFI0Y', 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
   }
 
   ngOnInit() {
 
     if (this.defaults) {
       this.mode = 'update';
-    } else  {
+    } else {
       this.mode = 'create';
       this.defaults = {} as Farm;
     }
@@ -61,11 +60,11 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     this.formFarms = this.fb.group({
       id: [this.defaults.id || ''],
       name: [
-        this.defaults.name || '',[
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(20)
-      ]
+        this.defaults.name || '', [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(20)
+        ]
       ],
       municipality: [
         this.defaults.municipality || municipalities,
@@ -78,7 +77,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
         ]
       ],
       description: [
-        this.defaults.description || '',[
+        this.defaults.description || '', [
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(500)
@@ -103,7 +102,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     farm.municipality = this.formFarms.get("municipality").value;
     farm.description = this.formFarms.get("description").value;
     farm.location = this.formFarms.get("location").value;
-    
+
 
     this.farmService.saveFarm(null, farm).then(() => {
       this.snackbar.open('Finca agregada satisfactoriamente', 'OK', {
@@ -111,7 +110,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
       });
     })
 
-   this.dialogRef.close();
+    this.dialogRef.close();
 
   }
 
@@ -124,7 +123,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     farm.municipality = this.formFarms.get('municipality').value;
     farm.description = this.formFarms.get('description').value;
     farm.location = this.formFarms.get('location').value;
-    
+
 
     this.farmService.saveFarm(farm.id, farm).then(() => {
       this.snackbar.open('Finca editada satisfactoriamente', 'OK', {

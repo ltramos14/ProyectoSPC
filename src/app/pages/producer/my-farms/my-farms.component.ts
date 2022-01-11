@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MyFarmsCreateUpdateComponent } from './my-farms-create-update/my-farms-create-update.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
-
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import icPlace from '@iconify/icons-ic/twotone-place';
 import icLocation from '@iconify/icons-ic/twotone-where-to-vote';
@@ -15,7 +15,6 @@ import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { Farm } from 'src/app/models/farm.model';
 
 @Component({
   selector: 'app-my-farms',
@@ -25,11 +24,10 @@ import { Farm } from 'src/app/models/farm.model';
     stagger40ms,
     fadeInRight400ms
   ],
-  
 })
 export class MyFarmsComponent implements OnInit {
 
-  farms: Farm[]; 
+  farms: Farm[];
 
   icAdd = icAdd;
   icClose = icClose;
@@ -47,7 +45,7 @@ export class MyFarmsComponent implements OnInit {
     private snackbar: MatSnackBar
   ) { }
 
-  ngOnInit():void {
+  ngOnInit(): void {
 
     if (this.getData() !== undefined) {
       this.getData().subscribe(farms => this.farms = farms);

@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { municipalities } from 'src/static/municipalities-data';
 
+import { UsersService } from 'src/app/service/users/users.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
+
 import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icMail from "@iconify/icons-ic/twotone-mail";
@@ -10,8 +13,6 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icPlace from "@iconify/icons-ic/twotone-place";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icClose from '@iconify/icons-ic/twotone-close';
-import { UsersService } from 'src/app/service/users/users.service';
-import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-update-profile',

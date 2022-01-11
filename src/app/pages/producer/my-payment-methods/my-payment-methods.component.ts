@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SelectionModel } from '@angular/cdk/collections';
 import { CreateUpdatePaymentMethodComponent } from './create-update-payment-method/create-update-payment-method.component';
-import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
 import { PaymentMethod } from 'src/app/models/payment-method.model';
+import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
@@ -12,8 +14,6 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-my-payment-methods',

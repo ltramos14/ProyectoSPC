@@ -1,0 +1,57 @@
+<mat-toolbar div class="toolbar w-full px-gutter" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon class="iconsMenu" [icIcon]="icMenu" *ngIf="!sidenav.opened"></mat-icon>
+        <mat-icon class="iconsMenu" [icIcon]="icClose" *ngIf="sidenav.opened"></mat-icon>
+    </button>
+    <span fxFlex> </span>
+    <h1 class="title">PERFIL CONSUMIDOR</h1>
+    <span fxFlex> </span>
+    <div class="-mx-1 flex items-center">
+        <a class="img-header" routerLink="">
+            <img src="../../../../../assets/images/LogoSPCv1.png" />
+        </a>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+        <h2 class="name">{{ user?.displayName }}</h2>
+        <h2 class="designation">Consumidor</h2>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button"
+            [routerLink]="['/perfil-consumidor/mis-datos/informacion-perfil', user?.uid ]">
+            <mat-icon [icIcon]="icAssignmentInd"></mat-icon>
+            <span>MIS DATOS</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" [routerLink]="['/perfil-consumidor/mis-pedidos', user?.uid ]">
+            <mat-icon [icIcon]="icMall"></mat-icon>
+            <span>MIS PEDIDOS</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" [routerLink]="['/perfil-consumidor/buzon-pqr']">
+            <mat-icon [icIcon]="icMarkUnReadMailbox"></mat-icon>
+            <span>BUZÓN PQR</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" (click)="onLogout()">
+            <mat-icon [icIcon]="icPowerSettingsNew"></mat-icon>
+            <span>SALIR</span>
+        </button>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

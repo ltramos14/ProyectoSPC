@@ -1,1 +1,130 @@
-<p>my-data works!</p>
+<div class="mt-6 flex flex-col md:flex-row md:items-start" *ngIf="user">
+    <div class="flex-auto" style="margin-bottom: 60px;">
+        <div class="card">
+            <div class="px-gutter py-4 border-b">
+                <h2 class="title m-0">Información personal</h2>
+            </div>
+            <div class="px-gutter py-4 border-b">
+                <h5>Actualiza tu información para mantener la seguridad de tu cuenta</h5>
+
+                <div class="px-gutter py-4" gdColumns="1fr 1fr" gdColumns.xs="1fr" gdGap="16px">
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icPermIdentity" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.names | uppercase }}</p>
+                            <p class="m-0 caption text-hint">Nombres</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icPermIdentity" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.lastnames | uppercase }}</p>
+                            <p class="m-0 caption text-hint">Apellidos</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icWeb" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.identificationType | uppercase }}</p>
+                            <p class="m-0 caption text-hint">Tipo de identificación</p>
+                        </div>
+                    </div>
+
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icWeb" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.identification }}</p>
+                            <p class="m-0 caption text-hint">Número de identificación</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icMail" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.email }}</p>
+                            <p class="m-0 caption text-hint">Correo electrónico</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icPhone" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.phone }}</p>
+                            <p class="m-0 caption text-hint">Número de teléfono</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-primary-light text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+                            <mat-icon [icIcon]="icPlace" size="25px"></mat-icon>
+                        </div>
+
+                        <div @fadeInRight>
+                            <p class="m-0 body-1">{{ user.municipality }}</p>
+                            <p class="m-0 caption text-hint">Municipio de residencia</p>
+                        </div>
+                    </div>
+
+                    <div class="py-3" fxLayout="row" fxLayoutAlign="start center">
+                        <div @scaleIn
+                            class="w-10 h-10 rounded-full bg-gray-light text-dark ltr:mr-3 rtl:ml-3 cursor-pointer flex items-center justify-center">
+                            <mat-icon [icIcon]="icEdit" size="25px"></mat-icon>
+                        </div>
+
+                        <button (click)="updateUserProfile(user)" class="m-0 body-1 cursor-pointer">Editar
+                            información</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card max-w-unset md:max-w-xs w-full flex-none md:ltr:ml-6 md:rtl:mr-6 mt-6 md:mt-0">
+        <mat-progress-bar mode="determinate" [value]="percent | async"></mat-progress-bar>
+        <div class="px-6 py-4 border-b">
+            <h2 class="title m-0">Actualizar foto de perfil</h2>
+        </div>
+        <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
+            <img id="imgFoto" width="200" height="200" class="d-block" [src]="imageUrl || user.profileURL" />
+            <br>
+        </div>
+        <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />
+        <br>
+        <br>
+        <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" [disabled]="!percent" (click)="updateProfileUrl()">Actualizar foto
+                de perfil</button>
+        </div>
+    </div>
+</div>

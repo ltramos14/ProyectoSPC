@@ -16,12 +16,14 @@ import { AngularFireAuthModule, LANGUAGE_CODE } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
+import { InterceptorService } from './service/interceptors/interceptor.service';
 import { SpcModule } from './pages/spc/spc.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
 import { ServerInternalErrorComponent } from './pages/error/server-internal-error/server-internal-error.component';
 import { ProducerModule } from './pages/producer/producer.module';
-import { InterceptorService } from './service/interceptors/interceptor.service';
+import { ConsumerModule } from './pages/consumer/consumer.module';
+import { CarrierModule } from './pages/carrier/carrier.module';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { InterceptorService } from './service/interceptors/interceptor.service';
     //SPC
     AuthModule,
     SpcModule,
-    ProducerModule
+    ProducerModule,
+    ConsumerModule,
+    CarrierModule
   ],
   providers: [
     AngularFirestore,
