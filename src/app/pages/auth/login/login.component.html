@@ -11,7 +11,7 @@
       <h4 class="body-2 text-secondary m-0">Ingresa con tus credenciales</h4>
     </div>
 
-    <div [formGroup]="form" class="p-6" fxLayout="column" fxLayoutGap="16px">
+    <div [formGroup]="form" class="p-6" fxLayout="column" fxLayoutGap="16px" (keydown.enter)="onLogin()">
       <div fxFlex="auto" fxLayout="column">
         <mat-form-field fxFlex="grow">
           <mat-label>Correo electrónico</mat-label>

@@ -12,7 +12,7 @@ import { ProductsCatalogComponent } from './products-catalog/products-catalog.co
 
 const routes: Routes = [
     { path: 'inicio', component: SpcComponent, children: [
-        { path: '', component: HomeComponent , data: { title: 'Inicio - SPC' } },
+        { path: '', component: HomeComponent , data: { title: 'Inicio' } },
         { path: 'quienes-somos', component: AboutUsComponent , data: { title: '¿Quiénes somos?' } },
         { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' }},
         { path: 'productos', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },

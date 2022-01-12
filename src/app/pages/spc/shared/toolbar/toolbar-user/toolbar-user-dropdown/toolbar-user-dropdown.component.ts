@@ -12,6 +12,7 @@ import icLock from "@iconify/icons-ic/twotone-lock";
 import { PopoverRef } from "../../../../../../../@vex/components/popover/popover-ref";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { Router } from "@angular/router";
+import { UsersService } from "src/app/service/users/users.service";
 
 @Component({
   selector: "app-toolbar-user-dropdown",
@@ -34,7 +35,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
       label: "Perfil de usuario",
       description: "Información y opciones de usuario",
       colorClass: "text-teal",
-      route: "/perfil-productor/mis-datos/informacion-perfil",
+      route: "",
     },
     {
       id: "2",
@@ -49,17 +50,41 @@ export class ToolbarUserDropdownComponent implements OnInit {
   constructor(
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UsersService
   ) {
 
   }
 
   async ngOnInit() {
     this.user = await this.authService.getCurrentUser();
+    this.profileUrl();
   }
 
   close() {
     this.popoverRef.close();
+  }
+
+  profileUrl() {
+    this.userService.getUserInfo(this.user.uid).subscribe(data => {
+      const { typeuser } = data;
+      let routeProfile;
+
+      switch(typeuser) {
+        case 'Productor':
+          routeProfile = "/perfil-productor/mis-datos/informacion-perfil"
+          break;
+        case 'Consumidor':
+          routeProfile = "/perfil-consumidor/mis-datos/informacion-perfil"
+          break;
+        case 'Transportador':
+          routeProfile = "/perfil-transportador/mis-datos/informacion-perfil"
+          break;
+        default:
+          console.error("No hay una ruta de perfil especficada");
+      }
+      this.items[0].route = routeProfile;
+    });
   }
 
   onLogout() {
@@ -67,4 +92,5 @@ export class ToolbarUserDropdownComponent implements OnInit {
       this.router.navigate(["iniciar-sesion"]);
     });
   }
+
 }
