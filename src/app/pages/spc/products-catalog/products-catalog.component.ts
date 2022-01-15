@@ -13,6 +13,9 @@ import icMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCheck from '@iconify/icons-ic/twotone-check-circle';
 import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
 import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
+import { CartService } from 'src/app/service/consumer/cart.service';
+import { Cart } from 'src/app/models/cart.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products-catalog',
@@ -40,8 +43,12 @@ export class ProductsCatalogComponent implements OnInit {
 
   products: Product[];
 
+  productCart: Cart;
 
-  constructor(private productsService: ProductsService) { }
+  constructor(
+    private snackbar: MatSnackBar,
+    private productsService: ProductsService,
+    private cartService: CartService) { }
 
   ngOnInit(): void {
     this.getData().subscribe(products => this.products = products);
@@ -49,6 +56,17 @@ export class ProductsCatalogComponent implements OnInit {
 
   getData() {
     return this.productsService.products;
+  }
+
+  addProductToCart(product: Product) {
+    this.productCart = { product, quantity: 1, subtotal: product.price };
+
+    this.cartService.addProductToShoppingCart(this.productCart).then(() => {
+      this.snackbar.open(`Producto agregado al carrito correctamente`, 'OK', {
+        duration: 2000
+      });
+    }, err => console.error(err))
+
   }
 
 }

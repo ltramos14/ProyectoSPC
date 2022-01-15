@@ -5,6 +5,7 @@ export class Product {
     productType: string;
     name: string;
     price: number;
+    stock: number;
     unit: string;
     productiveStatus: string;
     availabilityDate: Date;

@@ -1,0 +1,13 @@
+<div class="input-group">
+    <span class="input-group-btn">
+        <button color="accent" (click)="changeQuantity(-1)" mat-mini-fab>
+            <mat-icon [icIcon]="faMinus"></mat-icon>
+        </button>
+    </span>
+    <input type="number" (ngModelChange)="onChanges($event)" [(ngModel)]="quantity">
+    <span class="input-group-btn">
+        <button color="accent" (click)="changeQuantity(1)" mat-mini-fab>
+            <mat-icon [icIcon]="faPlus"></mat-icon>
+        </button>
+    </span>
+</div>

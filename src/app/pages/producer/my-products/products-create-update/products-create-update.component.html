@@ -104,6 +104,32 @@
             </mat-form-field>
         </div>
 
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Stock del producto</mat-label>
+                <input type="number" #message min="1" cdkFocusInitial formControlName="stock" matInput />
+                <mat-icon [icIcon]="icNature" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.stock.hasError('required')">
+                    El stock es <strong>obligatorio</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.stock.errors?.min">
+                    El stock debe tener un valor<strong> mínimo de 1</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Selecciona la finca en donde cultivas este producto</mat-label>
+                <mat-select formControlName="farm">
+                    <mat-option *ngFor="let farm of farm" [value]="farm.name">
+                        {{ farm.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.farm.hasError('required')">
+                    La finca<strong> es obligatoria</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
         <mat-form-field>
             <mat-label>Selecciona la finca en donde cultivas este producto</mat-label>
             <mat-select formControlName="farm">

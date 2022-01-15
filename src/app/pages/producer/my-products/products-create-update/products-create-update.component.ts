@@ -89,6 +89,10 @@ export class ProductsCreateUpdateComponent implements OnInit {
         this.defaults.productType || this.productTypePrefixOptions,
         Validators.required,
       ],
+      stock: [this.defaults.stock || '', [
+        Validators.required,
+        Validators.minLength(1)
+      ]],
       price: [this.defaults.price || '', [
         Validators.required,
         Validators.min(0)
@@ -156,6 +160,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
     product.farm = this.formProduct.get('farm').value;
     product.productType = this.formProduct.get('productType').value;
     product.price = this.formProduct.get('price').value;
+    product.stock = this.formProduct.get('stock').value;
     product.unit = this.formProduct.get('unit').value;
     product.productiveStatus = this.formProduct.get('productiveStatus').value;
 

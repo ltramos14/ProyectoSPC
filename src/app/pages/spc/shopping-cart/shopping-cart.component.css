@@ -1,0 +1,42 @@
+.titulo {
+    text-align: center;
+    margin-top: 4%;
+    color: #607d8b;
+    font-weight: bold;
+    font-size: 40px;
+  }
+  .encabezado {
+    text-align: center;
+    margin: auto;
+    margin-top: 4%;
+  }
+  .button{
+    text-align: left;
+  }
+  .mat-button .mat-icon{
+    text-align: left;
+  }
+  
+  .mat-header-cell{
+      font-size: 15px;
+      text-align: center;
+  }
+  .mat-table{
+  
+      width: 90%;
+      text-align: left;
+      margin-left: 5%;
+  }
+  
+  .mat-paginator{
+    width: 90%;
+    margin-left: 5%;
+  
+  }
+  
+  .mat-form-field {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+    margin-bottom: 3%;
+  }

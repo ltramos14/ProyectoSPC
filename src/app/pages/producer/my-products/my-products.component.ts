@@ -92,6 +92,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     { label: 'Nombre', property: 'name', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Tipo Producto', property: 'productType', type: 'text', visible: true },
     { label: 'Precio', property: 'price', type: 'text', visible: true },
+    { label: 'Stock', property: 'stock', type: 'text', visible: true },
     { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: true },
     { label: 'Estado Productivo', property: 'productiveStatus', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Finca', property: 'farm', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
