@@ -14,7 +14,6 @@ import { ButtonModule } from 'primeng/button';
     CarouselModule,
     ToastModule,
     ButtonModule
-  
   ]
 })
 export class HomeModule { }

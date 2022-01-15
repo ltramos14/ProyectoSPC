@@ -11,7 +11,7 @@ import { ToolbarModule } from './shared/toolbar/toolbar.module';
 import { SpcComponent } from './spc.component';
 import { RouterModule } from '@angular/router';
 import { ProductsCatalogModule } from './products-catalog/products-catalog.module';
-
+import { FooterModule } from './shared/footer/footer.module';
 
 @NgModule({
   declarations: [SpcComponent],
@@ -25,7 +25,8 @@ import { ProductsCatalogModule } from './products-catalog/products-catalog.modul
     ShoppingCartModule,
     UsersModule,
     ToolbarModule,
-    RouterModule
+    FooterModule,
+    RouterModule,  
   ]
 })
 export class SpcModule { }

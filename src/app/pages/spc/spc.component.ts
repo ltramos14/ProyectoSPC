@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'vex-spc',
+  selector: 'app-spc',
   templateUrl: './spc.component.html',
   styles: [
   ]

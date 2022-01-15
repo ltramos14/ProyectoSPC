@@ -1,0 +1,160 @@
+@media (max-height: 800px) {
+    footer {
+        position: static;
+    }
+
+    header {
+        padding-top: 40px;
+    }
+}
+
+.footer-distributed {
+    background-color: #058d38;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 50px 50px 60px 50px;
+}
+
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Footer left */
+
+.footer-distributed .footer-left {
+    width: 30%;
+}
+
+.footer-distributed h3 {
+    color: hsl(0, 0%, 100%);
+    font-size: 26px;
+    display: block;
+    margin: auto;
+}
+
+.footer-distributed h3 span {
+    color: #ff5a0c;
+    font-weight: bold;
+    font-size: 23px;
+    text-shadow: -1px 2px 0 black;
+}
+
+.footer-distributed .footer-left img {
+    width: 40%;
+    display: block;
+    margin: auto;
+}
+
+/* Footer links */
+
+.footer-distributed .footer-links {
+    color: white;
+    margin: 30px 90px 5px;
+    font-size: 20px;
+}
+
+.footer-distributed .footer-links a {
+    display: inline-block;
+    line-height: 1.8;
+    text-decoration: none;
+    color: inherit;
+}
+
+.footer-distributed .footer-links a:hover {
+    color: black;
+}
+
+/* Footer Center */
+.footer-distributed .footer-center {
+    width: 35%;
+}
+
+.footer-distributed .footer-center h1 {
+    display: block;
+    color: #ff5a0c;
+    text-shadow: -1px 2px 0 black;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 90px 5px;
+}
+
+/* Footer Right */
+.footer-distributed .footer-right {
+    width: 30%;
+}
+
+.footer-distributed .footer-right .footer-links2 {
+    color: #ffffff;
+    text-align: center;
+    margin: 50px 0 12px;
+}
+
+.footer-distributed .footer-right .footer-links2 a {
+    display: inline-block;
+    line-height: 1.8;
+    text-decoration: none;
+    color: inherit;
+}
+
+.footer-distributed .footer-right .footer-links2 a:hover {
+    color: #ff5a0c;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.footer-right h3 {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    display: block;
+    margin: auto;
+}
+
+/* Here is the code for Responsive Footer */
+
+@media (max-width: 880px) {
+
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-center,
+    .footer-distributed .footer-right {
+        display: block;
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .footer-distributed .footer-center i {
+        margin-left: 0;
+    }
+}
+
+$color-facebook: #3b5998;
+$color-twitter: #00aced;
+$color-instagram: #cd486b;
+$color-pinterest: #c92228;
+$color-github: #000;
+
+.bg-facebook {
+    background: $color-facebook;
+    color: white;
+}
+
+.bg-twitter {
+    background: $color-twitter;
+    color: white;
+}
+
+.bg-instagram {
+    background: $color-instagram;
+    color: white;
+}
+
+.watermark {
+    background-color: #bdbdbd;
+    color: black;
+    text-align: center;
+    padding: 4px;
+}

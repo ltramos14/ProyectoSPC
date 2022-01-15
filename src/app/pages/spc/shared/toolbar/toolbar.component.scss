@@ -5,22 +5,22 @@
   display: block;
   white-space: nowrap;
   width: 100%;
-  height: 90px;
+  height: 100px;
   z-index: var(--toolbar-z-index);
 }
 
 .toolbar {
-  height: 90px;
+  height: 100px;
 }
 
 .mat-icon {
   color: white;
-  font-size: 35px;
+  font-size: 38px;
 }
 
 .mat-list-item .mat-icon {
   color: #EE731B;
-  font-size: 35px;
+  font-size: 38px;
   margin-right: 20px;
 }
 
@@ -30,4 +30,19 @@
 
 .fa-address-card {
   color: #EE731B;
+}
+
+#cart_menu_num {
+  position: absolute;
+  background: #058D38;
+  color: white;
+  top: 0;
+  left: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
 }
