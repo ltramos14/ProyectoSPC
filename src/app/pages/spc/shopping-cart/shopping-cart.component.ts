@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
 import { Cart } from "src/app/models/cart.model";
 import { CartService } from "src/app/service/consumer/cart.service";
 
-import icDelete from "@iconify/icons-ic/twotone-delete";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import icDelete from "@iconify/icons-ic/twotone-close";
 
 @Component({
   selector: "app-shopping-cart",
   templateUrl: "./shopping-cart.component.html",
-  styleUrls: ["./shopping-cart.component.css"],
+  styleUrls: ["./shopping-cart.component.scss"],
 })
 export class ShoppingCartComponent implements OnInit {
 
@@ -22,6 +22,7 @@ export class ShoppingCartComponent implements OnInit {
     "product.image",
     "product.name",
     "product.price",
+    "product.availability",
     "quantity",
     "subtotal",
     "delete",
@@ -32,6 +33,7 @@ export class ShoppingCartComponent implements OnInit {
   productsCart: Cart[];
 
   total: number = 0;
+  
 
   /**
    * Es el origen de datos de la tabla

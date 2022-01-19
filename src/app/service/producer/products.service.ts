@@ -18,7 +18,7 @@ export class ProductsService {
 
   /**
    * Variable de tipo Observable que contiene la lista de productos vinculados al usuario
-   */  
+   */
   products: Observable<Product[]>;
 
   /**
@@ -28,13 +28,13 @@ export class ProductsService {
 
   /**
    * Variable de tipo string que almacena el id de usuario para indicar la ruta de la colección
-   */  
+   */
   productDoc: AngularFirestoreDocument<Product>;
 
   uploadPercentage: Observable<number>;
 
   urlProductImage: Observable<string>;
-   
+
   constructor(public afs: AngularFirestore,
     private storage: AngularFireStorage,
     private snackbar: MatSnackBar) {
@@ -61,28 +61,28 @@ export class ProductsService {
     const id = productId || this.afs.createId();
     const filePath = `products/${id}`;
     product.id = id;
-    if (file != undefined) {  
-      const ref =  this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);  
+    if (file != undefined) {
+      const ref = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
       this.uploadPercentage = task.percentageChanges();
       task.snapshotChanges().pipe(finalize(() => {
-      ref.getDownloadURL().subscribe(urlImage => {
-        product.image = urlImage;
-        this.saveProduct(product).then(() => {
-          let operacion = productId ? 'editado' : 'creado';
-          this.snackbar.open(`Producto ${ operacion } satisfactoriamente`, 'OK', {
-            duration: 3000
-          })
-        }).catch(err => console.log(err)) 
-      });
-    })).subscribe();
+        ref.getDownloadURL().subscribe(urlImage => {
+          product.image = urlImage;
+          this.saveProduct(product).then(() => {
+            let operacion = productId ? 'editado' : 'creado';
+            this.snackbar.open(`Producto ${operacion} satisfactoriamente`, 'OK', {
+              duration: 3000
+            })
+          }).catch(err => console.log(err))
+        });
+      })).subscribe();
     } else {
       this.saveProduct(product).then(() => {
         let operacion = productId ? 'editado' : 'creado';
-        this.snackbar.open(`Producto ${ operacion } satisfactoriamente`, 'OK', {
+        this.snackbar.open(`Producto ${operacion} satisfactoriamente`, 'OK', {
           duration: 3000
         })
-      }).catch(err => console.log(err)) 
+      }).catch(err => console.log(err))
     }
   }
 
@@ -117,6 +117,6 @@ export class ProductsService {
         reject(err.message);
       }
     });
-
   }
+
 }

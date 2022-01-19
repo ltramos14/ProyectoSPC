@@ -1,0 +1,50 @@
+h1 {
+  color: #058d38;
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  margin: 5% 0 3% 0;
+}
+
+h2 {
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+.mat-header-cell {
+  background-color: #0000002f;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  justify-content: center;
+}
+
+.mat-table {
+  width: 90%;
+  margin-left: 5%;
+  text-align: justify;
+  border: 2px solid #0000002f;
+}
+
+.availability {
+  width: 10%;
+  margin-left: 5%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #C8E6C9;
+  color: #22C55E;
+}
+
+.mat-paginator {
+  width: 90%;
+  margin-left: 5%;
+  text-align: justify;
+}
+
+.total-container {
+  text-align: center;
+  margin: 2% 0 6%;
+}

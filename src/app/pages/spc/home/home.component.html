@@ -32,3 +32,43 @@
         </div>
     </div>
 </main>
+
+<p-carousel [value]="randProducts" [numVisible]="4" [numScroll]="1" [autoplayInterval]="2000"
+    [responsiveOptions]="responsiveOptions">
+    <ng-template pTemplate="header">
+        <h1>Productos Destacados</h1>
+    </ng-template>
+    <ng-template let-randProduct pTemplate="item">
+
+        <div class="card2 overflow-hidden">
+            <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative" matRipple>
+                <img [src]="randProduct.image" class="avatar h-24 w-24 mx-auto">
+                <h3 class="mb-1 mt-3 bold">{{ randProduct.name }}</h3>
+
+                <div class="body-2 text-secondary">
+                    <mat-icon [icIcon]="icCheck" class="ltr:mr-1 rtl:ml-1" inline="true"></mat-icon>
+                    <span> {{ randProduct.productiveStatus }} </span>
+                </div>
+
+                <div class="body-2 text-secondary">
+                    <h2 class="mb-1 mt-3 bold">
+                        <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ randProduct.price }}
+                    </h2>
+                    <span> Precio por {{ randProduct.unit }} </span>
+                </div>
+            </div>
+
+            <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
+                <button class="text-secondary" mat-icon-button matTooltip="Comprar Ahora" type="button">
+                    <mat-icon [icIcon]="icBuyNow"></mat-icon>
+                </button>
+
+                <button class="text-secondary" mat-icon-button (click)="addProductToCart(randProduct)"
+                    matTooltip="Añadir al Carrito" type="button">
+                    <mat-icon [icIcon]="icCart"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+    </ng-template>
+</p-carousel>

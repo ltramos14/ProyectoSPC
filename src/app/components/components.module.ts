@@ -6,7 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
 
 import { IncrementerComponent } from './incrementer/incrementer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -17,6 +18,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     MatButtonModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatIconModule,
     IconModule
   ],

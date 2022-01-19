@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { Product } from 'src/app/models/product.model';
+import { Cart } from 'src/app/models/cart.model';
+import { CartService } from 'src/app/service/consumer/cart.service';
 import { scaleIn400ms } from '../../../../@vex/animations/scale-in.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { scaleFadeIn400ms } from '../../../../@vex/animations/scale-fade-in.animation';
-import { Observable, ReplaySubject } from 'rxjs';
 
 import icSpa from '@iconify/icons-ic/twotone-spa';
 import icMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCheck from '@iconify/icons-ic/twotone-check-circle';
 import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
 import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
-import { CartService } from 'src/app/service/consumer/cart.service';
-import { Cart } from 'src/app/models/cart.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products-catalog',
@@ -66,7 +66,6 @@ export class ProductsCatalogComponent implements OnInit {
         duration: 2000
       });
     }, err => console.error(err))
-
   }
 
 }

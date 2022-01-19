@@ -1,58 +1,70 @@
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 demo-table">
+<h1>TU CARRITO DE COMPRAS</h1>
 
-  <ng-container matColumnDef="product.image">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-    <td mat-cell *matCellDef="let element">
-      <img [src]="element.product.image" class="avatar h-20 w-20 align-middle">
-    </td>
-  </ng-container>
+<vex-scrollbar class="relative">
+  <table [dataSource]="dataSource" mat-table matSort>
 
-  <ng-container matColumnDef="product.name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-    <td mat-cell *matCellDef="let element"> {{element.product.name}} 
-      <span>Hay {{ element.product.stock }} productos disponibles</span>
-    </td>
-  </ng-container>
+    <!-- Image Column -->
+    <ng-container matColumnDef="product.image">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let element" class="w-20 min-w-20 pr-0" mat-cell>
+        <img [src]="element.product.image" class="avatar h-20 w-20 align-middle">
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="product.price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
-    <td mat-cell *matCellDef="let element"> {{element.product.price}} </td>
-  </ng-container>
+    <ng-container matColumnDef="product.name">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let element">
+        <h4><strong>{{element.product.name}}</strong></h4>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="quantity">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-    <td mat-cell *matCellDef="let element">
-      <app-incrementer (setValue)="updateQuantity(element.id, element.product.price, $event)"
-        [value]="element.quantity"
-        [stock]="element.product.stock">
-      </app-incrementer>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="product.price">
+      <th mat-header-cell *matHeaderCellDef> Precio </th>
+      <td mat-cell *matCellDef="let element"> $ {{element.product.price}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="subtotal">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Subtotal </th>
-    <td mat-cell *matCellDef="let element"> ${{element.subtotal}} </td>
-  </ng-container>
+    <ng-container matColumnDef="product.availability">
+      <th mat-header-cell *matHeaderCellDef> Disponibilidad </th>
+      <td mat-cell *matCellDef="let element" class="availability">
+        <span>{{ element.product.stock }} unidades</span>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-menu-item color="accent" mat-icon-button (click)="deleteProduct(element.id)">
-        <mat-icon [icIcon]="icDelete"></mat-icon>
-      </button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+      <td mat-cell *matCellDef="let element">
+        <app-incrementer (setValue)="updateQuantity(element.id, element.product.price, $event)"
+          [value]="element.quantity" [stock]="element.product.stock">
+        </app-incrementer>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <ng-container matColumnDef="subtotal">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Subtotal </th>
+      <td mat-cell *matCellDef="let element">
+        <h3><strong>$ {{element.subtotal}}</strong></h3>
+      </td>
+    </ng-container>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-menu-item color="warn" mat-icon-button (click)="deleteProduct(element.id)">
+          <mat-icon [icIcon]="icDelete"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" class="sticky left-0" showFirstLastButtons></mat-paginator>
+</vex-scrollbar>
 
 <mat-divider></mat-divider>
-
 <section class="total-container">
-  <h1>Total a pagar</h1>
-  <h3>$ {{ total }}</h3>
-  <button mat-raised-button color="accent" (click)="confirmOrder()">Confirmar pedido</button>
+  <h2>SUBTOTAL: <strong>$ {{ total }}</strong> </h2>
+  <br>
+  <button mat-raised-button color="accent" (click)="confirmOrder()">Realizar Solicitud de Compra</button>
 </section>

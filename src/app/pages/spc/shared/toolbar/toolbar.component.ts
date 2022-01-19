@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { AuthService } from '../../../../service/auth/auth.service';
+import { MenuHome } from './toolbar-user/interfaces/menu-home';
+
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
@@ -10,8 +13,7 @@ import icGrass from '@iconify/icons-ic/twotone-grass';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icInfo from '@iconify/icons-ic/twotone-info';
-import { AuthService } from '../../../../service/auth/auth.service';
-import { MenuHome } from './toolbar-user/interfaces/menu-home';
+import { CartService } from 'src/app/service/consumer/cart.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -31,7 +33,7 @@ export class ToolbarComponent implements OnInit {
   public userDisplayName: string;
 
   isLogged = false;
-  
+
   menu: MenuHome[] = [
     {
       name: 'PRODUCTOS',
@@ -95,14 +97,25 @@ export class ToolbarComponent implements OnInit {
     }
   ]
 
-  constructor(private authService: AuthService) { }
+  cartSize: number;
+
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService) { }
 
   async ngOnInit() {
+
     const user = await this.authService.getCurrentUser();
+
     if (user) {
       this.isLogged = true;
       this.userDisplayName = user.displayName;
+      this.countCartProducts();
     }
+  }
+
+  countCartProducts(): void {
+    this.cartService.shoppingsCart.subscribe(res => this.cartSize = res.length);
   }
 
 }

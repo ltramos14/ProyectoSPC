@@ -1,0 +1,22 @@
+.content-select {
+    max-width: 250px;
+    position: relative;
+}
+
+.content-select mat-select {
+    cursor: pointer;
+    display: inline-block;
+    width: 90px;
+    padding: 7px 10px;
+    height: 40px;
+    background: #f0f0f0;
+    color: #7b7b7b;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.content-select mat-select:hover {
+    background: #ee731b8a;
+}
