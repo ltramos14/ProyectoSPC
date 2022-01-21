@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { AuthService } from '../../../../service/auth/auth.service';
 import { MenuHome } from './toolbar-user/interfaces/menu-home';
 
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
+import icLocalShipping from '@iconify/icons-ic/twotone-local-shipping';
 import icMenu from '@iconify/icons-ic/twotone-menu';
 import icPerson from '@iconify/icons-ic/twotone-person';
 import icGrass from '@iconify/icons-ic/twotone-grass';
@@ -14,6 +13,8 @@ import icNature from '@iconify/icons-ic/twotone-nature';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icInfo from '@iconify/icons-ic/twotone-info';
 import { CartService } from 'src/app/service/consumer/cart.service';
+import { Subscription } from 'rxjs';
+import { UsersService } from 'src/app/service/users/users.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -24,16 +25,32 @@ export class ToolbarComponent implements OnInit {
 
   visibleSidebar2;
 
+  /**
+   * Iconos usados en el componente
+  */
   icSearch = icSearch;
   icHome = icHome;
   icShoppingCart = icShoppingCart;
+  icLocalShipping = icLocalShipping;
   icMenu = icMenu;
   icPerson = icPerson;
 
+  // Variable que almacena el displayName del usuario en sesion
   public userDisplayName: string;
 
+  /**
+   * Bandera valida si exisre un usuario en sesión
+   */
   isLogged = false;
 
+  /**
+   * Bandera que valida si el usuario en sesión es un productor o un transportador
+   */
+  isWorker: boolean = false;
+
+  /**
+   * Arreglo del menú que se muestra en la vista
+   */
   menu: MenuHome[] = [
     {
       name: 'PRODUCTOS',
@@ -97,25 +114,63 @@ export class ToolbarComponent implements OnInit {
     }
   ]
 
+  /**
+   * Variable que almacena la cantidad de productos que hay
+   * en el carrito del productor
+   */
   cartSize: number;
 
+  /**
+   * Constructor que inyecta los siguientes servicios
+   * @param authService 
+   * @param userService 
+   * @param cartService 
+   */
   constructor(
     private authService: AuthService,
+    private userService: UsersService,
     private cartService: CartService) { }
 
+  /**
+   * Método que se ejecuta una vez se inicializa el componente
+   */  
   async ngOnInit() {
-
     const user = await this.authService.getCurrentUser();
-
     if (user) {
       this.isLogged = true;
       this.userDisplayName = user.displayName;
-      this.countCartProducts();
+      this.cartService.getConsumerDoc(user.uid);
+      this.getUserRole(user.uid);
     }
   }
+  
+  /**
+   * Método que obtiene el role del usuario en sesión del
+   * para validar el menú del carrito o las órdenes
+   * @param uid id del usuario en sesión
+   */
+  getUserRole(uid: string) {
+    this.userService.getUserInfo(uid).subscribe(({ typeuser }) => {
+      if (typeuser === 'Productor' || typeuser === 'Transportador')
+        this.isWorker = true;
+      this.countProducts(typeuser);
+    });
+  }
 
-  countCartProducts(): void {
-    this.cartService.shoppingsCart.subscribe(res => this.cartSize = res.length);
+  /**
+   * Método que cuenta los productos que se encuentran la respectiva colección
+   * de carrito o órdenes según el role del usuario en sesión
+   * @param role el campo de 'typeuser' del documento del usuario en sesión
+   */
+  countProducts(role: string): void {
+    if (role == 'Consumidor') {
+      this.cartService.shoppingsCart
+                                .subscribe(res => this.cartSize = res.length);
+    } else if (role === 'Productor') {
+      // TODO: Aqui se hace llamada al servicio de los pedidos realizados para el productor
+      } else if (role === 'Transportador') {
+        // TODO: Aqui se hace llamada al servicio de los pedidos realizados para el transportador
+        }
   }
 
 }

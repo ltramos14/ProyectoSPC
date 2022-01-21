@@ -12,14 +12,18 @@ import { SpcComponent } from './spc.component';
 import { RouterModule } from '@angular/router';
 import { ProductsCatalogModule } from './products-catalog/products-catalog.module';
 import { FooterModule } from './shared/footer/footer.module';
+import { OrdersModule } from './orders/orders.module';
 
 @NgModule({
-  declarations: [SpcComponent],
+  declarations: [
+    SpcComponent
+  ],
   imports: [
     CommonModule,
     AboutUsModule,
     ContactUsModule,
     HomeModule,
+    OrdersModule,
     ProductsCatalogModule,
     ProductDetailModule,
     ShoppingCartModule,

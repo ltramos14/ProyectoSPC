@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -7,13 +7,15 @@ import { Cart } from "src/app/models/cart.model";
 import { CartService } from "src/app/service/consumer/cart.service";
 
 import icDelete from "@iconify/icons-ic/twotone-close";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/service/auth/auth.service";
 
 @Component({
   selector: "app-shopping-cart",
   templateUrl: "./shopping-cart.component.html",
   styleUrls: ["./shopping-cart.component.scss"],
 })
-export class ShoppingCartComponent implements OnInit {
+export class ShoppingCartComponent implements OnInit, OnDestroy {
 
   /**
    * Indica qué variables deben ser mostradas en la tabla
@@ -50,6 +52,8 @@ export class ShoppingCartComponent implements OnInit {
    */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  private cartSubscription: Subscription;
+
   /**
    * Constructor de UsuariosComponent
    * @param route objeto que permite cambiar de página
@@ -57,27 +61,32 @@ export class ShoppingCartComponent implements OnInit {
    * @param dialog objeto que permite invocar la venana modal
    */
   constructor(
+    private authService: AuthService,
     private cartService: CartService,
     private snackbar: MatSnackBar
-  ) {}
-
+  ) {
+  }
+  ngOnDestroy(): void {
+    /* this.cartSubscription.unsubscribe(); */
+  }
+  
   /**
    * Método que se ejecuta al cargar la página
    */
-  ngOnInit(): void {
-    if (this.getProductCartConsumer() !== undefined) {
-      this.getProductCartConsumer().subscribe((carts) => {
-        this.productsCart = carts;
-        this.dataSource = new MatTableDataSource(this.productsCart);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.getTotalValue();
-      });
-    }
+  async ngOnInit() {
+    const { uid } = await this.authService.getCurrentUser();
+    this.cartService.getConsumerDoc(uid);
+    this.getProductCartConsumer();
   }
 
   getProductCartConsumer() {
-    return this.cartService.shoppingsCart;
+    this.cartSubscription =  this.cartService.shoppingsCart.subscribe((carts) => {
+      this.productsCart = carts;
+      this.dataSource = new MatTableDataSource(this.productsCart);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.getTotalValue();
+    });
   }
 
   deleteProduct(idCart: string) {

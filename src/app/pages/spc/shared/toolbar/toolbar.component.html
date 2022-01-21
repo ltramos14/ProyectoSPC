@@ -43,14 +43,26 @@
       </button>
     </mat-menu>
 
-    <div class="px-1">
-      <button mat-icon-button routerLink="carrito" type="button">
-        <mat-icon [icIcon]="icShoppingCart"></mat-icon>
-        <span id="cart_menu_num" class="badge rounded-circle">
-          <p>{{ cartSize }}</p>
-        </span>
-      </button>
-    </div>
+    <ng-container *ngIf="!isWorker; else elseTemplate">
+      <div class="px-1">
+        <button mat-icon-button routerLink="carrito" type="button">
+          <mat-icon [icIcon]="icShoppingCart"></mat-icon>
+          <span *ngIf="cartSize" id="cart_menu_num" class="badge rounded-circle">
+            <p>{{ cartSize }}</p>
+          </span>
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div class="px-1">
+        <button mat-icon-button routerLink="mis-ordenes" type="button">
+          <mat-icon [icIcon]="icLocalShipping"></mat-icon>
+          <span *ngIf="cartSize" id="cart_menu_num" class="badge rounded-circle">
+            <p>{{ cartSize }}</p>
+          </span>
+        </button>
+      </div>
+    </ng-template>
 
     <div class="px-1">
       <button mat-icon-button type="button" (click)="visibleSidebar2 = true">

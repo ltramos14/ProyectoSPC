@@ -9,15 +9,18 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { UsersComponent } from './users/users.component';
 import { SpcComponent } from './spc.component';
 import { ProductsCatalogComponent } from './products-catalog/products-catalog.component';
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
-    { path: 'inicio', component: SpcComponent, children: [
+    { path: '', component: SpcComponent, children: [
         { path: '', component: HomeComponent , data: { title: 'Inicio' } },
         { path: 'quienes-somos', component: AboutUsComponent , data: { title: '¿Quiénes somos?' } },
         { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' }},
         { path: 'productos', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },
         { path: 'detalles-producto', component: ProductDetailComponent },
-        { path: 'carrito', component: ShoppingCartComponent , data: { title: 'Carrito de compras' } },
+        { path: 'carrito', component: ShoppingCartComponent , data: { title: 'Carrito de compras' }, canActivate: [ AuthGuard ] },
+        { path: 'mis-ordenes', component: OrdersComponent , data: { title: 'Mis pedidos' }, canActivate: [ AuthGuard ] },
         { path: 'usuarios', component: UsersComponent },
     ] },
 ];

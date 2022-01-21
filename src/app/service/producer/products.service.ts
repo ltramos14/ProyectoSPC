@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Product } from 'src/app/models/product.model';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -117,6 +117,14 @@ export class ProductsService {
         reject(err.message);
       }
     });
+  }
+
+  searchProducts(name$: Subject<string>) {
+    return name$.pipe(
+      switchMap(name => 
+        this.afs.collection('products', ref => ref.where('name', '==', name)).valueChanges()
+      )
+    )
   }
 
 }

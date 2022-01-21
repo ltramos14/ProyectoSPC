@@ -16,9 +16,12 @@ export class CartService {
 
   consumerDoc: AngularFirestoreDocument<User>;
 
-  constructor(public afs: AngularFirestore) {
-    let uid = localStorage.getItem('uid');
-    this.consumerDoc = afs.doc<User>(`users/${ uid }`);
+  uid: string;
+
+  constructor(public afs: AngularFirestore) {}
+  
+  getConsumerDoc(uid: string) {
+    this.consumerDoc = this.afs.doc<User>(`users/${ uid }`);
     this.shoppingCartCollection = this.consumerDoc.collection<Cart>('shopping-cart');
     this.getProductOnCart();
   }

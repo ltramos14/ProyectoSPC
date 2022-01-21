@@ -19,7 +19,7 @@ const routes: Routes = [
             { path: 'mi-vehiculo/:id', component: MyVehicleComponent, data: { title: 'Mis vehículos' } },
             { path: 'mis-rutas/:id', component: MyRoutesComponent, data: { title: 'Mis rutas' } },
             { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
-        ], canActivate: [ AuthGuard, /* ProfileGuard */ ]
+        ], canActivate: [ AuthGuard, ProfileGuard ]
     }
 ];
 
