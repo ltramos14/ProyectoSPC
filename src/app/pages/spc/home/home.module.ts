@@ -12,6 +12,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'primeng/carousel';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HomeComponent, CarouselHomeComponent],
@@ -25,6 +26,7 @@ import { CarouselModule } from 'primeng/carousel';
     MatTooltipModule,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
     IconModule
   ]
 })

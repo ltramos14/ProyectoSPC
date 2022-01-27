@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -16,15 +17,21 @@ import { NavigationItemModule } from '../../../../../@vex/components/navigation-
 import { MegaMenuModule } from '../../../../../@vex/components/mega-menu/mega-menu.module';
 import { ContainerModule } from '../../../../../@vex/directives/container/container.module';
 import { SidebarModule } from 'primeng/sidebar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [ToolbarComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
     MatMenuModule,
     MatRippleModule,

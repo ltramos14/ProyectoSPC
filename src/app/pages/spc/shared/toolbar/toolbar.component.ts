@@ -13,8 +13,12 @@ import icNature from '@iconify/icons-ic/twotone-nature';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icInfo from '@iconify/icons-ic/twotone-info';
 import { CartService } from 'src/app/service/consumer/cart.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UsersService } from 'src/app/service/users/users.service';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { Product } from 'src/app/models/product.model';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toolbar',
@@ -120,21 +124,35 @@ export class ToolbarComponent implements OnInit {
    */
   cartSize: number;
 
+  productsList: Product[] = [];
+
+  productCtrl = new FormControl();
+
+  filteredProducts: Observable<Product[]>;
+
   /**
    * Constructor que inyecta los siguientes servicios
    * @param authService 
    * @param userService 
    * @param cartService 
+   * @param productService
    */
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private cartService: CartService) { }
+    private cartService: CartService,
+    private productService: ProductsService) {
+      this.filteredProducts = this.productCtrl.valueChanges.pipe(
+        startWith(''),
+        map(product => (product ? this._filterProducts(product) : this.productsList.slice())),
+      );
+    }
 
   /**
    * Método que se ejecuta una vez se inicializa el componente
    */  
   async ngOnInit() {
+    this.getProducts();
     const user = await this.authService.getCurrentUser();
     if (user) {
       this.isLogged = true;
@@ -143,7 +161,12 @@ export class ToolbarComponent implements OnInit {
       this.getUserRole(user.uid);
     }
   }
-  
+
+  getProducts() {
+    return this.productService.products.subscribe(data => this.productsList = data);
+  }
+
+
   /**
    * Método que obtiene el role del usuario en sesión del
    * para validar el menú del carrito o las órdenes
@@ -171,6 +194,12 @@ export class ToolbarComponent implements OnInit {
       } else if (role === 'Transportador') {
         // TODO: Aqui se hace llamada al servicio de los pedidos realizados para el transportador
         }
+  }
+
+  private _filterProducts(value: string): Product[] {
+    const filterValue = value.toLowerCase();
+
+    return this.productsList.filter(product => product.name.toLowerCase().includes(filterValue));
   }
 
 }

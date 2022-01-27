@@ -56,18 +56,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.productsService.products.subscribe((products) => {
+    this.productsService.getProductsWithQuery(16).subscribe((products) => {
       this.products = products;
-      this.getRandomProducts();
     })
-  }
-
-  getRandomProducts() {
-    for (let i = 0; i < 16; i++) {
-      const rand = Math.floor(Math.random() * this.products.length);
-      this.randProducts.push(this.products[rand]);
-    }
   }
 
   addProductToCart(product: Product) {

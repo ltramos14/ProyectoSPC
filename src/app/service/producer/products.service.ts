@@ -119,12 +119,12 @@ export class ProductsService {
     });
   }
 
-  searchProducts(name$: Subject<string>) {
-    return name$.pipe(
-      switchMap(name => 
-        this.afs.collection('products', ref => ref.where('name', '==', name)).valueChanges()
-      )
-    )
+  getProductsWithQuery(limit: number) {
+    return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
+  }
+
+  getProductsByType(productType: string): Observable<Product[]> {
+    return this.afs.collection('products', ref => ref.where('productType', '==', productType)).valueChanges() as Observable<Product[]>;
   }
 
 }
