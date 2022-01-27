@@ -7,21 +7,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
 import { ProductsCatalogComponent } from './products-catalog.component';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
-import { MatRippleModule } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
   declarations: [ProductsCatalogComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     RouterModule,
-    FlexLayoutModule,
+    MatButtonModule,
+    MatDividerModule,
     MatIconModule,
     IconModule,
-    MatButtonModule,
-    MatRippleModule,
-    MatTooltipModule,
+    FlexLayoutModule,
     ContainerModule,
   ]
 })

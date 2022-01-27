@@ -1,1 +1,44 @@
-<p>product-detail works!</p>
+<div class="p-gutter container">
+    <div @fadeInUp class="card p-16">
+        <div fxLayout="row">
+            <div fxFlex="50%">
+                <img class="h-50" src="../../../../assets/illustrations/file-product.png">
+
+                <div>
+                    <h4 class="body-2 text-secondary mt-0">Información Adicional</h4>
+                    <h3 class="title m-0">Productor </h3>
+                    <h3 class="title m-0">Finca </h3>
+                </div>
+            </div>
+
+            <div class="ml-10" fxFlex="50%">
+                <h3 class="title m-0">Categoría producto</h3>
+                <h1>Nombre del producto</h1>
+                <br>
+                <h2>$ 2010592</h2>
+                <p class="text-secondary m-0">Precio por </p>
+                <br>
+                <div class="text-secondary mb-10">
+                    <p class="m-0">Aquí va la descripción del producto</p>
+                </div>
+                <div class="text-primary mb-10">
+                    <h2>STOCK</h2>
+                    <p class="m-0">disponibilidad</p>
+                </div>
+                <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center center" fxLayoutGap="12px">
+                    <button color="accent" mat-raised-button type="button">
+                        <ic-icon [icon]="icCart" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
+                            size="20px"></ic-icon>
+                        <span>AÑADIR AL CARRITO</span>
+                    </button>
+
+                    <button color="accent" mat-raised-button type="button">
+                        <ic-icon [icon]="icBuyNow" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
+                            size="20px"></ic-icon>
+                        <span>COMPRAR AHORA</span>
+                    </button>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>

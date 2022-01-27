@@ -10,12 +10,8 @@ import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.anim
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { scaleFadeIn400ms } from '../../../../@vex/animations/scale-fade-in.animation';
+import { ActivatedRoute } from '@angular/router';
 
-import icSpa from '@iconify/icons-ic/twotone-spa';
-import icMoney from '@iconify/icons-ic/twotone-attach-money';
-import icCheck from '@iconify/icons-ic/twotone-check-circle';
-import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
-import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
 
 @Component({
   selector: 'app-products-catalog',
@@ -31,12 +27,6 @@ import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
 })
 export class ProductsCatalogComponent implements OnInit {
 
-  icSpa = icSpa;
-  icMoney = icMoney;
-  icCheck = icCheck;
-  icCart = icCart;
-  icBuyNow = icBuyNow;
-
   subject$: ReplaySubject<Product[]> = new ReplaySubject<Product[]>(1);
 
   data$: Observable<Product[]> = this.subject$.asObservable();
@@ -46,26 +36,15 @@ export class ProductsCatalogComponent implements OnInit {
   productCart: Cart;
 
   constructor(
-    private snackbar: MatSnackBar,
     private productsService: ProductsService,
-    private cartService: CartService) { }
+    private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getData().subscribe(products => this.products = products);
-  }
-
-  getData() {
-    return this.productsService.products;
-  }
-
-  addProductToCart(product: Product) {
-    this.productCart = { product, quantity: 1, subtotal: product.price };
-
-    this.cartService.addProductToShoppingCart(this.productCart).then(() => {
-      this.snackbar.open(`Producto agregado al carrito correctamente`, 'OK', {
-        duration: 2000
-      });
-    }, err => console.error(err))
+    this.activeRoute.params.subscribe( data => {
+      this.productsService.getProductsByType(data.tipo).subscribe( products => {
+        this.products = products;
+      })
+    })
   }
 
 }

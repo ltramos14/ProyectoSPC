@@ -7,28 +7,28 @@
             <h2 class="title">FRUTAS</h2>
             <p class="copy">Check out all of these gorgeous mountain trips with beautiful views of, you guessed it, the
                 mountains</p>
-            <button class="btn" [routerLink]="['/productos']" >Ver Productos</button>
+            <button class="btn" [routerLink]="['/productos/frutas']" >Ver Productos</button>
         </div>
     </div>
     <div class="card">
         <div class="content">
             <h2 class="title">HORTALIZAS</h2>
             <p class="copy">Plan your next beach trip with these fabulous destinations</p>
-            <button class="btn" [routerLink]="['/productos']" >Ver Productos</button>
+            <button class="btn" [routerLink]="['/productos/hortalizas']" >Ver Productos</button>
         </div>
     </div>
     <div class="card">
         <div class="content">
-            <h2 class="title">VERDURAS</h2>
+            <h2 class="title">TUBÉRCULOS</h2>
             <p class="copy">It's the desert you've always dreamed of</p>
-            <button class="btn" [routerLink]="['/productos']" >Ver Productos</button>
+            <button class="btn" [routerLink]="['/productos/tuberculos']" >Ver Productos</button>
         </div>
     </div>
     <div class="card">
         <div class="content">
             <h2 class="title">HIERBAS Y AROMÁTICAS</h2>
             <p class="copy">Seriously, straight up, just blast off into outer space today</p>
-            <button class="btn" [routerLink]="['/productos']" >Ver Productos</button>
+            <button class="btn" [routerLink]="['/productos/hierbas']" >Ver Productos</button>
         </div>
     </div>
 </main>
@@ -39,36 +39,6 @@
         <h1>Productos Destacados</h1>
     </ng-template>
     <ng-template let-products pTemplate="item">
-
-        <div class="card2 overflow-hidden">
-            <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative" matRipple>
-                <img [src]="products.image" class="avatar h-24 w-24 mx-auto">
-                <h3 class="mb-1 mt-3 bold">{{ products.name }}</h3>
-
-                <div class="body-2 text-secondary">
-                    <mat-icon [icIcon]="icCheck" class="ltr:mr-1 rtl:ml-1" inline="true"></mat-icon>
-                    <span> {{ products.productiveStatus }} </span>
-                </div>
-
-                <div class="body-2 text-secondary">
-                    <h2 class="mb-1 mt-3 bold">
-                        <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ products.price }}
-                    </h2>
-                    <span> Precio por {{ products.unit }} </span>
-                </div>
-            </div>
-
-            <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
-                <button class="text-secondary" mat-icon-button matTooltip="Comprar Ahora" type="button">
-                    <mat-icon [icIcon]="icBuyNow"></mat-icon>
-                </button>
-
-                <button class="text-secondary" mat-icon-button (click)="addProductToCart(products)"
-                    matTooltip="Añadir al Carrito" type="button">
-                    <mat-icon [icIcon]="icCart"></mat-icon>
-                </button>
-            </div>
-        </div>
-
+        <app-product-card [product]="products"></app-product-card>
     </ng-template>
 </p-carousel>

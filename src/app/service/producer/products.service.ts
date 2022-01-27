@@ -124,7 +124,20 @@ export class ProductsService {
   }
 
   getProductsByType(productType: string): Observable<Product[]> {
-    return this.afs.collection('products', ref => ref.where('productType', '==', productType)).valueChanges() as Observable<Product[]>;
-  }
+    let type = null;
 
+    if (productType === 'frutas') {
+      type = 'Frutas';
+    } else if (productType === 'hortalizas') {
+      type = 'Hortalizas';
+    } else if (productType === 'tuberculos') {
+      type = 'Tubérculos';
+    } else if (productType === 'granos') { 
+      type = 'Granos';
+    } else { 
+      type = 'Hierbas y aromáticas';
+    }
+    return this.afs.collection('products', ref => ref.where('productType', '==', type)).valueChanges() as Observable<Product[]>;
+    
+  }
 }

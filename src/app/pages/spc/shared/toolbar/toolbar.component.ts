@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../service/auth/auth.service';
 import { MenuHome } from './toolbar-user/interfaces/menu-home';
+import { CartService } from 'src/app/service/consumer/cart.service';
+import { Observable } from 'rxjs';
+import { UsersService } from 'src/app/service/users/users.service';
+import { ProductsService } from 'src/app/service/producer/products.service';
+import { Product } from 'src/app/models/product.model';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 
 import icSearch from '@iconify/icons-ic/twotone-search';
+import icArrow from '@iconify/icons-ic/twotone-arrow-right-alt';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icLocalShipping from '@iconify/icons-ic/twotone-local-shipping';
@@ -12,13 +20,6 @@ import icGrass from '@iconify/icons-ic/twotone-grass';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icInfo from '@iconify/icons-ic/twotone-info';
-import { CartService } from 'src/app/service/consumer/cart.service';
-import { Observable, Subscription } from 'rxjs';
-import { UsersService } from 'src/app/service/users/users.service';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { Product } from 'src/app/models/product.model';
-import { FormControl } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toolbar',
@@ -33,6 +34,7 @@ export class ToolbarComponent implements OnInit {
    * Iconos usados en el componente
   */
   icSearch = icSearch;
+  icArrow = icArrow;
   icHome = icHome;
   icShoppingCart = icShoppingCart;
   icLocalShipping = icLocalShipping;

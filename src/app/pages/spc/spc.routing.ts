@@ -13,20 +13,22 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
-    { path: '', component: SpcComponent, children: [
-        { path: '', component: HomeComponent , data: { title: 'Inicio' } },
-        { path: 'quienes-somos', component: AboutUsComponent , data: { title: '¿Quiénes somos?' } },
-        { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' }},
-        { path: 'productos', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },
-        { path: 'detalles-producto', component: ProductDetailComponent },
-        { path: 'carrito', component: ShoppingCartComponent , data: { title: 'Carrito de compras' }, canActivate: [ AuthGuard ] },
-        { path: 'mis-ordenes', component: OrdersComponent , data: { title: 'Mis pedidos' }, canActivate: [ AuthGuard ] },
-        { path: 'usuarios', component: UsersComponent },
-    ] },
+    {
+        path: '', component: SpcComponent, children: [
+            { path: '', component: HomeComponent, data: { title: 'Inicio' } },
+            { path: 'quienes-somos', component: AboutUsComponent, data: { title: '¿Quiénes somos?' } },
+            { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' } },
+            { path: 'productos/:tipo', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },
+            { path: 'detalles-producto/:id', component: ProductDetailComponent, data: { title: 'Detalles Producto' } },
+            { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard] },
+            { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard] },
+            { path: 'usuarios', component: UsersComponent },
+        ]
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class SPCRoutingModule {}
+export class SPCRoutingModule { }

@@ -1,0 +1,30 @@
+<div class="card overflow-hidden">
+    <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
+        [routerLink]="['/detalles-producto/', product?.id ]" matRipple>
+        <img [src]="product.image" class="avatar h-24 w-24 mx-auto">
+        <h3 class="mb-1 mt-3 bold">{{ product.name }}</h3>
+
+        <div class="body-2 text-secondary" [ngClass]="{'available': product.productiveStatus === 'Disponible', 'harvest': product.productiveStatus === 'En cosecha'}">
+            <mat-icon [icIcon]="product.productiveStatus === 'Disponible' ? icCheck: icWait" class="ltr:mr-1 rtl:ml-1" inline="true"></mat-icon>
+            <span> {{ product.productiveStatus }} </span>
+        </div>
+
+        <div class="body-2 text-secondary">
+            <h2 class="mb-1 mt-5" style="color: #EE731B; font-size: 22px; font-weight: bold;">
+                <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ product.price }}
+            </h2>
+            <span> Precio por {{ product.unit }} </span>
+        </div>
+    </div>
+
+    <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-evenly center">
+        <button class="text-secondary" mat-icon-button matTooltip="Comprar Ahora" type="button">
+            <mat-icon [icIcon]="icBuyNow"></mat-icon>
+        </button>
+
+        <button class="text-secondary" mat-icon-button (click)="addProductToCart(product)"
+            matTooltip="Añadir al Carrito" type="button">
+            <mat-icon [icIcon]="icCart"></mat-icon>
+        </button>
+    </div>
+</div>
