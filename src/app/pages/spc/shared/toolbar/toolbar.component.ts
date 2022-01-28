@@ -18,8 +18,14 @@ import icMenu from '@iconify/icons-ic/twotone-menu';
 import icPerson from '@iconify/icons-ic/twotone-person';
 import icGrass from '@iconify/icons-ic/twotone-grass';
 import icNature from '@iconify/icons-ic/twotone-nature';
-import icPhone from '@iconify/icons-ic/twotone-phone';
-import icInfo from '@iconify/icons-ic/twotone-info';
+import faApple from '@iconify/icons-fa-solid/apple-alt';
+import faCarrot from '@iconify/icons-fa-solid/carrot';
+import faInfo from '@iconify/icons-fa-solid/info';
+import faLeaf from '@iconify/icons-fa-solid/leaf';
+import faPhone from '@iconify/icons-fa-solid/phone';
+import faSpa from '@iconify/icons-fa-solid/spa';
+import faTractor from '@iconify/icons-fa-solid/tractor';
+import faShippingFast from '@iconify/icons-fa-solid/shipping-fast';
 
 @Component({
   selector: 'app-toolbar',
@@ -40,6 +46,15 @@ export class ToolbarComponent implements OnInit {
   icLocalShipping = icLocalShipping;
   icMenu = icMenu;
   icPerson = icPerson;
+  faApple = faApple;
+  faCarrot = faCarrot;
+  faLeaf = faLeaf;
+  faInfo = faInfo;
+  faPhone = faPhone;
+  faSpa = faSpa;
+  faTractor = faTractor;
+  faShippingFast = faShippingFast;
+
 
   // Variable que almacena el displayName del usuario en sesion
   public userDisplayName: string;
@@ -63,23 +78,23 @@ export class ToolbarComponent implements OnInit {
       children: [
         {
           name: 'Frutas',
-          icon: icNature,
-          router: '/inicio/productos'
+          icon: faApple,
+          router: '/productos/frutas'
         },
         {
-          name: 'Verduras',
-          icon: icGrass,
-          router: '/inicio/productos'
+          name: 'Tubérculos',
+          icon: faCarrot,
+          router: '/productos/tuberculos'
         },
         {
           name: 'Hortalizas',
-          icon: icGrass,
-          router: '/inicio/productos'
+          icon: faSpa,
+          router: '/productos/hortalizas'
         },
         {
           name: 'Hierbas y aromáticas',
-          icon: icNature,
-          router: '/inicio/productos'
+          icon: faLeaf,
+          router: '/productos/hierbas'
         }
       ]
     },
@@ -88,18 +103,13 @@ export class ToolbarComponent implements OnInit {
       children: [
         {
           name: 'Productores',
-          icon: icNature,
+          icon: faTractor,
           router: '/productores'
         },
         {
           name: 'Transportadores',
-          icon: icNature,
+          icon: faShippingFast,
           router: '/transportadores'
-        },
-        {
-          name: 'Consumidores',
-          icon: icNature,
-          router: '/consumidores'
         }
       ]
     },
@@ -108,13 +118,13 @@ export class ToolbarComponent implements OnInit {
       children: [
         {
           name: '¿Quiénes somos?',
-          icon: icInfo,
-          router: '/inicio/quienes-somos'
+          icon: faInfo,
+          router: '/quienes-somos'
         },
         {
           name: 'Contáctanos',
-          icon: icPhone,
-          router: '/inicio/contactanos'
+          icon: faPhone,
+          router: '/contactanos/'
         }
       ]
     }
