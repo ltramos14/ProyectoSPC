@@ -119,25 +119,32 @@ export class ProductsService {
     });
   }
 
+  getProductById(id: string) {
+    return this.afs.collection('products').doc(id).valueChanges() as Observable<Product>;
+  }
+
   getProductsWithQuery(limit: number) {
     return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
+  }
+
+  getProductsByIdProducer(idProducer: string): Observable<Product[]> {
+    return this.afs.collection('products', ref => ref.where('idProducer', '==', idProducer)).valueChanges() as Observable<Product[]>;
   }
 
   getProductsByType(productType: string): Observable<Product[]> {
     let type = null;
 
-    if (productType === 'frutas') {
+    if (productType === 'frutas' || productType === 'Frutas') {
       type = 'Frutas';
-    } else if (productType === 'hortalizas') {
+    } else if (productType === 'hortalizas' || productType === 'Hortalizas') {
       type = 'Hortalizas';
-    } else if (productType === 'tuberculos') {
+    } else if (productType === 'tuberculos' || productType === 'Tubérculos') {
       type = 'Tubérculos';
-    } else if (productType === 'granos') { 
+    } else if (productType === 'granos' || productType === 'Granos') { 
       type = 'Granos';
     } else { 
       type = 'Hierbas y aromáticas';
     }
     return this.afs.collection('products', ref => ref.where('productType', '==', type)).valueChanges() as Observable<Product[]>;
-    
   }
 }

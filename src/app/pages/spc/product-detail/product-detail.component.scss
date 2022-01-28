@@ -1,4 +1,30 @@
 .card {
     background-image: url(../../../../assets/illustrations/fondoc.jpg);
     background-size: cover;
+    box-shadow:  0px 0px 5px 1px #DFDEE0;
+}
+
+.buttons {
+    align-items: center;
+}
+
+.available {
+    color: #06FF00;
+    text-transform: uppercase;
+    font-size: 26px;
+    text-align: center;
+}
+
+.harvest {
+    color: #7E370C;
+    text-transform: uppercase;
+    font-size: 26px;
+    text-align: center;
+}
+
+.carousel-products h1 {
+    color: #058D38;
+    font-weight: bold;
+    font-size: 26px;
+    margin: 3% 0 2% 4%;
 }
