@@ -16,11 +16,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [MyFarmsCreateUpdateComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     MatDialogModule,

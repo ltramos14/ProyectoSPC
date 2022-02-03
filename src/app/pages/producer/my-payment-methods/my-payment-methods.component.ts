@@ -14,6 +14,7 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-my-payment-methods',
@@ -42,12 +43,14 @@ export class MyPaymentMethodsComponent implements OnInit {
 
   constructor(
     private paymentMethodsService: PaymentsMethodsService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
 
-  ngOnInit():void {
-
+  async ngOnInit() {
+    const { uid } = await this.authService.getCurrentUser();
+    this.paymentMethodsService.getProducerDoc(uid);
     if (this.getData() !== undefined) {
       this.getData().subscribe(paymentMethods => this.paymentMethods = paymentMethods);
     }

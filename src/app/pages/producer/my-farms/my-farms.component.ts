@@ -15,6 +15,7 @@ import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-my-farms',
@@ -41,16 +42,17 @@ export class MyFarmsComponent implements OnInit {
 
   constructor(
     private farmService: FarmsService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
-
+  async ngOnInit() {
+    const { uid } = await this.authService.getCurrentUser();
+    this.farmService.getProducerDoc(uid);
     if (this.getData() !== undefined) {
       this.getData().subscribe(farms => this.farms = farms);
     }
-
   }
 
   getData() {

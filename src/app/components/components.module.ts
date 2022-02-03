@@ -13,17 +13,21 @@ import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
   declarations: [
     IncrementerComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    GoogleMapsComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     FlexLayoutModule,
+    GoogleMapsModule,
     MatButtonModule,
     MatSelectModule,
     MatRippleModule,
@@ -35,7 +39,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   ],
   exports: [
     IncrementerComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    GoogleMapsComponent
   ]
 })
 export class ComponentsModule { }

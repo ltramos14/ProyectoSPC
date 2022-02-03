@@ -216,13 +216,11 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   }
 
   createProduct() {
-    let idUser;
-    this.route.params.subscribe(data => {
-      idUser = data.id;
+    this.route.params.subscribe(({ id }) => {
+      this.dialog.open(ProductsCreateUpdateComponent, {
+        data: { id }
+      });
     })
-    this.dialog.open(ProductsCreateUpdateComponent, {
-      data: { idUser }
-    });
   }
 
   updateProduct(product: Product) {

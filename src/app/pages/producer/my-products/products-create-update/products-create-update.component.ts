@@ -15,6 +15,7 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'vex-products-create-update',
@@ -59,15 +60,14 @@ export class ProductsCreateUpdateComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
     private fb: FormBuilder,
+    private authService: AuthService,
     private productService: ProductsService,
     private farmsService: FarmsService) {
   }
 
   ngOnInit() {
 
-    this.getFarmsData().subscribe(farms => {
-      this.farm = farms;
-    })
+    this.getFarmsData();
 
     if (this.defaults.idUser) {
       this.mode = 'create';
@@ -175,8 +175,12 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   }
 
-  getFarmsData() {
-    return this.farmsService.farms;
+  async getFarmsData() {
+    const { uid } = await this.authService.getCurrentUser(); 
+    this.farmsService.getProducerDoc(uid);
+    this.farmsService.farms.subscribe(data => {
+      this.farm = data;
+    });
   }
 
   showPreviewImage(event: Event) {

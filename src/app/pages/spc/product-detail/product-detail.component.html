@@ -43,7 +43,7 @@
                         </p>
                     </div>
 
-                    <div class="mt-8" fxLayout="row" fxLayoutAlign="center" fxLayout.lt-sm="column"
+                    <div class="mt-8" fxLayout="row" *ngIf="!isWorker" fxLayoutAlign="center" fxLayout.lt-sm="column"
                         fxLayoutAlign.lt-sm="center center" fxLayoutGap="12px">
                         <button color="accent" mat-raised-button type="button" (click)="addProductToCart(product)">
                             <ic-icon [icon]="icCart" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
