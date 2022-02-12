@@ -28,3 +28,11 @@
   --color-warn: 244, 67, 54;
   --color-warn-contrast: 255, 255, 255;
 }
+
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}

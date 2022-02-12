@@ -24,6 +24,10 @@ import { ProducerModule } from './pages/producer/producer.module';
 import { ServerInternalErrorComponent } from './pages/error/server-internal-error/server-internal-error.component';
 import { SpcModule } from './pages/spc/spc.module';
 import { InterceptorService } from './service/interceptors/interceptor.service';
+import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
+import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER } from '@angular/material/select';
+import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
 
 @NgModule({
@@ -60,14 +64,23 @@ import { InterceptorService } from './service/interceptors/interceptor.service';
   providers: [
     AngularFirestore,
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: [
+        HTTP_INTERCEPTORS,
+        MAT_CHIPS_DEFAULT_OPTIONS
+      ],
       useClass: InterceptorService,
       multi: true
     },
     {
       provide: LANGUAGE_CODE,
       useValue: 'es'
-    }
+    },
+    {  
+      provide: MAT_CHIPS_DEFAULT_OPTIONS,  
+      useValue: {  
+        separatorKeyCodes: [ENTER, SPACE]  
+      }  
+    } 
   ],
   bootstrap: [AppComponent]
 })

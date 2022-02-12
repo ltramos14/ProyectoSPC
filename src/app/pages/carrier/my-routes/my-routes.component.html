@@ -1,1 +1,105 @@
-<p>my-routes works!</p>
+
+<div *ngIf="routes">
+  <div *ngIf="routes.length > 0 else noroutes">
+    <div class="container py-gutter">
+      <div class="card overflow-hidden">
+        <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
+          <h1 @fadeInRight class="headline text-contrast-black m-0">MIS RUTAS</h1>
+        </div>
+        <div class="h-64 relative overflow-hidden">
+          <img class="w-full h-full object-cover" src="assets/illustrations/carrier.jpeg">
+        </div>
+  
+        <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+          <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+            <span>Rutas asociadas a tu perfil de transportador</span>
+          </h2>
+  
+          <span fxFlex></span>
+  
+          <button (click)="createFarm()"  class="ml-4" color="accent" fxFlex="none" mat-mini-fab
+            matTooltip="Vincular una nueva finca" type="button">
+            <mat-icon [icIcon]="icAdd"></mat-icon>
+          </button>
+        </div>
+  
+        <vex-scrollbar class="relative">
+          <table [dataSource]="dataSource" mat-table matSort>
+        
+            <ng-container matColumnDef="route.origin">
+              <th mat-header-cell *matHeaderCellDef> Origen </th>
+              <td mat-cell *matCellDef="let element">
+                <h4><strong>{{element.origin}}</strong></h4>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="route.destination">
+              <th mat-header-cell *matHeaderCellDef> Destino </th>
+              <td mat-cell *matCellDef="let element">
+                <h4><strong>{{element.destination}}</strong></h4>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="route.startHour">
+              <th mat-header-cell *matHeaderCellDef> Hora de servicio </th>
+              <td mat-cell *matCellDef="let element">
+                <h4><strong>{{element.startHour}}</strong></h4>
+              </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="route.serviceDays">
+              <th mat-header-cell *matHeaderCellDef> Días de servicio </th>
+              <td mat-cell *matCellDef="let element">
+                <h4><strong>{{element.serviceDays}}</strong></h4>
+              </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="route.route">
+              <th mat-header-cell *matHeaderCellDef> Municipios de la ruta </th>
+              <td mat-cell *matCellDef="let element">
+                <h4><strong>{{element.route}}</strong></h4>
+              </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-menu-item color="warn" mat-icon-button (click)="updateFarm(element)">
+                  <mat-icon [icIcon]="icEdit"></mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-menu-item color="warn" mat-icon-button (click)="deleteFarm(element.id)">
+                  <mat-icon [icIcon]="icDelete"></mat-icon>
+                </button>
+              </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" class="sticky left-0" showFirstLastButtons></mat-paginator>
+        </vex-scrollbar>
+      
+    </div>
+  </div>
+  </div>
+  
+  <ng-template #noroutes>
+    <h1>
+      No tienes rutas asociadas en tu perfil de transportador en SPC
+    </h1>
+    <h2>Agrega una ruta</h2>
+    <button (click)="createFarm()"  class="ml-4" color="accent" fxFlex="none" mat-mini-fab
+                matTooltip="Vincular una nueva finca" type="button">
+                <mat-icon [icIcon]="icAdd"></mat-icon>
+              </button>
+  </ng-template>
+</div>
+
+
