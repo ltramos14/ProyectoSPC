@@ -2,15 +2,16 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { stagger80ms } from '../../../../@vex/animations/stagger.animation';
-import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
-import { scaleIn400ms } from '../../../../@vex/animations/scale-in.animation';
-import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { User } from 'src/app/interfaces/user.interface';
 import { OwnValidations } from 'src/app/service/helpers/ownValidations';
+import { municipalities } from 'src/static/municipalities-data';
+
+import { stagger80ms } from '../../../../@vex/animations/stagger.animation';
+import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
+import { scaleIn400ms } from '../../../../@vex/animations/scale-in.animation';
+import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icVerticalSplit from '@iconify/icons-ic/twotone-vertical-split';
@@ -26,10 +27,9 @@ import icFeaturedVideo from '@iconify/icons-ic/twotone-featured-video';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icPlace from '@iconify/icons-ic/twotone-place'
 
-import { municipalities } from 'src/static/municipalities-data';
 
 @Component({
-  selector: 'vex-register',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   animations: [
@@ -147,12 +147,12 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(user, password)
     .then(res => {
-      this.snackbar.open(`Te enviamos un correo de verificación de cuenta al correo: ${user.email}. ¡Verifícalo!`, 'OK', {
+      this.snackbar.open(`Te hemos enviamos un correo de verificación de cuenta a la dirección de correo: ${user.email}. ¡Verifícalo!`, 'OK', {
         duration: 5000
       });
       this.router.navigate(['/verificacion-cuenta']);
     }).catch(error => {
-      this.snackbar.open('¡Ocurrió un error al crear la cuenta en SPC!', 'OK', {
+      this.snackbar.open('¡Oops! Ocurrió un error al crear la cuenta en SPC.', 'OK', {
         duration: 5000
       });
     });

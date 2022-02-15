@@ -10,7 +10,7 @@ import { stagger80ms } from 'src/@vex/animations/stagger.animation';
 import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
-  selector: 'vex-send-email',
+  selector: 'app-send-email',
   templateUrl: './send-email.component.html',
   styleUrls: ['./send-email.component.scss'],
   providers: [AuthService],

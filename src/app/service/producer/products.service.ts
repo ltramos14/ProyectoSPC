@@ -93,7 +93,6 @@ export class ProductsService {
    * @returns 
    */
   saveProduct(product: Product): Promise<string> {
-
     return new Promise(async (resolve, reject) => {
       try {
         const { id } = product;
@@ -104,11 +103,9 @@ export class ProductsService {
         reject(err);
       }
     });
-
   }
 
   deleteProduct(productId: string): Promise<void> {
-
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.productsCollection.doc(productId).delete();

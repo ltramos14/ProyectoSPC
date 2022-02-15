@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [FooterComponent],
   imports: [
-  CommonModule,
+    CommonModule,
     FlexLayoutModule,
     IconModule,
     MatButtonModule,

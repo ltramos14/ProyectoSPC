@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
-import { CreateUpdatePaymentMethodComponent } from './create-update-payment-method/create-update-payment-method.component';
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { PaymentMethod } from 'src/app/models/payment-method.model';
 import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
 import { Observable, ReplaySubject } from 'rxjs';
+import { CreateUpdatePaymentMethodComponent } from './create-update-payment-method/create-update-payment-method.component';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 
@@ -14,7 +15,6 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-my-payment-methods',
@@ -32,11 +32,14 @@ export class MyPaymentMethodsComponent implements OnInit {
   icEdit = icEdit;
   icDelete = icDelete;
 
-  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
+  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
 
   subject$: ReplaySubject<PaymentMethod[]> = new ReplaySubject<PaymentMethod[]>(1);
+
   data$: Observable<PaymentMethod[]> = this.subject$.asObservable();
+
   paymentMethods: PaymentMethod[];
+  
   selection = new SelectionModel<PaymentMethod>(true, []);
 
   public paymentMethod: any[] = [];
@@ -71,7 +74,6 @@ export class MyPaymentMethodsComponent implements OnInit {
   }
 
   deletePaymentMethod(paymentMethod: PaymentMethod) {
-
     this.paymentMethodsService.deletePaymentMethod(paymentMethod.id).then(() => {
       this.snackbar.open(`El medio de pago fue eliminado satisfactoriamente`, 'OK', {
         duration: 2000
@@ -82,7 +84,5 @@ export class MyPaymentMethodsComponent implements OnInit {
         duration: 2000
       });
     })
-
   }
-
 }

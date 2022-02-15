@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CryptoService } from 'src/app/service/auth/crypto.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
+
 import icVisibility from '@iconify/icons-ic/twotone-visibility';
 import icVisibilityOff from '@iconify/icons-ic/twotone-visibility-off';
 import icEmail from '@iconify/icons-ic/twotone-email';
 import icLock from '@iconify/icons-ic/twotone-lock';
 
-import { AuthService } from '../../../service/auth/auth.service';
-import { CryptoService } from 'src/app/service/auth/crypto.service';
-
 @Component({
-  selector: 'vex-login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,24 +22,26 @@ import { CryptoService } from 'src/app/service/auth/crypto.service';
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup;
-  private password: string;
-
-  inputType = 'password';
-  visible = false;
-
-
   icVisibility = icVisibility;
   icVisibilityOff = icVisibilityOff;
   icEmail = icEmail;
   icLock = icLock;
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              private cd: ChangeDetectorRef,
-              private snackbar: MatSnackBar,
-              private authService: AuthService,
-              private cryptoService: CryptoService
+  form: FormGroup;
+
+  private password: string;
+
+  inputType = 'password';
+
+  visible = false;
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private snackbar: MatSnackBar,
+    private authService: AuthService,
+    private cryptoService: CryptoService
   ) {
     this.isLocalStoragePassword();
   }
@@ -57,7 +58,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-
     const { email, password } = this.form.value;
 
     this.authService.login(email, password)
@@ -70,23 +70,22 @@ export class LoginComponent implements OnInit {
           } else {
             localStorage.removeItem('spc-email');
           }
-          this.snackbar.open(`Bienvenido ${ rest.displayName }`, 'OK', {
+          this.snackbar.open(`¡Bienvenido ${rest.displayName}!`, 'OK', {
             duration: 2000
           });
           this.router.navigate(['/']);
         } else {
-          this.snackbar.open('Cuenta no verificada', 'OK', {
+          this.snackbar.open('Lo sentimos, ¡La cuenta aún no ha sido verificada!', 'OK', {
             duration: 2000
           });
         }
-        
+
       })
       .catch((error) => {
         this.snackbar.open(error.message, 'Cancelar', {
-          duration: 3000  
+          duration: 3000
         });
       })
-
   }
 
   toggleVisibility() {

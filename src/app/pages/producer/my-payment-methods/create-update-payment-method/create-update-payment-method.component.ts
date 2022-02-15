@@ -16,19 +16,20 @@ import icClose from '@iconify/icons-ic/twotone-close';
 })
 export class CreateUpdatePaymentMethodComponent implements OnInit {
 
-  selectorPaymentMethods: String;
-
-  formPaymentMethod: FormGroup;
-  mode: 'create' | 'update' = 'create';
-
-  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
-
-  PaymentOptions = ['Nequi', 'Daviplata', 'Movii', 'Efecty', 'Paga Todo Para Todo!', 'Vía Baloto'];
-
   icAttachMoney = icAttachMoney;
   icPhone = icPhone;
   icPermIdentity = icPermIdentity;
   icClose = icClose;
+
+  mode: 'create' | 'update' = 'create';
+
+  formPaymentMethod: FormGroup;
+
+  selectorPaymentMethods: String;
+
+  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+
+  PaymentOptions = ['Nequi', 'Daviplata', 'Movii', 'Efecty', 'Paga Todo Para Todo!', 'Vía Baloto'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -77,7 +78,6 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
   }
 
   uploadPaymentMethodImage() {
-
     this.selectorPaymentMethods = this.formPaymentMethod.get('payment').value;
 
     switch (this.selectorPaymentMethods) {
@@ -103,12 +103,12 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
   }
 
   createPaymentMethod() {
-
     let payment = new PaymentMethod();
-    payment.identification = this.formPaymentMethod.get("identification").value;
+
     payment.name = this.formPaymentMethod.get("payment").value;
-    payment.phone = this.formPaymentMethod.get("phone").value;
+    payment.identification = this.formPaymentMethod.get("identification").value;
     payment.image = this.imageDefault;
+    payment.phone = this.formPaymentMethod.get("phone").value;
 
     this.paymentMethodService.savePaymentMethod(null, payment).then(() => {
       this.snackbar.open(`El medio de pago fue añadido satisfactoriamente`, 'OK', {
@@ -117,16 +117,15 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
     })
 
     this.dialogRef.close(payment);
-
   }
 
   updatePaymentMethod() {
-
     let payment = new PaymentMethod();
+
     payment.name = this.formPaymentMethod.get("payment").value;
     payment.identification = this.formPaymentMethod.get("identification").value;
-    payment.phone = this.formPaymentMethod.get("phone").value;
     payment.image = this.imageDefault;
+    payment.phone = this.formPaymentMethod.get("phone").value;
 
     this.paymentMethodService.savePaymentMethod(this.defaults.id, payment).then(() => {
       this.snackbar.open(`El medio de pago fue editado satisfactoriamente`, 'OK', {
@@ -135,7 +134,6 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
     })
 
     this.dialogRef.close(this.defaults);
-
   }
 
   isCreateMode() {

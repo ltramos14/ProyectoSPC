@@ -3,7 +3,6 @@ import { environment } from 'src/environments/environment';
 
 import * as CryptoJS from 'crypto-js';
 
-
 @Injectable({
   providedIn: 'root'
 })

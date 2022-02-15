@@ -16,8 +16,6 @@ import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icLocalShipping from '@iconify/icons-ic/twotone-local-shipping';
 import icMenu from '@iconify/icons-ic/twotone-menu';
 import icPerson from '@iconify/icons-ic/twotone-person';
-import icGrass from '@iconify/icons-ic/twotone-grass';
-import icNature from '@iconify/icons-ic/twotone-nature';
 import faApple from '@iconify/icons-fa-solid/apple-alt';
 import faCarrot from '@iconify/icons-fa-solid/carrot';
 import faInfo from '@iconify/icons-fa-solid/info';

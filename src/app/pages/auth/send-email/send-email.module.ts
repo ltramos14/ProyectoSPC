@@ -13,11 +13,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   imports: [
     CommonModule,
-    RouterModule,
     FlexLayoutModule,
-    MatTooltipModule,
     MatButtonModule,
-    MatCardModule
+    MatTooltipModule,
+    MatCardModule,
+    RouterModule,
   ]
 })
 export class SendEmailModule { }
