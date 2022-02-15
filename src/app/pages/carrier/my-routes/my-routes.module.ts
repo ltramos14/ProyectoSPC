@@ -14,6 +14,7 @@ import { ScrollbarModule } from 'src/@vex/components/scrollbar/scrollbar.module'
 
 import { MyRoutesComponent } from './my-routes.component';
 import { MyRoutesCreateUpdateModule } from './my-routes-create-update/my-routes-create-update.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MyRoutesCreateUpdateModule } from './my-routes-create-update/my-routes-
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     MyRoutesCreateUpdateModule,
     MatButtonModule,

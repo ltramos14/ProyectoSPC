@@ -18,7 +18,7 @@
         <div class="flex flex-col sm:flex-row">
             <mat-form-field class="flex-auto">
                 <mat-label>Origen de la ruta</mat-label>
-                <mat-select formControlName="origin">
+                <mat-select formControlName="origin" (ngModelChange)="originPush($event)">
                     <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
                         {{ municipality.name }}
                     </mat-option>
@@ -31,7 +31,7 @@
 
             <mat-form-field class="sm:ml-6 flex-auto">
                 <mat-label>Destino de la ruta</mat-label>
-                <mat-select formControlName="destination">
+                <mat-select formControlName="destination" (ngModelChange)="destinationPush($event)">
                     <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
                         {{ municipality.name }}
                     </mat-option>
@@ -68,7 +68,7 @@
                         <mat-icon [icIcon]="icClose"></mat-icon>
                     </button>
                 </mat-chip>
-                <input placeholder="Agregue los días en que esta ruta estará siviendo" formControlName="serviceDays"
+                <input placeholder="Agregue los días en que esta ruta estará siviendo"
                     #dayInput [formControl]="fruitCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, true)">
             </mat-chip-list>
@@ -79,20 +79,17 @@
             </mat-autocomplete>
             <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix>
             </mat-icon>
-            <mat-error *ngIf="formRoute.controls.serviceDays.hasError('required')">
-                Escoga al menos un día para esta ruta
-            </mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Municipios de parada de la ruta</mat-label>
             <mat-chip-list #chipListM aria-label="Municipios de la ruta">
-                <mat-chip *ngFor="let muni of route" (removed)="remove(muni, false)">
+                <mat-chip *ngFor="let muni of route" (removed)="remove(muni, false)" selected color="primary">
                     {{muni}}
                     <button matChipRemove>
                         <mat-icon [icIcon]="icClose"></mat-icon>
                     </button>
                 </mat-chip>
-                <input placeholder="Agregue los municipios del trancurso de la ruta" #municipalityInput formControlName="routes"
+                <input placeholder="Agregue los municipios del trancurso de la ruta" #municipalityInput
                     [formControl]="municipalitiesCtrl" [matAutocomplete]="autom" [matChipInputFor]="chipListM" 
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, false)">
             </mat-chip-list>
@@ -103,11 +100,7 @@
             </mat-autocomplete>
             <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix>
             </mat-icon>
-            <mat-error *ngIf="formRoute.controls.routes.hasError('required')">
-                El trayecto de la ruta es <strong> obligatorio</strong>
-            </mat-error>
         </mat-form-field>
-        <!-- <app-google-maps></app-google-maps> -->
 
         <mat-dialog-actions align="end">
             <button mat-raised-button mat-dialog-close color="warn" type="button">

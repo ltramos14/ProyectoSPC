@@ -35,6 +35,7 @@ import { municipalities } from "src/static/municipalities-data";
   styleUrls: ["./my-routes-create-update.component.scss"],
 })
 export class MyRoutesCreateUpdateComponent implements OnInit {
+
   formRoute: FormGroup;
   mode: "create" | "update" = "create";
 
@@ -102,10 +103,12 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
       this.defaults = {} as Route;
     }
 
+    this.comprobateDefaultArrays();
+
     this.formRoute = this.fb.group({
       id: [this.defaults.id || ""],
       serviceDays: [
-        this.defaults.serviceDays || "",
+        this.serviceDays || "",
         this.validateServicesDays
       ],
       origin: [
@@ -245,4 +248,34 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
   isUpdateMode() {
     return this.mode === "update";
   }
+
+  originPush(value: any) {
+    if (this.formRoute.get('origin').value !== this.route[0]) {
+      this.route.shift();
+    }
+    this.route.unshift(this.formRoute.get('origin').value);
+  }
+
+  destinationPush(value: any) {
+    const last = this.route.length - 1;
+    if (this.formRoute.get('destination').value === this.route[last]) {
+      this.route.pop();
+    }
+    this.route.push(this.formRoute.get('destination').value);
+  }
+
+  private comprobateDefaultArrays() {
+
+    if (this.defaults.serviceDays) {
+      for (let i = 0; i < this.defaults.serviceDays.length; i++)
+        this.serviceDays.push(this.defaults.serviceDays[i]);
+    }
+    
+    if (this.defaults.route) {
+      for (let i = 0; i < this.defaults.route.length; i++)
+        this.route.push(this.defaults.route[i]);
+    }
+
+  }
+  
 }

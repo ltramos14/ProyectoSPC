@@ -15,13 +15,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     IncrementerComponent,
     ProductCardComponent,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     FlexLayoutModule,
     GoogleMapsModule,
     MatButtonModule,
+    MatDialogModule,
     MatSelectModule,
     MatRippleModule,
     MatTooltipModule,
@@ -40,7 +44,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
   exports: [
     IncrementerComponent,
     ProductCardComponent,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    DeleteDialogComponent
   ]
 })
 export class ComponentsModule { }

@@ -14,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-routes',
@@ -92,17 +93,34 @@ export class MyRoutesComponent implements OnInit {
     });
   }
 
-  createFarm() {
+  createRoute() {
     this.dialog.open(MyRoutesCreateUpdateComponent);
   }
 
-  updateFarm(route: Route) {
+  updateRoute(route: Route) {
     this.dialog.open(MyRoutesCreateUpdateComponent, {
       data: route
     });
   }
 
-  deleteFarm(idFarm: string) {
+  confirmDeleteDialog(id: string) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: '¡Estás seguro de que deseas eliminar la ruta?',
+        buttonText: {
+          ok: "Eliminar ruta",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteRoute(id);
+      }
+    })
+  }
+
+  deleteRoute(idFarm: string) {
     this.routeservice.deleteRoute(idFarm).then(() => {
       this.snackbar.open('Ruta desvinculada satisfactoriamente', 'OK', {
         duration: 3000
