@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { Product } from '../../../../models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { Farm } from 'src/app/models/farm.model';
@@ -15,36 +16,12 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
-import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
-  selector: 'vex-products-create-update',
+  selector: 'app-products-create-update',
   templateUrl: './products-create-update.component.html'
 })
 export class ProductsCreateUpdateComponent implements OnInit {
-
-
-  public product: Product;
-
-  formProduct: FormGroup;
-
-  mode: 'create' | 'update' = 'create';
-
-  urlFile: File;
-
-  value = 0;
-
-  seconds: number = 0;
-
-  imageUrl: string;
-
-  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
-
-  farm: Farm[];
-
-  productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
-  unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
-  statePrefixOptions = ['Disponible', 'En cosecha'];
 
   icAttachMoney = icAttachMoney;
   icCalendar = icCalendar;
@@ -55,6 +32,31 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icMyLocation = icMyLocation;
   icTimeLine = icTimeLine;
   icToc = icToc;
+
+  mode: 'create' | 'update' = 'create';
+  
+  formProduct: FormGroup;
+  
+  product: Product;
+
+  farm: Farm[];
+  
+  urlFile: File;
+
+  value: number = 0;
+
+  seconds: number = 0;
+
+  imageUrl: string;
+
+  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+
+
+  productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
+  
+  unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
+  
+  statePrefixOptions = ['Disponible', 'En cosecha'];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -119,8 +121,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
       ]],
       image: [this.defaults.image || '']
     });
-
-
   }
 
   save() {
@@ -132,26 +132,18 @@ export class ProductsCreateUpdateComponent implements OnInit {
   }
 
   createProduct() {
-
     let productToCreate = this.convertToProduct();
-
     this.productService.uploadProductImage(null, productToCreate, this.urlFile);
-
     this.dialogRef.close(this.product);
-
   }
 
   async updateProduct() {
-
     let productToEdit = this.convertToProduct();
-
     this.productService.uploadProductImage(productToEdit.id, productToEdit, this.urlFile);
-
     this.dialogRef.close(this.defaults);
   }
 
   convertToProduct(): Product {
-
     let product = new Product();
 
     product.id = this.formProduct.get('id').value;
@@ -172,7 +164,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
     product.description = this.formProduct.get('description').value;
     product.image = this.formProduct.get('image').value;
     return product;
-
   }
 
   async getFarmsData() {
@@ -184,7 +175,6 @@ export class ProductsCreateUpdateComponent implements OnInit {
   }
 
   showPreviewImage(event: Event) {
-
     for (let i = 0; i <= 100; i++) {
       this.value = i;
     }
@@ -197,11 +187,9 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
     }
     reader.readAsDataURL(file);
-
   }
 
   isCreateMode() {
-
     return this.mode === 'create';
   }
 

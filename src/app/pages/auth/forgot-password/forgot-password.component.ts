@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
-import icMail from '@iconify/icons-ic/twotone-mail';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 
-
+import icMail from '@iconify/icons-ic/twotone-mail';
 @Component({
-  selector: 'vex-forgot-password',
+  selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
   animations: [fadeInUp400ms]
@@ -31,13 +30,13 @@ export class ForgotPasswordComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   send() {
     const email = this.form.get('email').value;
     this.authService.resetPassword(email).then(() => {
-      this.snackbar.open(`Verifica tu correo ${ email } para cambiar la contraseña de tu cuenta en SPC`, 'OK', {
+      this.snackbar.open(`¡Verifica tu correo electrónico ${ email }, allí hemos enviado las instrucciones de restablecimiento de la contraseña!`, 'OK', {
         duration: 2000
       });
       this.router.navigate(['/iniciar-sesion']);

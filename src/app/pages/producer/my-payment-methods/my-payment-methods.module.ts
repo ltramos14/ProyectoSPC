@@ -5,7 +5,6 @@ import { CreateUpdatePaymentMethodModule } from './create-update-payment-method/
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
-import { MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IconModule } from '@visurel/iconify-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,15 +14,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MyPaymentMethodsComponent
   ],
   imports: [
-    CommonModule,
     CreateUpdatePaymentMethodModule,
-    MatIconModule,
-    IconModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatRippleModule,
-    MatTooltipModule,
+    CommonModule,
     ContainerModule,
+    FlexLayoutModule,
+    IconModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
   ]
 })
 export class MyPaymentMethodsModule { }

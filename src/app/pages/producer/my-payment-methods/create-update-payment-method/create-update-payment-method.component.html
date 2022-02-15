@@ -3,10 +3,10 @@
         <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
 
         <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
-           Editar información medio de pago 
+            Editar información medio de pago
         </h2>
         <h2 *ngIf="!defaults.id" class="headline m-0" fxFlex="auto">
-           Registrar medio de pago
+            Registrar medio de pago
         </h2>
 
         <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
@@ -21,7 +21,7 @@
 
             <mat-form-field class="mt-6 flex-auto">
                 <mat-label>Selecciona un medio de pago</mat-label>
-                <mat-select  (selectionChange)="uploadPaymentMethodImage()" formControlName="payment">
+                <mat-select (selectionChange)="uploadPaymentMethodImage()" formControlName="payment">
                     <mat-option *ngFor="let payment of PaymentOptions" [value]="payment">
                         {{ payment }}
                     </mat-option>

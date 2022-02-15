@@ -1,22 +1,21 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
-import { Observable, ReplaySubject } from 'rxjs';
-import { ProductsCreateUpdateComponent } from './products-create-update/products-create-update.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Product } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
+import { Observable, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
+import { ProductsCreateUpdateComponent } from './products-create-update/products-create-update.component';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '../../../../@vex/animations/fade-in-right.animation';
 import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
@@ -26,15 +25,15 @@ import icDelete from '@iconify/icons-ic/twotone-delete';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import icFolder from '@iconify/icons-ic/twotone-folder';
-import icMap from '@iconify/icons-ic/twotone-map';
 import icMail from '@iconify/icons-ic/twotone-mail';
+import icMap from '@iconify/icons-ic/twotone-map';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
 
 @UntilDestroy()
 @Component({
-  selector: 'vex-my-products',
+  selector: 'app-my-products',
   templateUrl: './my-products.component.html',
   animations: [
     fadeInUp400ms,
@@ -51,6 +50,18 @@ import icSearch from '@iconify/icons-ic/twotone-search';
   ]
 })
 export class MyProductsComponent implements OnInit, AfterViewInit {
+
+  // Inicialización de los nombres de los íconos a mostrar
+  icPhone = icPhone;
+  icMail = icMail;
+  icMap = icMap;
+  icEdit = icEdit;
+  icSearch = icSearch;
+  icDelete = icDelete;
+  icAdd = icAdd;
+  icFilterList = icFilterList;
+  icMoreHoriz = icMoreHoriz;
+  icFolder = icFolder;
 
   visible = false;
 
@@ -127,17 +138,6 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   searchCtrl = new FormControl();
 
-  // Inicialización de los nombres de los íconos a mostrar
-  icPhone = icPhone;
-  icMail = icMail;
-  icMap = icMap;
-  icEdit = icEdit;
-  icSearch = icSearch;
-  icDelete = icDelete;
-  icAdd = icAdd;
-  icFilterList = icFilterList;
-  icMoreHoriz = icMoreHoriz;
-  icFolder = icFolder;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;

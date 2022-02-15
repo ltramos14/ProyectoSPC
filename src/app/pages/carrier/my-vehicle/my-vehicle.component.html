@@ -1,1 +1,64 @@
-<p>my-vehicle works!</p>
+<div class="container py-gutter">
+    <div class="card overflow-hidden">
+        <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
+            <h1 @fadeInRight class="headline text-contrast-black m-0">MI VEHÍCULO</h1>
+        </div>
+
+        <div class="flex-auto">
+            <div class="card">
+                <div class="px-gutter py-4 border-b">
+                    <h4 class="m-0">Transportador en esta sección podrás registrar y actualizar la información de tu
+                        vehículo de
+                        trabajo.</h4>
+                </div>
+                <div class="px-gutter py-4 border-b">
+
+                    <div class="py-1" fxLayoutAlign="center center">
+                        <button (click)="createVehicle()" color="primary" fxFlex="none" mat-raised-button type="button">
+                            <span>AÑADIR VEHÍCULO DE TRABAJO</span>
+                        </button>
+                    </div>
+
+                    <div class="px-gutter py-9">
+                        <div class="p-gutter" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr" gdColumns.xs="1fr"
+                            gdGap="24px">
+
+                            <div class="card overflow-hidden" *ngFor="let vehi of vehicle">
+                                <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
+                                    matRipple>
+                                    <img [src]="vehi.image" class="avatar h-24 w-24 mx-auto">
+
+                                    <h2 class="title mb-1 mt-3">{{ vehi.licensePlate }}</h2>
+                                    <div class="body-2 text-secondary">
+                                        <ic-icon [icon]="icEdit" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                        <span>Teléfono: {{ vehi.vehicleType }}</span>
+                                    </div>
+
+                                    <div class="body-2 text-secondary">
+                                        <ic-icon [icon]="icEdit" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                        <span>N° Identificación: {{ vehi.characteristics }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
+                                    style="background-color: rgba(255, 160, 122, 0.4);">
+                                    <button (click)="updateVehicle(vehi)" class="text-secondary" mat-icon-button
+                                        type="button">
+                                        <mat-icon [icIcon]="icEdit" matTooltip="Editar medio de pago"></mat-icon>
+                                    </button>
+
+                                    <button (click)="deleteVehicle(vehi)" class="text-secondary" mat-icon-button
+                                        type="button">
+                                        <mat-icon [icIcon]="icDelete" matTooltip="Eliminar medio de pago">
+                                        </mat-icon>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

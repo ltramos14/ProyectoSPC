@@ -1,36 +1,34 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-import { LoginComponent } from './login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { IconModule } from '@visurel/iconify-angular';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { IconModule } from '@visurel/iconify-angular';
+import { LoginComponent } from './login.component';
 
 
 @NgModule({
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    RouterModule,
     FlexLayoutModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatIconModule,
-    MatSnackBarModule,
     IconModule,
-    MatTooltipModule,
     MatButtonModule,
+    MatCardModule,
     MatCheckboxModule,
-    MatCardModule
+    MatIconModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    RouterModule,
   ]
 })
 export class LoginModule { }

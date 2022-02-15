@@ -8,7 +8,6 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { User } from "src/app/interfaces/user.interface";
 import { Farm } from "src/app/models/farm.model";
-import { AuthService } from "../auth/auth.service";
 
 @Injectable({
   providedIn: "root",
@@ -53,8 +52,8 @@ export class FarmsService {
   }
 
   /**
-   * Método que actualiza o edita la información de una fica en la subcolección 'farms' de 'users'
-   * @param idFarm id en la finca en caso de que edite, si crea este valor llega null
+   * Método que actualiza o edita la información de una finca en la subcolección 'farms' de 'users'
+   * @param idFarm id de la finca en caso de que edite, si crea este valor llega null
    * @param farm el objeto 
    * @returns 
    */
@@ -76,7 +75,7 @@ export class FarmsService {
    * @param idFarm 
    * @returns 
    */
-  deletePaymentMethod(idFarm: string): Promise<void> {
+  deleteFarm(idFarm: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.farmsCollection

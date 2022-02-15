@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { municipalities } from 'src/static/municipalities-data';
 import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
+import { municipalities } from 'src/static/municipalities-data';
 
 import icSpa from '@iconify/icons-ic/twotone-spa';
 import icPlace from '@iconify/icons-ic/twotone-place';
@@ -20,15 +20,16 @@ import icClose from '@iconify/icons-ic/twotone-close';
 })
 export class MyFarmsCreateUpdateComponent implements OnInit {
 
-  formFarms: FormGroup;
-  mode: 'create' | 'update' = 'create';
-
-  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
-
   icSpa = icSpa;
   icPlace = icPlace;
   icDescription = icDescription;
   icClose = icClose;
+
+  mode: 'create' | 'update' = 'create';
+
+  formFarms: FormGroup;
+
+  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
 
   apiLoaded: Observable<boolean>;
 
@@ -49,7 +50,6 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.defaults) {
       this.mode = 'update';
     } else {
@@ -95,7 +95,6 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
   }
 
   createFarm() {
-
     let farm = new Farm();
 
     farm.name = this.formFarms.get("name").value;
@@ -111,11 +110,9 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     })
 
     this.dialogRef.close();
-
   }
 
   updateFarm() {
-
     let farm = new Farm;
 
     farm.id = this.formFarms.get('id').value;
@@ -132,7 +129,6 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     })
 
     this.dialogRef.close();
-
   }
 
   isCreateMode() {
