@@ -12,6 +12,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { ShoppingCartComponent } from './shopping-cart.component';
 import { ScrollbarModule } from './../../../../@vex/components/scrollbar/scrollbar.module';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
   CommonModule,
     ComponentsModule,
     IconModule,
+    CarouselModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
@@ -28,7 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatTableModule,
     MatSelectModule,
-    ScrollbarModule
+    ScrollbarModule,
+    RouterModule
   ],
   exports: [
     ShoppingCartComponent

@@ -39,19 +39,24 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
   formRoute: FormGroup;
   mode: "create" | "update" = "create";
 
-  // icSpa = icSpa;
+  // Íconos usados en la vista
   icDone = icDone;
   icClose = icClose;
   icPlace = icPlace;
 
+  /**
+   * Variable que especifica que teclas separan cada item de los chips
+   */
   separatorKeysCodes = [ENTER, COMMA];
 
+  // Variables para el chip de los municipios de las rutas
   municipalities = municipalities;
   muniname: string[] = [];
   filteredMunicipalities: Observable<string[]>;
   municipalitiesCtrl = new FormControl();
   route: string[] = [];
 
+  // Variables para el chip de los días de servicio
   weekDays: string[] = [
     "Lunes",
     "Martes",
@@ -69,6 +74,14 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
   @ViewChild("municipalityInput")
   municipalityInput: ElementRef<HTMLInputElement>;
 
+  /**
+   * Contructor del componente que inyecta las siguientes dependencias
+   * @param defaults 
+   * @param fb 
+   * @param snackbar 
+   * @param routesService 
+   * @param dialogRef 
+   */
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private fb: FormBuilder,
@@ -79,6 +92,9 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     this.initFilters();
   }
 
+  /**
+   * Método que filtra los arreglos de días y municipios para usarlos en los chips
+   */
   initFilters() {
     municipalities.forEach(({ name }) => this.muniname.push(name));
     this.filteredDays = this.fruitCtrl.valueChanges.pipe(
@@ -95,6 +111,9 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     );
   }
 
+  /**
+   * Método se ejecuta una vez se crea este componente
+   */
   ngOnInit() {
     if (this.defaults) {
       this.mode = "update";
@@ -105,11 +124,11 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
 
     this.comprobateDefaultArrays();
 
+    // Campos a del formulario
     this.formRoute = this.fb.group({
       id: [this.defaults.id || ""],
       serviceDays: [
         this.serviceDays || "",
-        this.validateServicesDays
       ],
       origin: [
         this.defaults.origin || "",
@@ -120,8 +139,7 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
         Validators.required,
       ],
       routes: [
-        this.defaults.routes || this.muniname,
-        Validators.required,
+        this.route || this.muniname,
       ],
       startHour: [
         this.defaults.startHour || "",
@@ -133,6 +151,11 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     });
   }
 
+  /**
+   * Método que agrega la variable dependiendo del tipo al array mostrado en los chips
+   * @param event 
+   * @param isDay 
+   */
   add(event: MatChipInputEvent, isDay: boolean): void {
     const value = (event.value || "").trim();
 
@@ -150,6 +173,11 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     this.municipalitiesCtrl.setValue(null);
   }
 
+  /**
+   * Método que borrar la variable dependiendo del tipo al array mostrado en los chips
+   * @param value 
+   * @param isDay 
+   */
   remove(value: string, isDay: boolean): void {
     if (isDay) {
       const index = this.serviceDays.indexOf(value);
@@ -164,6 +192,11 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que agrega el string al arreglo
+   * @param event 
+   * @param isDay 
+   */
   selected(event: MatAutocompleteSelectedEvent, isDay: boolean): void {
     if (isDay) {
       if (!this.serviceDays.includes(event.option.viewValue)) {
@@ -179,6 +212,13 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que enviar un valor que posea coincidencias según
+   * lo solicitado en los autocomplete
+   * @param value valor a filtrar en el autocomplete
+   * @param isDay bandera para filtrar o el arreglo de días o de días de servicio
+   * @returns 
+   */
   private _filter(value: string, isDay: boolean): string[] {
     const filterValue = value.toLowerCase();
     if (isDay)
@@ -191,7 +231,13 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
       );
     }
   }
-
+  
+  /**
+   * 
+   * @param serviceDays 
+   * @returns 
+   */
+  //TODO: Falta validar esto
   private validateServicesDays(serviceDays: FormControl) {
     if (serviceDays.value && serviceDays.value.length === 0) {
       return {
@@ -201,6 +247,9 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     return null;
   }
 
+  /**
+   * Método que valida si se desea edicar o crear una nueva ruta
+   */
   save() {
     if (this.mode === "create") {
       this.createroute();
@@ -209,16 +258,13 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que crea una nueva ruta para el transportador en sesión
+   */
   createroute() {
     let route = new Route();
     
-    const { origin, destination, startHour } = this.formRoute.value;
-    
-    route.origin = origin;
-    route.destination = destination;
-    route.startHour = startHour;
-    route.route = this.route;
-    route.serviceDays = this.serviceDays;
+    route = (this.formRoute.value) as Route;
 
     this.routesService.saveRoute(null, route).then(() => {
       this.snackbar.open("Ruta agregada satisfactoriamente", "OK", {
@@ -229,9 +275,12 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * Método que edita una ruta
+   */
   updateroute() {
     let route = new Route();
-
+    route = (this.formRoute.value) as Route;
     this.routesService.saveRoute(route.id, route).then(() => {
       this.snackbar.open("Ruta editada satisfactoriamente", "OK", {
         duration: 3000,
@@ -249,6 +298,10 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     return this.mode === "update";
   }
 
+  /**
+   * Método qué agrega al array el municipio de origen seleccionado
+   * @param value 
+   */
   originPush(value: any) {
     if (this.formRoute.get('origin').value !== this.route[0]) {
       this.route.shift();
@@ -256,6 +309,10 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     this.route.unshift(this.formRoute.get('origin').value);
   }
 
+  /**
+   * Método qué agrega al array el municipio de destino seleccionado
+   * @param value 
+   */
   destinationPush(value: any) {
     const last = this.route.length - 1;
     if (this.formRoute.get('destination').value === this.route[last]) {
@@ -264,6 +321,9 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
     this.route.push(this.formRoute.get('destination').value);
   }
 
+  /**
+   * Método que valida si existen días se servicio o municipios de la ruta cuando se abre el diálogo
+   */
   private comprobateDefaultArrays() {
 
     if (this.defaults.serviceDays) {

@@ -8,6 +8,8 @@ import { MyRoutesCreateUpdateComponent } from './my-routes-create-update/my-rout
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icEdit from '@iconify/icons-ic/twotone-edit';
+import icEye from '@iconify/icons-ic/twotone-remove-red-eye';
+import icDay from '@iconify/icons-ic/twotone-calendar-today';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,6 +17,7 @@ import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
 import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { ViewDetailDialogComponent } from 'src/app/components/view-detail-dialog/view-detail-dialog.component';
 
 @Component({
   selector: 'app-my-routes',
@@ -33,6 +36,9 @@ export class MyRoutesComponent implements OnInit {
   icAdd = icAdd;
   icDelete = icDelete;
   icEdit = icEdit;
+  icEye = icEye;
+  icDay = icDay;
+  
   
   /* icClose = icClose;
   icPlace = icPlace;
@@ -106,7 +112,7 @@ export class MyRoutesComponent implements OnInit {
   confirmDeleteDialog(id: string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        message: '¡Estás seguro de que deseas eliminar la ruta?',
+        message: '¿Estás seguro de que deseas eliminar la ruta?',
         buttonText: {
           ok: "Eliminar ruta",
           cancel: "Cancelar"
@@ -118,6 +124,15 @@ export class MyRoutesComponent implements OnInit {
         this.deleteRoute(id);
       }
     })
+  }
+
+  openDetailDialog(title: string, elements: string[]) {
+    this.dialog.open(ViewDetailDialogComponent, {
+      data: {
+        title,
+        elements
+      }
+    });
   }
 
   deleteRoute(idFarm: string) {

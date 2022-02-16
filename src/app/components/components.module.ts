@@ -17,6 +17,7 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     IncrementerComponent,
     ProductCardComponent,
     GoogleMapsComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    ViewDetailDialogComponent
   ],
   imports: [
     CommonModule,

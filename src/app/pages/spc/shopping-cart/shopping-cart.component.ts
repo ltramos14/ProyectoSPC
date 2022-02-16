@@ -9,6 +9,8 @@ import { CartService } from "src/app/service/consumer/cart.service";
 import icDelete from "@iconify/icons-ic/twotone-close";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/service/auth/auth.service";
+import { ProductsService } from "src/app/service/producer/products.service";
+import { Product } from "src/app/models/product.model";
 
 @Component({
   selector: "app-shopping-cart",
@@ -36,6 +38,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
   total: number = 0;
   
+  products: Product[]
 
   /**
    * Es el origen de datos de la tabla
@@ -54,6 +57,8 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
   private cartSubscription: Subscription;
 
+  responsiveOptions
+
   /**
    * Constructor de UsuariosComponent
    * @param route objeto que permite cambiar de página
@@ -63,8 +68,26 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private productsService: ProductsService
   ) {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 1
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
   }
   ngOnDestroy(): void {
     /* this.cartSubscription.unsubscribe(); */
@@ -77,6 +100,7 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     const { uid } = await this.authService.getCurrentUser();
     this.cartService.getConsumerDoc(uid);
     this.getProductCartConsumer();
+    this.getProducts();
   }
 
   getProductCartConsumer() {
@@ -87,6 +111,12 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.getTotalValue();
     });
+  }
+
+  getProducts() {
+    this.productsService.getProductsWithQuery(16).subscribe((products) => {
+      this.products = products;
+    })
   }
 
   deleteProduct(idCart: string) {
