@@ -11,24 +11,26 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <div class="flex flex-col sm:flex-row">
 
+    <div class="flex flex-col sm:flex-row">
       <mat-form-field class="mt-6 flex-auto">
         <mat-label>Nombre</mat-label>
         <input #messagename minlength="3" maxlength="30" cdkFocusInitial formControlName="names" matInput>
         <mat-hint align="end">{{messagename.value.length}} / 30</mat-hint>
         <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
         <mat-error *ngIf="formUpdateProfile.controls.names.hasError('required')">
-          El nombre es <strong>obligatorio</strong>
+          El nombre es <strong>obligatorio.</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.names.hasError('pattern')">
+          El nombre solo puede contener<strong> letras.</strong>
         </mat-error>
         <mat-error *ngIf="formUpdateProfile.controls.names.errors?.minlength">
-          El nombre debe tener mínimo <strong>3 caracteres</strong>
+          El nombre debe tener mínimo <strong>3 caracteres.</strong>
         </mat-error>
         <mat-error *ngIf="formUpdateProfile.controls.names.errors?.maxlength">
-          El nombre debe tener máximo <strong>30 caracteres</strong>
+          El nombre debe tener máximo <strong>30 caracteres.</strong>
         </mat-error>
       </mat-form-field>
-
 
       <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
         <mat-label>Apellido</mat-label>
@@ -36,36 +38,38 @@
         <mat-hint align="end">{{messagelastname.value.length}} / 30</mat-hint>
         <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
         <mat-error *ngIf="formUpdateProfile.controls.lastnames.hasError('required')">
-          El apellido es <strong>obligatorio</strong>
+          El apellido es <strong>obligatorio.</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.lastnames.hasError('pattern')">
+          El apellido solo puede contener<strong> letras.</strong>
         </mat-error>
         <mat-error *ngIf="formUpdateProfile.controls.lastnames.errors?.minlength">
-          El apellido debe tener mínimo <strong>3 caracteres</strong>
+          El apellido debe tener mínimo <strong>3 caracteres.</strong>
         </mat-error>
         <mat-error *ngIf="formUpdateProfile.controls.lastnames.errors?.maxlength">
-          El apellido debe tener máximo <strong>30 caracteres</strong>
+          El apellido debe tener máximo <strong>30 caracteres.</strong>
         </mat-error>
       </mat-form-field>
-
     </div>
 
     <div class="flex flex-col sm:flex-row">
 
       <mat-form-field class="mt-6 flex-auto">
         <mat-label>Número telefónico</mat-label>
-        <input minlength="3" maxlength="30" cdkFocusInitial formControlName="phone" matInput>
-
+        <input #messagephone minlength="6" maxlength="10" cdkFocusInitial formControlName="phone" matInput>
+        <mat-hint align="end">{{messagephone.value.length}} / 10</mat-hint>
         <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
         <mat-error *ngIf="formUpdateProfile.controls.phone.hasError('required')">
-          El número telefónico es <strong>obligatorio</strong>
-        </mat-error>
-        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.minlength">
-          El teléfono debe contener <strong> mínimo 6 digitos</strong>
-        </mat-error>
-        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.maxlength">
-          El teléfono debe contener <strong> máximo 10 digitos</strong>
+          El número telefónico es <strong>obligatorio.</strong>
         </mat-error>
         <mat-error *ngIf="formUpdateProfile.controls.phone.hasError('pattern')">
-          Por favor ingresa valores numéricos
+          Por favor ingresa solamente <strong>valores numéricos.</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.minlength">
+          El teléfono debe contener <strong> mínimo 6 digitos.</strong>
+        </mat-error>
+        <mat-error *ngIf="formUpdateProfile.controls.phone.errors?.maxlength">
+          El teléfono debe contener <strong> máximo 10 digitos.</strong>
         </mat-error>
       </mat-form-field>
 
@@ -78,16 +82,15 @@
         </mat-select>
         <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
         <mat-error *ngIf="formUpdateProfile.controls.municipality.hasError('required')">
-          El municipio de residencia<strong> es obligatorio</strong>
+          El municipio de residencia<strong> es obligatorio.</strong>
         </mat-error>
       </mat-form-field>
 
     </div>
   </mat-dialog-content>
-
   <mat-dialog-actions align="end">
-    <button mat-raised-button mat-dialog-close color="warn" type="button">CANCELAR</button>
     <button *ngIf="isUpdateMode()" [disabled]="formUpdateProfile.invalid" color="accent" mat-raised-button
       type="submit">ACTUALIZAR PERFIL</button>
+    <button mat-stroked-button mat-dialog-close color="warn" type="button">CANCELAR</button>
   </mat-dialog-actions>
 </form>

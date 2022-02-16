@@ -51,7 +51,7 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
     this.formPaymentMethod = this.fb.group({
       id: [this.defaults.id || ''],
       payment: [
-        this.defaults.name || this.PaymentOptions,
+        this.defaults.name || '',
         Validators.required
       ],
       phone: [this.defaults.phone || '', [

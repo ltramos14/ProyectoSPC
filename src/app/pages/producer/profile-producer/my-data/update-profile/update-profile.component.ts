@@ -44,21 +44,20 @@ export class UpdateProfileComponent implements OnInit {
 
   ngOnInit() {
     this.mode = 'update';
-    this.initFormData();
-  }
-
-  initFormData() {
+    
     this.formUpdateProfile = this.fb.group({
       uid: [this.defaults.uid || ''],
       names: [this.defaults.names, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z ]{2,254}')
       ]],
       lastnames: [this.defaults.lastnames, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z ]{2,254}')
       ]],
       phone: [this.defaults.phone, [
         Validators.required,
@@ -72,6 +71,7 @@ export class UpdateProfileComponent implements OnInit {
       ],
     });
   }
+
 
   saveChanges() {
     this.updateProfile();

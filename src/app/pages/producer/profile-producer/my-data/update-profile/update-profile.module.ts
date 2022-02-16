@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,6 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    FormsModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,

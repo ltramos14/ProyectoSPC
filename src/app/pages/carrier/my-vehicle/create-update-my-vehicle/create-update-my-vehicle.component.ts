@@ -31,12 +31,12 @@ export class CreateUpdateMyVehicleComponent implements OnInit {
   /**
    * 
    */
-  VehicleTypeOptions = ['Furgón', 'Camioneta'];
+  VehicleTypeOptions = ['Camión sencillo', 'Camión refrigerado', 'Furgón', 'Camioneta'];
 
   /**
    * 
    */
-    formVehicle: FormGroup;
+  formVehicle: FormGroup;
 
   /**
    * 
@@ -56,7 +56,7 @@ export class CreateUpdateMyVehicleComponent implements OnInit {
   /**
    * 
    */
-  imageDefault: string = '../../../../../assets/images/vehicle.png';
+  imageDefault: string = '../../../../../assets/illustrations/vehicle.png';
 
   /**
    * 

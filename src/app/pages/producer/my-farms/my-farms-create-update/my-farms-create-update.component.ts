@@ -63,11 +63,12 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
         this.defaults.name || '', [
           Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(20)
+          Validators.maxLength(30),
+          Validators.pattern('[A-Za-z ]{2,254}')
         ]
       ],
       municipality: [
-        this.defaults.municipality || municipalities,
+        this.defaults.municipality || '',
         Validators.required
       ],
       location: [
@@ -80,7 +81,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
         this.defaults.description || '', [
           Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(500)
+          Validators.maxLength(200)
         ]
       ],
     });
@@ -127,7 +128,6 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
         duration: 3000
       });
     })
-
     this.dialogRef.close();
   }
 

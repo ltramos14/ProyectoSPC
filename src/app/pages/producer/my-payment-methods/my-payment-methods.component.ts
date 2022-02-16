@@ -15,6 +15,7 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-payment-methods',
@@ -71,6 +72,23 @@ export class MyPaymentMethodsComponent implements OnInit {
     this.dialog.open(CreateUpdatePaymentMethodComponent, {
       data: payment
     });
+  }
+
+  confirmDeleteDialog(paymentMethod: PaymentMethod) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: `¿Estás seguro de que deseas eliminar tu medio de pago "${paymentMethod.name}" ?`,
+        buttonText: {
+          ok: "Sí, eliminar",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deletePaymentMethod(paymentMethod);
+      }
+    })
   }
 
   deletePaymentMethod(paymentMethod: PaymentMethod) {

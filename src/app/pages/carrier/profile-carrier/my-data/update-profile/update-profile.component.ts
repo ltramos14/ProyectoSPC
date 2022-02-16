@@ -53,12 +53,14 @@ export class UpdateProfileComponent implements OnInit {
       names: [this.defaults.names, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z ]{2,254}')
       ]],
       lastnames: [this.defaults.lastnames, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z ]{2,254}')
       ]],
       phone: [this.defaults.phone, [
         Validators.required,
