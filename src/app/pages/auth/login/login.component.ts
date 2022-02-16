@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
           } else {
             localStorage.removeItem('spc-email');
           }
-          this.snackbar.open(`¡Bienvenido ${rest.displayName}!`, 'OK', {
+          this.snackbar.open(`¡Bienvenido ${rest.displayName}! 🥑`, 'OK', {
             duration: 2000
           });
           this.router.navigate(['/']);
@@ -82,7 +82,15 @@ export class LoginComponent implements OnInit {
 
       })
       .catch((error) => {
-        this.snackbar.open(error.message, 'Cancelar', {
+        let message;
+        if (error.code.includes('user-not-found')) {
+          message = '¡Usuario no encontrado!';
+        } else if (error.code.includes('wrong-password')) {
+          message = `¡Contraseña incorrecta!`;
+        } else if (error.code.includes('too-many-requests')) {
+          message = `Cuenta suspendida temporalmente por acceso a esta cuenta de forma excesiva ❌`;
+        } 
+        this.snackbar.open(message + ' 🚫', 'Cancelar', {
           duration: 3000
         });
       })
