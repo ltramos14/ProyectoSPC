@@ -17,6 +17,7 @@ import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-farms',
@@ -68,6 +69,23 @@ export class MyFarmsComponent implements OnInit {
     this.dialog.open(MyFarmsCreateUpdateComponent, {
       data: farm
     });
+  }
+
+  confirmDeleteDialog(farm: Farm) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: `¿Estás seguro de que deseas desvincular la finca "${farm.name}" ?`,
+        buttonText: {
+          ok: "Sí, desvincular",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteFarm(farm.id);
+      }
+    })
   }
 
   deleteFarm(idFarm: string) {

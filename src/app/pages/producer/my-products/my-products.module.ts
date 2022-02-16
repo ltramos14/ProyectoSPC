@@ -17,28 +17,29 @@ import { ProductsService } from 'src/app/service/producer/products.service';
 import { ProductsCreateUpdateModule } from './products-create-update/products-create-update.module';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [MyProductsComponent],
   imports: [
     CommonModule,
-    PageLayoutModule,
-    FlexLayoutModule,
-    ProductsCreateUpdateModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-    IconModule,
-    FormsModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
+    ComponentsModule,
     ContainerModule,
+    FlexLayoutModule,
+    FormsModule,
+    IconModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    MatIconModule,
     MatSelectModule,
-    MatButtonModule
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
+    PageLayoutModule,
+    ProductsCreateUpdateModule,
+    ReactiveFormsModule,
   ],
   providers: [ProductsService]
 })

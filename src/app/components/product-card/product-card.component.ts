@@ -4,15 +4,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CartService } from 'src/app/service/consumer/cart.service';
 import { Product } from 'src/app/models/product.model';
 import { Cart } from 'src/app/models/cart.model';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { UsersService } from 'src/app/service/users/users.service';
 
 import icMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCheck from '@iconify/icons-ic/twotone-check-circle';
 import icWait from '@iconify/icons-ic/twotone-access-time';
 import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
 import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
-import { AuthService } from 'src/app/service/auth/auth.service';
-import { UsersService } from 'src/app/service/users/users.service';
-
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',

@@ -85,26 +85,29 @@ export class ProductsCreateUpdateComponent implements OnInit {
       name: [this.defaults.name || '', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(20)
+        Validators.maxLength(20),
+        Validators.pattern('[A-Za-z ]{2,254}')
       ]],
       productType: [
-        this.defaults.productType || this.productTypePrefixOptions,
+        this.defaults.productType || '',
         Validators.required,
       ],
       stock: [this.defaults.stock || '', [
         Validators.required,
-        Validators.minLength(1)
+        Validators.min(1),
+        Validators.pattern('[0-9]*')
       ]],
       price: [this.defaults.price || '', [
         Validators.required,
-        Validators.min(0)
+        Validators.min(100),
+        Validators.pattern('[0-9]*')
       ]],
       unit: [
-        this.defaults.unit || this.unitPrefixOptions,
+        this.defaults.unit || '',
         Validators.required
       ],
       productiveStatus: [
-        this.defaults.productiveStatus || this.statePrefixOptions,
+        this.defaults.productiveStatus || '',
         Validators.required,
       ],
       farm: [
@@ -116,8 +119,8 @@ export class ProductsCreateUpdateComponent implements OnInit {
       ]],
       description: [this.defaults.description || '', [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(500)
+        Validators.minLength(10),
+        Validators.maxLength(200)
       ]],
       image: [this.defaults.image || '']
     });

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Product } from 'src/app/models/product.model';
-import { Observable, Subject } from 'rxjs';
-import { finalize, map, switchMap } from 'rxjs/operators';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
+import { Product } from 'src/app/models/product.model';
+import { convertTimestampsPipe } from 'convert-firebase-timestamp'
 
 @Injectable({
   providedIn: 'root'
@@ -47,13 +48,15 @@ export class ProductsService {
    */
   getProducts() {
     this.products = this.productsCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => a.payload.doc.data() as Product))
+      map(actions => actions.map(a => a.payload.doc.data() as Product)),
+      convertTimestampsPipe()
     );
   }
 
   async getProducerProducts(producerId: string) {
     this.producerProducts = this.afs.collection('products', ref => ref.where('idProducer', '==', producerId)).snapshotChanges().pipe(
-      map(actions => actions.map(a => a.payload.doc.data() as Product))
+      map(actions => actions.map(a => a.payload.doc.data() as Product)),
+      convertTimestampsPipe()
     );
   }
 

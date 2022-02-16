@@ -10,6 +10,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { Product } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -22,6 +23,7 @@ import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
 
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from '@iconify/icons-ic/twotone-delete';
+import icCheck from '@iconify/icons-ic/twotone-check-circle';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import icFolder from '@iconify/icons-ic/twotone-folder';
@@ -30,6 +32,7 @@ import icMap from '@iconify/icons-ic/twotone-map';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import icWait from '@iconify/icons-ic/twotone-access-time';
 
 @UntilDestroy()
 @Component({
@@ -52,16 +55,18 @@ import icSearch from '@iconify/icons-ic/twotone-search';
 export class MyProductsComponent implements OnInit, AfterViewInit {
 
   // Inicialización de los nombres de los íconos a mostrar
-  icPhone = icPhone;
+  icAdd = icAdd;
+  icCheck = icCheck;
+  icDelete = icDelete;
+  icEdit = icEdit;
+  icFilterList = icFilterList;
+  icFolder = icFolder;
   icMail = icMail;
   icMap = icMap;
-  icEdit = icEdit;
-  icSearch = icSearch;
-  icDelete = icDelete;
-  icAdd = icAdd;
-  icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
-  icFolder = icFolder;
+  icSearch = icSearch;
+  icPhone = icPhone;
+  icWait = icWait;
 
   visible = false;
 
@@ -98,18 +103,17 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   @Input()
   columns: TableColumn<Product>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'Seleccionar', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Imagen', property: 'image', type: 'image', visible: true },
     { label: 'Nombre', property: 'name', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Tipo Producto', property: 'productType', type: 'text', visible: true },
-    { label: 'Precio', property: 'price', type: 'text', visible: true },
-    { label: 'Stock', property: 'stock', type: 'text', visible: true },
+    { label: 'Tipo Producto', property: 'productType', type: 'text', visible: false },
+    { label: 'Precio ($)', property: 'price', type: 'text', visible: true },
     { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: true },
-    { label: 'Estado Productivo', property: 'productiveStatus', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Stock', property: 'stock', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Estado Productivo', property: 'productiveStatus', type: 'button', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Finca', property: 'farm', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Disponibilidad', property: 'availabilityDate', type: 'text', visible: false },
     { label: 'Descripción', property: 'description', type: 'text', visible: false },
-    { label: 'Actions', property: 'actions', type: 'button', visible: true }
+    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
   ];
 
   /**
@@ -229,8 +233,28 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteProduct(product: Product) {
+  confirmDeleteDialog(product: Product, products: Product[], message: string, isAllProducts: boolean) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message,
+        buttonText: {
+          ok: "Sí, eliminar",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        if (isAllProducts) {
+          this.deleteProducts(products);
+        } else {
+          this.deleteProduct(product);
+        }
+      }
+    })
+  }
 
+  deleteProduct(product: Product) {
     this.productService.deleteProduct(product.id).then(() => {
       this.products.splice(this.products.findIndex((existingProduct) => existingProduct.id === product.id), 1);
       this.snackbar.open(`Producto eliminado satisfactoriamente`, 'OK', {
@@ -242,7 +266,6 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
         duration: 2000
       });
     })
-
   }
 
   deleteProducts(products: Product[]) {

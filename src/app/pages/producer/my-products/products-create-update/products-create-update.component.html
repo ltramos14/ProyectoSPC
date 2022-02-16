@@ -17,6 +17,7 @@
     <mat-divider class="-mx-6 text-border"></mat-divider>
 
     <mat-dialog-content fxLayout="column">
+
         <div class="flex flex-col sm:flex-row">
             <mat-form-field class="mt-6 flex-auto">
                 <mat-label>Nombre del producto</mat-label>
@@ -24,14 +25,16 @@
                 <mat-hint align="end">{{ message.value.length }} / 20</mat-hint>
                 <mat-icon [icIcon]="icNature" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formProduct.controls.name.hasError('required')">
-                    El nombre del producto es <strong>obligatorio</strong>
+                    El nombre del producto es <strong>obligatorio.</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.name.hasError('pattern')">
+                    El nombre solo puede contener<strong> letras.</strong>
                 </mat-error>
                 <mat-error *ngIf="formProduct.controls.name.errors?.minlength">
-                    El nombre del producto debe tener mínimo <strong>3 caracteres</strong>
+                    El nombre del producto debe tener mínimo <strong>3 caracteres.</strong>
                 </mat-error>
                 <mat-error *ngIf="formProduct.controls.name.errors?.maxlength">
-                    El nombre del producto debe tener máximo
-                    <strong>20 caracteres</strong>
+                    El nombre del producto debe tener máximo <strong>20 caracteres.</strong>
                 </mat-error>
             </mat-form-field>
 
@@ -44,79 +47,28 @@
                 </mat-select>
                 <mat-icon [icIcon]="icToc" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formProduct.controls.productType.hasError('required')">
-                    El tipo de producto<strong> es obligatorio</strong>
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col sm:flex-row">
-            <mat-form-field class="flex-auto">
-                <mat-label>Selecciona una unidad de medida</mat-label>
-                <mat-select formControlName="unit">
-                    <mat-option *ngFor="let unit of unitPrefixOptions" [value]="unit">
-                        {{ unit }}
-                    </mat-option>
-                </mat-select>
-                <mat-icon [icIcon]="icTimeLine" class="mr-3" matPrefix></mat-icon>
-                <mat-error *ngIf="formProduct.controls.unit.hasError('required')">
-                    La unidad de medida<strong> es obligatoria</strong>
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="sm:ml-6 flex-auto">
-                <mat-label>Precio por: {{ formProduct.get('unit').value }}</mat-label>
-                <input cdkFocusInitial min="0" type="number" formControlName="price" matInput />
-
-                <mat-icon [icIcon]="icAttachMoney" class="mr-3" matPrefix></mat-icon>
-                <mat-error *ngIf="formProduct.controls.price.hasError('required')">
-                    El precio es <strong>obligatorio</strong>
-                </mat-error>
-                <mat-error *ngIf="formProduct.controls.price.errors?.min">
-                    El precio debe ser <strong> mayor que 0</strong>
+                    El tipo de producto<strong> es obligatorio.</strong>
                 </mat-error>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col sm:flex-row">
-            <mat-form-field class="flex-auto">
-                <mat-label>Selecciona un estado productivo</mat-label>
-                <mat-select formControlName="productiveStatus">
-                    <mat-option *ngFor="let productiveStatus of statePrefixOptions" [value]="productiveStatus">
-                        {{ productiveStatus }}
-                    </mat-option>
-                </mat-select>
-                <mat-icon [icIcon]="icEventAvailable" class="mr-3" matPrefix></mat-icon>
-                <mat-error *ngIf="formProduct.controls.productiveStatus.hasError('required')">
-                    El estado productivo<strong> es obligatorio</strong>
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="sm:ml-6 flex-auto" [ngStyle]="{visibility:formProduct.get('productiveStatus').value === 'Disponible' ? 'hidden': 'visible'}">
-                <mat-label>Fecha de disponibilidad</mat-label>
-                <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
-                    [matDatepicker]="formDatepickerRef" formControlName="available_date" matInput readonly />
-                <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
-
-                <mat-hint>Selecciona una fecha futura</mat-hint>
-                <mat-datepicker #formDatepickerRef></mat-datepicker>
-
-                <!--  <mat-error *ngIf="formProduct.controls.available_date.hasError('futureDate')">
-                        La fecha de disponibilidad no puede ponerse un día que ya pasó
-                    </mat-error> -->
-            </mat-form-field>
-        </div>
-
-        <div class="flex flex-col sm:flex-row">
-            <mat-form-field class="mt-6 flex-auto">
+            <mat-form-field class="mt-8 flex-auto">
                 <mat-label>Stock del producto</mat-label>
-                <input type="number" #message min="1" cdkFocusInitial formControlName="stock" matInput />
+                <input #message min="1" cdkFocusInitial formControlName="stock" matInput />
                 <mat-icon [icIcon]="icNature" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formProduct.controls.stock.hasError('required')">
-                    El stock es <strong>obligatorio</strong>
+                    El stock del producto es <strong>obligatorio.</strong>
                 </mat-error>
                 <mat-error *ngIf="formProduct.controls.stock.errors?.min">
-                    El stock debe tener un valor<strong> mínimo de 1</strong>
+                    El stock debe ser de mínimo <strong> 1 unidad.</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.stock.hasError('pattern')">
+                    Por favor ingresa solamente <strong>valores numéricos.</strong>
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+
+            <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
                 <mat-label>Selecciona la finca en donde cultivas este producto</mat-label>
                 <mat-select formControlName="farm">
                     <mat-option *ngFor="let farm of farm" [value]="farm.name">
@@ -125,53 +77,105 @@
                 </mat-select>
                 <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formProduct.controls.farm.hasError('required')">
-                    La finca<strong> es obligatoria</strong>
+                    La finca<strong> es obligatoria.</strong>
                 </mat-error>
             </mat-form-field>
         </div>
 
-        <mat-form-field>
-            <mat-label>Selecciona la finca en donde cultivas este producto</mat-label>
-            <mat-select formControlName="farm">
-                <mat-option *ngFor="let farm of farm" [value]="farm.name">
-                    {{ farm.name }}
-                </mat-option>
-            </mat-select>
-            <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
-            <mat-error *ngIf="formProduct.controls.farm.hasError('required')">
-                La finca<strong> es obligatoria</strong>
-            </mat-error>
-        </mat-form-field>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-8 flex-auto">
+                <mat-label>Selecciona una unidad de medida</mat-label>
+                <mat-select formControlName="unit">
+                    <mat-option *ngFor="let unit of unitPrefixOptions" [value]="unit">
+                        {{ unit }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icTimeLine" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.unit.hasError('required')">
+                    La unidad de medida<strong> es obligatoria.</strong>
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field class="flex-auto">
+            <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+                <mat-label>Precio por: {{ formProduct.get('unit').value }}</mat-label>
+                <input cdkFocusInitial min="100" formControlName="price" matInput />
+                <mat-icon [icIcon]="icAttachMoney" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.price.hasError('required')">
+                    El precio es <strong>obligatorio.</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.price.hasError('pattern')">
+                    Por favor ingresa solamente <strong>valores numéricos.</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.price.errors?.min">
+                    El precio debe ser <strong> mayor que 100 pesos.</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-8 flex-auto">
+                <mat-label>Selecciona un estado productivo</mat-label>
+                <mat-select formControlName="productiveStatus">
+                    <mat-option *ngFor="let productiveStatus of statePrefixOptions" [value]="productiveStatus">
+                        {{ productiveStatus }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icEventAvailable" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formProduct.controls.productiveStatus.hasError('required')">
+                    El estado productivo<strong> es obligatorio.</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto"
+                [ngStyle]="{visibility:formProduct.get('productiveStatus').value === 'Disponible' ? 'hidden': 'visible'}">
+                <mat-label>Fecha de disponibilidad</mat-label>
+                <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
+                    [matDatepicker]="formDatepickerRef" formControlName="available_date" matInput readonly />
+                <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
+                <mat-hint>Selecciona una fecha futura a la fecha actual.</mat-hint>
+                <mat-datepicker #formDatepickerRef></mat-datepicker>
+
+                <!--  <mat-error *ngIf="formProduct.controls.available_date.hasError('futureDate')">
+                        La fecha de disponibilidad no puede ponerse un día que ya pasó
+                    </mat-error> -->
+            </mat-form-field>
+        </div>
+
+        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
             <mat-label>Descripción</mat-label>
-            <textarea formControlName="description" matInput></textarea>
+            <textarea #description  minlenght="10" maxlength="200" formControlName="description" matInput></textarea>
+            <mat-hint align="end">{{description.value.length}} / 200</mat-hint> 
             <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
             <mat-error *ngIf="formProduct.controls.description.hasError('required')">
-                La descripción<strong> es obligatoria</strong>
+                La descripción del producto<strong> es obligatoria.</strong>
+            </mat-error>
+            <mat-error *ngIf="formProduct.controls.description.errors?.minlength">
+                La descripción debe contener como <strong> mínimo 10 caracteres.</strong>
+            </mat-error>
+            <mat-error *ngIf="formProduct.controls.description.errors?.maxlength">
+                La descripción debe contener <strong> máximo 200 caracteres.</strong>
             </mat-error>
         </mat-form-field>
 
-        <div fxLayout="column" fxFlexAlign="center" >
+        <div class="text-center" fxLayout="column" fxFlexAlign="center">
             <h4>Imagen del producto:</h4>
-            <img id="imgFoto" width="200" height="200" class="d-block" 
-            [src]="imageUrl || defaults.image || imageDefault" />
+            <img id="imgFoto" width="200" height="200" class="d-block" fxFlexAlign="center"
+                [src]="imageUrl || defaults.image || imageDefault" />
             <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />
         </div>
-        
-
     </mat-dialog-content>
-    <br><br>
-    <mat-progress-bar mode="determinate" [value]="value" [hidden]="imageUrl"></mat-progress-bar>
+
+    <mat-progress-bar class="mt-6" mode="determinate" [value]="value" [hidden]="imageUrl"></mat-progress-bar>
+
     <mat-dialog-actions align="end">
-        <button mat-raised-button mat-dialog-close color="warn" type="button">
-            CANCELAR
-        </button>
         <button *ngIf="isCreateMode()" [disabled]="formProduct.invalid" color="accent" mat-raised-button type="submit">
             AGREGAR PRODUCTO
         </button>
         <button *ngIf="isUpdateMode()" [disabled]="formProduct.invalid" color="accent" mat-raised-button type="submit">
             EDITAR PRODUCTO
+        </button>
+        <button mat-stroked-button mat-dialog-close color="warn" type="button">
+            CANCELAR
         </button>
     </mat-dialog-actions>
 </form>

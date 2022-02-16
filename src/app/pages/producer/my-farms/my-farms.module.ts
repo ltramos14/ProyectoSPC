@@ -8,12 +8,14 @@ import { IconModule } from '@visurel/iconify-angular';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { MyFarmsComponent } from './my-farms.component';
 import { MyFarmsCreateUpdateModule } from './my-farms-create-update/my-farms-create-update.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [ MyFarmsComponent ],
   imports: [
     CommonModule,
     ContainerModule,
+    ComponentsModule,
     FlexLayoutModule,
     IconModule,
     MatButtonModule,
