@@ -100,22 +100,23 @@ export class CreateUpdateMyVehicleComponent implements OnInit {
     this.formVehicle = this.fb.group({
       id: [this.defaults.id || ''],
       vehicleType: [
-        this.defaults.vehicleType || this.VehicleTypeOptions,
+        this.defaults.vehicleType || '',
         Validators.required
       ],
       licensePlate: [this.defaults.licensePlate || '', [
         Validators.required,
         Validators.minLength(6),
-        Validators.maxLength(6),
+        Validators.maxLength(7),
+        Validators.pattern('^[a-z-A-Z]{3}-[0-9]{3}$'),
       ]],
-      maxCapacity: [this.defaults.identification || '', [
+      maxCapacity: [this.defaults.maxCapacity || '', [
         Validators.required,
         Validators.min(30),
       ]],
       characteristics: [this.defaults.characteristics || '', [
         Validators.required,
-        Validators.minLength(20),
-        Validators.maxLength(100),
+        Validators.minLength(15),
+        Validators.maxLength(200),
       ]],
       image: [this.defaults.image || '']
     });

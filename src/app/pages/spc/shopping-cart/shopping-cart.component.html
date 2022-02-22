@@ -73,12 +73,13 @@
   </div>
   <ng-template #nocart>
     <div class="w-full p-gutter text-center">
-  
-      <h2 class="display-1">Carrito vacío.</h2>
-      <h2 class="font-medium m-4">¡Escoge el producto que deseas!</h2>
+      <img class="w-full max-w-lg mx-auto" src="assets/illustrations/emptycar.png">
+      <h2 class="display-1 m-4">EL CARRITO ESTÁ VACÍO</h2>
+      <h3 class="text-secondary font-medium">Una vez que añadas un producto a tu carrito, aparecerá aquí.</h3>
+      <h3 class="font-medium">¿Listo para empezar? ¡Escoge ya el producto que deseas!</h3>
     </div>
-  
   </ng-template>
+  
   <p-carousel [value]="products" [numVisible]="4" [numScroll]="4" [autoplayInterval]="7000"
     [circular]="true" [responsiveOptions]="responsiveOptions">
     <ng-template pTemplate="header">

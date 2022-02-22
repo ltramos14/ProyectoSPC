@@ -1,62 +1,67 @@
 <div *ngIf="paymentMethods">
-    <div *ngIf="paymentMethods.length > 0" else nopaymentmethods></div>
-    <div class="container py-gutter">
-        <div class="card overflow-hidden">
-            <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
-                <h1 @fadeInRight class="headline text-contrast-black m-0">MIS MEDIOS DE PAGO</h1>
-            </div>
+    <div *ngIf="paymentMethods.length > 0 else nopaymentmethods">
+        <div class="container py-gutter">
+            <div class="card overflow-hidden">
+                <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
+                    <h1 @fadeInRight class="headline text-contrast-black m-0">MIS MEDIOS DE PAGO</h1>
+                </div>
 
-            <div class="flex-auto">
-                <div class="card">
-                    <div class="px-gutter py-4 border-b">
-                        <h2 class="title m-0">Información de tus medios de pago</h2>
-                    </div>
-                    <div class="px-gutter py-4 border-b">
-                        <h4>Productor los medios de pago que registres en esta sección permitirán que los consumidores
-                            puedan
-                            realizarte el respectivo pago de los productos que adquieran.</h4>
-
-                        <div class="py-1" fxLayoutAlign="center center">
-                            <button (click)="createPaymentMethod()" color="primary" fxFlex="none" mat-raised-button
-                                type="button">
-                                <span>AÑADIR MEDIO DE PAGO</span>
-                            </button>
+                <div class="flex-auto">
+                    <div class="card">
+                        <div class="px-gutter py-4 border-b">
+                            <h2 class="title m-0">Información de tus medios de pago</h2>
                         </div>
+                        <div class="px-gutter py-4 border-b">
+                            <h4>Productor los medios de pago que registres en esta sección, permitirán que los
+                                consumidores
+                                puedan
+                                realizarte el respectivo pago de los productos que adquieran.</h4>
+
+                            <div class="py-1" fxLayoutAlign="center center">
+                                <button (click)="createPaymentMethod()" color="primary" fxFlex="none" mat-raised-button
+                                    type="button">
+                                    <span>AÑADIR MEDIO DE PAGO</span>
+                                </button>
+                            </div>
 
 
-                        <div class="px-gutter py-9">
-                            <div class="p-gutter" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr"
-                                gdColumns.xs="1fr" gdGap="24px">
+                            <div class="px-gutter py-9">
+                                <div class="p-gutter" gdColumns="1fr 1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr"
+                                    gdColumns.xs="1fr" gdGap="24px">
 
-                                <div class="card overflow-hidden" *ngFor="let paymentMethod of paymentMethods">
-                                    <div class="p-4 text-center">
-                                        <img [src]="paymentMethod.image" class="avatar h-24 w-24 mx-auto">
+                                    <div class="card overflow-hidden" *ngFor="let paymentMethod of paymentMethods">
+                                        <div class="p-4 text-center">
+                                            <img [src]="paymentMethod.image" class="avatar h-24 w-24 mx-auto">
 
-                                        <h2 class="title mb-1 mt-3">{{ paymentMethod.name }}</h2>
-                                        <div class="body-2 text-secondary">
-                                            <ic-icon [icon]="icPhone" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                            <span>Teléfono: {{ paymentMethod.phone }}</span>
+                                            <h2 class="title mb-1 mt-3">{{ paymentMethod.name }}</h2>
+                                            <div class="body-2 text-secondary">
+                                                <ic-icon [icon]="icPhone" class="ltr:mr-1 rtl:ml-1" inline="true">
+                                                </ic-icon>
+                                                <span>Teléfono: {{ paymentMethod.phone }}</span>
+                                            </div>
+
+                                            <div class="body-2 text-secondary">
+                                                <ic-icon [icon]="icWeb" class="ltr:mr-1 rtl:ml-1" inline="true">
+                                                </ic-icon>
+                                                <span>N° Identificación: {{ paymentMethod.identification }}</span>
+                                            </div>
                                         </div>
 
-                                        <div class="body-2 text-secondary">
-                                            <ic-icon [icon]="icWeb" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                            <span>N° Identificación: {{ paymentMethod.identification }}</span>
+                                        <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
+                                            style="background-color: rgba(255, 160, 122, 0.4);">
+                                            <button (click)="updatePaymentMethod(paymentMethod)" class="text-secondary"
+                                                mat-icon-button type="button">
+                                                <mat-icon [icIcon]="icEdit" matTooltip="Editar medio de pago">
+                                                </mat-icon>
+                                            </button>
+
+                                            <button (click)="confirmDeleteDialog(paymentMethod)" class="text-secondary"
+                                                mat-icon-button type="button">
+                                                <mat-icon [icIcon]="icDelete" matTooltip="Eliminar medio de pago">
+                                                </mat-icon>
+                                            </button>
+
                                         </div>
-                                    </div>
-
-                                    <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
-                                        style="background-color: rgba(255, 160, 122, 0.4);">
-                                        <button (click)="updatePaymentMethod(paymentMethod)" class="text-secondary"
-                                            mat-icon-button type="button">
-                                            <mat-icon [icIcon]="icEdit" matTooltip="Editar medio de pago"></mat-icon>
-                                        </button>
-
-                                        <button (click)="confirmDeleteDialog(paymentMethod)" class="text-secondary"
-                                            mat-icon-button type="button">
-                                            <mat-icon [icIcon]="icDelete" matTooltip="Eliminar medio de pago">
-                                            </mat-icon>
-                                        </button>
-
                                     </div>
                                 </div>
                             </div>
@@ -68,20 +73,18 @@
     </div>
 </div>
 
-<ng-template #nopaymentmethods>
 
+<ng-template #nopaymentmethods>
     <div class="w-full p-gutter text-center">
-      <img class="w-full max-w-lg mx-auto mb-4" src="assets/illustrations/not-found.png">
-  
-      <h1 class="display-1 font-medium m-0">No tienes fincas para ofrecer tus productos.</h1>
-      <h2 class="headline m-0">Agrega un medio de pago</h2>
-  
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <button (click)="createPaymentMethod()" color="primary" fxFlex="none" mat-raised-button
-        type="button">
-        <span>AÑADIR MEDIO DE PAGO</span>
-    </button>
-      </div>
+        <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+        
+        <h2 class="display-1 m-0">Ups, aún no has registrado tus medios de pago.</h2>
+        <h3 class="text-secondary m-2">Una vez que añadas información sobre tus medios de pago, aparecerá aquí.
+            ¡Adelante!</h3>
+        <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
+            <button (click)="createPaymentMethod()" color="primary" fxFlex="none" mat-raised-button type="button">
+                <span>AÑADIR MEDIO DE PAGO</span>
+            </button>
+        </div>
     </div>
-  
-  </ng-template>
+</ng-template>

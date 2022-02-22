@@ -77,7 +77,7 @@ export class MyPaymentMethodsComponent implements OnInit {
   confirmDeleteDialog(paymentMethod: PaymentMethod) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        message: `¿Estás seguro de que deseas eliminar tu medio de pago "${paymentMethod.name}" ?`,
+        message: `¿Estás seguro de que deseas eliminar tu medio de pago "${paymentMethod.name}"?`,
         buttonText: {
           ok: "Sí, eliminar",
           cancel: "Cancelar"

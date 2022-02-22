@@ -2,7 +2,8 @@
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
         <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
 
-        <h2 *ngIf="formVehicle.get('licensePlate').value" class="headline m-0" fxFlex="auto" style="text-transform: uppercase;" >
+        <h2 *ngIf="formVehicle.get('licensePlate').value" class="headline m-0" fxFlex="auto"
+            style="text-transform: uppercase;">
             Vehículo de placa: {{ formVehicle.get("licensePlate").value }}
         </h2>
         <h2 *ngIf="!formVehicle.get('licensePlate').value" class="headline m-0" fxFlex="auto">
@@ -17,7 +18,7 @@
     <mat-divider class="-mx-6 text-border"></mat-divider>
 
     <mat-dialog-content fxLayout="column">
-        
+
         <div class="flex flex-col sm:flex-row">
             <mat-form-field class="mt-6 flex-auto">
                 <mat-label>Tipo de vehículo</mat-label>
@@ -28,7 +29,7 @@
                 </mat-select>
                 <mat-icon [icIcon]="icCar" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formVehicle.controls.vehicleType.hasError('required')">
-                    Debe seleccionar un tipo de vehículo <strong> obligatoriamente</strong>
+                    Debe seleccionar un tipo de vehículo <strong> obligatoriamente.</strong>
                 </mat-error>
             </mat-form-field>
 
@@ -38,10 +39,10 @@
 
                 <mat-icon [icIcon]="faCapacity" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formVehicle.controls.maxCapacity.hasError('required')">
-                    La capacidad máxima de carga del vehículo es <strong> obligatoria</strong>
+                    La capacidad máxima de carga del vehículo es <strong> obligatoria.</strong>
                 </mat-error>
                 <mat-error *ngIf="formVehicle.controls.maxCapacity.errors?.min">
-                    La capacidad máxima de carga del vehículo debe ser <strong> mayor a 30 kg</strong>
+                    La capacidad máxima de carga del vehículo debe ser <strong> mayor a 30 kg.</strong>
                 </mat-error>
             </mat-form-field>
         </div>
@@ -53,30 +54,36 @@
                     <mat-icon [icIcon]="icNumber" matPrefix></mat-icon>
                 </div>
                 <mat-label>PLACA</mat-label>
-                <input #message cdkFocusInitial style="text-transform: uppercase" minlength="6" maxlength="6"
+                <input #message cdkFocusInitial style="text-transform: uppercase" maxlength="7"
                     formControlName="licensePlate" matInput />
+                <mat-hint align="end">Ejemplo: ABC-123</mat-hint>
                 <mat-error *ngIf="formVehicle.controls.licensePlate.hasError('required')">
-                    La placa del vehículo es <strong> obligatoria</strong>
+                    La placa del vehículo es <strong> obligatoria.</strong>
                 </mat-error>
-                <mat-error *ngIf="formVehicle.controls.licensePlate.errors?.minlength">
-                    La placa del vehículo debe contener <strong>3 letras y 3 números</strong>
+                <mat-error *ngIf="formVehicle.controls.licensePlate.hasError('pattern')">
+                    La placa ingresada es <strong> inválida.</strong>
+                    <br>
+                    Una placa válida sería: <strong> ABC-123 </strong>
                 </mat-error>
                 <mat-error *ngIf="formVehicle.controls.licensePlate.errors?.maxLength">
-                    La placa del vehículo debe contener <strong>3 letras y 3 números</strong>
+                    La placa del vehículo debe contener <strong>3 letras seguidas de 1 guión seguido de 3
+                        números</strong>
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-                <mat-label>CARACTERISTÍCAS</mat-label>
-                <textarea minlength="20" maxlength="150" formControlName="characteristics" matInput></textarea>
+                <mat-label>CARACTERÍSTICAS</mat-label>
+                <textarea #characteristics minlength="20" maxlength="200" formControlName="characteristics"
+                    matInput></textarea>
+                <mat-hint align="end">{{characteristics.value.length}} / 200</mat-hint>
                 <mat-error *ngIf="formVehicle.controls.characteristics.hasError('required')">
-                    Las características del vehículo<strong> son obligatorias</strong>
+                    Las características del vehículo<strong> son obligatorias.</strong>
                 </mat-error>
                 <mat-error *ngIf="formVehicle.controls.licensePlate.errors?.minlength">
-                    Las características del vehículo deben contener mínimo <strong> 20 caracteres</strong>
+                    Las características del vehículo deben contener mínimo <strong> 15 caracteres.</strong>
                 </mat-error>
                 <mat-error *ngIf="formVehicle.controls.licensePlate.errors?.maxLength">
-                    Las características del vehículo deben contener máximo <strong> 150 caracteres</strong>
+                    Las características del vehículo deben contener máximo <strong> 200 caracteres.</strong>
                 </mat-error>
             </mat-form-field>
         </div>
@@ -85,13 +92,13 @@
             <h4>Adjunta una imagen del vehículo:</h4>
             <img id="imgFoto" width="200" height="200" class="d-block"
                 [src]="imageUrl || defaults.image || imageDefault" />
-            <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />
+            <input type="file" id="fileVehicleImage" accept="image/*" (change)="showPreviewImage($event)" />
         </div>
 
     </mat-dialog-content>
     <br><br>
     <mat-progress-bar mode="determinate" [value]="value" [hidden]="imageUrl"></mat-progress-bar>
-    <mat-dialog-actions align="end">   
+    <mat-dialog-actions align="end">
         <button *ngIf="isCreateMode()" [disabled]="formVehicle.invalid" color="accent" mat-raised-button type="submit">
             REGISTRAR VEHÍCULO
         </button>

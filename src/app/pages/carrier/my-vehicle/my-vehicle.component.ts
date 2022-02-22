@@ -9,8 +9,10 @@ import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 
+import icCar from "@iconify/icons-ic/twotone-local-shipping";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-vehicle',
@@ -24,6 +26,7 @@ import icDelete from "@iconify/icons-ic/twotone-delete";
 })
 export class MyVehicleComponent implements OnInit {
 
+  icCar = icCar;
   icEdit = icEdit;
   icDelete = icDelete;
 
@@ -31,6 +34,11 @@ export class MyVehicleComponent implements OnInit {
    * 
    */
   vehicle: Vehicle[];
+
+  /**
+ * 
+ */
+  imageDefault: string = '../../../../../assets/illustrations/vehicle.png';
 
   /**
    * 
@@ -62,6 +70,30 @@ export class MyVehicleComponent implements OnInit {
     this.dialog.open(CreateUpdateMyVehicleComponent);
   }
 
+  
+  updateVehicle(vehicle: Vehicle) {
+    this.dialog.open(CreateUpdateMyVehicleComponent, {
+      data: vehicle
+    });
+  }
+
+  confirmDeleteDialog(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: `¿Estás seguro de que deseas eliminar de tu perfil el vehículo de placa "${vehicle.licensePlate}" ?`,
+        buttonText: {
+          ok: "Sí, eliminar",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteVehicle(vehicle);
+      }
+    })
+  }
+
   deleteVehicle(vehicle: Vehicle) {
     this.vehicleService.deleteVehicle(vehicle.id).then(() => {
       this.snackbar.open(`El vehículo de trabajo fue eliminado satisfactoriamente`, 'OK', {
@@ -72,11 +104,5 @@ export class MyVehicleComponent implements OnInit {
         duration: 2000
       });
     })
-  }
-
-  updateVehicle(vehicle: Vehicle) {
-    this.dialog.open(CreateUpdateMyVehicleComponent, {
-      data: vehicle
-    });
   }
 }

@@ -8,6 +8,9 @@ import { IconModule } from '@visurel/iconify-angular';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { CreateUpdateMyVehicleModule } from './create-update-my-vehicle/create-update-my-vehicle.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -15,8 +18,11 @@ import { CreateUpdateMyVehicleModule } from './create-update-my-vehicle/create-u
   imports: [
     CommonModule,
     CreateUpdateMyVehicleModule,
+    ComponentsModule,
     FlexLayoutModule,
     MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
     MatRippleModule,
     MatTooltipModule,
     MatIconModule,

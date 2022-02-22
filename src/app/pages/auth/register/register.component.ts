@@ -147,7 +147,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(user, password)
     .then(res => {
-      this.snackbar.open(`Te hemos enviamos un correo de verificación de cuenta a la dirección de correo: ${user.email}. ¡Verifícalo!`, 'OK', {
+      this.snackbar.open(`Revisa tu correo: ${user.email}, allí te hemos enviamos un mensaje de verificación de cuenta.`, 'OK', {
         duration: 5000
       });
       this.router.navigate(['/verificacion-cuenta']);

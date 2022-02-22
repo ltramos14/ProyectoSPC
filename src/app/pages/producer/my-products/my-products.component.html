@@ -1,155 +1,184 @@
-<vex-page-layout>
+<div *ngIf="products">
+  <div *ngIf="products.length > 0 else noproducts">
+    <vex-page-layout>
 
-  <div class="container py-gutter">
-    <div class="card overflow-hidden">
-      <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
-        <h1 @fadeInRight class="headline text-contrast-black m-0">MIS PRODUCTOS AGRÍCOLAS</h1>
+      <div class="container py-gutter">
+        <div class="card overflow-hidden">
+          <div class="h-20 flex items-center bg-app-bar" fxLayoutAlign="center center">
+            <h1 @fadeInRight class="headline text-contrast-black m-0">MIS PRODUCTOS AGRÍCOLAS</h1>
+          </div>
+          <div class="h-50 relative overflow-hidden">
+            <img class="w-full h-full object-cover" src="assets/illustrations/producer.jpg">
+            <div class="absolute bg-contrast-black opacity-25 top-0 right-0 bottom-0 left-0 w-full h-full z-0"></div>
+          </div>
+        </div>
       </div>
-      <div class="h-50 relative overflow-hidden">
-        <img class="w-full h-full object-cover" src="assets/illustrations/producer.jpg">
-        <div class="absolute bg-contrast-black opacity-25 top-0 right-0 bottom-0 left-0 w-full h-full z-0"></div>
-      </div>
+
+      <vex-page-layout-content [class.container]="layoutCtrl.value === 'boxed'"
+        [class.px-gutter]="layoutCtrl.value === 'fullwidth'" class="-mt-6">
+
+        <div class="card overflow-auto -mt-16">
+          <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+            <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none"
+              fxHide.xs>
+              <span *ngIf="selection.isEmpty()">Productos agrícolas registrados</span>
+              <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
+                Producto<span *ngIf="selection.selected.length > 1">s</span> seleccionado<span
+                  *ngIf="selection.selected.length > 1">s</span></span>
+            </h2>
+
+            <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
+              <button
+                (click)="confirmDeleteDialog(null, selection.selected, '¿Estás seguro de que deseas eliminar los productos seleccionados?', true)"
+                color="primary" mat-icon-button matTooltip="Delete selected" type="button">
+                <mat-icon [icIcon]="icDelete"></mat-icon>
+              </button>
+            </div>
+
+            <div class="bg-card rounded-full border px-4" fxFlex="400px" fxFlex.lt-md="auto" fxHide.xs fxLayout="row"
+              fxLayoutAlign="start center">
+              <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+              <input [formControl]="searchCtrl" class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+                placeholder="Buscar producto..." type="search">
+            </div>
+
+            <span fxFlex></span>
+
+            <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+              <mat-icon [icIcon]="icSearch"></mat-icon>
+            </button>
+
+            <button [matMenuTriggerFor]="columnFilterMenu" class="ml-4" fxFlex="none" mat-icon-button
+              matTooltip="Filtrar columnas" type="button">
+              <mat-icon [icIcon]="icFilterList"></mat-icon>
+            </button>
+
+            <button (click)="createProduct()" class="ml-4" color="accent" fxFlex="none" mat-mini-fab
+              matTooltip="Agregar un producto" type="button">
+              <mat-icon [icIcon]="icAdd"></mat-icon>
+            </button>
+          </div>
+
+          <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="checkbox">
+              <th *matHeaderCellDef mat-header-cell>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+                </mat-checkbox>
+              </th>
+              <td *matCellDef="let row" class="w-4" mat-cell>
+                <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
+                  [checked]="selection.isSelected(row)" color="primary">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <!-- Image Column -->
+            <ng-container matColumnDef="image">
+              <th *matHeaderCellDef mat-header-cell></th>
+              <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
+                <img [src]="row['image']" class="avatar h-8 w-8 align-middle">
+              </td>
+            </ng-container>
+
+            <!-- Text Columns -->
+            <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+              <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+                <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+                <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+              </ng-container>
+            </ng-container>
+
+            <!-- Productive State Column -->
+            <ng-container matColumnDef="productiveStatus">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+              <td *matCellDef="let row" mat-cell>
+                <div class="flex">
+                  <a (click)="$event.stopPropagation()" *ngIf="row['productiveStatus'] === 'Disponible'"
+                    class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
+                    [matTooltip]="'Producto Disponible'" mat-icon-button>
+                    <mat-icon [icIcon]="icCheck" size="20px"></mat-icon>
+                  </a>
+
+                  <a (click)="$event.stopPropagation()" *ngIf="row['productiveStatus'] === 'En cosecha'"
+                    class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                    [matTooltip]="'Producto disponible a partir del '.concat(row['availabilityDate'] | date:'d/M/yy') "
+                    mat-icon-button>
+                    <mat-icon [icIcon]="icWait" size="20px"></mat-icon>
+                  </a>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="actions">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+              <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+                <button (click)="$event.stopPropagation()" [matMenuTriggerData]="{ product: row }"
+                  [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+                  <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+            <tr (click)="updateProduct(row)" *matRowDef="let row; columns: visibleColumns;" @fadeInUp
+              class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0">
+          </mat-paginator>
+        </div>
+      </vex-page-layout-content>
+      <br>
+    </vex-page-layout>
+
+    <mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+      <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+        class="checkbox-item mat-menu-item">
+        <mat-checkbox (click)="$event.stopPropagation()" [(ngModel)]="column.visible" color="primary">
+          {{ column.label }}
+        </mat-checkbox>
+      </button>
+    </mat-menu>
+
+    <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+      <ng-template let-product="product" matMenuContent>
+        <button (click)="updateProduct(product)" mat-menu-item>
+          <mat-icon [icIcon]="icEdit"></mat-icon>
+          <span>Editar</span>
+        </button>
+        <button
+          (click)="confirmDeleteDialog(product, null, '¿Estás seguro de que deseas eliminar el producto seleccionado [' + product.name + '] ?', false)"
+          mat-menu-item>
+          <mat-icon [icIcon]="icDelete"></mat-icon>
+          <span>Eliminar</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+
+  </div>
+</div>
+
+
+
+
+
+<ng-template #noproducts>
+  <div class="w-full p-gutter text-center">
+    <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+
+    <h1 class="display-1 m-0">Ups, aún no has publicado ninguno de tus productos.</h1>
+    <h2 class="text-secondary m-2">Una vez que añadas información sobre tus productos, aparecerá aquí. ¡Adelante!
+    </h2>
+
+    <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
+      <button (click)="createProduct()" color="primary" fxFlex="none" mat-raised-button type="button">
+        <span>AÑADIR PRODUCTO</span>
+      </button>
     </div>
   </div>
-
-  <vex-page-layout-content [class.container]="layoutCtrl.value === 'boxed'"
-    [class.px-gutter]="layoutCtrl.value === 'fullwidth'" class="-mt-6">
-
-    <div class="card overflow-auto -mt-16">
-      <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
-        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Productos agrícolas registrados</span>
-          <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
-            Producto<span *ngIf="selection.selected.length > 1">s</span> seleccionado<span
-              *ngIf="selection.selected.length > 1">s</span></span>
-        </h2>
-
-        <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-          <button
-            (click)="confirmDeleteDialog(null, selection.selected, '¿Estás seguro de que deseas eliminar los productos seleccionados?', true)"
-            color="primary" mat-icon-button matTooltip="Delete selected" type="button">
-            <mat-icon [icIcon]="icDelete"></mat-icon>
-          </button>
-        </div>
-
-        <div class="bg-card rounded-full border px-4" fxFlex="400px" fxFlex.lt-md="auto" fxHide.xs fxLayout="row"
-          fxLayoutAlign="start center">
-          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
-          <input [formControl]="searchCtrl" class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-            placeholder="Buscar producto..." type="search">
-        </div>
-
-        <span fxFlex></span>
-
-        <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
-          <mat-icon [icIcon]="icSearch"></mat-icon>
-        </button>
-
-        <button [matMenuTriggerFor]="columnFilterMenu" class="ml-4" fxFlex="none" mat-icon-button
-          matTooltip="Filtrar columnas" type="button">
-          <mat-icon [icIcon]="icFilterList"></mat-icon>
-        </button>
-
-        <button (click)="createProduct()" class="ml-4" color="accent" fxFlex="none" mat-mini-fab
-          matTooltip="Agregar un producto" type="button">
-          <mat-icon [icIcon]="icAdd"></mat-icon>
-        </button>
-      </div>
-
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="checkbox">
-          <th *matHeaderCellDef mat-header-cell>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
-            </mat-checkbox>
-          </th>
-          <td *matCellDef="let row" class="w-4" mat-cell>
-            <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
-              [checked]="selection.isSelected(row)" color="primary">
-            </mat-checkbox>
-          </td>
-        </ng-container>
-
-        <!-- Image Column -->
-        <ng-container matColumnDef="image">
-          <th *matHeaderCellDef mat-header-cell></th>
-          <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
-            <img [src]="row['image']" class="avatar h-8 w-8 align-middle">
-          </td>
-        </ng-container>
-
-        <!-- Text Columns -->
-        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
-          </ng-container>
-        </ng-container>
-
-        <!-- Productive State Column -->
-        <ng-container matColumnDef="productiveStatus">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
-          <td *matCellDef="let row" mat-cell>
-            <div class="flex">
-              <a (click)="$event.stopPropagation()" *ngIf="row['productiveStatus'] === 'Disponible'"
-                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
-                [matTooltip]="'Producto Disponible'" mat-icon-button>
-                <mat-icon [icIcon]="icCheck" size="20px"></mat-icon>
-              </a>
-
-              <a (click)="$event.stopPropagation()" *ngIf="row['productiveStatus'] === 'En cosecha'"
-                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
-                [matTooltip]="'Producto disponible a partir del '.concat(row['availabilityDate'] | date:'d/M/yy') " mat-icon-button>
-                <mat-icon [icIcon]="icWait" size="20px"></mat-icon>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
-          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-            <button (click)="$event.stopPropagation()" [matMenuTriggerData]="{ product: row }"
-              [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
-              <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateProduct(row)" *matRowDef="let row; columns: visibleColumns;" @fadeInUp
-          class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
-    </div>
-  </vex-page-layout-content>
-  <br>
-</vex-page-layout>
-
-<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
-  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
-    class="checkbox-item mat-menu-item">
-    <mat-checkbox (click)="$event.stopPropagation()" [(ngModel)]="column.visible" color="primary">
-      {{ column.label }}
-    </mat-checkbox>
-  </button>
-</mat-menu>
-
-<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
-  <ng-template let-product="product" matMenuContent>
-    <button (click)="updateProduct(product)" mat-menu-item>
-      <mat-icon [icIcon]="icEdit"></mat-icon>
-      <span>Editar</span>
-    </button>
-    <button
-      (click)="confirmDeleteDialog(product, null, '¿Estás seguro de que deseas eliminar el producto seleccionado [' + product.name + '] ?', false)"
-      mat-menu-item>
-      <mat-icon [icIcon]="icDelete"></mat-icon>
-      <span>Eliminar</span>
-    </button>
-  </ng-template>
-</mat-menu>
+</ng-template>

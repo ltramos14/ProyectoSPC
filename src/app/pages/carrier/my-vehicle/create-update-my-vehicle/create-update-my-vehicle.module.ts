@@ -17,8 +17,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   declarations: [CreateUpdateMyVehicleComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FlexLayoutModule,
+    IconModule,
     MatButtonModule,
     MatDialogModule,
     MatDividerModule,
@@ -26,7 +26,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatIconModule,
     MatProgressBarModule,
     MatSelectModule,
-    IconModule,
+    ReactiveFormsModule,
   ],
   entryComponents: [CreateUpdateMyVehicleComponent],
   exports: [CreateUpdateMyVehicleComponent]
