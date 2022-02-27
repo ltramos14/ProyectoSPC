@@ -4,7 +4,7 @@
         <div @fadeInUp class="card p-16">
             <div fxLayout="row">
                 <div fxFlex="50%">
-                    <img class="h-100 w-100" [src]="product.image">
+                    <img class="h-100 w-100" [src]="product.image || imageDefault">
                     <div class="mt-5">
                         <h4 class="body-2 mb-3">Información Adicional</h4>
                         <h3 class="title text-accent  m-0" *ngIf="producerName">Productor {{ producerName }}</h3>

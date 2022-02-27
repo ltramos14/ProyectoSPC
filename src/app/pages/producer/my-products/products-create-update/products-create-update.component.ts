@@ -34,13 +34,13 @@ export class ProductsCreateUpdateComponent implements OnInit {
   icToc = icToc;
 
   mode: 'create' | 'update' = 'create';
-  
+
   formProduct: FormGroup;
-  
+
   product: Product;
 
   farm: Farm[];
-  
+
   urlFile: File;
 
   value: number = 0;
@@ -49,17 +49,19 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   imageUrl: string;
 
-  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
+
+  idUser: string;
 
 
   productTypePrefixOptions = ['Frutas', 'Hortalizas', 'Tubérculos', 'Granos', 'Hierbas y aromáticas'];
-  
+
   unitPrefixOptions = ['Media libra', 'Libra', 'Kilo', 'Arroba', 'Paquete'];
-  
+
   statePrefixOptions = ['Disponible', 'En cosecha'];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public defaults: any,
     private dialogRef: MatDialogRef<ProductsCreateUpdateComponent>,
     private fb: FormBuilder,
     private authService: AuthService,
@@ -70,14 +72,15 @@ export class ProductsCreateUpdateComponent implements OnInit {
   ngOnInit() {
 
     this.getFarmsData();
-
-    if (this.defaults.idUser) {
-      this.mode = 'create';
-    } else if (this.defaults) {
+    
+    if (this.defaults instanceof Object)  {
       this.mode = 'update';
     } else {
-      this.defaults = {} as Product;
+      this.mode = 'create';
+      this.idUser = this.defaults;
     }
+
+    this.getFarmsData();
 
     this.formProduct = this.fb.group({
       id: [this.defaults.id || ''],
@@ -86,7 +89,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
-        Validators.pattern('[A-Za-z ]{2,254}')
+        Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
       ]],
       productType: [
         this.defaults.productType || '',
@@ -114,7 +117,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         this.defaults.farm || this.farm,
         Validators.required
       ],
-      available_date: [this.defaults.available_date || '', [
+      availableDate: [this.defaults.availableDate || '', [
         //OwnValidations.futureDate
       ]],
       description: [this.defaults.description || '', [
@@ -126,7 +129,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
     });
   }
 
-  save() {
+  saveChanges() {
     if (this.mode === 'create') {
       this.createProduct();
     } else if (this.mode === 'update') {
@@ -134,23 +137,11 @@ export class ProductsCreateUpdateComponent implements OnInit {
     }
   }
 
-  createProduct() {
-    let productToCreate = this.convertToProduct();
-    this.productService.uploadProductImage(null, productToCreate, this.urlFile);
-    this.dialogRef.close(this.product);
-  }
-
-  async updateProduct() {
-    let productToEdit = this.convertToProduct();
-    this.productService.uploadProductImage(productToEdit.id, productToEdit, this.urlFile);
-    this.dialogRef.close(this.defaults);
-  }
-
   convertToProduct(): Product {
     let product = new Product();
 
     product.id = this.formProduct.get('id').value;
-    product.idProducer = this.formProduct.get('idProducer').value || this.data.idUser;
+    product.idProducer = this.formProduct.get('idProducer').value || this.idUser;
     product.name = this.formProduct.get('name').value;
     product.farm = this.formProduct.get('farm').value;
     product.productType = this.formProduct.get('productType').value;
@@ -162,15 +153,29 @@ export class ProductsCreateUpdateComponent implements OnInit {
     if (this.formProduct.get('productiveStatus').value === 'Disponible')
       product.availabilityDate = new Date();
     else
-      product.availabilityDate = this.formProduct.get('available_date').value;
+      product.availabilityDate = this.formProduct.get('availableDate').value;
 
     product.description = this.formProduct.get('description').value;
     product.image = this.formProduct.get('image').value;
+
     return product;
   }
 
+  createProduct() {
+    let productToCreate = this.convertToProduct();
+    this.productService.uploadProductImage(null, productToCreate, this.urlFile);
+    this.dialogRef.close(this.product);
+  }
+
+  updateProduct() {
+    let productToEdit = this.convertToProduct();
+    this.productService.uploadProductImage(productToEdit.id, productToEdit, this.urlFile);
+    this.dialogRef.close(this.defaults);
+  }
+
+
   async getFarmsData() {
-    const { uid } = await this.authService.getCurrentUser(); 
+    const { uid } = await this.authService.getCurrentUser();
     this.farmsService.getProducerDoc(uid);
     this.farmsService.farms.subscribe(data => {
       this.farm = data;

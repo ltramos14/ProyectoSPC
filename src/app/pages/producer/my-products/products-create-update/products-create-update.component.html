@@ -1,4 +1,4 @@
-<form (ngSubmit)="save()" [formGroup]="formProduct">
+<form (ngSubmit)="saveChanges()" [formGroup]="formProduct">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
         <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
 
@@ -130,7 +130,7 @@
                 [ngStyle]="{visibility:formProduct.get('productiveStatus').value === 'Disponible' ? 'hidden': 'visible'}">
                 <mat-label>Fecha de disponibilidad</mat-label>
                 <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
-                    [matDatepicker]="formDatepickerRef" formControlName="available_date" matInput readonly />
+                    [matDatepicker]="formDatepickerRef" formControlName="availableDate" matInput readonly />
                 <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
                 <mat-hint>Selecciona una fecha futura a la fecha actual.</mat-hint>
                 <mat-datepicker #formDatepickerRef></mat-datepicker>

@@ -41,6 +41,8 @@ export class ProductDetailComponent implements OnInit {
   producerName: string;
   setQuantity: number;
   productCart: Cart;
+
+  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
   
 
   constructor(

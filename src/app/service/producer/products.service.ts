@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { Product } from 'src/app/models/product.model';
 import { convertTimestampsPipe } from 'convert-firebase-timestamp'
+import { environment } from './../../../environments/environment';
+
+const baseUrl = environment.apiUrl + '/products';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +40,9 @@ export class ProductsService {
 
   urlProductImage: Observable<string>;
 
-  constructor(public afs: AngularFirestore,
+  constructor(
+    private http: HttpClient,
+    public afs: AngularFirestore,
     private storage: AngularFireStorage,
     private snackbar: MatSnackBar) {
     this.productsCollection = afs.collection<Product>('products');
@@ -53,17 +59,28 @@ export class ProductsService {
     );
   }
 
-  async getProducerProducts(producerId: string) {
-    this.producerProducts = this.afs.collection('products', ref => ref.where('idProducer', '==', producerId)).snapshotChanges().pipe(
+  /**
+   * 
+   * @param producerId 
+   */
+  getProducerProducts(producerId: string) {
+    return this.afs.collection('products', ref => ref.where('idProducer', '==', producerId)).snapshotChanges().pipe(
       map(actions => actions.map(a => a.payload.doc.data() as Product)),
       convertTimestampsPipe()
     );
   }
 
+  /**
+   * 
+   * @param productId 
+   * @param product 
+   * @param file 
+   */
   uploadProductImage(productId: string, product: Product, file: File) {
     const id = productId || this.afs.createId();
     const filePath = `products/${id}`;
     product.id = id;
+
     if (file != undefined) {
       const ref = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, file);
@@ -108,6 +125,11 @@ export class ProductsService {
     });
   }
 
+  /**
+   * 
+   * @param productId 
+   * @returns 
+   */
   deleteProduct(productId: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -119,18 +141,29 @@ export class ProductsService {
     });
   }
 
+  /**
+   * 
+   * @param id 
+   * @returns 
+   */
   getProductById(id: string) {
     return this.afs.collection('products').doc(id).valueChanges() as Observable<Product>;
   }
 
-  getProductsWithQuery(limit: number) {
-    return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
-  }
-
+  /**
+   * 
+   * @param idProducer 
+   * @returns 
+   */
   getProductsByIdProducer(idProducer: string): Observable<Product[]> {
     return this.afs.collection('products', ref => ref.where('idProducer', '==', idProducer)).valueChanges() as Observable<Product[]>;
   }
 
+  /**
+   * 
+   * @param productType 
+   * @returns 
+   */
   getProductsByType(productType: string): Observable<Product[]> {
     let type = null;
 
@@ -140,11 +173,43 @@ export class ProductsService {
       type = 'Hortalizas';
     } else if (productType === 'tuberculos' || productType === 'Tubérculos') {
       type = 'Tubérculos';
-    } else if (productType === 'granos' || productType === 'Granos') { 
+    } else if (productType === 'granos' || productType === 'Granos') {
       type = 'Granos';
-    } else { 
+    } else {
       type = 'Hierbas y aromáticas';
     }
     return this.afs.collection('products', ref => ref.where('productType', '==', type)).valueChanges() as Observable<Product[]>;
   }
+
+  /**
+ * 
+ * @param limit 
+ * @returns 
+ */
+  getProductsWithQuery(limit: number) {
+    return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
+  }
+
+  /**
+   * 
+   * @param id 
+   * @returns 
+   */
+  updateProductiveStatus(id: string) {
+    return this.http.put(`${baseUrl}/${id}/productive-status`, {});
+  }
+
+  /**
+   * 
+   */
+  validateProductiveStatus() {
+    this.products.subscribe(products => {
+      products.forEach(product => {
+        if (product.availabilityDate && new Date(product.availabilityDate).getTime() <= new Date(Date.now()).getTime()) {
+          this.updateProductiveStatus(product.id).subscribe();
+        }
+      })
+    })
+  }
+
 }

@@ -31,6 +31,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   productCart: Cart;
   user: any;
   isWorker: boolean = false;
+  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
 
   constructor(
     private snackbar: MatSnackBar,
