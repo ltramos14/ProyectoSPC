@@ -35,7 +35,7 @@ export class RoutesService {
   saveRoute(idRoute: string, route: Route): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const id = idRoute || this.afs.createId();
+        const id = idRoute|| this.afs.createId();
         const data = { id, ...route };
         const result = await this.routesCollection.doc(id).set(data);
         resolve(result);

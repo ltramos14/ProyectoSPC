@@ -19,14 +19,12 @@ import { map, startWith } from "rxjs/operators";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MatSnackBar } from "@angular/material/snack-bar";
 
 import icDone from "@iconify/icons-ic/twotone-done";
 import icPlace from "@iconify/icons-ic/twotone-place";
 import icClose from "@iconify/icons-ic/twotone-close";
 
 import { Route } from "src/app/models/routes.model";
-import { RoutesService } from "src/app/service/carrier/routes.service";
 import { municipalities } from "src/static/municipalities-data";
 
 @Component({
@@ -85,8 +83,6 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private fb: FormBuilder,
-    private snackbar: MatSnackBar,
-    private routesService: RoutesService,
     private dialogRef: MatDialogRef<MyRoutesCreateUpdateComponent>
   ) {
     this.initFilters();
@@ -263,16 +259,9 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
    */
   createroute() {
     let route = new Route();
-    
     route = (this.formRoute.value) as Route;
-
-    this.routesService.saveRoute(null, route).then(() => {
-      this.snackbar.open("Ruta agregada satisfactoriamente", "OK", {
-        duration: 3000,
-      });
-    });
-
-    this.dialogRef.close();
+    const {id , ...data} = route;
+    this.dialogRef.close(data);
   }
 
   /**
@@ -281,13 +270,7 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
   updateroute() {
     let route = new Route();
     route = (this.formRoute.value) as Route;
-    this.routesService.saveRoute(route.id, route).then(() => {
-      this.snackbar.open("Ruta editada satisfactoriamente", "OK", {
-        duration: 3000,
-      });
-    });
-
-    this.dialogRef.close();
+    this.dialogRef.close(route);
   }
 
   isCreateMode() {

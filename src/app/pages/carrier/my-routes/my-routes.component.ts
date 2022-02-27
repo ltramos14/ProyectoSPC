@@ -100,12 +100,28 @@ export class MyRoutesComponent implements OnInit {
   }
 
   createRoute() {
-    this.dialog.open(MyRoutesCreateUpdateComponent);
+    this.dialog.open(MyRoutesCreateUpdateComponent).afterClosed().subscribe((route) => {
+      if (route) {
+        this.routeservice.saveRoute(null, route).then(() => {
+          this.snackbar.open("Ruta agregada satisfactoriamente", "OK", {
+            duration: 3000,
+          });
+        });
+      }
+    });
   }
 
   updateRoute(route: Route) {
     this.dialog.open(MyRoutesCreateUpdateComponent, {
       data: route
+    }).afterClosed().subscribe((route) => {
+      if (route) {
+        this.routeservice.saveRoute(route.id, route).then(() => {
+          this.snackbar.open("Ruta editada satisfactoriamente", "OK", {
+            duration: 3000,
+          });
+        });
+      }
     });
   }
 
@@ -135,12 +151,12 @@ export class MyRoutesComponent implements OnInit {
     });
   }
 
-  deleteRoute(idFarm: string) {
-    this.routeservice.deleteRoute(idFarm).then(() => {
+  deleteRoute(idRoute: string) {
+    this.routeservice.deleteRoute(idRoute).then(() => {
       this.snackbar.open('Ruta desvinculada satisfactoriamente', 'OK', {
         duration: 3000
       })
-    })
+    });
   }
 
 }
