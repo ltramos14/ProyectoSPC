@@ -54,6 +54,24 @@ import icWait from '@iconify/icons-ic/twotone-access-time';
 })
 export class MyProductsComponent implements OnInit, AfterViewInit {
 
+  /**
+   * Todas la columnas que van a estar en la tabla de mis productos
+   */
+  @Input()
+  columns: TableColumn<Product>[] = [
+    { label: 'Seleccionar', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'Imagen', property: 'image', type: 'image', visible: true },
+    { label: 'Nombre', property: 'name', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Tipo Producto', property: 'productType', type: 'text', visible: false },
+    { label: 'Precio ($)', property: 'price', type: 'text', visible: true },
+    { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: true },
+    { label: 'Stock', property: 'stock', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Estado Productivo', property: 'productiveStatus', type: 'button', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Finca', property: 'farm', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Descripción', property: 'description', type: 'text', visible: false },
+    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
+  ];
+
   // Inicialización de los nombres de los íconos a mostrar
   icAdd = icAdd;
   icCheck = icCheck;
@@ -67,6 +85,8 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icPhone = icPhone;
   icWait = icWait;
+
+  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
 
   visible = false;
 
@@ -87,34 +107,12 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   products: Product[];
 
-  /**
-   * Bandera que sirve para determinar si se muestra la tabla de productos en caso de que hayan
-   */
-  isProducts: boolean;
 
   /**
    * Variable de tipo string que contiene el id de productor en sesión que viene desde 
    * los parámetros de la URL
    */
   idUser: string;
-
-  /**
-   * Todas la columnas que van a estar en la tabla de mis productos
-   */
-  @Input()
-  columns: TableColumn<Product>[] = [
-    { label: 'Seleccionar', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Imagen', property: 'image', type: 'image', visible: true },
-    { label: 'Nombre', property: 'name', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Tipo Producto', property: 'productType', type: 'text', visible: false },
-    { label: 'Precio ($)', property: 'price', type: 'text', visible: true },
-    { label: 'Unidad de Medida', property: 'unit', type: 'text', visible: true },
-    { label: 'Stock', property: 'stock', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Estado Productivo', property: 'productiveStatus', type: 'button', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Finca', property: 'farm', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Descripción', property: 'description', type: 'text', visible: false },
-    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
-  ];
 
   /**
    * Variable en donde se establece el número de páginas mostradas en la tabla
@@ -158,12 +156,44 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private productService: ProductsService
-  ) { }
+  ) {
+  }
+
+  /**
+   * Método que se ejecuta uma vez se crea el componente
+   */
+  ngOnInit() {
+    
+    this.dataSource = new MatTableDataSource();
+
+    // Se obtiene el id del productor que viene desde la URL del navegador
+    this.route.params.subscribe(data => {
+      this.idUser = data.id;
+    });
+
+    // Se hace un recorrido de todos los productos en Firestore
+    this.getData().subscribe(products => {
+      this.subject$.next(products);
+    });
+
+    // Filtro de datos en la tabla
+    this.data$.pipe(
+      filter<Product[]>(Boolean)
+    ).subscribe(products => {
+      this.dataSource.data = products;
+      this.products = products;
+    });
+    
+
+    this.searchCtrl.valueChanges.pipe(
+      untilDestroyed(this)
+    ).subscribe(value => this.onFilterChange(value));
+  }
 
   /**
    * Método de tipo get en donde se establecen las columnas que serán visibles en la interfaz  
    */
-  get visibleColumns() {
+   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
@@ -171,48 +201,9 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    * Método que obtiene y retonar la variable producerProducts de ProductService
    */
   getData() {
-    return this.productService.producerProducts;
+    return this.productService.getProducerProducts(this.idUser);
   }
 
-  /**
-   * Método que se ejecuta uma vez se crea el componente
-   */
-  ngOnInit() {
-
-    // Se obtiene el id del productor que viene desde la URL del navegador
-    this.route.params.subscribe(data => {
-      this.idUser = data.id;
-    });
-
-    // Se obtiene la lista de productos del productor que está en sesión
-    this.productService.getProducerProducts(this.idUser);
-
-    // Se hace un recorrido de todos los productos en Firestore
-    this.getData().subscribe(product => {
-      if (product.length === 0) {
-        this.isProducts = false;
-      }
-      else {
-        this.isProducts = true;
-      }
-      this.subject$.next(product);
-    });
-
-    // Se incializa la tabla de Angular Material
-    this.dataSource = new MatTableDataSource();
-
-    // Filtro de datos en la tabla
-    this.data$.pipe(
-      filter<Product[]>(Boolean)
-    ).subscribe(products => {
-      this.products = products;
-      this.dataSource.data = products;
-    });
-
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.onFilterChange(value));
-  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -220,16 +211,22 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   }
 
   createProduct() {
-    this.route.params.subscribe(({ id }) => {
-      this.dialog.open(ProductsCreateUpdateComponent, {
-        data: { id }
-      });
-    })
+    this.dialog.open(ProductsCreateUpdateComponent, {
+      data: this.idUser
+    }).afterClosed().subscribe((product: Product) => {
+      if (product) {
+        this.subject$.next(this.products);
+      }
+    });
   }
 
   updateProduct(product: Product) {
     this.dialog.open(ProductsCreateUpdateComponent, {
       data: product
+    }).afterClosed().subscribe((product: Product) => {
+      if (product) {
+        this.subject$.next(this.products);
+      }
     });
   }
 
@@ -266,6 +263,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
         duration: 2000
       });
     })
+    this.subject$.next(this.products);
   }
 
   deleteProducts(products: Product[]) {

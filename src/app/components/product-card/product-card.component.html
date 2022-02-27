@@ -1,7 +1,7 @@
 <div class="card overflow-hidden">
     <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
         (click)="goToProductDetails(product.id)" matRipple>
-        <img [src]="product.image" class="avatar h-24 w-24 mx-auto">
+        <img [src]="product.image || imageDefault" class="avatar h-24 w-24 mx-auto">
         <h3 class="mb-1 mt-3 bold">{{ product.name }}</h3>
 
         <div class="body-2 text-secondary" [ngClass]="{'available': product.productiveStatus === 'Disponible', 'harvest': product.productiveStatus === 'En cosecha'}">

@@ -18,10 +18,12 @@ import { ProductsCreateUpdateModule } from './products-create-update/products-cr
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [MyProductsComponent],
   imports: [
+    BrowserModule,
     CommonModule,
     ComponentsModule,
     ContainerModule,

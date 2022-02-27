@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -6,18 +6,23 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Cart } from "src/app/models/cart.model";
 import { CartService } from "src/app/service/consumer/cart.service";
 
-import icDelete from "@iconify/icons-ic/twotone-close";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
+import icDelete from "@iconify/icons-ic/twotone-close";
 
 @Component({
   selector: "app-shopping-cart",
   templateUrl: "./shopping-cart.component.html",
   styleUrls: ["./shopping-cart.component.scss"],
 })
-export class ShoppingCartComponent implements OnInit, OnDestroy {
+export class ShoppingCartComponent implements OnInit, AfterViewInit {
+
+  /**
+   * 
+   */
+  icDelete = icDelete;
 
   /**
    * Indica qué variables deben ser mostradas en la tabla
@@ -26,38 +31,38 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     "product.image",
     "product.name",
     "product.price",
-    "product.availability",
+    "product.stock",
     "quantity",
     "subtotal",
     "delete",
   ];
 
-  icDelete = icDelete;
+  /**
+   * 
+   */
+  products: Product[]
 
+  /**
+   * 
+   */
   productsCart: Cart[];
 
+  /**
+   * 
+   */
   total: number = 0;
-  
-  products: Product[]
 
   /**
    * Es el origen de datos de la tabla
    */
-  dataSource = new MatTableDataSource<Cart>();
+  dataSource: MatTableDataSource<Cart> | null;
 
-  /**
-   * Permite ordenar los datos de la tabla
-   */
-  @ViewChild(MatSort) sort: MatSort;
-
-  /**
-   * Permite paginar la tabla
-   */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private cartSubscription: Subscription;
 
-  responsiveOptions
+  responsiveOptions;
 
   /**
    * Constructor de UsuariosComponent
@@ -92,23 +97,41 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     /* this.cartSubscription.unsubscribe(); */
   }
-  
+
   /**
    * Método que se ejecuta al cargar la página
    */
   async ngOnInit() {
+
+    this.dataSource = new MatTableDataSource();
+
+    this.dataSource.sortingDataAccessor = (element, property) => {
+      switch (property) {
+        case 'product.name': return element.product.name;
+        case 'product.price': return element.product.price;
+        case 'product.stock': return element.product.stock;
+
+        default: return element[property];
+      }
+    };
+
     const { uid } = await this.authService.getCurrentUser();
+
     this.cartService.getConsumerDoc(uid);
+
     this.getProductCartConsumer();
     this.getProducts();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   getProductCartConsumer() {
-    this.cartSubscription =  this.cartService.shoppingsCart.subscribe((carts) => {
+    this.cartService.shoppingsCart.subscribe((carts) => {
       this.productsCart = carts;
-      this.dataSource = new MatTableDataSource(this.productsCart);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = this.productsCart;
       this.getTotalValue();
     });
   }
@@ -133,22 +156,27 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   updateQuantity(idCart: string, price: number, quantity: any) {
     const newSubtotal = price * quantity;
     this.cartService.modifyQuantitysProduct(idCart, quantity, newSubtotal).then(
-      () => {},
+      () => { },
       (err) => console.error(err)
     );
   }
 
   getTotalValue() {
-    let tot = 0;
-    this.productsCart.forEach((element) => {
-      tot = tot + element.subtotal;
-      this.total = tot;
-    });
+    let total = 0;
+
+    if (this.productsCart.length > 0) {
+      this.productsCart.forEach((element) => {
+        total = total + element.subtotal;
+        this.total = total;
+      });
+    } else {
+      this.total = 0;
+    }
   }
 
   confirmOrder() {
     console.log('PEDIDO GENERADO');
     console.log(this.productsCart);
-    
   }
+
 }
