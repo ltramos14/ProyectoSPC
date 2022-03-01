@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
-import { AuthService } from 'src/app/service/auth/auth.service';
 import { MyFarmsCreateUpdateComponent } from './my-farms-create-update/my-farms-create-update.component';
 
 import { fadeInUp400ms } from '../../../../@vex/animations/fade-in-up.animation';
@@ -17,7 +19,6 @@ import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-farms',

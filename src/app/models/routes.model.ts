@@ -5,7 +5,7 @@ export class Route {
     serviceDays: string[];
     origin: string;
     destination: string;
-    route: string[];
+    routes: string[];
     startHour:  DateTime;
     
     constructor(route?: Route) {}

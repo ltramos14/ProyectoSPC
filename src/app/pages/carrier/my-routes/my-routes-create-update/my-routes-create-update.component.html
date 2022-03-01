@@ -1,10 +1,10 @@
-<form (ngSubmit)="save()" [formGroup]="formRoute">
+<form (ngSubmit)="saveChanges()" [formGroup]="formRoute">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
         <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
             Editar información ruta
         </h2>
         <h2 *ngIf="!defaults.id" class="headline m-0" fxFlex="auto">
-            Vincular nueva ruta
+            Vincular ruta de trabajo
         </h2>
 
         <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
@@ -14,7 +14,8 @@
 
     <mat-divider class="-mx-6 text-border"></mat-divider>
 
-    <mat-dialog-content fxLayout="column">
+    <mat-dialog-content class="mt-4 sm:mt-4" fxLayout="column">
+
         <div class="flex flex-col sm:flex-row">
             <mat-form-field class="flex-auto">
                 <mat-label>Origen de la ruta</mat-label>
@@ -25,7 +26,7 @@
                 </mat-select>
                 <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formRoute.controls.origin.hasError('required')">
-                    El municipio de origen de la ruta<strong> es obligatorio</strong>
+                    El municipio de origen de la ruta<strong> es obligatorio.</strong>
                 </mat-error>
             </mat-form-field>
 
@@ -38,81 +39,82 @@
                 </mat-select>
                 <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formRoute.controls.destination.hasError('required')">
-                    El municipio de destino de la ruta<strong> es obligatorio</strong>
+                    El municipio de destino de la ruta es<strong> obligatorio.</strong>
                 </mat-error>
             </mat-form-field>
-
         </div>
 
-        <div class="flex flex-col sm:flex-row">
+        <div class="flex flex-col sm:mt-3 sm:flex-row" fxLayoutAlign="center center">
             <mat-form-field>
-                <mat-label>Hora de inicio de servicio</mat-label>
+                <mat-label>Hora de inicio del servicio</mat-label>
                 <input #message [ngxTimepicker]="picker" type="datetime" formControlName="startHour" matInput>
                 <ngx-material-timepicker #picker></ngx-material-timepicker>
-                <mat-icon matPrefix [icIcon]="icPlace"></mat-icon>
+                <mat-icon matPrefix [icIcon]="icTime"></mat-icon>
                 <mat-error *ngIf="formRoute.controls.startHour.hasError('required')">
-                    La hora de inicio de la ruta<strong> es obligatoria</strong>
+                    La hora de inicio de la ruta es<strong> obligatoria.</strong>
                 </mat-error>
                 <mat-error *ngIf="formRoute.controls.startHour.errors?.pattern">
-                    La hora de inicio debe tener este formato: <strong>12:00 AM</strong>
+                    El formato permitido para la hora de inicio debe ser de<strong> 12:00 AM.</strong>
                 </mat-error>
             </mat-form-field>
-
         </div>
-        <mat-form-field>
-            <mat-label>Días de de servicio de la ruta</mat-label>
-            <mat-chip-list #chipList aria-label="Días de servicio">
-                <mat-chip *ngFor="let day of serviceDays" (removed)="remove(day, true)">
-                    {{day}}
-                    <button matChipRemove>
-                        <mat-icon [icIcon]="icClose"></mat-icon>
-                    </button>
-                </mat-chip>
-                <input placeholder="Agregue los días en que esta ruta estará siviendo"
-                    #dayInput [formControl]="fruitCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, true)">
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event, true)">
-                <mat-option *ngFor="let day of filteredDays | async" [value]="day">
-                    {{day}}
-                </mat-option>
-            </mat-autocomplete>
-            <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix>
-            </mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Municipios de parada de la ruta</mat-label>
-            <mat-chip-list #chipListM aria-label="Municipios de la ruta">
-                <mat-chip *ngFor="let muni of route" (removed)="remove(muni, false)" selected color="primary">
-                    {{muni}}
-                    <button matChipRemove>
-                        <mat-icon [icIcon]="icClose"></mat-icon>
-                    </button>
-                </mat-chip>
-                <input placeholder="Agregue los municipios del trancurso de la ruta" #municipalityInput
-                    [formControl]="municipalitiesCtrl" [matAutocomplete]="autom" [matChipInputFor]="chipListM" 
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, false)">
-            </mat-chip-list>
-            <mat-autocomplete #autom="matAutocomplete" (optionSelected)="selected($event, false)">
-                <mat-option *ngFor="let muni of filteredMunicipalities | async" [value]="muni">
-                    {{muni}}
-                </mat-option>
-            </mat-autocomplete>
-            <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix>
-            </mat-icon>
-        </mat-form-field>
 
-        <mat-dialog-actions align="end">
-            <button mat-raised-button mat-dialog-close color="warn" type="button">
-                CANCELAR
-            </button>
+        <div class="flex flex-col sm:mt-3">
+            <mat-form-field>
+                <mat-label>Días de de servicio de la ruta</mat-label>
+                <mat-select multiple formControlName="serviceDays" selected color="primary">
+                    <mat-option *ngFor="let serviceDay of weekDays" [value]="serviceDay">
+                        {{serviceDay}}</mat-option>
+                </mat-select>
+                <mat-error>
+                    <span class="help-block form-error text-danger small" *ngIf="formRoute.controls['serviceDays'].errors?.required &&
+                        formRoute.controls['serviceDays'].touched">
+                        Los días de servicio de la ruta son <strong> requeridos.</strong>
+                    </span>
+                </mat-error>
+                <mat-icon [icIcon]="icDay" class="mr-3" matPrefix>
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="flex flex-col sm:mt-3">
+                <mat-label>Municipios de parada de la ruta</mat-label>
+                <mat-chip-list #chipListM aria-label="Municipios de la ruta">
+                    <mat-chip *ngFor="let muni of route" (removed)="remove(muni)" selected color="primary">
+                        {{muni}}
+                        <button matChipRemove>
+                            <mat-icon [icIcon]="icClose"></mat-icon>
+                        </button>
+                    </mat-chip>
+                    <input #municipalityInput 
+                        [formControl]="municipalitiesCtrl" 
+                        [matAutocomplete]="autom" 
+                        [matChipInputFor]="chipListM" 
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur" 
+                        (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-hint>Añade los municipios por los que vas a pasar durante el trancurso de la ruta.</mat-hint>
+                <mat-autocomplete #autom="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let muni of filteredMunicipalities | async" [value]="muni">
+                        {{muni}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-icon [icIcon]="icWhere" class="mr-3" matPrefix>
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <mat-dialog-actions class="mt-4" align="end">
             <button *ngIf="isCreateMode()" [disabled]="formRoute.invalid" color="accent" mat-raised-button
                 type="submit">
-                AÑADIR RUTA
+                AÑADIR RUTA DE TRABAJO
             </button>
             <button *ngIf="isUpdateMode()" [disabled]="formRoute.invalid" color="accent" mat-raised-button
                 type="submit">
-                EDITAR RUTA
+                EDITAR INFORMACIÓN RUTA
+            </button>
+            <button mat-stroked-button mat-dialog-close color="warn" type="button">
+                CANCELAR
             </button>
         </mat-dialog-actions>
     </mat-dialog-content>

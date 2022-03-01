@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { CreateUpdateMyVehicleComponent } from './create-update-my-vehicle/create-update-my-vehicle.component';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { Vehicle } from 'src/app/models/vehicle.model';
 import { VehiclesService } from 'src/app/service/carrier/vehicles.service';
-import { AuthService } from 'src/app/service/auth/auth.service';
+
 import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
@@ -12,12 +15,10 @@ import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import icCar from "@iconify/icons-ic/twotone-local-shipping";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-vehicle',
   templateUrl: './my-vehicle.component.html',
-  styleUrls: ['./my-vehicle.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms,

@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { municipalities } from 'src/static/municipalities-data';
 
-import { UsersService } from 'src/app/service/users/users.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { municipalities } from 'src/static/municipalities-data';
+import { UsersService } from 'src/app/service/users/users.service';
 
 import icPermIdentity from "@iconify/icons-ic/twotone-perm-identity";
 import icWeb from "@iconify/icons-ic/twotone-web";
@@ -20,18 +20,20 @@ import icClose from '@iconify/icons-ic/twotone-close';
   templateUrl: './update-profile.component.html'
 })
 export class UpdateProfileComponent implements OnInit {
+
   formUpdateProfile: FormGroup;
+
   mode: 'update';
 
   docId: string;
 
-  icPermIdentity = icPermIdentity;
-  icWeb = icWeb;
-  icMail = icMail;
-  icPhone = icPhone;
-  icPlace = icPlace;
-  icEdit = icEdit;
   icClose = icClose;
+  icEdit = icEdit;
+  icPermIdentity = icPermIdentity;
+  icPlace = icPlace;
+  icPhone = icPhone;
+  icMail = icMail;
+  icWeb = icWeb;
 
   municipalities = municipalities;
 
@@ -54,13 +56,13 @@ export class UpdateProfileComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        Validators.pattern('[A-Za-z ]{2,254}')
+        Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
       ]],
       lastnames: [this.defaults.lastnames, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        Validators.pattern('[A-Za-z ]{2,254}')
+        Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
       ]],
       phone: [this.defaults.phone, [
         Validators.required,
@@ -80,7 +82,6 @@ export class UpdateProfileComponent implements OnInit {
   }
 
   updateProfile() {
-
     this.defaults.names = this.formUpdateProfile.get('names').value;
     this.defaults.lastnames = this.formUpdateProfile.get('lastnames').value;
     this.defaults.phone = this.formUpdateProfile.get('phone').value;

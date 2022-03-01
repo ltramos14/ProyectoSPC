@@ -3,8 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
 import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
 import { municipalities } from 'src/static/municipalities-data';
@@ -64,7 +66,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
           Validators.required,
           Validators.minLength(5),
           Validators.maxLength(30),
-          Validators.pattern('[A-Za-z ]{2,254}')
+          Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
         ]
       ],
       municipality: [

@@ -21,17 +21,18 @@ import icClose from '@iconify/icons-ic/twotone-close';
 export class UpdateProfileComponent implements OnInit {
 
   formUpdateProfile: FormGroup;
+
   mode: 'update';
 
   docId: string;
 
-  icPermIdentity = icPermIdentity;
-  icWeb = icWeb;
+  icClose = icClose;
+  icEdit = icEdit;
   icMail = icMail;
+  icPermIdentity = icPermIdentity;
   icPhone = icPhone;
   icPlace = icPlace;
-  icEdit = icEdit;
-  icClose = icClose;
+  icWeb = icWeb;
 
   municipalities = municipalities;
 
@@ -51,13 +52,13 @@ export class UpdateProfileComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        Validators.pattern('[A-Za-z ]{2,254}')
+        Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
       ]],
       lastnames: [this.defaults.lastnames, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        Validators.pattern('[A-Za-z ]{2,254}')
+        Validators.pattern('[A-Za-zÀ-ÿ\u00f1\u00d1 ]{2,254}')
       ]],
       phone: [this.defaults.phone, [
         Validators.required,
@@ -71,7 +72,6 @@ export class UpdateProfileComponent implements OnInit {
       ],
     });
   }
-
 
   saveChanges() {
     this.updateProfile();

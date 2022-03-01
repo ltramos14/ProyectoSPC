@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { IconModule } from '@visurel/iconify-angular';
 import { ScrollbarModule } from 'src/@vex/components/scrollbar/scrollbar.module';
@@ -24,14 +25,15 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     ComponentsModule,
     FlexLayoutModule,
-    MyRoutesCreateUpdateModule,
+    IconModule,
     MatButtonModule,
     MatIconModule,
-    IconModule,
     MatDividerModule,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatTooltipModule,
+    MyRoutesCreateUpdateModule,
     ScrollbarModule
   ]
 })

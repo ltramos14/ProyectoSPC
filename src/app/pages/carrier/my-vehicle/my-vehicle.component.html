@@ -13,12 +13,9 @@
                 <div class="flex-auto">
                     <div class="card">
                         <div class="px-gutter py-4 border-b  bg-app-bar">
-                            <h4 class="m-0">Transportador en esta sección podrás visualizar y actualizar la información
-                                de tu
-                                vehículo de
-                                trabajo.</h4>
+                            <h3 class="m-0">Transportador en esta sección podrás visualizar y actualizar la información
+                                de tu vehículo de trabajo</h3>
                         </div>
-
 
                         <mat-card class="px-gutter border-b" @fadeInRight *ngFor="let vehi of vehicle">
                             <mat-card-header fxLayoutAlign="start center">
@@ -32,7 +29,8 @@
                                     <h1 class="title mb-1 mt-3" style="text-transform: uppercase">PLACA: {{
                                         vehi.licensePlate }}</h1>
                                     <p class="mt-10">Características: {{ vehi.characteristics }}</p>
-                                    <p class="mt-10">Capacidad máxima de carga:  <strong>{{ vehi.maxCapacity }}</strong> Kilogramos.</p>
+                                    <p class="mt-10">Capacidad máxima de carga: <strong>{{ vehi.maxCapacity }}</strong>
+                                        Kilogramos.</p>
                                 </div>
                             </mat-card-content>
                             <mat-divider></mat-divider>
@@ -44,7 +42,7 @@
                                         <mat-icon [icIcon]="icEdit" matTooltip="Editar información vehículo">
                                         </mat-icon>
                                     </button>
-                                    <button (click)="confirmDeleteDialog(vehi)" class="text-black" mat-icon-button
+                                    <button (click)="confirmDeleteDialog(vehi)" class="text-warn" mat-icon-button
                                         type="button">
                                         <mat-icon [icIcon]="icDelete" matTooltip="Eliminar vehículo">
                                         </mat-icon>
@@ -59,7 +57,6 @@
         </div>
     </div>
 </div>
-
 
 
 <ng-template #novehicle>

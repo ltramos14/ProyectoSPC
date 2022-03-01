@@ -1,23 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Route } from 'src/app/models/routes.model';
-import { AuthService } from 'src/app/service/auth/auth.service';
-import { RoutesService } from 'src/app/service/carrier/routes.service';
-import { MyRoutesCreateUpdateComponent } from './my-routes-create-update/my-routes-create-update.component';
-import icAdd from '@iconify/icons-ic/twotone-add';
-import icDelete from '@iconify/icons-ic/twotone-delete';
-import icEdit from '@iconify/icons-ic/twotone-edit';
-import icEye from '@iconify/icons-ic/twotone-remove-red-eye';
-import icDay from '@iconify/icons-ic/twotone-calendar-today';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { MyRoutesCreateUpdateComponent } from './my-routes-create-update/my-routes-create-update.component';
+import { Route } from 'src/app/models/routes.model';
+import { RoutesService } from 'src/app/service/carrier/routes.service';
+import { ViewDetailDialogComponent } from 'src/app/components/view-detail-dialog/view-detail-dialog.component';
+
+import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
-import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
-import { ViewDetailDialogComponent } from 'src/app/components/view-detail-dialog/view-detail-dialog.component';
+
+import icAdd from '@iconify/icons-ic/twotone-add';
+import icDay from '@iconify/icons-fa-solid/calendar-week';
+import icDelete from '@iconify/icons-ic/twotone-delete';
+import icEdit from '@iconify/icons-ic/twotone-edit';
+import icMap from '@iconify/icons-fa-solid/map-marked-alt';
 
 @Component({
   selector: 'app-my-routes',
@@ -29,30 +32,21 @@ import { ViewDetailDialogComponent } from 'src/app/components/view-detail-dialog
     fadeInRight400ms
   ],
 })
-export class MyRoutesComponent implements OnInit {
+export class MyRoutesComponent implements OnInit, AfterViewInit {
 
-  routes: Route[];
-  
+  /**
+   * Se instancian los íconos que utilizan en la vista
+   */
   icAdd = icAdd;
+  icDay = icDay;
   icDelete = icDelete;
   icEdit = icEdit;
-  icEye = icEye;
-  icDay = icDay;
-  
-  
-  /* icClose = icClose;
-  icPlace = icPlace;
-  icLocation = icLocation;
-  icDescription = icDescription;
-  icEdit = icEdit;
-  icDelete = icDelete; */
-
-  imageDefault: string = '../../../../../assets/images/LogoSPCv1.png';
+  icMap = icMap;
 
   /**
    * Indica qué variables deben ser mostradas en la tabla
    */
-   displayedColumns: string[] = [
+  displayedColumns: string[] = [
     "route.origin",
     "route.destination",
     "route.startHour",
@@ -63,47 +57,74 @@ export class MyRoutesComponent implements OnInit {
   ];
 
   /**
-   * Es el origen de datos de la tabla
+   * 
    */
-  dataSource = new MatTableDataSource<Route>();
+  routes: Route[];
 
   /**
-   * Permite ordenar los datos de la tabla
+   * Es el origen de datos de la tabla
    */
-  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<Route> | null;
 
   /**
    * Permite paginar la tabla
    */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  /**
+   * Permite ordenar los datos de la tabla
+   */
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  /**
+   * 
+   * @param routeservice 
+   * @param authService 
+   * @param dialog 
+   * @param snackbar 
+   */
   constructor(
-    private routeservice: RoutesService,
+    private routeService: RoutesService,
     private authService: AuthService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
 
   async ngOnInit() {
+    this.dataSource = new MatTableDataSource();
+
+    this.dataSource.sortingDataAccessor = (element, property) => {
+      switch (property) {
+        case 'route.origin': return element.origin;
+        case 'route.destination': return element.destination;
+        case 'route.startHour': return element.startHour;
+
+        default: return element[property];
+      }
+    };
+
     const { uid } = await this.authService.getCurrentUser();
-    this.routeservice.getCarrierDoc(uid);
+    this.routeService.getCarrierDoc(uid);
     this.getRoutesData();
   }
-  
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   getRoutesData() {
-    this.routeservice.routes.subscribe(routes => {
+    this.routeService.routes.subscribe(routes => {
       this.routes = routes;
-      this.dataSource = new MatTableDataSource(routes);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = this.routes;
     });
   }
 
   createRoute() {
     this.dialog.open(MyRoutesCreateUpdateComponent).afterClosed().subscribe((route) => {
       if (route) {
-        this.routeservice.saveRoute(null, route).then(() => {
-          this.snackbar.open("Ruta agregada satisfactoriamente", "OK", {
+        this.routeService.saveRoute(null, route).then(() => {
+          this.snackbar.open("La ruta fue agregada satisfactoriamente", "OK", {
             duration: 3000,
           });
         });
@@ -116,30 +137,13 @@ export class MyRoutesComponent implements OnInit {
       data: route
     }).afterClosed().subscribe((route) => {
       if (route) {
-        this.routeservice.saveRoute(route.id, route).then(() => {
-          this.snackbar.open("Ruta editada satisfactoriamente", "OK", {
+        this.routeService.saveRoute(route.id, route).then(() => {
+          this.snackbar.open("La ruta fue editada satisfactoriamente", "OK", {
             duration: 3000,
           });
         });
       }
     });
-  }
-
-  confirmDeleteDialog(id: string) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {
-        message: '¿Estás seguro de que deseas eliminar la ruta?',
-        buttonText: {
-          ok: "Eliminar ruta",
-          cancel: "Cancelar"
-        }
-      }
-    });
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.deleteRoute(id);
-      }
-    })
   }
 
   openDetailDialog(title: string, elements: string[]) {
@@ -151,9 +155,26 @@ export class MyRoutesComponent implements OnInit {
     });
   }
 
+  confirmDeleteDialog(id: string) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: '¿Estás seguro de que deseas eliminar la ruta seleccionada?',
+        buttonText: {
+          ok: "Sí, eliminar",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteRoute(id);
+      }
+    })
+  }
+
   deleteRoute(idRoute: string) {
-    this.routeservice.deleteRoute(idRoute).then(() => {
-      this.snackbar.open('Ruta desvinculada satisfactoriamente', 'OK', {
+    this.routeService.deleteRoute(idRoute).then(() => {
+      this.snackbar.open('Ruta eliminada satisfactoriamente', 'OK', {
         duration: 3000
       })
     });
