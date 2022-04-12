@@ -13,24 +13,26 @@ import { RouterModule } from '@angular/router';
 import { ProductsCatalogModule } from './products-catalog/products-catalog.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { OrdersModule } from './orders/orders.module';
+import { OrderRequestModule } from './order-request/order-request.module';
 
 @NgModule({
   declarations: [
     SpcComponent
   ],
   imports: [
-    CommonModule,
     AboutUsModule,
+    CommonModule,
     ContactUsModule,
+    FooterModule,
     HomeModule,
     OrdersModule,
+    OrderRequestModule,
     ProductsCatalogModule,
     ProductDetailModule,
-    ShoppingCartModule,
-    UsersModule,
-    ToolbarModule,
-    FooterModule,
     RouterModule,  
+    ShoppingCartModule,
+    ToolbarModule,
+    UsersModule,
   ]
 })
 export class SpcModule { }

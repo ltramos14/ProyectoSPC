@@ -11,6 +11,7 @@ import { AuthService } from "src/app/service/auth/auth.service";
 import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
 import icDelete from "@iconify/icons-ic/twotone-close";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-shopping-cart",
@@ -73,8 +74,9 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
+    private productsService: ProductsService,
+    private router: Router,
     private snackbar: MatSnackBar,
-    private productsService: ProductsService
   ) {
     this.responsiveOptions = [
       {
@@ -175,8 +177,9 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
   }
 
   confirmOrder() {
-    console.log('PEDIDO GENERADO');
-    console.log(this.productsCart);
+  /*  console.log('PEDIDO GENERADO');
+    console.log(this.productsCart); */
+    this.router.navigateByUrl('/solicitar-pedido')
   }
 
 }

@@ -11,6 +11,7 @@ import { SpcComponent } from './spc.component';
 import { ProductsCatalogComponent } from './products-catalog/products-catalog.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { OrdersComponent } from './orders/orders.component';
+import { OrderRequestComponent } from './order-request/order-request.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,7 @@ const routes: Routes = [
             { path: 'productos/:tipo', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },
             { path: 'detalles-producto/:id', component: ProductDetailComponent, data: { title: 'Detalles Producto' } },
             { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard] },
+            { path: 'solicitar-pedido', component: OrderRequestComponent, data: { title: 'Solicitud de pedido' }, canActivate: [AuthGuard] },
             { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard] },
             { path: 'usuarios', component: UsersComponent },
         ]
