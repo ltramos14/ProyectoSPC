@@ -41,23 +41,22 @@
                         </div>
                         <div @stagger class="px-gutter py-4" fxLayoutAlign="">
                             <mat-accordion>
-                                <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel *ngFor="let order of orderRequest">
                                     <mat-expansion-panel-header>
                                         <mat-panel-title>
-                                            PEDIDO
+                                            PEDIDO N° {{ orderRequest.indexOf(order) + 1 }}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                            NOMBRE DEL PRODUCTOR
+                                            {{ order.names + ' ' + order.lastnames | uppercase}}
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
                                     <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
-                                        gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                        <img @scaleIn src="../../../../assets/illustrations/file-product.png"
-                                            class="avatar w-20 h-20" />
+                                        gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px" *ngFor="let product of order.products">
+                                        <img @scaleIn [src]="product.image" />
                                         <div class="column">
-                                            <h3 class=" m-0">Nombre del producto</h3>
-                                            <h3 class=" m-0">Cantidad: </h3>
-                                            <h3 class=" m-0">Subtotal: $ </h3>
+                                            <h3 class=" m-0">Nombre del producto: {{ product.name }}</h3>
+                                            <h3 class=" m-0">Cantidad: {{ product.quantity }}</h3>
+                                            <h3 class=" m-0">Subtotal: ${{ product.subtotal }}</h3>
                                         </div>
                                     </div>
                                 </mat-expansion-panel>
@@ -71,21 +70,17 @@
                     <div class="px-6 py-4 border-b">
                         <h2 class="resumen">RESUMEN DEL PEDIDO</h2>
                     </div>
-                    <div @stagger class="px-gutter py-4">
-                        <div @stagger class="px-gutter py-2 text-center" gdColumns="1fr 1fr" gdColumns.lt-lg="1fr 1fr"
-                            gdColumns.xs="1fr 1fr">
-                            <h3>PRODUCTOS</h3>
-                            <h3>$ PRECIO</h3>
-                            <h3>PRODUCTOS</h3>
-                            <h3>$ PRECIO</h3>
-                            <h3>PRODUCTOS</h3>
-                            <h3>$ PRECIO</h3>
-                            <h3>PRODUCTOS</h3>
-                            <h3>$ PRECIO</h3>
+                    <div @stagger class="px-gutter py-4" >
+                        <div *ngFor="let order of orderRequest">
+                            <div @stagger class="px-gutter py-2 text-center" gdColumns="1fr 1fr" gdColumns.lt-lg="1fr 1fr"
+                                gdColumns.xs="1fr 1fr" *ngFor="let product of order.products">
+                                <h3>{{ product.name }} ({{ product.quantity }})</h3>
+                                <h3>$ {{ product.subtotal }}</h3>
+                            </div>
                         </div>
-                        <mat-divider></mat-divider>
-                        <h2 class="text-center mt-6" style="font-weight: bold;">TOTAL $</h2>
                     </div>
+                    <mat-divider></mat-divider>
+                    <h2 class="text-center mt-6" style="font-weight: bold;">TOTAL $ {{ total }}</h2>
                 </div>
             </div>
 
