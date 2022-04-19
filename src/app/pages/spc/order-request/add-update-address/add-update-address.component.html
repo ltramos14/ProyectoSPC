@@ -1,0 +1,74 @@
+<form (ngSubmit)="saveChanges()" [formGroup]="formAddress">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+        <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
+            Editar la dirección para tus pedidos
+        </h2>
+        <h2 *ngIf="!defaults.id" class="headline m-0" fxFlex="auto">
+            Agrega una dirección para la entrega de tus pedidos
+        </h2>
+
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+
+    <mat-dialog-content class="mt-4 sm:mt-4" fxLayout="column">
+
+        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+            <mat-label>Dirrección</mat-label>
+            <input #message minlength="3" maxlength="20" cdkFocusInitial formControlName="address" matInput />
+            <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
+            <mat-error *ngIf="formAddress.controls.description.hasError('required')">
+                La dirección<strong> es obligatoria.</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+            <mat-label>Celular</mat-label>
+            <input minlength="6" maxlength="10" formControlName="phone" matInput required />
+            <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
+            <mat-error *ngIf="formAddress.controls.phone.hasError('required')">
+                El número de celular es<strong> obligatorio.</strong>
+            </mat-error>
+            <mat-error *ngIf="formAddress.controls.phone.hasError('minlength')">
+                Tu número de celular debe tener como mínimo 6 digitos.
+            </mat-error>
+            <mat-error *ngIf="formAddress.controls.phone.hasError('pattern')">
+                Por favor ingresa solamente valores numéricos.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+            <mat-label>Municipio</mat-label>
+            <mat-select formControlName="municipality">
+                <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
+                    {{ municipality.name }}
+                </mat-option>
+            </mat-select>
+            <mat-icon [icIcon]="icClose" class="mr-3" matPrefix></mat-icon>
+            <mat-error *ngIf="formAddress.controls.municipality.hasError('required')">
+                El municipio de residencia<strong> es obligatorio</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+            <mat-label>Información adicional</mat-label>
+            <textarea #description minlenght="10" maxlength="200" formControlName="addtionalInfo" matInput></textarea>
+            <mat-hint align="end">{{description.value.length}} / 200</mat-hint>
+            <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
+        </mat-form-field>
+
+        <mat-dialog-actions class="mt-4" align="end">
+            <button *ngIf="isCreateMode()" [disabled]="formAddress.invalid" color="accent" mat-raised-button
+                type="submit">
+                AÑADIR DIRECCIÓN
+            </button>
+            <button *ngIf="isUpdateMode()" [disabled]="formAddress.invalid" color="accent" mat-raised-button
+                type="submit">
+                EDITAR DIRECCIÓN
+            </button>
+            <button mat-stroked-button mat-dialog-close color="warn" type="button">
+                CANCELAR
+            </button>
+        </mat-dialog-actions>
+    </mat-dialog-content>
+</form>

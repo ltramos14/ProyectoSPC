@@ -12,6 +12,7 @@ import { ProductsCatalogComponent } from './products-catalog/products-catalog.co
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderRequestComponent } from './order-request/order-request.component';
+import { ProfileGuard } from 'src/app/guards/profile.guard';
 
 const routes: Routes = [
     {
@@ -21,8 +22,8 @@ const routes: Routes = [
             { path: 'contactanos', component: ContactUsComponent, data: { title: 'Contáctanos' } },
             { path: 'productos/:tipo', component: ProductsCatalogComponent, data: { title: 'Productos agrícolas' } },
             { path: 'detalles-producto/:id', component: ProductDetailComponent, data: { title: 'Detalles Producto' } },
-            { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard] },
-            { path: 'solicitar-pedido', component: OrderRequestComponent, data: { title: 'Solicitud de pedido' }, canActivate: [AuthGuard] },
+            { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard, ProfileGuard ] },
+            { path: 'solicitar-pedido', component: OrderRequestComponent, data: { title: 'Solicitud de pedido' }, canActivate: [AuthGuard, ProfileGuard ] },
             { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard] },
             { path: 'usuarios', component: UsersComponent },
         ]

@@ -40,6 +40,15 @@ export class ProfileGuard implements CanActivate {
             
           });
         }
+        if (activeUrl.includes('solicitar-pedido') || activeUrl.includes('carrito')) {
+          this.userService.getUserInfo(uid).subscribe(async (data) => {
+            const { typeuser } = data;
+            if (typeuser !== 'Consumidor') {
+              this.router.navigateByUrl('')
+              return false;
+            }
+          });
+        }
       })
       return true;
   }

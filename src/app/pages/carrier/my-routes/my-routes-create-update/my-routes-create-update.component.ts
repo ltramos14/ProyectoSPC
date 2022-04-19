@@ -140,10 +140,6 @@ export class MyRoutesCreateUpdateComponent implements OnInit {
    * Método se ejecuta una vez se crea este componente
    */
   ngOnInit() {
-
-    console.log(this.defaults);
-    
-
     if (this.defaults) {
       this.mode = "update";
     } else {
