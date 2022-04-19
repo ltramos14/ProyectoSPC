@@ -6,10 +6,48 @@ h1 {
     margin: 5% 0 3% 0;
 }
 
-.resumen {
+.card-shipping {
+    background-color: #E8EAE6;
+}
+
+.card-orders {
+    background-color: #F5F4F4;
+}
+
+.card-orders img {
+    display: block;
+    margin: 0px auto;
+}
+
+.accordion {
+    background-color: #F9E4C8;
+}
+
+.price {
+    color: #EE731B;
+}
+
+.card-resume-order {
+    background-color: #CFDAC8;
+}
+
+.resume {
     color: #058d38;
     text-align: center;
     text-decoration: underline;
     font-weight: bold;
     font-size: 22px;
+}
+
+.card-finish-order {
+    background-color: #c8dbbc;
+}
+
+.card-finish-order img {
+    display: block;
+    margin: 0px auto;
+}
+
+.bg-app-bar {
+    background-color: rgba(255, 160, 122, 0.4);
 }
