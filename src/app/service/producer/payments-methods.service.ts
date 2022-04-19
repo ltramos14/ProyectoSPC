@@ -27,6 +27,10 @@ export class PaymentsMethodsService {
 
     constructor(public afs: AngularFirestore) {}
 
+    /**
+     * 
+     * @param uid 
+     */
     getProducerDoc(uid: string) {
         this.producerDoc = this.afs.doc<User>(`users/${uid}`);
         this.paymentMethodsCollection = this.producerDoc.collection<PaymentMethod>('paymentmethods');
