@@ -24,6 +24,9 @@ export const municipalities = [
         name: 'Bituima'
     }, 
     {
+        name: 'Bogotá D.C'
+    }, 
+    {
         name: 'Bojacá'
     }, 
     {

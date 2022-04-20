@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
 import { OrderRequestComponent } from './order-request.component';
+import { AddUpdateAddressModule } from './add-update-address/add-update-address.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,6 +18,7 @@ import { OrderRequestComponent } from './order-request.component';
   imports: [
     CommonModule,
     FlexLayoutModule,
+    FormsModule,
     IconModule,
     MatButtonModule,
     MatDividerModule,
@@ -23,6 +26,7 @@ import { OrderRequestComponent } from './order-request.component';
     MatIconModule,
     MatRadioModule,
     MatStepperModule,
+    AddUpdateAddressModule
   ]
 })
 export class OrderRequestModule { }

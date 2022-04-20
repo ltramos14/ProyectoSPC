@@ -16,15 +16,15 @@
 
     <mat-dialog-content class="mt-4 sm:mt-4" fxLayout="column">
 
-        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+        <mat-form-field>
             <mat-label>Dirrección</mat-label>
             <input #message minlength="3" maxlength="20" cdkFocusInitial formControlName="address" matInput />
             <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
-            <mat-error *ngIf="formAddress.controls.description.hasError('required')">
+            <mat-error *ngIf="formAddress.controls.address.hasError('required')">
                 La dirección<strong> es obligatoria.</strong>
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+        <mat-form-field>
             <mat-label>Celular</mat-label>
             <input minlength="6" maxlength="10" formControlName="phone" matInput required />
             <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
@@ -38,7 +38,7 @@
                 Por favor ingresa solamente valores numéricos.
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+        <mat-form-field>
             <mat-label>Municipio</mat-label>
             <mat-select formControlName="municipality">
                 <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
@@ -50,10 +50,10 @@
                 El municipio de residencia<strong> es obligatorio</strong>
             </mat-error>
         </mat-form-field>
-        <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
+        <mat-form-field>
             <mat-label>Información adicional</mat-label>
-            <textarea #description minlenght="10" maxlength="200" formControlName="addtionalInfo" matInput></textarea>
-            <mat-hint align="end">{{description.value.length}} / 200</mat-hint>
+            <textarea #description minlenght="5" maxlength="50" formControlName="addtionalInfo" matInput></textarea>
+            <mat-hint align="end">{{description.value.length}} / 50</mat-hint>
             <mat-icon matPrefix [icIcon]="icClose"></mat-icon>
         </mat-form-field>
 

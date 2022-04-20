@@ -39,7 +39,7 @@ export class ProductDetailComponent implements OnInit {
   products: Product[] = [];
   productsProducer: Product[] = [];
   producerName: string;
-  setQuantity: number;
+  setQuantity: number = 1;
   productCart: Cart;
 
   imageDefault: string = '../../../../../assets/illustrations/no-product.png';

@@ -10,6 +10,12 @@ import { scaleIn400ms } from 'src/@vex/animations/scale-in.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 
 import icDoneAll from '@iconify/icons-ic/twotone-done-all';
+import { MatDialog } from '@angular/material/dialog';
+import { AddressesService } from 'src/app/service/consumer/addresses.service';
+import { AddUpdateAddressComponent } from './add-update-address/add-update-address.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Address } from 'src/app/models/address.model';
+import { PaymentMethod } from 'src/app/models/payment-method.model';
 
 @Component({
   selector: 'spc-order-request',
@@ -30,17 +36,34 @@ export class OrderRequestComponent implements OnInit {
 
   total: number = 0;
 
+  paymentSelected: PaymentMethod;
+
+  address: Address;
+
   paymentMethodsOrders: PaymentMethodOrder[] = [];
 
   constructor(
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
     private authService: AuthService,
+    private addressService: AddressesService,
     private orderService: OrderService,
     private paymentMethodsService: PaymentsMethodsService
-  ) { }
+  ) {
+    this.paymentSelected = new PaymentMethod(); 
+  }
 
   async ngOnInit() {
     const { uid } = await this.authService.getCurrentUser();
     this.getPreOrders(uid);
+    this.addressService.getConsumerDoc(uid);
+    this.getAddress();
+  }
+
+  getAddress() {
+    this.addressService.addresses.subscribe(addresses => {
+      this.address = addresses[0];
+    });
   }
 
   getPreOrders(id: string) {
@@ -61,7 +84,9 @@ export class OrderRequestComponent implements OnInit {
           name: order.names + ' ' + order.lastnames,
           paymentMethods: data
         }
-        this.paymentMethodsOrders.push(payment);
+        if (!this.paymentMethodsOrders.includes(payment)) {
+          this.paymentMethodsOrders.push(payment);
+        }
       });
     }
   }
@@ -79,6 +104,37 @@ export class OrderRequestComponent implements OnInit {
     } else {
       this.total = 0;
     }
+  }
+
+  addNewAddress() {
+    this.dialog.open(AddUpdateAddressComponent).afterClosed().subscribe(address => {
+      if (address) {
+        this.addressService.addAddress(null, address).then(() => {
+          this.snackbar.open('Tu dirección ha sido guardada satisfactoriamente', 'OK', {
+            duration: 2000
+          });
+        });
+      }
+    });
+  }
+  
+  updateAddressInfo(address: Address) {
+    this.dialog.open(AddUpdateAddressComponent, {
+      data: address
+    }).afterClosed().subscribe(address => {
+      if (address) {
+        this.addressService.addAddress(address.id, address).then(() => {
+          this.snackbar.open('La información de tu dirección ha sido guardada satisfactoriamente', 'OK', {
+            duration: 2000
+          });
+        });
+      }
+    });
+  }
+
+  addPaymentSelected(payment: PaymentMethod) {
+    console.log(payment);
+    
   }
 
 }

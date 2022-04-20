@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Address } from 'src/app/models/address.model';
 import { municipalities } from 'src/static/municipalities-data';
 
@@ -26,7 +25,6 @@ export class AddUpdateAddressComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private fb: FormBuilder,
-    private snackbar: MatSnackBar,
     private dialogRef: MatDialogRef<AddUpdateAddressComponent>,
   ) { }
 
@@ -49,11 +47,12 @@ export class AddUpdateAddressComponent implements OnInit {
         Validators.required
       ],
       phone: [
-        this.defaults.phone || '',
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(10),
-        Validators.pattern('[0-9]*')
+        this.defaults.phone || '',[
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(10),
+          Validators.pattern('[0-9]*')
+        ]
       ],
       addtionalInfo: [this.defaults.addtionalInfo || '']
     });
@@ -76,7 +75,7 @@ export class AddUpdateAddressComponent implements OnInit {
     updateAddress() {
       let address = new Address();
       address = this.formAddress.value as Address;
-      this.dialogRef.close(Address);
+      this.dialogRef.close(address);
     }
   
     /**
