@@ -1,3 +1,4 @@
+import { Address } from './address.model';
 import { PaymentMethod } from './payment-method.model';
 interface ProductOrder {
     name: string,
@@ -11,6 +12,9 @@ export class Order {
     names: string;
     lastnames: string;
     products: ProductOrder[];
+    chosenPayment?: PaymentMethod;
+    address?: Address;
+    total?: number;
 
     constructor(order?: Order) {}
 }

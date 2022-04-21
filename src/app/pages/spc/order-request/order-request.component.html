@@ -140,7 +140,7 @@
                                     </div>
                                     <mat-radio-group>
                                         <mat-radio-button *ngFor="let payment of paymentMethod.paymentMethods"
-                                            [value]="payment" (change)="addPaymentSelected(payment)" checked>
+                                            [value]="payment" (change)="addPaymentSelected(payment, paymentMethod.idProducer)" checked>
                                             <div @stagger class="px-gutter mt-6 py-5" gdColumns="1fr 1fr 1fr 1fr"
                                                 gdColumns.lt-lg="1fr 1fr" gdColumns.xs="1fr">
                                                 <img @scaleIn class="avatar w-20 h-20" [src]="payment.image" />
@@ -257,14 +257,14 @@
                                     <div class="body-2 text-secondary">
                                         <!--     <ic-icon [icon]="icPhone" class="ltr:mr-1 rtl:ml-1" inline="true">
                                                 </ic-icon> -->
-                                        <span>Medio de pago elegido:</span>
+                                        <span>Medio de pago elegido: <strong>$ {{ order.chosenPayment?.name }} </strong> </span>
                                     </div>
 
                                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
 
                                         <!--  <ic-icon [icon]="icWeb" class="ltr:mr-1 rtl:ml-1" inline="true">
                                                 </ic-icon> -->
-                                        <span>Total a pagar: </span>
+                                        <span>Total a pagar: {{ order?.total }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@
             </div>
 
             <div class="actions mt-16" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
-                <button color="accent" mat-raised-button matStepperNext>
+                <button color="accent" mat-raised-button (click)="confirmOrder()">
                     FINALIZAR SOLICITUD
                 </button>
             </div>

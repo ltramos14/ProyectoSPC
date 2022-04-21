@@ -5,6 +5,10 @@ import { Address } from 'src/app/models/address.model';
 import { municipalities } from 'src/static/municipalities-data';
 
 import icClose from "@iconify/icons-ic/twotone-close";
+import icMyLocation from "@iconify/icons-ic/twotone-my-location";
+import icPhone from "@iconify/icons-ic/twotone-phone";
+import icMap from "@iconify/icons-ic/twotone-map";
+import icNoteAdd from "@iconify/icons-ic/twotone-note-add";
 
 @Component({
   selector: 'spc-add-update-address',
@@ -19,6 +23,10 @@ export class AddUpdateAddressComponent implements OnInit {
   mode: 'create' | 'update' = 'create';
 
   icClose = icClose;
+  icMyLocation = icMyLocation;
+  icPhone = icPhone;
+  icMap = icMap;
+  icNoteAdd = icNoteAdd;
 
   municipalities = municipalities;
 

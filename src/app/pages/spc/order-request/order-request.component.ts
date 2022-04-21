@@ -36,6 +36,8 @@ export class OrderRequestComponent implements OnInit {
 
   total: number = 0;
 
+  paymentMethodsSelected: PaymentMethod[] = [];
+
   paymentSelected: PaymentMethod;
 
   address: Address;
@@ -55,9 +57,9 @@ export class OrderRequestComponent implements OnInit {
 
   async ngOnInit() {
     const { uid } = await this.authService.getCurrentUser();
-    this.getPreOrders(uid);
     this.addressService.getConsumerDoc(uid);
     this.getAddress();
+    this.getPreOrders(uid);
   }
 
   getAddress() {
@@ -71,6 +73,7 @@ export class OrderRequestComponent implements OnInit {
       this.orderRequest = data;
       this.getTotalValue();
       this.getPaymentMethods();
+      this.setTotalByOrder();
     });
   }
 
@@ -79,6 +82,8 @@ export class OrderRequestComponent implements OnInit {
       let payment: PaymentMethodOrder;
       this.paymentMethodsService.getProducerDoc(order.idProducer);
       this.paymentMethodsService.paymentMethods.subscribe(data => {
+        order.chosenPayment = data[data.length - 1 || 0];
+        order.address = this.address;
         payment = {
           idProducer: order.idProducer,
           name: order.names + ' ' + order.lastnames,
@@ -110,6 +115,7 @@ export class OrderRequestComponent implements OnInit {
     this.dialog.open(AddUpdateAddressComponent).afterClosed().subscribe(address => {
       if (address) {
         this.addressService.addAddress(null, address).then(() => {
+          this.addNewAddresToOrder(address);
           this.snackbar.open('Tu dirección ha sido guardada satisfactoriamente', 'OK', {
             duration: 2000
           });
@@ -123,6 +129,7 @@ export class OrderRequestComponent implements OnInit {
       data: address
     }).afterClosed().subscribe(address => {
       if (address) {
+        this.addNewAddresToOrder(address);
         this.addressService.addAddress(address.id, address).then(() => {
           this.snackbar.open('La información de tu dirección ha sido guardada satisfactoriamente', 'OK', {
             duration: 2000
@@ -132,9 +139,32 @@ export class OrderRequestComponent implements OnInit {
     });
   }
 
-  addPaymentSelected(payment: PaymentMethod) {
-    console.log(payment);
-    
+  addPaymentSelected(payment: PaymentMethod, idProducer: string) {
+    this.orderRequest.forEach( order => {
+      if (order.idProducer === idProducer && order.chosenPayment !== payment) {
+        order.chosenPayment = payment;
+      }
+    });
+  }
+
+  addNewAddresToOrder(address: Address) {
+      this.orderRequest.forEach(order => order.address = address);
+  }
+
+  setTotalByOrder() {
+    this.orderRequest.forEach(order => {
+      let total = 0;
+      order.products.forEach(product => {
+        total += product.subtotal;
+      })
+      order.total = total;
+    });
+  }
+
+  confirmOrder() {
+    for (const order of this.orderRequest) {
+      console.log(order);
+    }
   }
 
 }
