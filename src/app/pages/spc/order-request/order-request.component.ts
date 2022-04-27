@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Order, PaymentMethodOrder } from 'src/app/models/order.model';
+import { OrderRequest, PaymentMethodOrder } from 'src/app/models/order-request.model';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { OrderService } from 'src/app/service/users/order.service';
 import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
@@ -9,13 +9,20 @@ import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { scaleIn400ms } from 'src/@vex/animations/scale-in.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 
-import icDoneAll from '@iconify/icons-ic/twotone-done-all';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressesService } from 'src/app/service/consumer/addresses.service';
 import { AddUpdateAddressComponent } from './add-update-address/add-update-address.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Address } from 'src/app/models/address.model';
 import { PaymentMethod } from 'src/app/models/payment-method.model';
+import { Order } from 'src/app/models/order.model';
+import { Router } from '@angular/router';
+import { CartService } from 'src/app/service/consumer/cart.service';
+
+import icAlert from '@iconify/icons-ic/twotone-notifications-active';
+import icDoneAll from '@iconify/icons-ic/twotone-done-all';
+import icPayment from '@iconify/icons-ic/twotone-payment';
+import icTotal from '@iconify/icons-ic/twotone-attach-money';
 
 @Component({
   selector: 'spc-order-request',
@@ -30,11 +37,18 @@ import { PaymentMethod } from 'src/app/models/payment-method.model';
 })
 export class OrderRequestComponent implements OnInit {
 
+  icAlert = icAlert;
   icDoneAll = icDoneAll;
+  icPayment = icPayment;
+  icTotal = icTotal;
 
-  orderRequest: Order[] = [];
+  orderRequest: OrderRequest[] = [];
+
+  idConsumer: string;
 
   total: number = 0;
+
+  limitPaymentDate: Date;
 
   paymentMethodsSelected: PaymentMethod[] = [];
 
@@ -47,17 +61,22 @@ export class OrderRequestComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
+    private router: Router,
     private authService: AuthService,
     private addressService: AddressesService,
+    private cartService: CartService,
     private orderService: OrderService,
     private paymentMethodsService: PaymentsMethodsService
   ) {
-    this.paymentSelected = new PaymentMethod(); 
+    this.paymentSelected = new PaymentMethod();
   }
 
   async ngOnInit() {
     const { uid } = await this.authService.getCurrentUser();
+    this.idConsumer = uid;
     this.addressService.getConsumerDoc(uid);
+    this.cartService.getConsumerDoc(uid);
+    this.getLimitPaymentDate();
     this.getAddress();
     this.getPreOrders(uid);
   }
@@ -111,6 +130,10 @@ export class OrderRequestComponent implements OnInit {
     }
   }
 
+  getLimitPaymentDate() {
+    this.limitPaymentDate = this.orderService.setPaymentLimirDate();
+  }
+
   addNewAddress() {
     this.dialog.open(AddUpdateAddressComponent).afterClosed().subscribe(address => {
       if (address) {
@@ -123,7 +146,7 @@ export class OrderRequestComponent implements OnInit {
       }
     });
   }
-  
+
   updateAddressInfo(address: Address) {
     this.dialog.open(AddUpdateAddressComponent, {
       data: address
@@ -140,7 +163,7 @@ export class OrderRequestComponent implements OnInit {
   }
 
   addPaymentSelected(payment: PaymentMethod, idProducer: string) {
-    this.orderRequest.forEach( order => {
+    this.orderRequest.forEach(order => {
       if (order.idProducer === idProducer && order.chosenPayment !== payment) {
         order.chosenPayment = payment;
       }
@@ -148,7 +171,7 @@ export class OrderRequestComponent implements OnInit {
   }
 
   addNewAddresToOrder(address: Address) {
-      this.orderRequest.forEach(order => order.address = address);
+    this.orderRequest.forEach(order => order.address = address);
   }
 
   setTotalByOrder() {
@@ -162,9 +185,25 @@ export class OrderRequestComponent implements OnInit {
   }
 
   confirmOrder() {
-    for (const order of this.orderRequest) {
-      console.log(order);
-    }
+    this.orderRequest.forEach((orderRequest, index) => {
+      const order: Order = this.orderService.confirmrOrder(orderRequest, this.idConsumer);
+      this.orderService.saveOrder(order).then(id => {
+        if (index === this.orderRequest.length - 1) {
+          this.cartService.removeAllProductsFromShoppingCart().then(() => {});
+          this.router.navigateByUrl('')
+          this.snackbar.open(index > 0 ? 'Pedidos confirmados!!!' : 'Pedido confirmado!!!', '✔✔', {
+            duration: 2000
+          });
+        }
+        // TODO: Aqui se deben enviar los correos de notificacion
+      }, (err) =>  {
+        console.log(err);
+        
+        this.snackbar.open('Ocurrió un error al crear confimar el pedido', '❌❌', {
+          duration: 2000
+        });
+      });
+    });
   }
 
 }

@@ -70,7 +70,11 @@ export class ProductCardComponent implements OnInit, OnDestroy {
         this.snackbar.open(`Producto agregado al carrito correctamente`, 'OK', {
           duration: 2000
         });
-      }, err => console.error(err))
+      }, err => {
+        this.snackbar.open(`Error al agregar el producto al carrito`, '❌', {
+          duration: 2000
+        });
+      })
     } else {
       this.router.navigateByUrl('/iniciar-sesion');
     }

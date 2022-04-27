@@ -74,7 +74,7 @@ export class CartService {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.shoppingCartCollection.get().subscribe(res => {
-          res.forEach(document => document.ref.delete);
+          res.forEach(document => document.ref.delete());
         });
         return result;
       } catch (err) {

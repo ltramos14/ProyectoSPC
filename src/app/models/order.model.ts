@@ -1,26 +1,19 @@
-import { Address } from './address.model';
-import { PaymentMethod } from './payment-method.model';
-interface ProductOrder {
-    name: string,
-    quantity: number,
-    subtotal: number,
-    image: string
-}
+import { Address } from "./address.model";
+import { ProductOrder } from "./order-request.model";
+import { PaymentMethod } from "./payment-method.model";
 
 export class Order {
     idProducer: string;
-    names: string;
-    lastnames: string;
+    idConsumer: string;
     products: ProductOrder[];
-    chosenPayment?: PaymentMethod;
-    address?: Address;
-    total?: number;
+    address: Address;
+    total: number;
+    chosenPayment: PaymentMethod;
+    isPaidOut: boolean;
+    paymentLimitDate: Date;
+    idCarrier?: string;
+    id?: string;
 
     constructor(order?: Order) {}
-}
 
-export interface PaymentMethodOrder {
-    idProducer: string,
-    name: string,
-    paymentMethods: PaymentMethod[];
 }
