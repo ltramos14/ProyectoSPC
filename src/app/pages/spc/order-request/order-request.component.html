@@ -21,15 +21,22 @@
                                 <h2 class="title m-0">Datos de envío</h2>
                             </div>
 
-                            <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
-                                gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.png"
+                            <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr 1fr"
+                                gdColumns.lt-lg="1fr 1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
+                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
                                     class="avatar w-20 h-20" />
-                                <h3 class=" m-0">Dirección de envío: <strong>{{ address.address }}</strong></h3>
-                                <h3 class=" m-0">Municipio de Cundinamarca: <strong>{{ address.municipality }}</strong>
-                                </h3>
-                                <h3 class=" m-0">Teléfono: <strong>{{ address.phone }}</strong></h3>
-
+                                <div fxLayout="column">
+                                    <h3 class=" m-0">Dirección:</h3>
+                                    <h5><strong>{{ address.address }}</strong></h5>
+                                </div>
+                                <div fxLayout="column">
+                                    <h3 class=" m-0">Municipio:</h3>
+                                    <h4> <strong>{{ address.municipality }}</strong></h4>
+                                </div>
+                                <div fxLayout="column">
+                                    <h3 class=" m-0">Teléfono:</h3>
+                                    <h4> <strong>{{ address.phone }}</strong></h4>
+                                </div>
                                 <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
                                     <button color="primary" mat-stroked-button (click)="updateAddressInfo(address)">
                                         Cambiar dirección
@@ -140,7 +147,8 @@
                                     </div>
                                     <mat-radio-group>
                                         <mat-radio-button *ngFor="let payment of paymentMethod.paymentMethods"
-                                            [value]="payment" (change)="addPaymentSelected(payment, paymentMethod.idProducer)" checked>
+                                            [value]="payment"
+                                            (change)="addPaymentSelected(payment, paymentMethod.idProducer)" checked>
                                             <div @stagger class="px-gutter mt-6 py-5" gdColumns="1fr 1fr 1fr 1fr"
                                                 gdColumns.lt-lg="1fr 1fr" gdColumns.xs="1fr">
                                                 <img @scaleIn class="avatar w-20 h-20" [src]="payment.image" />
@@ -208,21 +216,34 @@
                             <div class="px-gutter py-4 border-b">
                                 <h2 class="title m-0">Información de envío</h2>
                             </div>
-                            <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
-                                gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.png"
+                            <div @stagger class="px-gutter py-6" gdColumns="1fr 1fr 1fr 1fr 1fr"
+                                gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr">
+                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
                                     class="avatar w-20 h-20" />
-                                <h3 class=" m-0">Dirección de envío: <strong>{{ address.address }}</strong></h3>
-                                <h3 class=" m-0">Municipio de Cundinamarca: <strong>{{ address.municipality }}</strong>
-                                </h3>
-                                <h3 class=" m-0">Teléfono: <strong>{{ address.phone }}</strong></h3>
+                                <div fxLayout="column">
+                                    <h2 class=" m-0">Municipio:</h2>
+                                    <h3> <strong>{{ address.municipality }}</strong></h3>
+                                </div>
+                                <div fxLayout="column">
+                                    <h2 class=" m-0">Teléfono:</h2>
+                                    <h3> <strong>{{ address.phone }}</strong></h3>
+                                </div>
+                                <div fxLayout="column">
+                                    <h2 class=" m-0">Dirección:</h2>
+                                    <h2><strong>{{ address.address }}</strong></h2>
+                                </div>
+                                <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+                                    <button color="primary" mat-stroked-button (click)="updateAddressInfo(address)">
+                                        Cambiar dirección
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </ng-template>
                     <ng-template #elseAddress2>
                         <div class="card-shipping">
                             <div class="px-gutter py-4 border-b">
-                                <h2 class="title m-0">Agrega una direccion para que tus pedidos lleguen a la puerta de
+                                <h2 class="title m-0">Agrega una dirección para que tus pedidos lleguen a la puerta de
                                     tu casa</h2>
                             </div>
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
@@ -252,19 +273,22 @@
                                     <img @scaleIn src="../../../../assets/illustrations/finish-order.jpg"
                                         class="avatar h-24 w-24 mx-auto">
 
-                                    <h2 class="title mb-1 mt-3">PEDIDO PRODUCTOR {{ order.names + ' ' + order.lastnames
-                                        | uppercase}}</h2>
-                                    <div class="body-2 text-secondary">
-                                        <!--     <ic-icon [icon]="icPhone" class="ltr:mr-1 rtl:ml-1" inline="true">
-                                                </ic-icon> -->
-                                        <span>Medio de pago elegido: <strong>$ {{ order.chosenPayment?.name }} </strong> </span>
+                                    <h2 class="title mb-1 mt-3">PEDIDO N° {{ orderRequest.indexOf(order) + 1 }}</h2>
+                                    <h4 class="title mb-1 mt-3">Productor {{ order.names + ' ' + order.lastnames }}</h4>
+                                    <hr><br>
+                                    <div class="body-2 text-primary">
+                                        <ic-icon [icon]="icPayment" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                        <span>Medio de pago elegido: <strong> {{ order.chosenPayment?.name }} </strong>
+                                        </span>
                                     </div>
-
+                                    <div class="body-2 text-secondary">
+                                        <ic-icon [icon]="icAlert" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                                        <span>¡Atención! Pagar antes del día ... </span>
+                                    </div>
+                                    <br>
                                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
-
-                                        <!--  <ic-icon [icon]="icWeb" class="ltr:mr-1 rtl:ml-1" inline="true">
-                                                </ic-icon> -->
-                                        <span>Total a pagar: {{ order?.total }}</span>
+                                        <h4>Total a pagar: <ic-icon [icon]="icTotal" class="ltr:mr-1 rtl:ml-1"
+                                                inline="true"></ic-icon><strong>{{ order?.total }}</strong></h4>
                                     </div>
                                 </div>
                             </div>
