@@ -131,7 +131,7 @@ export class OrderRequestComponent implements OnInit {
   }
 
   getLimitPaymentDate() {
-    this.limitPaymentDate = this.orderService.setPaymentLimirDate();
+    this.limitPaymentDate = this.orderService.setPaymentLimitDate();
   }
 
   addNewAddress() {
@@ -199,7 +199,7 @@ export class OrderRequestComponent implements OnInit {
       }, (err) =>  {
         console.log(err);
         
-        this.snackbar.open('Ocurrió un error al crear confimar el pedido', '❌❌', {
+        this.snackbar.open('Ooops! Ocurrió un error al confirmar el pedido', '❌❌', {
           duration: 2000
         });
       });

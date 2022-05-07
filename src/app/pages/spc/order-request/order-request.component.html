@@ -53,7 +53,7 @@
                             </div>
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.png"
+                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
                                     class="avatar w-20 h-20" />
                                 <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
                                     <button color="primary" mat-stroked-button matStepperNext (click)="addNewAddress()">
@@ -248,7 +248,7 @@
                             </div>
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.png"
+                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
                                     class="avatar w-20 h-20" />
                                 <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
                                     <button color="primary" mat-stroked-button matStepperNext (click)="addNewAddress()">
@@ -283,7 +283,7 @@
                                     </div>
                                     <div class="body-2 text-secondary">
                                         <ic-icon [icon]="icAlert" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                        <span>¡Atención! Pagar antes del día ... </span>
+                                        <span>¡Atención! Pagar antes del día {{limitPaymentDate | date: 'dd/MM/yyyy'}} </span>
                                     </div>
                                     <br>
                                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">

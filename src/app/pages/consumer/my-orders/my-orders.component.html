@@ -1,1 +1,56 @@
-<p>my-orders works!</p>
+<div *ngIf="consumerOrders">
+  <div *ngIf="consumerOrders.length > 0 else noConsumerOrders">
+    <div class="container py-gutter">
+      <div class="card overflow-hidden">
+        <h1>ESTOS SON TUS PEDIDOS REALIZADOS</h1>
+
+        <table mat-table [dataSource]="consumerOrders" multiTemplateDataRows class="mat-elevation-z8">
+          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+              <div class="example-element-detail" [@detailExpand]="element == expandedOrder ? 'expanded' : 'collapsed'">
+                <div class="example-element-diagram">
+                  <div class="example-element-position">
+                      {{ consumerOrders.indexOf(element) + 1 }} 
+                  </div>
+                  <div class="example-element-symbol"> {{element.orderDate.toDate() | date: 'dd/MM/yyyy'}} </div>
+                </div>
+                <div class="example-element-description">
+                  {{element.description}}
+                  <span class="example-element-description-attribution"> -- Wikipedia </span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+            [class.example-expanded-row]="expandedOrder === element"
+            (click)="expandedOrder = expandedOrder === element ? null : element">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #noConsumerOrders>
+  <div class="w-full p-gutter text-center">
+    <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+
+    <h2 class="display-1 m-0">Ups, aún no has realizado ningún pedido agrícola.</h2>
+    <h3 class="text-secondary m-2">Una vez que realices tus pedidos, aparecerán aquí.
+      ¡Adelante!</h3>
+    <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
+      <button color="primary" routerLink="/" fxFlex="none" mat-raised-button type="button">
+        <span>VER PRODUCTOS</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

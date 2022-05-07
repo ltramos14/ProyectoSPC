@@ -55,19 +55,20 @@ export class OrderService {
     const order: Order = {
       idProducer: orderRequest.idProducer,
       idConsumer,
+      orderDate: new Date(),
       products: orderRequest.products,
       address: orderRequest.address,
       total: orderRequest.total,
       chosenPayment: orderRequest.chosenPayment,
-      isPaidOut: false,
-      paymentLimitDate: this.setPaymentLimirDate(),
+      status: "Pendiente de pago",
+      paymentLimitDate: this.setPaymentLimitDate(),
     }
     return order;
   }
 
-  setPaymentLimirDate(): Date {
+  setPaymentLimitDate(): Date {
     const d = new Date();
-    d.setDate(d.getDate() + 3);
+    d.setDate(d.getDate() + 5);
     return d
   }
 
