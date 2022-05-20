@@ -1,13 +1,44 @@
 <div *ngIf="consumerOrders">
   <div *ngIf="consumerOrders.length > 0 else noConsumerOrders">
     <div class="container py-gutter">
-      <div class="card overflow-hidden">
+      <div class="card overflow-auto mt-16">
         <h1>ESTOS SON TUS PEDIDOS REALIZADOS</h1>
 
         <table mat-table [dataSource]="consumerOrders" multiTemplateDataRows class="mat-elevation-z8">
-          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+           <!-- Order Date Column -->
+          <ng-container matColumnDef="orderDate">
+            <th mat-header-cell *matHeaderCellDef>Fecha de pedido</th>
+            <td mat-cell *matCellDef="let element"> {{ element.orderDate.toDate() | date: 'dd/MM/yyyy' }} </td>
+          </ng-container>
+           <!-- Producer Column -->
+          <ng-container matColumnDef="idProducer">
+            <th mat-header-cell *matHeaderCellDef>Productor</th>
+            <td mat-cell *matCellDef="let element"> {{ element.idProducer }} </td>
+          </ng-container>
+           <!-- Carrier Column -->
+          <ng-container matColumnDef="idCarrier">
+            <th mat-header-cell *matHeaderCellDef>Transportador</th>
+            <td mat-cell *matCellDef="let element"> {{ (element.idCarrier) ? element.idCarrier : 'No asignado' }} </td>
+          </ng-container>
+           <!-- Products Column -->
+          <ng-container matColumnDef="products">
+            <th mat-header-cell *matHeaderCellDef>Productos</th>
+            <td mat-cell *matCellDef="let element"><mat-icon [icIcon]="icDown" size="20px"></mat-icon></td>
+          </ng-container>
+           <!-- Chosen Payment Column -->
+          <ng-container matColumnDef="chosenPayment">
+            <th mat-header-cell *matHeaderCellDef>Método de pago</th>
+            <td mat-cell *matCellDef="let element"> {{ element.chosenPayment.name }} </td>
+          </ng-container>
+           <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estado del pedido</th>
+            <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+          </ng-container>
+           <!-- Total Column -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>($) Precio total</th>
+            <td mat-cell *matCellDef="let element"> {{ element.total }} </td>
           </ng-container>
 
           <ng-container matColumnDef="expandedDetail">
@@ -16,11 +47,25 @@
                 <div class="example-element-diagram">
                   <div class="example-element-position">
                       {{ consumerOrders.indexOf(element) + 1 }} 
+                      <div *ngFor="let product of element.products">
+                        <img [src]="product.image" alt="" class="avatar h-8 w-8 align-middle">
+                        <p>Nombre: {{ product.name }}</p>
+                        <p>Cantidad: {{ product.quantity }}</p>
+                        <p>Subtotal: {{ product.subtotal }}</p>
+                      </div>
                   </div>
-                  <div class="example-element-symbol"> {{element.orderDate.toDate() | date: 'dd/MM/yyyy'}} </div>
                 </div>
+                <!-- Información del pedido -->
+                <div class="example-element-symbol"> {{element.orderDate.toDate() | date: 'dd/MM/yyyy'}} </div>
                 <div class="example-element-description">
-                  {{element.description}}
+                  <!--Info método de pago -->
+                  {{element.chosenPayment.name}}
+                  <span class="example-element-description-attribution"> -- Wikipedia </span>
+                </div>
+                <!-- Información productor -->
+                <div class="example-element-symbol"> {{element.orderDate.toDate() | date: 'dd/MM/yyyy'}} </div>
+                <div class="example-element-description">
+                  {{element.idProducer}}
                   <span class="example-element-description-attribution"> -- Wikipedia </span>
                 </div>
               </div>

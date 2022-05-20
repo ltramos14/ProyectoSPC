@@ -196,7 +196,7 @@ export class ProductsService {
    * @returns 
    */
   updateProductiveStatus(id: string) {
-    return this.http.put(`${baseUrl}/${id}/productive-status`, {});
+    return this.http.put(`${baseUrl}/productive-status/${ id }`, {});
   }
 
   /**
