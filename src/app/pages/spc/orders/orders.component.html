@@ -1,1 +1,7 @@
-<p>orders works!</p>
+<h1>TUS PEDIDOS</h1>
+
+<div class="orders" *ngFor="let order of producerOrders">
+
+    <spc-order [order]="order" [user]="'productor'"></spc-order>
+
+</div>

@@ -1,0 +1,67 @@
+<mat-card class="card overflow-hidden">
+    <mat-card-header fxLayout="row">
+      <mat-card-title fxLayoutAlign="start">
+          {{ order.orderDate.toDate() | date: 'dd/MM/yyyy'}}
+        </mat-card-title>
+        <div fxLayoutAlign="center">
+          {{ order.status }}
+        </div>
+        <div fxLayoutAlign="end">
+          TOTAL: ${{ order.total }}
+        </div>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content fxLayout="column">
+      <div class="order-products-container" *ngFor="let product of order.products" fxLayout="row" fxLayoutAlign="start">
+        <img [src]="product.image" alt="" class="h-16 w-16">
+        <div fxLayout="column">
+          <p><strong>Nombre:</strong> {{ product.name }}</p>
+          <p><strong>Cantidad:</strong> {{ product.quantity }}</p>
+          <p><strong>Subtotal:</strong> $ {{ product.subtotal }}</p>
+        </div>
+      </div>
+      <div class="users-container" fxLayout="row" fxLayoutAlign="center center">
+            <!-- Info productor -->
+            <div class="producer" *ngIf="user !== 'productor' && producer">
+              <h2>Productor: </h2>
+              <br>
+                <p>{{ producer.names + ' ' + producer.lastnames }}</p>
+            </div>
+            <!-- Info consumidor -->
+            <div class="consumidor" *ngIf="user !== 'consumidor' && consumer">
+              <h2>Consumidor: </h2>
+              <br>
+                <p>{{ consumer.names + ' ' + consumer.lastnames }}</p>
+                <button mat-menu-item color="primary" mat-icon-button
+                (click)="openDetailDialog('Informacion dirección de: ' + consumer.names + ' ' + consumer.lastnames, order.address)">
+                  Ver dirección
+              </button>
+            </div>
+            <!-- Info transportador -->
+            <ng-container *ngIf="order.idCarrier; then thenTemplate; else elseTemplate">
+            </ng-container>
+            <ng-template #thenTemplate>
+              <div class="transportador" *ngIf="user !== 'transportador' && carrier">
+                <h2>Transportador: </h2>
+                <br>
+                {{ carrier.names + ' ' + carrier.lastnames }}
+              </div>
+            </ng-template>
+            <ng-template #elseTemplate>
+              <h2>Transportador: </h2>
+              <br>
+                <p>No asignado</p>
+            </ng-template>
+      </div>
+      <div class="chosen-payment-container" fxLayout="row" fxLayoutAlign="end center">
+        <img [src]="order.chosenPayment.image" alt="" class="h-16 w-16">
+        <div fxLayout="column">
+          <p>{{ order.chosenPayment.name }}</p>
+          <div *ngIf="consumer">
+            <p>Telefono: {{ order.chosenPayment.phone }}</p>
+            <p>Identificación: {{ order.chosenPayment.identification }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>

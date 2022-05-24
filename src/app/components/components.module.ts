@@ -18,6 +18,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dialog.component';
+import { OrderComponent } from './order/order.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -26,7 +29,8 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
     ProductCardComponent,
     GoogleMapsComponent,
     DeleteDialogComponent,
-    ViewDetailDialogComponent
+    ViewDetailDialogComponent,
+    OrderComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +38,9 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
     FlexLayoutModule,
     GoogleMapsModule,
     MatButtonModule,
+    MatCardModule,
     MatDialogModule,
+    MatDividerModule,
     MatSelectModule,
     MatRippleModule,
     MatTooltipModule,
@@ -47,7 +53,8 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
     IncrementerComponent,
     ProductCardComponent,
     GoogleMapsComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    OrderComponent
   ]
 })
 export class ComponentsModule { }

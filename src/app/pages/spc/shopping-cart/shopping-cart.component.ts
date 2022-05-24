@@ -96,9 +96,6 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
       }
     ];
   }
-  ngOnDestroy(): void {
-    /* this.cartSubscription.unsubscribe(); */
-  }
 
   /**
    * Método que se ejecuta al cargar la página
@@ -177,8 +174,6 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
   }
 
   confirmOrder() {
-  /*  console.log('PEDIDO GENERADO');
-    console.log(this.productsCart); */
     this.router.navigateByUrl('/solicitar-pedido')
   }
 

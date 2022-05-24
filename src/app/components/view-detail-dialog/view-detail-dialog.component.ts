@@ -11,6 +11,7 @@ export class ViewDetailDialogComponent {
 
   title: string = 'Detalles';
   elements: string[] = [];
+  address: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any
@@ -18,6 +19,7 @@ export class ViewDetailDialogComponent {
     if (data) {
       this.title = data.title || this.title;
       this.elements = data.elements || this.elements;
+      this.address = data.address || this.address;
     }
     
   }
