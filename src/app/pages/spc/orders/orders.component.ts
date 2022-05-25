@@ -24,10 +24,7 @@ export class OrdersComponent implements OnInit {
 
   getOrders(uid: string) {
     this.orderService.getOrdersByUser(uid, 'idProducer')
-      .subscribe(data => {
-        console.log(data);
-        this.producerOrders = data
-      });
+      .subscribe(data => this.producerOrders = data);
   }
 
 }

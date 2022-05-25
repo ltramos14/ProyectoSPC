@@ -1,67 +1,82 @@
-<mat-card class="card overflow-hidden">
-    <mat-card-header fxLayout="row">
-      <mat-card-title fxLayoutAlign="start">
-          {{ order.orderDate.toDate() | date: 'dd/MM/yyyy'}}
-        </mat-card-title>
-        <div fxLayoutAlign="center">
-          {{ order.status }}
-        </div>
-        <div fxLayoutAlign="end">
-          TOTAL: ${{ order.total }}
-        </div>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content fxLayout="column">
-      <div class="order-products-container" *ngFor="let product of order.products" fxLayout="row" fxLayoutAlign="start">
-        <img [src]="product.image" alt="" class="h-16 w-16">
-        <div fxLayout="column">
+<mat-card class="card m-10 overflow-hidden shadow-13">
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+    <mat-card-title fxLayoutAlign="start" class="cart-title">
+      {{ order.orderDate.toDate() | date: 'dd/MM/yyyy'}}
+    </mat-card-title>
+    <div fxLayoutAlign="center">
+      <p class="status-text" [ngClass]="{
+            'pending': order.status.includes('Pendiente'),
+            'paid': order.status.includes('Pagado'),
+            'delivered': order.status.includes('Entregado')
+          }">{{ order.status }}</p>
+    </div>
+    <div fxLayoutAlign="end">
+      TOTAL: ${{ order.total }}
+    </div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content  fxLayoutAlign="space-around center">
+    <div class="order-products-container" *ngFor="let product of order.products"  fxLayoutAlign="start center" fxFlex="20">
+        <img [src]="product.image" alt="" class="img-product">
+        <div>
           <p><strong>Nombre:</strong> {{ product.name }}</p>
           <p><strong>Cantidad:</strong> {{ product.quantity }}</p>
           <p><strong>Subtotal:</strong> $ {{ product.subtotal }}</p>
         </div>
+    </div>
+    <div class="users-container" fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex="60">
+      <!-- Info productor -->
+      <div class="producer" *ngIf="user !== 'productor' && producer">
+        <h2>Productor: </h2>
+        <br>
+        <p>{{ producer.names + ' ' + producer.lastnames }}</p>
       </div>
-      <div class="users-container" fxLayout="row" fxLayoutAlign="center center">
-            <!-- Info productor -->
-            <div class="producer" *ngIf="user !== 'productor' && producer">
-              <h2>Productor: </h2>
-              <br>
-                <p>{{ producer.names + ' ' + producer.lastnames }}</p>
-            </div>
-            <!-- Info consumidor -->
-            <div class="consumidor" *ngIf="user !== 'consumidor' && consumer">
-              <h2>Consumidor: </h2>
-              <br>
-                <p>{{ consumer.names + ' ' + consumer.lastnames }}</p>
-                <button mat-menu-item color="primary" mat-icon-button
-                (click)="openDetailDialog('Informacion dirección de: ' + consumer.names + ' ' + consumer.lastnames, order.address)">
-                  Ver dirección
-              </button>
-            </div>
-            <!-- Info transportador -->
-            <ng-container *ngIf="order.idCarrier; then thenTemplate; else elseTemplate">
-            </ng-container>
-            <ng-template #thenTemplate>
-              <div class="transportador" *ngIf="user !== 'transportador' && carrier">
-                <h2>Transportador: </h2>
-                <br>
-                {{ carrier.names + ' ' + carrier.lastnames }}
-              </div>
-            </ng-template>
-            <ng-template #elseTemplate>
-              <h2>Transportador: </h2>
-              <br>
-                <p>No asignado</p>
-            </ng-template>
+      <!-- Info consumidor -->
+      <div class="consumidor" *ngIf="user !== 'consumidor' && consumer">
+        <h2>Datos consumidor: </h2>
+        <br>
+        <ul>
+          <li><strong>Nombre: </strong>{{ consumer.names + ' ' + consumer.lastnames }}</li>
+          <li><strong>Teléfono: </strong>{{ consumer.phone }}</li>
+          <li><strong>Municipio residencia: </strong>{{ consumer.municipality }}</li>
+        </ul>
+        <br>
+        <button mat-menu-item color="accent" mat-raised-button
+          (click)="openDetailDialog('Informacion dirección de: ' + consumer.names + ' ' + consumer.lastnames, order.address)">
+          Ver dirección
+        </button>
       </div>
-      <div class="chosen-payment-container" fxLayout="row" fxLayoutAlign="end center">
-        <img [src]="order.chosenPayment.image" alt="" class="h-16 w-16">
-        <div fxLayout="column">
-          <p>{{ order.chosenPayment.name }}</p>
-          <div *ngIf="consumer">
-            <p>Telefono: {{ order.chosenPayment.phone }}</p>
-            <p>Identificación: {{ order.chosenPayment.identification }}</p>
-          </div>
+      <!-- Info transportador -->
+      <ng-container *ngIf="order.idCarrier; then thenTemplate; else elseTemplate">
+      </ng-container>
+      <ng-template #thenTemplate>
+        <h2>Datos transportador: </h2>
+        <div class="transportador" *ngIf="user !== 'transportador' && carrier">
+          <br>
+          <ul>
+            <li><strong>Nombre: </strong>{{ carrier.names + ' ' + carrier.lastnames }}</li>
+            <li><strong>Teléfono: </strong>{{ carrier.phone }}</li>
+            <li><strong>Municipio residencia: </strong>{{ carrier.municipality }}</li>
+          </ul>
+        </div>
+      </ng-template>
+      <ng-template #elseTemplate>
+        <div class="transportador" *ngIf="user !== 'transportador'">
+          <h2>Datos transportador: </h2>
+          <br>
+          <p>No asignado</p>
+        </div>
+      </ng-template>
+    </div>
+    <div class="chosen-payment-container" fxLayout="row" fxLayoutAlign="end center" fxFlex="20">
+      <img [src]="order.chosenPayment.image" class="h-16 w-16">
+      <div fxLayout="column">
+        <p>{{ order.chosenPayment.name }}</p>
+        <div *ngIf="producer">
+          <p><strong>Telefono:</strong> {{ order.chosenPayment.phone }}</p>
+          <p><strong>Identificación:</strong> {{ order.chosenPayment.identification }}</p>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>

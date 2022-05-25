@@ -68,8 +68,8 @@
       <div class="px-1">
         <button mat-icon-button routerLink="mis-ordenes" type="button">
           <mat-icon [icIcon]="icLocalShipping"></mat-icon>
-          <span *ngIf="cartSize" id="cart_menu_num" class="badge rounded-circle">
-            <p>{{ cartSize }}</p>
+          <span *ngIf="ordersSize" id="cart_menu_num" class="badge rounded-circle">
+            <p>{{ ordersSize }}</p>
           </span>
         </button>
       </div>

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
 import { User } from 'src/app/interfaces/user.interface';
 import { Address } from 'src/app/models/address.model';
-import { Order } from 'src/app/models/order.model';
 import { UsersService } from 'src/app/service/users/users.service';
 import { ViewDetailDialogComponent } from '../view-detail-dialog/view-detail-dialog.component';
 
@@ -68,6 +68,15 @@ export class OrderComponent implements OnInit {
         address
       }
     });
+  }
+
+  setOrderStatusStyle() {
+    if (this.order.status === 'Pendiente de pago')
+      return '.pending'
+    if (this.order.status === 'Entregado')
+      return '.delivered'
+    if (this.order.status === 'Pagado')
+      return '.paid'
   }
 
 }

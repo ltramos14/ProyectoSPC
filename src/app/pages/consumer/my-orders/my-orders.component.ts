@@ -49,10 +49,4 @@ export class MyOrdersComponent implements OnInit {
     });
   }
 
-  getProducerInfo(idProducer: string) {
-    this.usersService.getUserInfo(idProducer).subscribe(data => {
-      console.log(data);
-    })
-  }
-
 }

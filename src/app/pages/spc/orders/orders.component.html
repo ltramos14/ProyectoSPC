@@ -1,7 +1,24 @@
 <h1>TUS PEDIDOS</h1>
 
-<div class="orders" *ngFor="let order of producerOrders">
-
-    <spc-order [order]="order" [user]="'productor'"></spc-order>
-
+<div *ngIf="producerOrders && producerOrders.length > 0 else noproducerOrders">
+    
+    <div class="orders" *ngFor="let order of producerOrders">
+        
+        <spc-order [order]="order" [user]="'productor'"></spc-order>
+        
+    </div>
 </div>
+
+<ng-template #noproducerOrders>
+    <div class="w-full p-gutter text-center">
+        <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+        
+        <h2 class="display-1 m-0">Ups, ¡aún no tienes pedidos solicitados!</h2>
+        <h3 class="text-secondary m-2">Conecta con más consumidores y haz de tu trabajo SPC una verdadera experiencia del campo</h3>
+        <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
+            <button routerLink="/" color="primary" fxFlex="none" mat-raised-button type="button">
+                <span>Ir al inicio</span>
+            </button>
+        </div>
+    </div>
+</ng-template>

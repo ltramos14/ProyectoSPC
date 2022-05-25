@@ -24,6 +24,7 @@ import faPhone from '@iconify/icons-fa-solid/phone';
 import faSpa from '@iconify/icons-fa-solid/spa';
 import faTractor from '@iconify/icons-fa-solid/tractor';
 import faShippingFast from '@iconify/icons-fa-solid/shipping-fast';
+import { OrderService } from 'src/app/service/users/order.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -134,6 +135,8 @@ export class ToolbarComponent implements OnInit {
    */
   cartSize: number;
 
+  ordersSize: number;
+
   productsList: Product[] = [];
 
   productCtrl = new FormControl();
@@ -151,7 +154,8 @@ export class ToolbarComponent implements OnInit {
     private authService: AuthService,
     private userService: UsersService,
     private cartService: CartService,
-    private productService: ProductsService) {
+    private productService: ProductsService,
+    private orderService: OrderService) {
       this.filteredProducts = this.productCtrl.valueChanges.pipe(
         startWith(''),
         map(product => (product ? this._filterProducts(product) : this.productsList.slice())),
@@ -184,9 +188,10 @@ export class ToolbarComponent implements OnInit {
    */
   getUserRole(uid: string) {
     this.userService.getUserInfo(uid).subscribe(({ typeuser }) => {
-      if (typeuser === 'Productor' || typeuser === 'Transportador')
+      if (typeuser === 'Productor' || typeuser === 'Transportador') {
         this.isWorker = true;
-      this.countProducts(typeuser);
+      }
+      this.countProducts(typeuser, uid);
     });
   }
 
@@ -195,15 +200,14 @@ export class ToolbarComponent implements OnInit {
    * de carrito o órdenes según el role del usuario en sesión
    * @param role el campo de 'typeuser' del documento del usuario en sesión
    */
-  countProducts(role: string): void {
+  countProducts(role: string, uid: string): void {
     if (role == 'Consumidor') {
       this.cartService.shoppingsCart
-                                .subscribe(res => this.cartSize = res.length);
-    } else if (role === 'Productor') {
-      // TODO: Aqui se hace llamada al servicio de los pedidos realizados para el productor
-      } else if (role === 'Transportador') {
-        // TODO: Aqui se hace llamada al servicio de los pedidos realizados para el transportador
-        }
+        .subscribe(res => this.cartSize = res.length);
+    } else {
+      this.orderService.getOrdersByUser(uid, (role === 'Productor' ? 'idProducer' : 'idCarrier'))
+        .subscribe(res => this.ordersSize = res.length);
+    }
   }
 
   private _filterProducts(value: string): Product[] {
