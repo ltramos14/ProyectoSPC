@@ -28,7 +28,9 @@
               "src/assets",
               "src/_redirects",
               "src/README.md",
-              "src/CHANGELOG.md"
+              "src/CHANGELOG.md",
+              "src/firebase-messaging-sw.js",
+              "src/manifest.json"
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",

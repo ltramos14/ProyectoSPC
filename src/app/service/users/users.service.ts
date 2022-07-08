@@ -59,4 +59,23 @@ export class UsersService {
     })).subscribe();
   }
 
+  validateNotificationsToken(uid: string, newToken: string) {
+    this.getUserInfo(uid)
+      .subscribe( async (userInfo) => {
+        let tokens;
+        if (userInfo.notificationsToken.length > 0) {
+          tokens = userInfo.notificationsToken?.map(token => token !== newToken ? token : newToken);
+        } else {
+          userInfo.notificationsToken.push(newToken);
+          tokens = userInfo.notificationsToken;
+        }
+        
+        const newUserInfo: User = {
+          notificationsToken: tokens,
+          ...userInfo
+        }
+        await this.onSaveUserInformation(newUserInfo, uid);
+      });
+  }
+
 }

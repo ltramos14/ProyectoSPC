@@ -2,10 +2,15 @@
     font: bold;
 }
 
-.img-product {
-    width: 100px;
-    border-radius: 10px;
-    box-shadow: 11px;
+.img-order {
+    width: 80px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.status-text {
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .pending {
@@ -19,3 +24,45 @@
 .paid {
     color: yellow
 }
+
+.mat-card-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.mat-card-content div, 
+.mat-card-content .ng-container, 
+.mat-card-content .ng-template
+{
+    padding: 10px 0;
+}
+
+.order-products-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.product-info {
+    list-style: none;  
+}
+
+.product-info li {
+    padding: 5px 0;
+    margin-left: 5px;
+}
+
+.product-info span {
+    font-weight: 600;
+}
+
+.chosen-payment-container p {
+    text-align: center;
+    padding: 0 5px;
+}
+
+.chosen-payment-container .payment-name,
+.chosen-payment-container span {
+    font-weight: 700;
+}
+
+

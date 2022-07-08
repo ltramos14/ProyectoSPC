@@ -15,19 +15,24 @@
     </div>
   </mat-card-header>
   <mat-divider></mat-divider>
-  <mat-card-content  fxLayoutAlign="space-around center">
-    <div class="order-products-container" *ngFor="let product of order.products"  fxLayoutAlign="start center" fxFlex="20">
-        <img [src]="product.image" alt="" class="img-product">
-        <div>
-          <p><strong>Nombre:</strong> {{ product.name }}</p>
-          <p><strong>Cantidad:</strong> {{ product.quantity }}</p>
-          <p><strong>Subtotal:</strong> $ {{ product.subtotal }}</p>
+  <mat-card-content>
+    <div class="products-container" fxLayoutAlign="center center" fxLayout="column">
+      <div *ngFor="let product of order.products">
+        <div fxLayout="row">
+          <img [src]="product.image" alt="Imagen producto pedido" class="img-order">
+          <ul class="product-info">
+            <li><span>Nombre:</span> {{ product.name }}</li>
+            <li><span>Cantidad:</span> {{ product.quantity }}</li>
+            <li><span>Subtotal:</span> $ {{ product.subtotal }}</li>
+          </ul>
+
         </div>
+      </div>
     </div>
-    <div class="users-container" fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex="60">
+    <div class="users-container" fxLayoutAlign="center center" fxLayout="column">
       <!-- Info productor -->
       <div class="producer" *ngIf="user !== 'productor' && producer">
-        <h2>Productor: </h2>
+        <h2>Datos productor: </h2>
         <br>
         <p>{{ producer.names + ' ' + producer.lastnames }}</p>
       </div>
@@ -36,13 +41,13 @@
         <h2>Datos consumidor: </h2>
         <br>
         <ul>
-          <li><strong>Nombre: </strong>{{ consumer.names + ' ' + consumer.lastnames }}</li>
-          <li><strong>Teléfono: </strong>{{ consumer.phone }}</li>
-          <li><strong>Municipio residencia: </strong>{{ consumer.municipality }}</li>
+          <li><span>Nombre: </span>{{ consumer.names + ' ' + consumer.lastnames }}</li>
+          <li><span>Teléfono: </span>{{ consumer.phone }}</li>
+          <li><span>Municipio residencia: </span>{{ consumer.municipality }}</li>
         </ul>
         <br>
         <button mat-menu-item color="accent" mat-raised-button
-          (click)="openDetailDialog('Informacion dirección de: ' + consumer.names + ' ' + consumer.lastnames, order.address)">
+          (click)="openDetailDialog(consumer.names + ' ' + consumer.lastnames, order.address)">
           Ver dirección
         </button>
       </div>
@@ -54,9 +59,9 @@
         <div class="transportador" *ngIf="user !== 'transportador' && carrier">
           <br>
           <ul>
-            <li><strong>Nombre: </strong>{{ carrier.names + ' ' + carrier.lastnames }}</li>
-            <li><strong>Teléfono: </strong>{{ carrier.phone }}</li>
-            <li><strong>Municipio residencia: </strong>{{ carrier.municipality }}</li>
+            <li><span>Nombre: </span>{{ carrier.names + ' ' + carrier.lastnames }}</li>
+            <li><span>Teléfono: </span>{{ carrier.phone }}</li>
+            <li><span>Municipio residencia: </span>{{ carrier.municipality }}</li>
           </ul>
         </div>
       </ng-template>
@@ -68,13 +73,25 @@
         </div>
       </ng-template>
     </div>
-    <div class="chosen-payment-container" fxLayout="row" fxLayoutAlign="end center" fxFlex="20">
-      <img [src]="order.chosenPayment.image" class="h-16 w-16">
-      <div fxLayout="column">
-        <p>{{ order.chosenPayment.name }}</p>
+    <!-- Estado productivo -->
+    <div *ngIf="user !== 'consumidor' && consumer" fxLayout="column" fxLayoutAlign="center center">
+      <h4>Cambiar el estado del pedido</h4>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ order.status }}</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let paymentStatus of paymentsStatus" [value]="paymentStatus">
+            {{paymentStatus}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="chosen-payment-container" fxLayout="column" fxLayoutAlign="center center">
+      <img [src]="order.chosenPayment.image" class="img-order">
+      <div>
+        <p class="payment-name">{{ order.chosenPayment.name }}</p>
         <div *ngIf="producer">
-          <p><strong>Telefono:</strong> {{ order.chosenPayment.phone }}</p>
-          <p><strong>Identificación:</strong> {{ order.chosenPayment.identification }}</p>
+          <p><span>Telefono:</span> {{ order.chosenPayment.phone }}</p>
+          <p><span>Identificación:</span> {{ order.chosenPayment.identification }}</p>
         </div>
       </div>
     </div>

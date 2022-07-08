@@ -23,6 +23,7 @@ import icAlert from '@iconify/icons-ic/twotone-notifications-active';
 import icDoneAll from '@iconify/icons-ic/twotone-done-all';
 import icPayment from '@iconify/icons-ic/twotone-payment';
 import icTotal from '@iconify/icons-ic/twotone-attach-money';
+import { NotificationsService } from 'src/app/service/messaging/notifications.service';
 
 @Component({
   selector: 'spc-order-request',
@@ -66,7 +67,8 @@ export class OrderRequestComponent implements OnInit {
     private addressService: AddressesService,
     private cartService: CartService,
     private orderService: OrderService,
-    private paymentMethodsService: PaymentsMethodsService
+    private paymentMethodsService: PaymentsMethodsService,
+    private notificationsService: NotificationsService
   ) {
     this.paymentSelected = new PaymentMethod();
   }
@@ -195,7 +197,7 @@ export class OrderRequestComponent implements OnInit {
             duration: 2000
           });
         }
-        // TODO: Aqui se deben enviar los correos de notificacion
+        this.sendNotification();
       }, (err) =>  {
         console.log(err);
         
@@ -203,6 +205,13 @@ export class OrderRequestComponent implements OnInit {
           duration: 2000
         });
       });
+    });
+  }
+
+  sendNotification() {
+    this.orderRequest.forEach(order => {
+      this.notificationsService.sendPurchaseRequest(order.idProducer)
+        .subscribe();
     });
   }
 

@@ -1,5 +1,4 @@
 export interface User {
-    uid?: string,
     typeuser: string,
     names: string,
     lastnames: string,
@@ -10,5 +9,7 @@ export interface User {
     phone: string,
     municipality: string,
     profileURL: string,
-    stateUser: boolean
+    stateUser: boolean,
+    notificationsToken?: string[],
+    uid?: string,
 }

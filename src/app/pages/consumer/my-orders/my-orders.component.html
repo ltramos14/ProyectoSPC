@@ -1,13 +1,10 @@
 <div *ngIf="consumerOrders">
   <div *ngIf="consumerOrders.length > 0 else noConsumerOrders">
     <div class="container py-gutter">
-      <div class="card overflow-auto mt-16">
+      <div class="overflow-auto mt-16">
         <h1>ESTOS SON TUS PEDIDOS REALIZADOS</h1>
-
         <div class="orders" *ngFor="let order of consumerOrders">
-        
           <spc-order [order]="order" [user]="'consumidor'"></spc-order>
-          
       </div>
       </div>
     </div>

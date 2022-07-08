@@ -23,6 +23,8 @@ export class OrderComponent implements OnInit {
   
   carrier: User;
 
+  paymentsStatus: string[] = ['Pagado', 'En camino', 'Entregado'];
+
   constructor(
     private userService: UsersService,
     private dialog: MatDialog,
@@ -61,10 +63,10 @@ export class OrderComponent implements OnInit {
     })
   }
 
-  openDetailDialog(title: string, address: Address) {
+  openDetailDialog(consumer: string, address: Address) {
     this.dialog.open(ViewDetailDialogComponent, {
       data: {
-        title,
+        consumer,
         address
       }
     });

@@ -4,12 +4,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'spc-view-detail-dialog',
   templateUrl: './view-detail-dialog.component.html',
-  styles: [
-  ]
+  styleUrls: [ './view-detail-dialog.component.scss' ]
 })
 export class ViewDetailDialogComponent {
 
-  title: string = 'Detalles';
+  consumer: string = '';
   elements: string[] = [];
   address: any;
 
@@ -17,7 +16,7 @@ export class ViewDetailDialogComponent {
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
     if (data) {
-      this.title = data.title || this.title;
+      this.consumer = data.consumer || this.consumer;
       this.elements = data.elements || this.elements;
       this.address = data.address || this.address;
     }

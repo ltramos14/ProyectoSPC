@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { first, mergeMapTo } from 'rxjs/operators';
 
 import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireMessaging } from '@angular/fire/messaging';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { User } from '../../interfaces/user.interface';
@@ -15,17 +16,27 @@ export class AuthService {
 
   userData: any;
 
+  notificationToken: string;
+
   constructor(
     public afAuth: AngularFireAuth,
+    public afMessaging: AngularFireMessaging,
     public afFirestore: AngularFirestore,
     public usersService: UsersService,
     public router: Router
-  ) { }
+  ) {
+    this.getNotificationsToken();
+  }
 
   login(email: string, password: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
+          if (!this.notificationToken) {
+            this.requestPermissions();
+          } else {
+            this.usersService.validateNotificationsToken(userCredential.user.uid, this.notificationToken);
+          }
           resolve(userCredential.user);
         }, err => reject(err));
     });
@@ -84,6 +95,23 @@ export class AuthService {
     (await this.afAuth.currentUser).updateProfile({
       photoURL
     });
+  }
+
+  private requestPermissions(): void {    
+    this.afMessaging.requestPermission
+    .pipe(mergeMapTo(this.afMessaging.tokenChanges))
+    .subscribe(async (token) => { 
+        const { uid } = await this.getCurrentUser();
+        this.usersService.validateNotificationsToken(uid, token);
+       },
+      (error) => { console.error(error); },  
+    );
+  }
+
+  private getNotificationsToken(): void {
+    this.afMessaging.getToken.subscribe(
+      res => this.notificationToken = res
+    );
   }
 
 }
