@@ -10,7 +10,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
-import { MatRippleModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
@@ -21,22 +21,26 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
 import { OrderComponent } from './order/order.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { SearchComponent } from './search/search.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
   declarations: [
-    IncrementerComponent,
-    ProductCardComponent,
-    GoogleMapsComponent,
     DeleteDialogComponent,
+    GoogleMapsComponent,
+    IncrementerComponent,
+    OrderComponent,
+    ProductCardComponent,
+    SearchComponent,
     ViewDetailDialogComponent,
-    OrderComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     FlexLayoutModule,
     GoogleMapsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -45,16 +49,20 @@ import { MatDividerModule } from '@angular/material/divider';
     MatRippleModule,
     MatTooltipModule,
     MatIconModule,
+    MatOptionModule,
+
     IconModule,
     ReactiveFormsModule,
     RouterModule
   ],
   exports: [
-    IncrementerComponent,
-    ProductCardComponent,
-    GoogleMapsComponent,
     DeleteDialogComponent,
-    OrderComponent
+    GoogleMapsComponent,
+    IncrementerComponent,
+    OrderComponent,
+    ProductCardComponent,
+    SearchComponent,
+    ViewDetailDialogComponent,
   ]
 })
 export class ComponentsModule { }

@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icArrow from '@iconify/icons-ic/twotone-arrow-right-alt';
+import icClose from '@iconify/icons-ic/twotone-close';
 import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icLocalShipping from '@iconify/icons-ic/twotone-local-shipping';
@@ -38,9 +39,6 @@ export class ToolbarComponent implements OnInit {
   /**
    * Iconos usados en el componente
   */
-  icSearch = icSearch;
-  icArrow = icArrow;
-  icHome = icHome;
   icShoppingCart = icShoppingCart;
   icLocalShipping = icLocalShipping;
   icMenu = icMenu;
@@ -137,12 +135,6 @@ export class ToolbarComponent implements OnInit {
 
   ordersSize: number;
 
-  productsList: Product[] = [];
-
-  productCtrl = new FormControl();
-
-  filteredProducts: Observable<Product[]>;
-
   /**
    * Constructor que inyecta los siguientes servicios
    * @param authService 
@@ -154,19 +146,12 @@ export class ToolbarComponent implements OnInit {
     private authService: AuthService,
     private userService: UsersService,
     private cartService: CartService,
-    private productService: ProductsService,
-    private orderService: OrderService) {
-      this.filteredProducts = this.productCtrl.valueChanges.pipe(
-        startWith(''),
-        map(product => (product ? this._filterProducts(product) : this.productsList.slice())),
-      );
-    }
+    private orderService: OrderService) { }
 
   /**
    * Método que se ejecuta una vez se inicializa el componente
-   */  
+   */
   async ngOnInit() {
-    this.getProducts();
     const user = await this.authService.getCurrentUser();
     if (user) {
       this.isLogged = true;
@@ -175,11 +160,6 @@ export class ToolbarComponent implements OnInit {
       this.getUserRole(user.uid);
     }
   }
-
-  getProducts() {
-    return this.productService.products.subscribe(data => this.productsList = data);
-  }
-
 
   /**
    * Método que obtiene el role del usuario en sesión del
@@ -208,12 +188,6 @@ export class ToolbarComponent implements OnInit {
       this.orderService.getOrdersByUser(uid, (role === 'Productor' ? 'idProducer' : 'idCarrier'))
         .subscribe(res => this.ordersSize = res.length);
     }
-  }
-
-  private _filterProducts(value: string): Product[] {
-    const filterValue = value.toLowerCase();
-
-    return this.productsList.filter(product => product.name.toLowerCase().includes(filterValue));
   }
 
 }
