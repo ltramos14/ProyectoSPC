@@ -21,6 +21,7 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
 import { OrderComponent } from './order/order.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { AvailableCarriersComponent } from './available-carriers/available-carriers.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MatDividerModule } from '@angular/material/divider';
     GoogleMapsComponent,
     DeleteDialogComponent,
     ViewDetailDialogComponent,
-    OrderComponent
+    OrderComponent,
+    AvailableCarriersComponent
   ],
   imports: [
     CommonModule,

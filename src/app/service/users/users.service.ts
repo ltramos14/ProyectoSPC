@@ -61,20 +61,11 @@ export class UsersService {
 
   validateNotificationsToken(uid: string, newToken: string) {
     this.getUserInfo(uid)
-      .subscribe( async (userInfo) => {
-        let tokens;
-        if (userInfo.notificationsToken.length > 0) {
-          tokens = userInfo.notificationsToken?.map(token => token !== newToken ? token : newToken);
-        } else {
-          userInfo.notificationsToken.push(newToken);
-          tokens = userInfo.notificationsToken;
+      .subscribe( async (userInfo) => {        
+        if (userInfo.notificationsToken !== newToken) {
+          userInfo.notificationsToken = newToken;
+          await this.onSaveUserInformation(userInfo, uid);
         }
-        
-        const newUserInfo: User = {
-          notificationsToken: tokens,
-          ...userInfo
-        }
-        await this.onSaveUserInformation(newUserInfo, uid);
       });
   }
 
