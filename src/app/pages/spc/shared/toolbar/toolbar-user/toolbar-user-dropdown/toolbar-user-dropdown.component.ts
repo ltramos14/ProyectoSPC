@@ -1,17 +1,14 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-import { MenuItem } from "../interfaces/menu-item.interface";
-import { trackById } from "../../../../../../../@vex/utils/track-by";
-import icSettings from "@iconify/icons-ic/twotone-settings";
-import icAccountCircle from "@iconify/icons-ic/twotone-account-circle";
-import icDns from "@iconify/icons-ic/twotone-dns";
-import icChevronRight from "@iconify/icons-ic/twotone-chevron-right";
-import icLock from "@iconify/icons-ic/twotone-lock";
-import { PopoverRef } from "../../../../../../../@vex/components/popover/popover-ref";
-import { AuthService } from "src/app/service/auth/auth.service";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+
+import { PopoverRef } from "../../../../../../../@vex/components/popover/popover-ref";
+import { trackById } from "../../../../../../../@vex/utils/track-by";
+
+import icAccountCircle from "@iconify/icons-ic/twotone-account-circle";
+import icChevronRight from "@iconify/icons-ic/twotone-chevron-right";
+
+import { MenuItem } from "../interfaces/menu-item.interface";
+import { AuthService } from "src/app/service/auth/auth.service";
 import { UsersService } from "src/app/service/users/users.service";
 
 @Component({
@@ -24,9 +21,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   public user: any;
 
   trackById = trackById;
-  icSettings = icSettings;
   icChevronRight = icChevronRight;
-  icLock = icLock;
 
   items: MenuItem[] = [
     {
@@ -36,15 +31,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
       description: "Información y opciones de usuario",
       colorClass: "text-teal",
       route: "",
-    },
-    {
-      id: "2",
-      icon: icDns,
-      label: "Mis pedidos",
-      description: "Estado y detalles de tus pedidos",
-      colorClass: "text-primary",
-      route: "/",
-    },
+    }
   ];
 
   constructor(

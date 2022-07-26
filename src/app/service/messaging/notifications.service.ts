@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OrderRequest } from 'src/app/models/order-request.model';
 import { environment } from 'src/environments/environment';
 
 const baseUrl = environment.apiUrl + '/notifications';
@@ -13,8 +14,8 @@ export class NotificationsService {
     private http: HttpClient
   ) { }
 
-  sendPurchaseRequest(idProducer: string) {
-    return this.http.post(`${ baseUrl }/purchase-request/${ idProducer }`, null);
+  sendPurchaseRequest(request: OrderRequest) {
+    return this.http.post(`${ baseUrl }/purchase-request`, request);
   }
 
 }

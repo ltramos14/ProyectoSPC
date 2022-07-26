@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchComponent } from './search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AvailableCarriersComponent } from './available-carriers/available-carriers.component';
 
 
 @NgModule({
@@ -34,6 +35,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ProductCardComponent,
     SearchComponent,
     ViewDetailDialogComponent,
+    OrderComponent,
+    AvailableCarriersComponent
   ],
   imports: [
     CommonModule,

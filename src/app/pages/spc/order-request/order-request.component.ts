@@ -210,7 +210,7 @@ export class OrderRequestComponent implements OnInit {
 
   sendNotification() {
     this.orderRequest.forEach(order => {
-      this.notificationsService.sendPurchaseRequest(order.idProducer)
+      this.notificationsService.sendPurchaseRequest(order)
         .subscribe();
     });
   }

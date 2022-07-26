@@ -6,14 +6,6 @@
       </div>
       <div class="dropdown-heading">{{ user?.displayName }}</div>
     </div>
-
-    <button [matMenuTriggerFor]="settingsMenu"
-            mat-icon-button
-            matTooltip="Configuración"
-            matTooltipPosition="before"
-            type="button">
-      <mat-icon [icIcon]="icSettings" class="notifications-header-icon"></mat-icon>
-    </button>
   </div>
 
   <div class="dropdown-content">
@@ -40,12 +32,3 @@
       <a (click)="close()" (click)="onLogout()" color="primary" mat-button>CERRAR SESIÓN</a>
   </div>
 </div>
-
-<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icLock"></mat-icon>
-    <span>Cambiar contraseña</span>
-  </button>
-  
-</mat-menu>

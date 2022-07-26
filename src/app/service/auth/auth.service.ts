@@ -14,7 +14,7 @@ import { UsersService } from '../users/users.service';
 })
 export class AuthService {
 
-  userData: any;
+  uid: string;
 
   notificationToken: string;
 
@@ -32,6 +32,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
+            this.uid = userCredential.user.uid;
           if (!this.notificationToken) {
             this.requestPermissions();
           } else {
@@ -101,8 +102,7 @@ export class AuthService {
     this.afMessaging.requestPermission
     .pipe(mergeMapTo(this.afMessaging.tokenChanges))
     .subscribe(async (token) => { 
-        const { uid } = await this.getCurrentUser();
-        this.usersService.validateNotificationsToken(uid, token);
+        this.usersService.validateNotificationsToken(this.uid, token);
        },
       (error) => { console.error(error); },  
     );
