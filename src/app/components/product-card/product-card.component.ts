@@ -12,6 +12,7 @@ import icCheck from '@iconify/icons-ic/twotone-check-circle';
 import icWait from '@iconify/icons-ic/twotone-access-time';
 import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
 import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
@@ -29,9 +30,11 @@ export class ProductCardComponent implements OnInit, OnDestroy {
 
   products: Product[] = [];
   productCart: Cart;
+  shoppingsCart: Cart[] = [];
   user: any;
   isWorker: boolean = false;
   imageDefault: string = '../../../../../assets/illustrations/no-product.png';
+  subscriptions: Subscription[] = [];
 
   constructor(
     private snackbar: MatSnackBar,
@@ -49,10 +52,13 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     this.user = user;
 
     if (user) {
-      this.userService.getUserInfo(user.uid).subscribe(({ typeuser }) => {
+
+      this.subscriptions.push(this.cartService.shoppingsCart.subscribe(cart => this.shoppingsCart = cart));
+
+      this.subscriptions.push(this.userService.getUserInfo(user.uid).subscribe(({ typeuser }) => {
         if (typeuser === 'Productor' || typeuser === 'Transportador')
           this.isWorker = true;
-      });
+      }));
     }
   }
 
@@ -60,6 +66,25 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/detalles-producto', { skipLocationChange: true }).then(() => {
       this.router.navigate([`detalles-producto/${productId}`]);
     });
+  }
+
+  validateProductIdOnCartList(product: Product) {
+    const cartExist = this.shoppingsCart.find(c => c.product.id === product.id);
+    if (cartExist) {
+      this.cartService.modifyQuantitysProduct(cartExist.id, 1, product.price)
+        .then(() => {
+          this.snackbar.open(
+            `Cantidad del producto ${ product.name } actualizada correctamente`,
+            "OK",
+            {
+              duration: 2000,
+            }
+          );
+        })
+        .catch(err => false)
+    } else {
+      this.addProductToCart(product)
+    } 
   }
 
   addProductToCart(product: Product) {

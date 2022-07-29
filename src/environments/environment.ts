@@ -14,7 +14,8 @@ export const environment = {
     measurementId: "G-YGZJ6VYD32"
   },
   secretPassword: 'YourSecretKeyForEncryption&Descryption',
-  apiUrl: "https://api-proyecto-spc.herokuapp.com/api"
+  // apiUrl: "https://api-proyecto-spc.herokuapp.com/api",
+  apiUrl: "http://localhost:8080/api"
 };
 
 /*

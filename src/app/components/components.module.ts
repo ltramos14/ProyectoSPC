@@ -24,6 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { SearchComponent } from './search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AvailableCarriersComponent } from './available-carriers/available-carriers.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AvailableCarriersComponent } from './available-carriers/available-carri
     SearchComponent,
     ViewDetailDialogComponent,
     OrderComponent,
-    AvailableCarriersComponent
+    AvailableCarriersComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -64,8 +66,12 @@ import { AvailableCarriersComponent } from './available-carriers/available-carri
     IncrementerComponent,
     OrderComponent,
     ProductCardComponent,
+    GoogleMapsComponent,
+    DeleteDialogComponent,
+    OrderComponent,
+    SpinnerComponent,
     SearchComponent,
-    ViewDetailDialogComponent,
+    ViewDetailDialogComponent
   ]
 })
 export class ComponentsModule { }
