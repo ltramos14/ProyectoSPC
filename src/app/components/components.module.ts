@@ -10,7 +10,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
-import { MatRippleModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
@@ -21,16 +21,20 @@ import { ViewDetailDialogComponent } from './view-detail-dialog/view-detail-dial
 import { OrderComponent } from './order/order.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { SearchComponent } from './search/search.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AvailableCarriersComponent } from './available-carriers/available-carriers.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
   declarations: [
-    IncrementerComponent,
-    ProductCardComponent,
-    GoogleMapsComponent,
     DeleteDialogComponent,
+    GoogleMapsComponent,
+    IncrementerComponent,
+    OrderComponent,
+    ProductCardComponent,
+    SearchComponent,
     ViewDetailDialogComponent,
     OrderComponent,
     AvailableCarriersComponent,
@@ -41,6 +45,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     FormsModule,
     FlexLayoutModule,
     GoogleMapsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -49,17 +54,24 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MatRippleModule,
     MatTooltipModule,
     MatIconModule,
+    MatOptionModule,
+
     IconModule,
     ReactiveFormsModule,
     RouterModule
   ],
   exports: [
+    DeleteDialogComponent,
+    GoogleMapsComponent,
     IncrementerComponent,
+    OrderComponent,
     ProductCardComponent,
     GoogleMapsComponent,
     DeleteDialogComponent,
     OrderComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SearchComponent,
+    ViewDetailDialogComponent
   ]
 })
 export class ComponentsModule { }

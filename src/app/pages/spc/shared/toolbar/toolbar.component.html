@@ -1,35 +1,15 @@
 <div class="toolbar w-full px-gutter" fxLayout="row" fxLayoutAlign="start center" vexContainer>
   <a class="img-header" routerLink="">
-    <img class="w-30" src="../../../../assets/images/logotipos/logoHeaderSPC.png" />
+    <img class="w-30" src="assets/images/logotipos/logoHeaderSPC.png" alt="Logo SPC" />
   </a>
 
   <span fxFlex> </span>
 
-  <div class="bg-card rounded-full border px-1" fxFlex="400px" fxFlex.lt-md="auto" fxHide.xs fxLayout="row"
-    fxLayoutAlign="start center">
-    <input class="px-4 py-3 border-0 outline-none w-full bg-transparent" placeholder="¿Qué producto deseas buscar?"
-      type="search" [matAutocomplete]="auto" [formControl]="productCtrl" />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let product of filteredProducts | async" [value]="product.name"
-        [routerLink]="['/detalles-producto/', product.id]">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <img class="avatar h-50 w-50 mr-5" [src]="product.image">
-          <span>{{product.name}} </span>
-          <ic-icon [icIcon]="icArrow" size="25px" color="#058D38"></ic-icon>
-          <small>{{product.productType}}</small>
-        </div>
-      </mat-option>
-    </mat-autocomplete>
-    <ic-icon [icIcon]="icSearch" size="35px" color="#058D38"></ic-icon>
-  </div>
+  <app-search></app-search>
 
   <span fxFlex> </span>
 
   <div class="mx-1 flex items-center">
-    <button mat-icon-button class="px-1" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
-      <mat-icon [icIcon]="icSearch"></mat-icon>
-    </button>
-
     <div class="px-1" *ngIf="isLogged">
       <app-toolbar-user [displayName]="userDisplayName"></app-toolbar-user>
     </div>
@@ -64,6 +44,7 @@
         </button>
       </div>
     </ng-container>
+    
     <ng-template #elseTemplate>
       <div class="px-1">
         <button mat-icon-button routerLink="mis-ordenes" type="button">

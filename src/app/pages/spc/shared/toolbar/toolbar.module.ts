@@ -19,6 +19,7 @@ import { NavigationModule } from '../../../../../@vex/layout/navigation/navigati
 import { SidebarModule } from 'primeng/sidebar';
 import { ToolbarComponent } from './toolbar.component';
 import { ToolbarUserModule } from './toolbar-user/toolbar-user.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [ToolbarComponent],
@@ -43,6 +44,7 @@ import { ToolbarUserModule } from './toolbar-user/toolbar-user.module';
     RouterModule,
     SidebarModule,
     ToolbarUserModule,
+    ComponentsModule
   ],
   exports: [ToolbarComponent]
 })
