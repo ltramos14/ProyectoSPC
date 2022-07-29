@@ -22,6 +22,7 @@ import { OrderComponent } from './order/order.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { AvailableCarriersComponent } from './available-carriers/available-carriers.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AvailableCarriersComponent } from './available-carriers/available-carri
     DeleteDialogComponent,
     ViewDetailDialogComponent,
     OrderComponent,
-    AvailableCarriersComponent
+    AvailableCarriersComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { AvailableCarriersComponent } from './available-carriers/available-carri
     ProductCardComponent,
     GoogleMapsComponent,
     DeleteDialogComponent,
-    OrderComponent
+    OrderComponent,
+    SpinnerComponent
   ]
 })
 export class ComponentsModule { }

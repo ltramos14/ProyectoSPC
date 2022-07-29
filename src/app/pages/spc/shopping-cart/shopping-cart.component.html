@@ -1,6 +1,7 @@
 <h1>TU CARRITO DE COMPRAS</h1>
 
 
+
 <vex-scrollbar class="relative">
   <table [dataSource]="dataSource" #sort="matSort" mat-table matSort>
 
@@ -61,6 +62,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <div *ngIf="loading">
+    <spc-spinner></spc-spinner>
+  </div>
 
   <div *ngIf="productsCart">
     <div *ngIf="productsCart.length > 0 else nocart">

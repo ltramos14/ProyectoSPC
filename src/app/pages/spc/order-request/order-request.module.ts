@@ -11,6 +11,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { OrderRequestComponent } from './order-request.component';
 import { AddUpdateAddressModule } from './add-update-address/add-update-address.module';
 import { FormsModule } from '@angular/forms';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatRadioModule,
     MatStepperModule,
-    AddUpdateAddressModule
+    AddUpdateAddressModule,
+    ComponentsModule
   ]
 })
 export class OrderRequestModule { }

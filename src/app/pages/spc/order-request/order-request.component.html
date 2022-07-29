@@ -14,6 +14,9 @@
             <ng-template matStepLabel>INFORMACIÓN GENERAL DEL PEDIDO</ng-template>
             <div class="mt-6 flex flex-col md:flex-row md:items-start">
                 <div class="flex-auto">
+                    <div *ngIf="loading">
+                        <spc-spinner></spc-spinner>
+                      </div>
                     <ng-container *ngIf="address; then thenAddress; else elseAddress"></ng-container>
                     <ng-template #thenAddress>
                         <div class="card-shipping">
@@ -67,6 +70,9 @@
                         <div class="px-gutter py-4 border-b">
                             <h2 class="title m-0">Pedidos por cada productor</h2>
                         </div>
+                        <div *ngIf="loading">
+                            <spc-spinner></spc-spinner>
+                          </div>
                         <div @stagger class="px-gutter py-4">
                             <mat-accordion>
                                 <mat-expansion-panel class="accordion" *ngFor="let order of orderRequest">

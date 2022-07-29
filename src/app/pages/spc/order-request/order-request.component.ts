@@ -59,6 +59,8 @@ export class OrderRequestComponent implements OnInit {
 
   paymentMethodsOrders: PaymentMethodOrder[] = [];
 
+  loading: boolean = false;
+
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
@@ -74,6 +76,7 @@ export class OrderRequestComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loading = true;
     const { uid } = await this.authService.getCurrentUser();
     this.idConsumer = uid;
     this.addressService.getConsumerDoc(uid);
@@ -95,6 +98,7 @@ export class OrderRequestComponent implements OnInit {
       this.getTotalValue();
       this.getPaymentMethods();
       this.setTotalByOrder();
+      this.loading = false;
     });
   }
 

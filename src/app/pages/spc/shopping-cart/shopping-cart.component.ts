@@ -65,6 +65,8 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
 
   responsiveOptions;
 
+  loading: boolean = false;
+
   /**
    * Constructor de UsuariosComponent
    * @param route objeto que permite cambiar de página
@@ -101,7 +103,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
    * Método que se ejecuta al cargar la página
    */
   async ngOnInit() {
-
+    this.loading = true;
     this.dataSource = new MatTableDataSource();
 
     this.dataSource.sortingDataAccessor = (element, property) => {
@@ -118,8 +120,8 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
 
     this.cartService.getConsumerDoc(uid);
 
-    this.getProductCartConsumer();
     this.getProducts();
+    this.getProductCartConsumer();
   }
 
   ngAfterViewInit() {
@@ -132,6 +134,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
       this.productsCart = carts;
       this.dataSource.data = this.productsCart;
       this.getTotalValue();
+      this.loading = false;
     });
   }
 
