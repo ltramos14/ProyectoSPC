@@ -1,34 +1,52 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
 import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
-
-import { AuthRoutingModule } from './pages/auth/auth.routing';
-import { SPCRoutingModule } from './pages/spc/spc.routing';
-import { ProducerRouting } from './pages/producer/producer.routing';
-import { ConsumerRouting } from './pages/consumer/consumer.routing';
-import { CarrierRouting } from './pages/carrier/carrier.routing';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-  { path: 'dashboard', component: CustomLayoutComponent },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./custom-layout/custom-layout.module').then(m => m.CustomLayoutModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
+  },
+
+  {
+    path: '',
+    loadChildren: () => import('./pages/carrier/carrier.module').then(m => m.CarrierModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/consumer/consumer.module').then(m => m.ConsumerModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/producer/producer.module').then(m => m.ProducerModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/spc/spc.module').then(m => m.SpcModule)
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-
-  // preloadingStrategy: PreloadAllModules,
+    // preloadingStrategy: PreloadAllModules,
     scrollPositionRestoration: 'enabled',
     relativeLinkResolution: 'corrected',
     anchorScrolling: 'enabled'
   }),
-    AuthRoutingModule,
-    SPCRoutingModule,
-    ProducerRouting,
-    ConsumerRouting,
-    CarrierRouting
+
   ],
   exports: [RouterModule]
 })

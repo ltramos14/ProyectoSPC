@@ -29,24 +29,23 @@ import { InterceptorService } from './service/interceptors/interceptor.service';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    ServerInternalErrorComponent
+    ServerInternalErrorComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     FlexLayoutModule,
     IconModule,
 
     // Vex
-    VexModule,
     CustomLayoutModule,
+    VexModule,
 
     //Firebase
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -57,10 +56,11 @@ import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
     //SPC
     AuthModule,
-    SpcModule,
-    ProducerModule,
+    CarrierModule,
     ConsumerModule,
-    CarrierModule
+    ProducerModule,
+    SpcModule,
+
   ],
   providers: [
     AngularFirestore,

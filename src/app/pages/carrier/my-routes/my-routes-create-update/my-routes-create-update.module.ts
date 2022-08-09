@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyRoutesCreateUpdateComponent } from './my-routes-create-update.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconModule } from '@visurel/iconify-angular';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -16,6 +14,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+
+import { IconModule } from '@visurel/iconify-angular';
+import { MyRoutesCreateUpdateComponent } from './my-routes-create-update.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 

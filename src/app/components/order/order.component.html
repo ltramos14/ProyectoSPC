@@ -11,7 +11,7 @@
           }">{{ order.status }}</p>
     </div>
     <div fxLayoutAlign="end">
-      TOTAL: ${{ order.total }}
+      TOTAL: ${{ order.total | number | money }}
     </div>
   </mat-card-header>
   <mat-divider></mat-divider>
@@ -23,7 +23,7 @@
           <ul class="product-info">
             <li><span>Nombre:</span> {{ product.name }}</li>
             <li><span>Cantidad:</span> {{ product.quantity }}</li>
-            <li><span>Subtotal:</span> $ {{ product.subtotal }}</li>
+            <li><span>Subtotal:</span> $ {{ product.subtotal  | number | money }}</li>
           </ul>
 
         </div>

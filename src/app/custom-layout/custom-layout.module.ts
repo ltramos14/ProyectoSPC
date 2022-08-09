@@ -9,18 +9,17 @@ import { ConfigPanelModule } from '../../@vex/components/config-panel/config-pan
 import { SidebarModule } from '../../@vex/components/sidebar/sidebar.module';
 import { QuickpanelModule } from '../../@vex/layout/quickpanel/quickpanel.module';
 
-
 @NgModule({
   declarations: [CustomLayoutComponent],
   imports: [
     CommonModule,
-    LayoutModule,
-    SidenavModule,
-    ToolbarModule,
-    FooterModule,
     ConfigPanelModule,
+    FooterModule,
+    LayoutModule,
+    QuickpanelModule,
+    SidenavModule,
     SidebarModule,
-    QuickpanelModule
+    ToolbarModule,
   ]
 })
 export class CustomLayoutModule {

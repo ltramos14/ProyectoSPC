@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconModule } from '@visurel/iconify-angular';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,6 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { IconModule } from '@visurel/iconify-angular';
+
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MyFarmsCreateUpdateComponent } from './my-farms-create-update.component';
 
@@ -23,19 +24,19 @@ import { MyFarmsCreateUpdateComponent } from './my-farms-create-update.component
   imports: [
     CommonModule,
     ComponentsModule,
+    FlexLayoutModule,
+    FormsModule,
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    FlexLayoutModule,
-    FormsModule,
     IconModule,
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,
-    MatMenuModule,
     MatIconModule,
     MatInputModule,
+    MatMenuModule,
     MatProgressBarModule,
     MatRadioModule,
     MatSelectModule,

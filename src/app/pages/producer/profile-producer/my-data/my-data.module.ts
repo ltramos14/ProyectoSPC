@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { IconModule } from '@visurel/iconify-angular';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { IconModule } from '@visurel/iconify-angular';
+
 import { MyDataComponent } from './my-data.component';
 
 @NgModule({
@@ -13,8 +14,8 @@ import { MyDataComponent } from './my-data.component';
   ],
   imports: [
     CommonModule,
-    IconModule,
     FlexLayoutModule,
+    IconModule,
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,

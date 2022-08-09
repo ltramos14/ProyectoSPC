@@ -12,18 +12,18 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IconModule } from '@visurel/iconify-angular';
-import { MyProductsComponent } from './my-products.component';
+
+import { ComponentsModule } from 'src/app/components/components.module';
 import { ProductsService } from 'src/app/service/producer/products.service';
-import { ProductsCreateUpdateModule } from './products-create-update/products-create-update.module';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
-import { ComponentsModule } from 'src/app/components/components.module';
-import { BrowserModule } from '@angular/platform-browser';
+import { MyProductsComponent } from './my-products.component';
+import { ProductsCreateUpdateModule } from './products-create-update/products-create-update.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [MyProductsComponent],
   imports: [
-    BrowserModule,
     CommonModule,
     ComponentsModule,
     ContainerModule,
@@ -40,6 +40,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MatTableModule,
     MatTooltipModule,
     PageLayoutModule,
+    PipesModule,
     ProductsCreateUpdateModule,
     ReactiveFormsModule,
   ],

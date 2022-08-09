@@ -14,7 +14,7 @@ import icLock from '@iconify/icons-ic/twotone-lock';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     fadeInUp400ms

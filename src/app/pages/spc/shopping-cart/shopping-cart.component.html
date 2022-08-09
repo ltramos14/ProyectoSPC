@@ -1,7 +1,5 @@
 <h1>TU CARRITO DE COMPRAS</h1>
 
-
-
 <vex-scrollbar class="relative">
   <table [dataSource]="dataSource" #sort="matSort" mat-table matSort>
 
@@ -23,7 +21,7 @@
 
     <ng-container matColumnDef="product.price">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
-      <td mat-cell *matCellDef="let element"> $ {{element.product.price}} </td>
+      <td mat-cell *matCellDef="let element"> $ {{element.product.price | number | money }} </td>
     </ng-container>
 
     <ng-container matColumnDef="product.stock">
@@ -45,7 +43,7 @@
     <ng-container matColumnDef="subtotal">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Subtotal </th>
       <td mat-cell *matCellDef="let element">
-        <h3><strong>$ {{element.subtotal}}</strong></h3>
+        <h3><strong>$ {{element.subtotal | number | money }}</strong></h3>
       </td>
     </ng-container>
 
@@ -78,9 +76,10 @@
 <mat-divider></mat-divider>
 
 <section class="total-container">
-  <h2>SUBTOTAL: <strong>$ {{ total }}</strong> </h2>
+  <h2>SUBTOTAL: <strong>$ {{ total | number | money }}</strong> </h2>
   <br>
-  <button mat-raised-button color="accent" *ngIf="productsCart && productsCart.length > 0" (click)="confirmOrder()">REALIZAR SOLICITUD DE COMPRA</button>
+  <button mat-raised-button color="accent" *ngIf="productsCart && productsCart.length > 0"
+    (click)="confirmOrder()">REALIZAR SOLICITUD DE COMPRA</button>
 </section>
 
 <p-carousel [value]="products" [numVisible]="4" [numScroll]="4" [autoplayInterval]="7000" [circular]="true"

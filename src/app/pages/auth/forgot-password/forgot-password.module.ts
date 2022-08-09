@@ -1,18 +1,17 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { IconModule } from '@visurel/iconify-angular';
-import { ForgotPasswordComponent } from './forgot-password.component';
-import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+
+import { IconModule } from "@visurel/iconify-angular";
+import { ForgotPasswordComponent } from "./forgot-password.component";
 
 @NgModule({
-  declarations: [
-    ForgotPasswordComponent
-  ],
+  declarations: [ForgotPasswordComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -21,7 +20,7 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
-    RouterModule
-  ]
+    RouterModule,
+  ],
 })
 export class ForgotPasswordModule { }

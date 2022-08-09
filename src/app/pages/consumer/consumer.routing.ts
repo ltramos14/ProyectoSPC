@@ -1,11 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { ProfileGuard } from 'src/app/guards/profile.guard';
 import { ConsumerComponent } from './consumer.component';
-import { ProfileConsumerComponent } from './profile-consumer/profile-consumer.component';
 import { MyDataComponent } from './profile-consumer/my-data/my-data.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { ProfileGuard } from 'src/app/guards/profile.guard';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import { ProfileConsumerComponent } from './profile-consumer/profile-consumer.component';
 
 const routes: Routes = [
     {

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { UsersComponent } from './users.component';
+import { MoneyPipe } from './money.pipe';
 
 @NgModule({
-  declarations: [UsersComponent],
+  declarations: [MoneyPipe],
   imports: [
     CommonModule
-  ]
+  ],
+  exports: [MoneyPipe]
 })
-export class UsersModule { }
+export class PipesModule { }

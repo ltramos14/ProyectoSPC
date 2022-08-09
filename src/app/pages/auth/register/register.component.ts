@@ -31,7 +31,7 @@ import icPlace from '@iconify/icons-ic/twotone-place'
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  styleUrls: ['./register.component.scss'],
   animations: [
     stagger80ms,
     fadeInUp400ms,

@@ -1,10 +1,12 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from '@angular/router';
+
 import { ConsumerComponent } from "./consumer.component";
-import { ToolbarModule } from './shared/toolbar/toolbar.module';
-import { ProfileConsumerModule } from './profile-consumer/profile-consumer.module';
 import { MyOrdersModule } from './my-orders/my-orders.module';
+import { ProfileConsumerModule } from './profile-consumer/profile-consumer.module';
+import { ToolbarModule } from './shared/toolbar/toolbar.module';
+import { ConsumerRouting } from "./consumer.routing";
 
 @NgModule({
   declarations: [
@@ -12,10 +14,11 @@ import { MyOrdersModule } from './my-orders/my-orders.module';
   ],
   imports: [
     CommonModule,
+    ConsumerRouting,
+    MyOrdersModule,
+    ProfileConsumerModule,
     RouterModule,
     ToolbarModule,
-    ProfileConsumerModule,
-    MyOrdersModule,
   ]
 })
 export class ConsumerModule { }

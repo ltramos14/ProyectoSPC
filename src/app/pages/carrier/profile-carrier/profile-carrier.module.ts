@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileCarrierComponent } from './profile-carrier.component';
-import { RouterModule } from '@angular/router';
-import { MyDataModule } from './my-data/my-data.module';
-import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { RouterModule } from '@angular/router';
 import { IconModule } from '@visurel/iconify-angular';
+
+import { MyDataModule } from './my-data/my-data.module';
+import { ProfileCarrierComponent } from './profile-carrier.component';
+
 @NgModule({
   declarations: [ProfileCarrierComponent],
   imports: [
     CommonModule,
-    RouterModule,
-    MyDataModule,
-    MatIconModule,
     IconModule,
+    MatIconModule,
     MatTabsModule,
     MatRippleModule,
+    MyDataModule,
+    RouterModule,
   ]
 })
 export class ProfileCarrierModule { }

@@ -16,7 +16,7 @@
                 <div class="flex-auto">
                     <div *ngIf="loading">
                         <spc-spinner></spc-spinner>
-                      </div>
+                    </div>
                     <ng-container *ngIf="address; then thenAddress; else elseAddress"></ng-container>
                     <ng-template #thenAddress>
                         <div class="card-shipping">
@@ -72,7 +72,7 @@
                         </div>
                         <div *ngIf="loading">
                             <spc-spinner></spc-spinner>
-                          </div>
+                        </div>
                         <div @stagger class="px-gutter py-4">
                             <mat-accordion>
                                 <mat-expansion-panel class="accordion" *ngFor="let order of orderRequest">
@@ -93,7 +93,7 @@
                                                     {{ product.unit | lowercase }}<span *ngIf="product.quantity > 1">s
                                                     </span></strong></h4>
                                         </div>
-                                        <h2 class="price py-6">$ {{ product.subtotal }}</h2>
+                                        <h2 class="price py-6">$ {{ product.subtotal | number | money }}</h2>
                                     </div>
                                 </mat-expansion-panel>
                             </mat-accordion>
@@ -112,13 +112,14 @@
                             <div @stagger class="px-gutter py-2 text-center" gdColumns="1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr" gdColumns.xs="1fr 1fr" *ngFor="let product of order.products">
                                 <h4><strong>{{ product.name }} </strong>({{ product.quantity }})</h4>
-                                <h3>$ {{ product.subtotal }}</h3>
+                                <h3>$ {{ product.subtotal | number | money }}</h3>
                             </div>
                             <br>
                         </div>
                     </div>
                     <mat-divider></mat-divider>
-                    <h2 class="text-center mt-6 mb-6" style="font-weight: bold;"> SUBTOTAL $ {{ total }}</h2>
+                    <h2 class="text-center mt-6 mb-6" style="font-weight: bold;"> SUBTOTAL $
+                        {{ total | number | money }}</h2>
                 </div>
             </div>
 
@@ -200,7 +201,7 @@
                         </div>
                     </div>
                     <mat-divider></mat-divider>
-                    <h2 class="text-center mt-6 mb-6" style="font-weight: bold;"> SUBTOTAL $ {{ total }}</h2>
+                    <h2 class="text-center mt-6 mb-6" style="font-weight: bold;"> SUBTOTAL $ {{ total | number | money }}</h2>
                 </div>
 
             </div>
@@ -289,7 +290,8 @@
                                     </div>
                                     <div class="body-2 text-secondary">
                                         <ic-icon [icon]="icAlert" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                                        <span>¡Atención! Pagar antes del día {{limitPaymentDate | date: 'dd/MM/yyyy'}} </span>
+                                        <span>¡Atención! Pagar antes del día {{limitPaymentDate | date: 'dd/MM/yyyy'}}
+                                        </span>
                                     </div>
                                     <br>
                                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">

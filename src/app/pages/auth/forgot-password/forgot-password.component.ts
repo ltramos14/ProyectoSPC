@@ -9,7 +9,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css'],
+  styleUrls: ['./forgot-password.component.scss'],
   animations: [fadeInUp400ms]
 })
 export class ForgotPasswordComponent implements OnInit {
@@ -42,5 +42,4 @@ export class ForgotPasswordComponent implements OnInit {
       this.router.navigate(['/iniciar-sesion']);
     })
   }
-
 }

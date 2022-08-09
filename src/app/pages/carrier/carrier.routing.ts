@@ -1,12 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { ProfileGuard } from 'src/app/guards/profile.guard';
 import { CarrierComponent } from './carrier.component';
-import { ProfileCarrierComponent } from './profile-carrier/profile-carrier.component';
 import { MyDataComponent } from './profile-carrier/my-data/my-data.component';
 import { MyRoutesComponent } from './my-routes/my-routes.component';
 import { MyVehicleComponent } from './my-vehicle/my-vehicle.component';
-import { ProfileGuard } from 'src/app/guards/profile.guard';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import { ProfileCarrierComponent } from './profile-carrier/profile-carrier.component';
 
 const routes: Routes = [
     {
@@ -19,7 +20,7 @@ const routes: Routes = [
             { path: 'mi-vehiculo/:id', component: MyVehicleComponent, data: { title: 'Mis vehículos' } },
             { path: 'mis-rutas/:id', component: MyRoutesComponent, data: { title: 'Mis rutas' } },
             { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
-        ], canActivate: [ AuthGuard, ProfileGuard ]
+        ], canActivate: [AuthGuard, ProfileGuard]
     }
 ];
 
