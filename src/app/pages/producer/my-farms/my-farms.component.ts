@@ -14,6 +14,7 @@ import { stagger40ms } from '../../../../@vex/animations/stagger.animation';
 
 import icPlace from '@iconify/icons-ic/twotone-place';
 import icLocation from '@iconify/icons-ic/twotone-where-to-vote';
+import icMap from '@iconify/icons-ic/twotone-map';
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icClose from '@iconify/icons-ic/twotone-close';
 import icEdit from "@iconify/icons-ic/twotone-edit";
@@ -35,6 +36,7 @@ export class MyFarmsComponent implements OnInit {
   icClose = icClose;
   icPlace = icPlace;
   icLocation = icLocation;
+  icMap = icMap;
   icDescription = icDescription;
   icEdit = icEdit;
   icDelete = icDelete;
@@ -95,6 +97,10 @@ export class MyFarmsComponent implements OnInit {
         duration: 3000
       })
     })
+  }
+
+  openCoordinatesOnGoogleMaps(farm: Farm): void {
+    window.open(`https://www.google.es/maps/search/${ farm.latitude },${ farm.longitude }`, '_blanck')
   }
 
 }

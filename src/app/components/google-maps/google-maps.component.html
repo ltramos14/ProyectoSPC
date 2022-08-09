@@ -1,2 +1,13 @@
-<google-map></google-map>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDovs02EzOw0Ldd4IjoOMzoNJ22ckUFI0Y"></script>
+<div class="w-full">
+    <google-map
+        height="350px"
+        width="350px"
+        [center]="center"
+    >
+        <map-marker
+            [position]="center"
+            [options]="markerOptions"
+            (mapMouseup)="onChangeCoordinates($event)"
+        ></map-marker>
+    </google-map>
+</div>

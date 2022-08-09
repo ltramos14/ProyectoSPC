@@ -11,12 +11,9 @@
             <mat-icon [icIcon]="icClose"></mat-icon>
         </button>
     </div>
-
     <mat-divider class="-mx-6 text-border"></mat-divider>
-
     <mat-dialog-content fxLayout="column">
         <div class="flex flex-col sm:flex-row">
-
             <mat-form-field class="mt-6 flex-auto">
                 <mat-label>Nombre de la finca </mat-label>
                 <input #message minlength="5" maxlength="30" cdkFocusInitial formControlName="name" matInput />
@@ -81,9 +78,30 @@
                 </mat-error>
             </mat-form-field>
         </div>
-
+        <app-google-maps
+            [latitude]="lat"
+            [longitude]="lon"
+            (coodinaterChanged)="coordinatesChanged($event)"
+        ></app-google-maps>
+        <div class="flex flex-col sm:flex-row mb-5">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Latitud </mat-label>
+                <input type="number" formControlName="latitude" matInput />
+                <mat-icon [icIcon]="icSpa" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formFarms.controls.latitude.hasError('required')">
+                    Las coordinadas de la finca son <strong>obligatorias.</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Longitud </mat-label>
+                <input type="number" formControlName="longitude" matInput />
+                <mat-icon [icIcon]="icSpa" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="formFarms.controls.longitude.hasError('required')">
+                    Las coordinadas de la finca son <strong>obligatorias.</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
     </mat-dialog-content>
-    <!-- <app-google-maps></app-google-maps> -->
 
     <mat-dialog-actions align="end">
         <button *ngIf="isCreateMode()" [disabled]="formFarms.invalid" color="accent" mat-raised-button type="submit">
