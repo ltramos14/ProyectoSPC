@@ -190,26 +190,4 @@ export class ProductsService {
     return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
   }
 
-  /**
-   * 
-   * @param id 
-   * @returns 
-   */
-  updateProductiveStatus(id: string) {
-    return this.http.put(`${baseUrl}/productive-status/${ id }`, {});
-  }
-
-  /**
-   * 
-   */
-  validateProductiveStatus() {
-    this.products.subscribe(products => {
-      products.forEach(product => {
-        if (product.availabilityDate && new Date(product.availabilityDate).getTime() <= new Date(Date.now()).getTime()) {
-          this.updateProductiveStatus(product.id).subscribe();
-        }
-      })
-    })
-  }
-
 }

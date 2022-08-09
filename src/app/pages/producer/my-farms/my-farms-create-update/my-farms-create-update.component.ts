@@ -37,6 +37,10 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   municipalities = municipalities;
 
+  lat: number;
+
+  lon: number;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private fb: FormBuilder,
@@ -44,6 +48,8 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
     private farmService: FarmsService,
     private dialogRef: MatDialogRef<MyFarmsCreateUpdateComponent>,
     httpClient: HttpClient) {
+      this.lat = 4.60971;
+      this.lon = -74.08175;
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyDovs02EzOw0Ldd4IjoOMzoNJ22ckUFI0Y', 'callback')
       .pipe(
         map(() => true),
@@ -86,7 +92,22 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
           Validators.maxLength(200)
         ]
       ],
+      latitude: [
+        this.defaults.latitude || '',
+        Validators.required,
+      ],
+      longitude: [
+        this.defaults.longitude || '',
+        Validators.required,
+      ]
     });
+    
+    if (this.defaults.latitude && this.defaults.longitude) {
+      const { latitude, longitude } = this.defaults;
+      this.lat = latitude;
+      this.lon = longitude;
+    }
+
   }
 
   save() {
@@ -99,13 +120,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   createFarm() {
     let farm = new Farm();
-
-    farm.name = this.formFarms.get("name").value;
-    farm.municipality = this.formFarms.get("municipality").value;
-    farm.description = this.formFarms.get("description").value;
-    farm.location = this.formFarms.get("location").value;
-
-
+    farm = this.formFarms.value;
     this.farmService.saveFarm(null, farm).then(() => {
       this.snackbar.open('Finca agregada satisfactoriamente', 'OK', {
         duration: 3000
@@ -117,14 +132,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   updateFarm() {
     let farm = new Farm;
-
-    farm.id = this.formFarms.get('id').value;
-    farm.name = this.formFarms.get('name').value;
-    farm.municipality = this.formFarms.get('municipality').value;
-    farm.description = this.formFarms.get('description').value;
-    farm.location = this.formFarms.get('location').value;
-
-
+    farm = this.formFarms.value;
     this.farmService.saveFarm(farm.id, farm).then(() => {
       this.snackbar.open('Finca editada satisfactoriamente', 'OK', {
         duration: 3000
@@ -139,6 +147,13 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   isUpdateMode() {
     return this.mode === 'update';
+  }
+
+  coordinatesChanged(center: google.maps.LatLngLiteral): void {
+    this.formFarms.patchValue({
+      latitude: center.lat,
+      longitude: center.lng
+    })
   }
 
 }

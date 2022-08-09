@@ -8,7 +8,7 @@ export class Product {
     stock: number;
     unit: string;
     productiveStatus: string;
-    availabilityDate: Date;
+    availabilityDate: any;
     description: string;
     image: string;
 

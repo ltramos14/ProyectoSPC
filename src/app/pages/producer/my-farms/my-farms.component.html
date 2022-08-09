@@ -8,20 +8,16 @@
         <div class="h-64 relative overflow-hidden">
           <img class="w-full h-full object-cover" src="assets/illustrations/cultivo.jpg">
         </div>
-
         <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
           <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
             <span>Tus fincas de cultivo vinculadas</span>
           </h2>
-
           <span fxFlex></span>
-
           <button (click)="createFarm()" class="ml-4" color="accent" fxFlex="none" mat-mini-fab
             matTooltip="Vincular Finca" type="button">
             <mat-icon [icIcon]="icAdd"></mat-icon>
           </button>
         </div>
-
         <div class="flex-auto">
           <div class="card">
             <div class="px-gutter py-4 border-b">
@@ -46,19 +42,21 @@
                         <ic-icon [icon]="icLocation" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
                         <span>Municipio: {{ farm.municipality }}</span>
                       </div>
-                    </div>
 
+                      <div *ngIf="farm.latitude && farm.longitude" class="body-2 italic text-green cursor-pointer">
+                        <ic-icon [icon]="icMap" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                        <a (click)="openCoordinatesOnGoogleMaps(farm)" target="_blank">Ver en Google maps</a>
+                      </div>
+                    </div>
                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
                       style="background-color: rgba(255, 160, 122, 0.4);">
                       <button (click)="updateFarm(farm)" class="text-secondary" mat-icon-button type="button">
                         <mat-icon [icIcon]="icEdit" matTooltip="Editar finca"></mat-icon>
                       </button>
-
                       <button (click)="confirmDeleteDialog(farm)" class="text-secondary" mat-icon-button type="button">
                         <mat-icon [icIcon]="icDelete" matTooltip="Eliminar finca">
                         </mat-icon>
                       </button>
-
                     </div>
                   </div>
                 </div>
@@ -70,16 +68,16 @@
     </div>
   </div>
 </div>
-
-
 <ng-template #nofarms>
   <div class="w-full p-gutter text-center">
     <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
 
-    <h1 class="display-1 m-0">Ups, aún no tienes fincas vinculadas a tu perfil.</h1>
-    <h2 class="text-secondary m-2">Una vez que añadas información sobre tus fincas, aparecerá aquí. ¡Adelante!
+    <h1 class="display-1 m-0">
+      Ups, aún no tienes fincas vinculadas a tu perfil.
+    </h1>
+    <h2 class="text-secondary m-2">
+      Una vez que añadas información sobre tus fincas, aparecerá aquí. ¡Adelante!
     </h2>
-
     <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
       <button (click)="createFarm()" color="primary" fxFlex="none" mat-raised-button type="button">
         <span>VINCULAR FINCA</span>

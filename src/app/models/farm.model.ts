@@ -4,6 +4,8 @@ export class Farm {
     municipality: string;
     location?: string;
     description: string;
+    latitude: number;
+    longitude: number;
 
     constructor(farm?: Farm) {
     }

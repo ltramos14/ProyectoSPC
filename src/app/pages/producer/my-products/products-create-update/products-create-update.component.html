@@ -1,6 +1,6 @@
 <form (ngSubmit)="saveChanges()" [formGroup]="formProduct">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5" alt="`Imagen producto ${{ defaults.id }}`">
 
         <h2 *ngIf="formProduct.get('name').value" class="headline m-0" fxFlex="auto">
             {{ formProduct.get("name").value }}
@@ -14,7 +14,7 @@
         </button>
     </div>
 
-    <mat-divider class="-mx-6 text-border"></mat-divider>
+    <mat-divider class="mx-6 text-border"></mat-divider>
 
     <mat-dialog-content fxLayout="column">
 
@@ -115,7 +115,7 @@
         <div class="flex flex-col sm:flex-row">
             <mat-form-field class="mt-8 flex-auto">
                 <mat-label>Selecciona un estado productivo</mat-label>
-                <mat-select formControlName="productiveStatus">
+                <mat-select formControlName="productiveStatus" (selectionChange)="setValidatorAvailabilityDateField($event)">
                     <mat-option *ngFor="let productiveStatus of statePrefixOptions" [value]="productiveStatus">
                         {{ productiveStatus }}
                     </mat-option>
@@ -130,14 +130,15 @@
                 [ngStyle]="{visibility:formProduct.get('productiveStatus').value === 'Disponible' ? 'hidden': 'visible'}">
                 <mat-label>Fecha de disponibilidad</mat-label>
                 <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
-                    [matDatepicker]="formDatepickerRef" formControlName="availableDate" matInput readonly />
+                    [matDatepicker]="formDatepickerRef" formControlName="availabilityDate" matInput readonly />
                 <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
-                <mat-hint>Selecciona una fecha futura a la fecha actual.</mat-hint>
                 <mat-datepicker #formDatepickerRef></mat-datepicker>
-
-                <!--  <mat-error *ngIf="formProduct.controls.available_date.hasError('futureDate')">
-                        La fecha de disponibilidad no puede ponerse un día que ya pasó
-                    </mat-error> -->
+                <mat-error *ngIf="formProduct.controls.availabilityDate.hasError('required')">
+                    La fecha de disponiblidad<strong> es obligatoria.</strong>
+                </mat-error>
+                <mat-error *ngIf="formProduct.controls.availabilityDate.hasError('futureDate')">
+                    Seleccione una fecha futura a la fecha actual
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -160,7 +161,7 @@
         <div class="text-center" fxLayout="column" fxFlexAlign="center">
             <h4>Imagen del producto:</h4>
             <img id="imgFoto" width="200" height="200" class="d-block" fxFlexAlign="center"
-                [src]="imageUrl || defaults.image || imageDefault" />
+                [src]="imageUrl || defaults.image || imageDefault" alt="`Imagen producto ${{ defaults.id }}`" />
             <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />
         </div>
     </mat-dialog-content>
