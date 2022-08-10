@@ -9,23 +9,29 @@
   </div>
 
   <div class="dropdown-content">
-    <a (click)="close()"
-       *ngFor="let item of items; trackBy: trackById"
-       [routerLink]="[item.route, user?.uid]"
-       class="notification"
-       fxLayout="row"
-       fxLayoutAlign="start center"
-       matRipple>
-      <mat-icon [icIcon]="item.icon"
-                [ngClass]="item.colorClass"
-                class="notification-icon"
-                fxFlex="none"></mat-icon>
-      <div fxFlex="auto">
-        <div class="notification-label">{{ item.label }}</div>
-        <div class="notification-description">{{ item.description }}</div>
-      </div>
-      <mat-icon [icIcon]="icChevronRight" class="notification-chevron" fxFlex="none"></mat-icon>
-    </a>
+    <ng-container *ngIf="loading; else elseTemplate">
+      <spc-spinner></spc-spinner>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <a (click)="close()"
+         *ngFor="let item of items; trackBy: trackById"
+         [routerLink]="[item.route, user?.uid]"
+         class="notification"
+         fxLayout="row"
+         fxLayoutAlign="start center"
+         matRipple>
+        <mat-icon [icIcon]="item.icon"
+                  [ngClass]="item.colorClass"
+                  class="notification-icon"
+                  fxFlex="none"></mat-icon>
+        <div fxFlex="auto">
+          <div class="notification-label">{{ item.label }}</div>
+          <div class="notification-description">{{ item.description }}</div>
+        </div>
+        <mat-icon [icIcon]="icChevronRight" class="notification-chevron" fxFlex="none"></mat-icon>
+      </a>  
+    </ng-template>
+    
   </div>
 
   <div class="dropdown-footer">

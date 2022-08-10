@@ -49,6 +49,8 @@ export class MyDataComponent implements OnInit {
   icPlace = icPlace;
   icEdit = icEdit;
 
+  loading: boolean = false;
+
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -58,10 +60,9 @@ export class MyDataComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(data => {
-      this.idUser = data.id;
-    });
-
+    this.loading = true;
+    const { id } = this.route.snapshot.params;
+    this.idUser = id;
     this.onGetUserInfo();
   }
 
@@ -80,6 +81,7 @@ export class MyDataComponent implements OnInit {
   onGetUserInfo() {
     this.userService.getUserInfo(this.idUser).subscribe((data) => {
       this.user = data;
+      this.loading = false;
     });
   }
 

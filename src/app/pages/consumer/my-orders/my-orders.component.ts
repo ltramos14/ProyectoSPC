@@ -23,13 +23,15 @@ import { User } from 'src/app/interfaces/user.interface';
 })
 export class MyOrdersComponent implements OnInit {
 
-  consumerOrders: Order[] = [];
+  consumerOrders: Order[];
 
   columnsToDisplay = ['orderDate', 'idProducer', 'idCarrier', 'products', 'chosenPayment', 'status', 'total'];
   
   expandedOrder: Order | null;
 
   icDown = icDown;
+
+  loading: boolean = false;
 
   constructor(
     private activedRoute: ActivatedRoute,
@@ -38,14 +40,15 @@ export class MyOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.activedRoute.params.subscribe(({ id }) => {
-      this.getConsumerOrders(id);
-    });
+    this.loading = true;
+    const { id } = this.activedRoute.snapshot.params;
+    this.getConsumerOrders(id);
   }
 
   getConsumerOrders(id: string): void {
     this.orderService.getOrdersByUser(id, 'idConsumer').subscribe(data => {
       this.consumerOrders = data;
+      this.loading = false;
     });
   }
 

@@ -1,3 +1,7 @@
+<div *ngIf="loading">
+    <spc-spinner></spc-spinner>
+</div>
+
 <div *ngIf="vehicle">
     <div *ngIf="vehicle.length > 0 else novehicle">
 
@@ -7,7 +11,7 @@
                     <h1 @fadeInRight class="headline text-contrast-black m-0">MI VEHÍCULO</h1>
                 </div>
                 <div class="h-56 relative overflow-hidden">
-                    <img class="w-full h-full object-cover" src="assets/illustrations/carrier.jpeg">
+                    <img class="w-full h-full object-cover" src="./assets/illustrations/carrier.jpeg" alt="Banner transportador">
                 </div>
 
                 <div class="flex-auto">
@@ -22,7 +26,7 @@
                                 <mat-icon class="mb-1 mt-3" style="font-size: 40px;" [icIcon]="icCar"></mat-icon>
                             </mat-card-header>
                             <mat-card-content class="mt-6" fxLayout="row" fxLayoutAlign="center center">
-                                <img class="w-56" [src]="vehi.image || imageDefault">
+                                <img class="w-56" [src]="vehi.image || imageDefault" alt="Imagen vehiculo">
                                 <div class="ml-10 sm:ml-10">
                                     <h1 class="title mb-1 mt-3" style="text-transform: uppercase">{{ vehi.vehicleType }}
                                     </h1>
@@ -61,7 +65,7 @@
 
 <ng-template #novehicle>
     <div class="w-full p-gutter text-center">
-        <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+        <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin información">
 
         <h1 class="display-1 m-0">Ups, aún no has registrado tu vehículo.</h1>
         <h2 class="text-secondary m-2">Una vez que añadas información sobre tu vehículo de trabajo, aparecerá aquí.

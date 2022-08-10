@@ -66,6 +66,8 @@ export class MyRoutesComponent implements OnInit, AfterViewInit {
    */
   dataSource: MatTableDataSource<Route> | null;
 
+  loading: boolean = false;
+
   /**
    * Permite paginar la tabla
    */
@@ -91,6 +93,8 @@ export class MyRoutesComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
+
     this.dataSource = new MatTableDataSource();
 
     this.dataSource.sortingDataAccessor = (element, property) => {
@@ -117,6 +121,7 @@ export class MyRoutesComponent implements OnInit, AfterViewInit {
     this.routeService.routes.subscribe(routes => {
       this.routes = routes;
       this.dataSource.data = this.routes;
+      this.loading = false;
     });
   }
 

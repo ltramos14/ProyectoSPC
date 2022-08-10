@@ -43,7 +43,9 @@ export class MyFarmsComponent implements OnInit {
 
   farms: Farm[];
 
-  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+  imageDefault: string = './assets/images/logotipos/LogoSPCv1.png';
+
+  loading: boolean = false;
 
   constructor(
     private farmService: FarmsService,
@@ -53,10 +55,14 @@ export class MyFarmsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
     const { uid } = await this.authService.getCurrentUser();
     this.farmService.getProducerDoc(uid);
     if (this.getData() !== undefined) {
-      this.getData().subscribe(farms => this.farms = farms);
+      this.getData().subscribe(farms => {
+        this.farms = farms;
+        this.loading = false;
+      });
     }
   }
 

@@ -38,12 +38,17 @@
     </div>
 </main>
 
-<p-carousel [value]="products" [numVisible]="4" [numScroll]="4" [autoplayInterval]="7000" [circular]="true"
-    [responsiveOptions]="responsiveOptions">
-    <ng-template pTemplate="header">
-        <h1>Productos Destacados</h1>
-    </ng-template>
-    <ng-template let-products pTemplate="item">
-        <app-product-card [product]="products"></app-product-card>
-    </ng-template>
-</p-carousel>
+<ng-container *ngIf="loading; else elseLoading">
+    <spc-spinner></spc-spinner>
+</ng-container>
+<ng-template #elseLoading>
+    <p-carousel [value]="products" [numVisible]="4" [numScroll]="4" [autoplayInterval]="7000" [circular]="true"
+        [responsiveOptions]="responsiveOptions">
+        <ng-template pTemplate="header">
+            <h1>Productos Destacados</h1>
+        </ng-template>
+        <ng-template let-products pTemplate="item">
+            <app-product-card [product]="products"></app-product-card>
+        </ng-template>
+    </p-carousel>
+</ng-template>

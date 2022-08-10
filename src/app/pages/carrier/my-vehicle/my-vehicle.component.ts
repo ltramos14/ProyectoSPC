@@ -39,7 +39,9 @@ export class MyVehicleComponent implements OnInit {
   /**
  * 
  */
-  imageDefault: string = '../../../../../assets/illustrations/vehicle.png';
+  imageDefault: string = './assets/illustrations/vehicle.png';
+
+  loading: boolean = false;
 
   /**
    * 
@@ -56,10 +58,14 @@ export class MyVehicleComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
     const { uid } = await this.authService.getCurrentUser();
     this.vehicleService.getCarrierDoc(uid);
     if (this.getData() !== undefined) {
-      this.getData().subscribe(vehicle => this.vehicle = vehicle);
+      this.getData().subscribe(vehicle => {
+        this.vehicle = vehicle;
+        this.loading = false;
+      });
     }
   }
 

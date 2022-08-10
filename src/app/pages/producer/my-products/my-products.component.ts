@@ -86,7 +86,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   icPhone = icPhone;
   icWait = icWait;
 
-  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   visible = false;
 
@@ -140,6 +140,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    */
   searchCtrl = new FormControl();
 
+  loading: boolean = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -163,7 +164,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
    * Método que se ejecuta uma vez se crea el componente
    */
   ngOnInit() {
-    
+    this.loading = true;
     this.dataSource = new MatTableDataSource();
 
     // Se obtiene el id del productor que viene desde la URL del navegador
@@ -182,6 +183,7 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     ).subscribe(products => {
       this.dataSource.data = products;
       this.products = products;
+      this.loading = false;
     });
     
 

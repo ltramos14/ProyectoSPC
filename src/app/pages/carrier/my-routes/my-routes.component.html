@@ -4,9 +4,13 @@
       <h1 @fadeInRight class="headline text-contrast-black m-0">MIS RUTAS</h1>
     </div>
     <div class="h-56 relative overflow-hidden">
-      <img class="w-full h-full object-cover" src="assets/illustrations/carrier.jpeg">
+      <img class="w-full h-full object-cover" src="./assets/illustrations/carrier.jpeg" alt="Banner Transportador">
     </div>
 
+    <div *ngIf="loading">
+      <spc-spinner></spc-spinner>
+    </div>
+    
     <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
       <h3 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
         <span>Transportador en esta sección podrás verificar las rutas de trabajo que asociaste a tu perfil</span>
@@ -102,7 +106,7 @@
 
 <ng-template #noroutes>
   <div class="w-full p-gutter text-center">
-    <img class="w-full max-w-lg mx-auto mb-4" src="assets/illustrations/empty.png">
+    <img class="w-full max-w-lg mx-auto mb-4" src="./assets/illustrations/empty.png" alt="Sin Información">
 
     <h2 class="display-1 m-0">Ups, aún has agregado ninguna de tus rutas.</h2>
     <h3 class="text-secondary m-2">Una vez que añadas información sobre tus rutas de trabajo, aparecerá aquí.

@@ -7,7 +7,7 @@
         </h1>
       </div>
       <div class="h-50 relative overflow-hidden">
-        <img class="w-full h-full object-cover" src="assets/illustrations/producer.jpg" />
+        <img class="w-full h-full object-cover" src=",/assets/illustrations/producer.jpg" alt="Banner productor" />
         <div class="absolute bg-contrast-black opacity-25 top-0 right-0 bottom-0 left-0 w-full h-full z-0"></div>
       </div>
     </div>
@@ -80,7 +80,7 @@
         <ng-container matColumnDef="image">
           <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
-            <img [src]="row['image'] || imageDefault" class="avatar h-8 w-8 align-middle" />
+            <img [src]="row['image'] || imageDefault" class="avatar h-8 w-8 align-middle" alt="imagen producto" />
           </td>
         </ng-container>
 
@@ -136,6 +136,10 @@
           class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
       </table>
 
+      <div *ngIf="loading">
+        <spc-spinner></spc-spinner>
+      </div>
+
       <div *ngIf="products">
         <div *ngIf="products.length > 0, else noproducts">
         </div>
@@ -182,7 +186,7 @@
 
 <ng-template #noproducts>
   <div class="w-full p-gutter text-center">
-    <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+    <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin informacion" />
 
     <h3 class="display-1 m-0">Ups, aún no has publicado ninguno de tus productos.</h3>
     <h3 class="text-secondary m-2">Una vez que añadas información sobre tus productos, aparecerá aquí. ¡Adelante!

@@ -12,11 +12,13 @@ import { IconModule } from '@visurel/iconify-angular';
 import { RelativeDateTimeModule } from '../../../../../../@vex/pipes/relative-date-time/relative-date-time.module';
 import { ToolbarUserComponent } from './toolbar-user.component';
 import { ToolbarUserDropdownComponent } from './toolbar-user-dropdown/toolbar-user-dropdown.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [ToolbarUserComponent, ToolbarUserDropdownComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     IconModule,
     MatButtonModule,

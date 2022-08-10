@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
 
   responsiveOptions;
 
+  loading: boolean = false;
+
   constructor(
     private productsService: ProductsService,
   ) {
@@ -37,8 +39,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.productsService.getProductsWithQuery(16).subscribe((products) => {
       this.products = products;
+      this.loading = false;
     })
   }
 }

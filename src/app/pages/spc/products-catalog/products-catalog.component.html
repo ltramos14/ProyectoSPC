@@ -38,13 +38,19 @@
     <div class="flex-auto md:ltr:ml-6 mt-6 md:mt-0">
         <div fxLayout="column">
             <h1 class="title m-0 mb-8">CATÁLOGO DE PRODUCTOS AGRÍCOLAS</h1>
-            <div *ngIf="products" fxFlex="none">
-                <div class="p-gutter" gdColumns="1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr" gdColumns.xs="1fr" gdGap="24px">
-                    <div class="card overflow-hidden" *ngFor="let product of products">
-                        <app-product-card [product]="product"></app-product-card>
+            <ng-container *ngIf="loading; else elseTemplate">
+                <spc-spinner></spc-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div *ngIf="products" fxFlex="none">
+                    <div class="p-gutter" gdColumns="1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr" gdColumns.xs="1fr" gdGap="24px">
+                        <div class="card overflow-hidden" *ngFor="let product of products">
+                            <app-product-card [product]="product"></app-product-card>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ng-template>
+            
         </div>
     </div>
 </div>

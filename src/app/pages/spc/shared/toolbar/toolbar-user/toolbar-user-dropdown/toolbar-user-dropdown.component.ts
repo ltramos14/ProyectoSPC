@@ -34,6 +34,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
+  loading: boolean = false;
+
   constructor(
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
     private router: Router,
@@ -44,6 +46,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.loading = true;
     this.user = await this.authService.getCurrentUser();
     this.profileUrl();
   }
@@ -71,6 +74,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
           console.error("No hay una ruta de perfil especficada");
       }
       this.items[0].route = routeProfile;
+      this.loading = false;
     });
   }
 

@@ -1,3 +1,7 @@
+<div *ngIf="loading">
+  <spc-spinner></spc-spinner>
+</div>
+
 <div *ngIf="consumerOrders">
   <div *ngIf="consumerOrders.length > 0 else noConsumerOrders">
     <div class="container py-gutter">
@@ -14,7 +18,7 @@
 
 <ng-template #noConsumerOrders>
   <div class="w-full p-gutter text-center">
-    <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+    <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin información">
 
     <h2 class="display-1 m-0">Ups, aún no has realizado ningún pedido agrícola.</h2>
     <h3 class="text-secondary m-2">Una vez que realices tus pedidos, aparecerán aquí.

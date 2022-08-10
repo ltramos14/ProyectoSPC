@@ -33,7 +33,7 @@ export class MyPaymentMethodsComponent implements OnInit {
   icEdit = icEdit;
   icDelete = icDelete;
 
-  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+  imageDefault: string = './assets/images/logotipos/LogoSPCv1.png';
 
   subject$: ReplaySubject<PaymentMethod[]> = new ReplaySubject<PaymentMethod[]>(1);
 
@@ -45,6 +45,8 @@ export class MyPaymentMethodsComponent implements OnInit {
 
   public paymentMethod: any[] = [];
 
+  loading: boolean = false;
+
   constructor(
     private paymentMethodsService: PaymentsMethodsService,
     private authService: AuthService,
@@ -53,10 +55,14 @@ export class MyPaymentMethodsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
     const { uid } = await this.authService.getCurrentUser();
     this.paymentMethodsService.getProducerDoc(uid);
     if (this.getData() !== undefined) {
-      this.getData().subscribe(paymentMethods => this.paymentMethods = paymentMethods);
+      this.getData().subscribe(paymentMethods => {
+        this.paymentMethods = paymentMethods;
+        this.loading = false;
+      });
     }
   }
 

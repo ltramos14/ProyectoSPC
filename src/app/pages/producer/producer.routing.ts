@@ -19,7 +19,7 @@ const routes: Routes = [
         { path: 'mis-productos/:id', component: MyProductsComponent, data: { title: 'Mis productos' } },
         { path: 'mis-fincas/:id', component: MyFarmsComponent, data: { title: 'Mis fincas' } },
         { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
-    ], canActivate: [ AuthGuard, ProfileGuard ] }
+    ], canActivate: [ AuthGuard, ProfileGuard ], canLoad: [AuthGuard] }
 ];
 
 @NgModule({

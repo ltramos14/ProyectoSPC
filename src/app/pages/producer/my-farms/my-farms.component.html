@@ -1,3 +1,6 @@
+<div *ngIf="loading">
+  <spc-spinner></spc-spinner>
+</div>
 <div *ngIf="farms">
   <div *ngIf="farms.length > 0 else nofarms">
     <div class="container py-gutter">
@@ -6,7 +9,7 @@
           <h1 @fadeInRight class="headline text-contrast-black m-0">MIS FINCAS</h1>
         </div>
         <div class="h-64 relative overflow-hidden">
-          <img class="w-full h-full object-cover" src="assets/illustrations/cultivo.jpg">
+          <img class="w-full h-full object-cover" src="./assets/illustrations/cultivo.jpg" alt="Banner cultivo">
         </div>
         <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
           <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
@@ -43,10 +46,19 @@
                         <span>Municipio: {{ farm.municipality }}</span>
                       </div>
 
-                      <div *ngIf="farm.latitude && farm.longitude" class="body-2 italic text-green cursor-pointer">
-                        <ic-icon [icon]="icMap" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
-                        <a (click)="openCoordinatesOnGoogleMaps(farm)" target="_blank">Ver en Google maps</a>
-                      </div>
+                      <ng-container *ngIf="farm.latitude && farm.longitude; else elseGoogleMaps">
+                        <div class="body-2 italic text-green cursor-pointer">
+                          <ic-icon [icon]="icMap" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                          <a (click)="openCoordinatesOnGoogleMaps(farm)" target="_blank">Ver en Google maps</a>
+                        </div>
+                      </ng-container>
+                      <ng-template #elseGoogleMaps>
+                        <div class="body-2 italic text-orange cursor-pointer">
+                          <ic-icon [icon]="icMap" class="ltr:mr-1 rtl:ml-1" inline="true"></ic-icon>
+                          Sin ubicación
+                        </div>
+                      </ng-template>
+                    
                     </div>
                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center"
                       style="background-color: rgba(255, 160, 122, 0.4);">
@@ -70,7 +82,7 @@
 </div>
 <ng-template #nofarms>
   <div class="w-full p-gutter text-center">
-    <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+    <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin informacion">
 
     <h1 class="display-1 m-0">
       Ups, aún no tienes fincas vinculadas a tu perfil.

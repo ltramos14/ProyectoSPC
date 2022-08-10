@@ -1,3 +1,6 @@
+<div *ngIf="loading">
+  <spc-spinner></spc-spinner>
+</div>
 <div class="mt-6 flex flex-col md:flex-row md:items-start" *ngIf="user">
   <div class="flex-auto" style="margin-bottom: 60px;">
     <div class="card">
@@ -115,7 +118,7 @@
       <h2 class="title m-0">Actualizar foto de perfil</h2>
     </div>
     <div class="px-6 py-4 border-b" fxLayoutAlign="center center">
-      <img id="imgFoto" width="200" height="200" class="d-block" [src]="imageUrl || user.profileURL" />
+      <img id="imgFoto" width="200" height="200" class="d-block" [src]="imageUrl || user.profileURL" alt="Foto productor" />
       <br>
     </div>
     <input type="file" id="fileProductImage" accept="image/*" (change)="showPreviewImage($event)" />

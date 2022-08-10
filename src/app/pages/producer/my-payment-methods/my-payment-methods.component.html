@@ -1,3 +1,7 @@
+<div *ngIf="loading">
+    <spc-spinner></spc-spinner>
+</div>
+
 <div *ngIf="paymentMethods">
     <div *ngIf="paymentMethods.length > 0 else nopaymentmethods">
         <div class="container py-gutter">
@@ -31,7 +35,7 @@
 
                                     <div class="card overflow-hidden" *ngFor="let paymentMethod of paymentMethods">
                                         <div class="p-4 text-center">
-                                            <img [src]="paymentMethod.image" class="avatar h-24 w-24 mx-auto">
+                                            <img [src]="paymentMethod.image" class="avatar h-24 w-24 mx-auto" alt="imagen metodo de pago">
 
                                             <h2 class="title mb-1 mt-3">{{ paymentMethod.name }}</h2>
                                             <div class="body-2 text-secondary">
@@ -76,7 +80,7 @@
 
 <ng-template #nopaymentmethods>
     <div class="w-full p-gutter text-center">
-        <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png">
+        <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin informacion">
         
         <h2 class="display-1 m-0">Ups, aún no has registrado tus medios de pago.</h2>
         <h3 class="text-secondary m-2">Una vez que añadas información sobre tus medios de pago, aparecerá aquí.

@@ -18,7 +18,7 @@ const routes: Routes = [
             },
             { path: 'mis-pedidos/:id', component: MyOrdersComponent, data: { title: 'Mis pedidos' } },
             { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
-        ], canActivate: [ AuthGuard, ProfileGuard ]
+        ], canActivate: [ AuthGuard, ProfileGuard ], canLoad: [ AuthGuard ]
     }
 ];
 

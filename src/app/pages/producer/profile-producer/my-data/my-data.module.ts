@@ -7,6 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { IconModule } from '@visurel/iconify-angular';
 
 import { MyDataComponent } from './my-data.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +15,12 @@ import { MyDataComponent } from './my-data.component';
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     IconModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressBarModule,
+    MatProgressBarModule
   ]
 })
 export class MyDataModule { }
