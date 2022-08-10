@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderRequest, PaymentMethodOrder } from 'src/app/models/order-request.model';
-import { AuthService } from 'src/app/service/auth/auth.service';
-import { OrderService } from 'src/app/service/users/order.service';
-import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
-import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
+import { Address } from 'src/app/models/address.model';
+import { AddressesService } from 'src/app/service/consumer/addresses.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { CartService } from 'src/app/service/consumer/cart.service';
+import { NotificationsService } from 'src/app/service/messaging/notifications.service';
+import { OrderRequest, PaymentMethodOrder } from 'src/app/models/order-request.model';
+import { OrderService } from 'src/app/service/users/order.service';
+import { PaymentMethod } from 'src/app/models/payment-method.model';
+import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
+import { Order } from 'src/app/models/order.model';
+import { AddUpdateAddressComponent } from './add-update-address/add-update-address.component';
+
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
+import { fadeInRight400ms } from 'src/@vex/animations/fade-in-right.animation';
 import { scaleIn400ms } from 'src/@vex/animations/scale-in.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
-
-import { MatDialog } from '@angular/material/dialog';
-import { AddressesService } from 'src/app/service/consumer/addresses.service';
-import { AddUpdateAddressComponent } from './add-update-address/add-update-address.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Address } from 'src/app/models/address.model';
-import { PaymentMethod } from 'src/app/models/payment-method.model';
-import { Order } from 'src/app/models/order.model';
-import { Router } from '@angular/router';
-import { CartService } from 'src/app/service/consumer/cart.service';
 
 import icAlert from '@iconify/icons-ic/twotone-notifications-active';
 import icDoneAll from '@iconify/icons-ic/twotone-done-all';
 import icPayment from '@iconify/icons-ic/twotone-payment';
 import icTotal from '@iconify/icons-ic/twotone-attach-money';
-import { NotificationsService } from 'src/app/service/messaging/notifications.service';
 
 @Component({
   selector: 'spc-order-request',
@@ -60,6 +60,8 @@ export class OrderRequestComponent implements OnInit {
   paymentMethodsOrders: PaymentMethodOrder[] = [];
 
   loading: boolean = false;
+  
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   constructor(
     private dialog: MatDialog,

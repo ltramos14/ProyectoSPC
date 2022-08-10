@@ -13,8 +13,7 @@
 
         <div class="body-2 text-secondary">
             <h2 class="mb-1 mt-5" style="color: #EE731B; font-size: 22px; font-weight: bold;">
-                <!-- Poner pipe de money -->
-                <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ product.price }}
+                <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ product.price| number | money }}
             </h2>
             <span> Precio por {{ product.unit }} </span>
         </div>
@@ -22,19 +21,19 @@
 
     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-evenly center"
         *ngIf="!isWorker && product.productiveStatus === 'Disponible'">
-        <button class="text-secondary" mat-icon-button matTooltip="Comprar Ahora" type="button">
+        <button class="text-secondary" (click)="confirmOrder(product)" matTooltip="Comprar Ahora" type="button" mat-icon-button>
             <mat-icon [icIcon]="icBuyNow"></mat-icon>
         </button>
 
-        <button class="text-secondary" mat-icon-button (click)="validateProductIdOnCartList(product)"
-            matTooltip="Añadir al Carrito" type="button">
+        <button class="text-secondary" (click)="validateProductIdOnCartList(product)" matTooltip="Añadir al Carrito"
+            type="button" mat-icon-button>
             <mat-icon [icIcon]="icCart"></mat-icon>
         </button>
     </div>
     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-evenly center"
         *ngIf="!isWorker && product.productiveStatus === 'En cosecha'">
-        <a class="text-primary" mat-icon-button (click)="goToProductDetails(product.id)" 
-            [matTooltip]="'Este producto estará disponible a partir del '.concat(product.availabilityDate.toDate() | date: 'd/M/yy')">
+        <a class="text-primary" mat-icon-button (click)="goToProductDetails(product.id)"
+            [matTooltip]="'Este producto estará disponible a partir de la fecha: '.concat(product.availabilityDate.toDate() | date: 'd/M/yy')">
             <mat-icon [icIcon]="icNotification"></mat-icon>
         </a>
     </div>

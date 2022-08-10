@@ -1,10 +1,10 @@
 <div class="product-detail">
     <div class="p-gutter container" *ngIf="product">
         <div @fadeInUp class="card p-16">
-            <div fxLayout="row" fxLayoutAlign="center" fxLayout.lt-sm="column"
-            fxLayoutAlign.lt-sm="center center" fxLayoutGap="10px">
+            <div fxLayout="row" fxLayoutAlign="center" fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center center"
+                fxLayoutGap="10px">
                 <div fxFlex="50%">
-                    <img class="h-100 w-100" [src]="product.image || imageDefault">
+                    <img class="h-100 w-100" [src]="product.image || imageDefault" alt="Imagen producto">
                     <div class="mt-5">
                         <h3 class="title text-primary  m-0">Finca {{ product.farm }}</h3>
                         <h3 class="title text-accent  mb-5" *ngIf="producerName">Productor {{ producerName }}</h3>
@@ -12,13 +12,13 @@
                 </div>
 
                 <div fxFlex="50%">
-                    <div  fxLayout="column" fxLayoutAlign="space-between center" > 
-                    <h3 class="title mb-3 text-primary">{{ product.productType }}</h3>
-                    <h1 class="mb-10">{{ product.name }}</h1>
-                    <p class="text-secondary mb-5">Descripción: {{ product.description }}</p>
-                </div>
+                    <div fxLayout="column" fxLayoutAlign="space-between center">
+                        <h3 class="title mb-3 text-primary">{{ product.productType }}</h3>
+                        <h1 class="mb-10">{{ product.name }}</h1>
+                        <p class="text-secondary mb-5">Descripción: {{ product.description }}</p>
+                    </div>
                     <div class="mb-5" flexLayout="row" fxLayoutAlign="space-evenly center" fxLayout.lt-sm="column"
-                        fxLayoutAlign.lt-sm="center center">
+                        fxLayout.lt-md="column" fxLayoutAlign.lt-sm="center center">
                         <div>
                             <h2 class="text-accent"><strong>$ {{ product.price | number | money }}</strong></h2>
                             <p class="text-secondary m-0">Precio por {{ product.unit }} </p>
@@ -43,15 +43,16 @@
                         </p>
                     </div>
 
-                    <div class="mt-8" fxLayout="row" *ngIf="!isWorker" fxLayoutAlign="center" fxLayout.lt-sm="column"
-                        fxLayoutAlign.lt-sm="center center" fxLayoutGap="12px">
-                        <button color="accent" mat-raised-button type="button" (click)="validateProductIdOnCartList(product)">
+                    <div class="mt-8" *ngIf="!isWorker" fxLayout="row" fxLayoutAlign="center" fxLayout.lt-sm="column"
+                        fxLayout.lt-md="column" fxLayoutGap="10px">
+                        <button color="accent" mat-raised-button type="button"
+                            (click)="validateProductIdOnCartList(product, false)">
                             <ic-icon [icon]="icCart" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
                                 size="20px"></ic-icon>
                             <span>AÑADIR AL CARRITO</span>
                         </button>
 
-                        <button color="accent" mat-raised-button type="button">
+                        <button color="accent" mat-raised-button type="button" (click)="confirmOrder(product)">
                             <ic-icon [icon]="icBuyNow" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
                                 size="20px"></ic-icon>
                             <span>COMPRAR AHORA</span>
@@ -76,12 +77,12 @@
         </p-carousel>
 
         <p-carousel [value]="productsProducer" [numVisible]="4" [numScroll]="4" [responsiveOptions]="responsiveOptions">
-        <ng-template pTemplate="header">
-            <h1>Más productos de {{producerName}} que también te pueden interesar...</h1>
-        </ng-template>
-        <ng-template let-productsProducer pTemplate="item">
-            <app-product-card [product]="productsProducer"></app-product-card>
-        </ng-template>
-    </p-carousel>
+            <ng-template pTemplate="header">
+                <h1>Más productos de {{producerName}} que también te pueden interesar...</h1>
+            </ng-template>
+            <ng-template let-productsProducer pTemplate="item">
+                <app-product-card [product]="productsProducer"></app-product-card>
+            </ng-template>
+        </p-carousel>
     </div>
 </div>

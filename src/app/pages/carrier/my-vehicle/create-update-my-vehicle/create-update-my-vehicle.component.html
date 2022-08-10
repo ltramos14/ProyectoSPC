@@ -91,7 +91,7 @@
         <div fxLayout="column" fxFlexAlign="center">
             <h4>Adjunta una imagen del vehículo:</h4>
             <img id="imgFoto" width="200" height="200" class="d-block"
-                [src]="imageUrl || defaults.image || imageDefault" />
+                [src]="imageUrl || defaults.image || imageDefault" alt="`Imagen vehículo ${{ defaults.id }}`" />
             <input type="file" id="fileVehicleImage" accept="image/*" (change)="showPreviewImage($event)" />
         </div>
 

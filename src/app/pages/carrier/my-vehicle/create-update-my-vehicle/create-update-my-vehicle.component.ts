@@ -56,7 +56,7 @@ export class CreateUpdateMyVehicleComponent implements OnInit {
   /**
    * 
    */
-  imageDefault: string = '../../../../../assets/illustrations/vehicle.png';
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   /**
    * 

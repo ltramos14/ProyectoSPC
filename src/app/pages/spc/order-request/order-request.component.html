@@ -26,8 +26,8 @@
 
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
-                                    class="avatar w-20 h-20" />
+                                <img @scaleIn src="./assets/illustrations/location.webp"
+                                    class="avatar w-20 h-20" alt="Locación" />
                                 <div fxLayout="column">
                                     <h3 class=" m-0">Dirección:</h3>
                                     <h5><strong>{{ address.address }}</strong></h5>
@@ -56,8 +56,8 @@
                             </div>
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
-                                    class="avatar w-20 h-20" />
+                                <img @scaleIn src="./assets/illustrations/location.webp"
+                                    class="avatar w-20 h-20" alt="Locación"/>
                                 <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
                                     <button color="primary" mat-stroked-button matStepperNext (click)="addNewAddress()">
                                         Añadir una nueva dirección
@@ -86,7 +86,7 @@
                                     </mat-expansion-panel-header>
                                     <div @stagger class="px-gutter" gdColumns="1fr 1fr 1fr" gdColumns.lt-lg="1fr 1fr"
                                         gdColumns.xs="1fr 1fr" *ngFor="let product of order.products">
-                                        <img @scaleIn class="avatar w-20 h-20" [src]="product.image" />
+                                        <img @scaleIn class="avatar w-20 h-20" [src]="product.image || imageDefault"/>
                                         <div class="column py-4">
                                             <h4>Producto: <strong>{{ product.name }}</strong></h4>
                                             <h4>Cantidad: <strong>{{ product.quantity }}
@@ -225,8 +225,8 @@
                             </div>
                             <div @stagger class="px-gutter py-6" gdColumns="1fr 1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr">
-                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
-                                    class="avatar w-20 h-20" />
+                                <img @scaleIn src="./assets/illustrations/location.webp"
+                                    class="avatar w-20 h-20" alt="Locación"/>
                                 <div fxLayout="column">
                                     <h2 class=" m-0">Municipio:</h2>
                                     <h3> <strong>{{ address.municipality }}</strong></h3>
@@ -255,8 +255,8 @@
                             </div>
                             <div @stagger class="px-gutter py-4" gdColumns="1fr 1fr 1fr 1fr"
                                 gdColumns.lt-lg="1fr 1fr 1fr" gdColumns.xs="1fr 1fr" gdGap="16px">
-                                <img @scaleIn src="../../../../assets/illustrations/location.webp"
-                                    class="avatar w-20 h-20" />
+                                <img @scaleIn src="./assets/illustrations/location.webp"
+                                    class="avatar w-20 h-20" alt="Locación"/>
                                 <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
                                     <button color="primary" mat-stroked-button matStepperNext (click)="addNewAddress()">
                                         Añadir una nueva dirección
@@ -277,8 +277,8 @@
 
                             <div class="card-finish-order overflow-hidden" *ngFor="let order of orderRequest">
                                 <div class="p-4 text-center">
-                                    <img @scaleIn src="../../../../assets/illustrations/finish-order.jpg"
-                                        class="avatar h-24 w-24 mx-auto">
+                                    <img @scaleIn src="./assets/illustrations/finish-order.jpg"
+                                        class="avatar h-24 w-24 mx-auto" alt="Locación">
 
                                     <h2 class="title mb-1 mt-3">PEDIDO N° {{ orderRequest.indexOf(order) + 1 }}</h2>
                                     <h4 class="title mb-1 mt-3">Productor {{ order.names + ' ' + order.lastnames }}</h4>

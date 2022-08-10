@@ -1,4 +1,3 @@
-
 h1 {
     color: #058D38;
     text-align: center;
@@ -95,22 +94,22 @@ $bp-lg: 800px;
         transition: transform calc(var(--d) * 2) var(--e);
     }
 
-        &:nth-child(1):before {
-            background-image: url(../../../../assets/images/categorias/1.jpg);
-        }
+    &:nth-child(1):before {
+        background-image: url("/assets/images/categorias/1.jpg");
+    }
 
-        &:nth-child(2):before {
-            background-image: url(../../../../assets/images/categorias/2.jpg);
-        }
+    &:nth-child(2):before {
+        background-image: url("/assets/images/categorias/2.jpg");
+    }
 
-        &:nth-child(3):before {
-            background-image: url(../../../../assets/images/categorias/3.jpg);
-        }
+    &:nth-child(3):before {
+        background-image: url("/assets/images/categorias/3.jpg");
+    }
 
-        &:nth-child(4):before {
-            background-image: url(../../../../assets/images/categorias/4.jpg);
-        }
-    
+    &:nth-child(4):before {
+        background-image: url("/assets/images/categorias/4.jpg");
+    }
+
 }
 
 .content {
@@ -199,6 +198,7 @@ $bp-lg: 800px;
     }
 
     .card:focus-within {
+
         &:before,
         &:after,
         .content,
@@ -207,5 +207,5 @@ $bp-lg: 800px;
         }
     }
 }
-/* Cards Categorias */
 
+/* Cards Categorias */

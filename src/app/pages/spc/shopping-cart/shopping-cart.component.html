@@ -7,7 +7,7 @@
     <ng-container matColumnDef="product.image">
       <th *matHeaderCellDef mat-header-cell></th>
       <td *matCellDef="let element" class="w-20 min-w-20 pr-0" mat-cell>
-        <a [routerLink]="['/detalles-producto/', element.product.id]"><img [src]="element.product.image"
+        <a [routerLink]="['/detalles-producto/', element.product.id]"><img [src]="element.product.image || imageDefault"
             class="avatar h-20 w-20 align-middle"></a>
       </td>
     </ng-container>
@@ -96,7 +96,7 @@
 <ng-template #nocart>
   <div class="w-full p-gutter text-center">
     <br>
-    <img class="mx-auto mb-0" src="../../../../assets/illustrations/empty-cart.png">
+    <img class="mx-auto mb-0" src="./assets/illustrations/empty-cart.png" alt="Carro vacío">
     <br>
     <h2 class="display-1 mt-4">EL CARRITO ESTÁ VACÍO</h2>
     <h3 class="text-secondary font-medium">Una vez que añadas un producto a tu carrito, aparecerá aquí.</h3>
