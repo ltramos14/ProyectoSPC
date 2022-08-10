@@ -49,7 +49,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   imageUrl: string;
 
-  imageDefault: string = "../../../../../assets/illustrations/no-product.png";
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   idUser: string;
 

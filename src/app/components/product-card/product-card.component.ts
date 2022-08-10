@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { CartService } from 'src/app/service/consumer/cart.service';
@@ -15,6 +15,7 @@ import icWait from '@iconify/icons-ic/twotone-access-time';
 import icCart from '@iconify/icons-ic/twotone-add-shopping-cart';
 import icNotification from '@iconify/icons-ic/twotone-notification-important';
 import icBuyNow from '@iconify/icons-ic/twotone-monetization-on';
+
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
@@ -34,10 +35,11 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   productCart: Cart;
   shoppingsCart: Cart[] = [];
-  user: any;
-  isWorker: boolean = false;
-  imageDefault: string = '../../../../../assets/illustrations/no-product.png';
   subscriptions: Subscription[] = [];
+
+  isWorker: boolean = false;
+  imageDefault: string = './assets/illustrations/no-product.png';
+  user: any;
 
   constructor(
     private snackbar: MatSnackBar,
@@ -77,7 +79,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
       this.cartService.modifyQuantitysProduct(cartExist.id, 1, product.price)
         .then(() => {
           this.snackbar.open(
-            `Cantidad del producto ${ product.name } actualizada correctamente`,
+            `Cantidad del producto ${product.name} actualizada correctamente`,
             "OK",
             {
               duration: 2000,
@@ -86,19 +88,21 @@ export class ProductCardComponent implements OnInit, OnDestroy {
         })
         .catch(err => false)
     } else {
-      this.addProductToCart(product)
-    } 
+      this.addProductToCart(product, false)
+    }
   }
 
-  addProductToCart(product: Product) {
-    if( this.user ) {
+  addProductToCart(product: Product, buyNow: boolean) {
+    if (this.user) {
       this.productCart = { product, quantity: 1, subtotal: product.price };
 
       this.cartService.addProductToShoppingCart(this.productCart).then(() => {
-        this.snackbar.open(`Producto agregado al carrito correctamente`, 'OK', {
-          duration: 2000
-        });
-      }, err => {
+        if (!buyNow) {
+          this.snackbar.open(`Producto agregado al carrito correctamente`, 'OK', {
+            duration: 2000
+          });
+        }
+      }, () => {
         this.snackbar.open(`Error al agregar el producto al carrito`, '❌', {
           duration: 2000
         });
@@ -106,6 +110,11 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigateByUrl('/iniciar-sesion');
     }
+  }
+
+  confirmOrder(product: Product) {
+    this.addProductToCart(product, true);
+    this.router.navigateByUrl('/solicitar-pedido')
   }
 
 }

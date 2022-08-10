@@ -1,17 +1,17 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTableDataSource } from "@angular/material/table";
+
+import { AuthService } from "src/app/service/auth/auth.service";
 import { Cart } from "src/app/models/cart.model";
 import { CartService } from "src/app/service/consumer/cart.service";
-
-import { Subscription } from "rxjs";
-import { AuthService } from "src/app/service/auth/auth.service";
 import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
+
 import icDelete from "@iconify/icons-ic/twotone-close";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-shopping-cart",
@@ -20,14 +20,20 @@ import { Router } from "@angular/router";
 })
 export class ShoppingCartComponent implements OnInit, AfterViewInit {
 
-  /**
-   * 
-   */
   icDelete = icDelete;
 
-  /**
-   * Indica qué variables deben ser mostradas en la tabla
-   */
+  products: Product[]
+
+  productsCart: Cart[];
+
+  total: number = 0;
+
+  responsiveOptions;
+
+  loading: boolean = false;
+
+  imageDefault: string = './assets/illustrations/no-product.png';
+
   displayedColumns: string[] = [
     "product.image",
     "product.name",
@@ -38,34 +44,11 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
     "delete",
   ];
 
-  /**
-   * 
-   */
-  products: Product[]
-
-  /**
-   * 
-   */
-  productsCart: Cart[];
-
-  /**
-   * 
-   */
-  total: number = 0;
-
-  /**
-   * Es el origen de datos de la tabla
-   */
   dataSource: MatTableDataSource<Cart> | null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  private cartSubscription: Subscription;
-
-  responsiveOptions;
-
-  loading: boolean = false;
 
   /**
    * Constructor de UsuariosComponent

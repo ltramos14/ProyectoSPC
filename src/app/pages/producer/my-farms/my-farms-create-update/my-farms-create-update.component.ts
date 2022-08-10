@@ -31,7 +31,7 @@ export class MyFarmsCreateUpdateComponent implements OnInit {
 
   formFarms: FormGroup;
 
-  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   apiLoaded: Observable<boolean>;
 

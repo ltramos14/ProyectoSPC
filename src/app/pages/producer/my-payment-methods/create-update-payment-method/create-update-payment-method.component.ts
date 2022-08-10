@@ -27,7 +27,7 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
 
   selectorPaymentMethods: String;
 
-  imageDefault: string = '../../../../../assets/images/logotipos/LogoSPCv1.png';
+  imageDefault: string = './assets/illustrations/no-product.png';
 
   PaymentOptions = ['Nequi', 'Daviplata', 'Movii', 'Efecty', 'Paga Todo Para Todo!', 'Vía Baloto'];
 
@@ -82,22 +82,22 @@ export class CreateUpdatePaymentMethodComponent implements OnInit {
 
     switch (this.selectorPaymentMethods) {
       case 'Nequi':
-        this.imageDefault = '../../../../../assets/images/medios-pago/nequi.png';
+        this.imageDefault = './assets/images/medios-pago/nequi.png';
         break;
       case 'Daviplata':
-        this.imageDefault = '../../../../../assets/images/medios-pago/daviplata.png';
+        this.imageDefault = './assets/images/medios-pago/daviplata.png';
         break;
       case 'Movii':
-        this.imageDefault = '../../../../../assets/images/medios-pago/movii.png';
+        this.imageDefault = './assets/images/medios-pago/movii.png';
         break;
       case 'Efecty':
-        this.imageDefault = '../../../../../assets/images/medios-pago/efecty.png';
+        this.imageDefault = './assets/images/medios-pago/efecty.png';
         break;
       case 'Paga Todo Para Todo!':
-        this.imageDefault = '../../../../../assets/images/medios-pago/paga-todo.jpg';
+        this.imageDefault = './assets/images/medios-pago/paga-todo.jpg';
         break;
       case 'Vía Baloto':
-        this.imageDefault = '../../../../../assets/images/medios-pago/via-baloto.png';
+        this.imageDefault = './assets/images/medios-pago/via-baloto.png';
         break;
     }
   }
