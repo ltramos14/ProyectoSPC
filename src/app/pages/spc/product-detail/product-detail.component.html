@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="mt-10" flexLayout="row" fxLayoutAlign="center center" fxLayout.lt-sm="column"
-                        fxLayoutAlign.lt-sm="center center">
+                        fxLayoutAlign.lt-sm="center center" *ngIf="product.productiveStatus === 'Disponible'">
                         <h4>CANTIDAD: </h4>
                         <app-incrementer class="ml-5" (setValue)="updateQuantity($event)" [value]="1"
                             [stock]="product.stock">
@@ -43,8 +43,8 @@
                         </p>
                     </div>
 
-                    <div class="mt-8" *ngIf="!isWorker" fxLayout="row" fxLayoutAlign="center" fxLayout.lt-sm="column"
-                        fxLayout.lt-md="column" fxLayoutGap="10px">
+                    <div class="mt-8" *ngIf="!isWorker && product.productiveStatus === 'Disponible'" fxLayout="row"
+                        fxLayoutAlign="center" fxLayout.lt-sm="column" fxLayout.lt-md="column" fxLayoutGap="10px">
                         <button color="accent" mat-raised-button type="button"
                             (click)="validateProductIdOnCartList(product, false)">
                             <ic-icon [icon]="icCart" class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2" inline="true"
@@ -57,6 +57,20 @@
                                 size="20px"></ic-icon>
                             <span>COMPRAR AHORA</span>
                         </button>
+                        <div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10" *ngIf="!isWorker && product.productiveStatus === 'En cosecha'">
+                        <blockquote class="text-primary ml-8" fxLayout="row" fxLayoutAlign="center"
+                            fxLayoutAlign.lt-sm="center center" fxLayout.lt-sm="column" fxLayout.lt-md="column"
+                            fxLayoutGap="10px">
+                            <p>
+                                <strong>!Atención!</strong> <br> Este producto estará disponible próximamente, no te
+                                pierdas ningún detalle.
+                            </p>
+                            <ic-icon [icon]="icNotification" inline="true" size="50px"></ic-icon>
+                        </blockquote>
                         <div>
                         </div>
                     </div>

@@ -16,6 +16,7 @@ import icCart from "@iconify/icons-ic/twotone-add-shopping-cart";
 import icBuyNow from "@iconify/icons-ic/twotone-monetization-on";
 import icCheck from "@iconify/icons-ic/twotone-check-circle";
 import icWait from "@iconify/icons-ic/twotone-access-time";
+import icNotification from '@iconify/icons-ic/twotone-notification-important';
 
 @Component({
   selector: "app-product-detail",
@@ -28,6 +29,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   icBuyNow = icBuyNow;
   icCheck = icCheck;
   icWait = icWait;
+  icNotification = icNotification;
 
   product: Product;
   products: Product[] = [];

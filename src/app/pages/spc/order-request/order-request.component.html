@@ -296,7 +296,7 @@
                                     <br>
                                     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
                                         <h4>Total a pagar: <ic-icon [icon]="icTotal" class="ltr:mr-1 rtl:ml-1"
-                                                inline="true"></ic-icon><strong>{{ order?.total }}</strong></h4>
+                                                inline="true"></ic-icon><strong>{{ order?.total | number | money }}</strong></h4>
                                     </div>
                                 </div>
                             </div>

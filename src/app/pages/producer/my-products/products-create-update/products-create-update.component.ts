@@ -6,6 +6,7 @@ import { Product } from '../../../../models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
+import { OwnValidations } from 'src/app/service/helpers/ownValidations';
 
 import icAttachMoney from '@iconify/icons-ic/twotone-attach-money';
 import icCalendar from '@iconify/icons-ic/twotone-calendar-today';
@@ -16,7 +17,6 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icNature from '@iconify/icons-ic/twotone-nature';
 import icTimeLine from '@iconify/icons-ic/twotone-timeline';
 import icToc from '@iconify/icons-ic/twotone-toc';
-import { OwnValidations } from 'src/app/service/helpers/ownValidations';
 
 @Component({
   selector: "app-products-create-update",
@@ -107,8 +107,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
         this.defaults.price || "",
         [
           Validators.required,
-          Validators.min(100),
-          Validators.pattern("[0-9]*"),
+          Validators.min(100)
         ],
       ],
       unit: [this.defaults.unit || "", Validators.required],
