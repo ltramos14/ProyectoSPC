@@ -26,6 +26,7 @@ import { SearchComponent } from "./search/search.component";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { ViewDetailDialogComponent } from "./view-detail-dialog/view-detail-dialog.component";
 import { PipesModule } from "../pipes/pipes.module";
+import { CarouselModule } from "primeng/carousel";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PipesModule } from "../pipes/pipes.module";
     ViewDetailDialogComponent,
   ],
   imports: [
-  CommonModule,
+    CommonModule,
+    CarouselModule,
     FormsModule,
     FlexLayoutModule,
     IconModule,
