@@ -98,13 +98,10 @@
 
             <mat-form-field class="sm:mt-8 sm:ml-6 flex-auto">
                 <mat-label>Precio por: {{ formProduct.get('unit').value }}</mat-label>
-                <input cdkFocusInitial min="100" formControlName="price" matInput />
+                <input type="number" min="100" formControlName="price" cdkFocusInitial matInput />
                 <mat-icon [icIcon]="icAttachMoney" class="mr-3" matPrefix></mat-icon>
                 <mat-error *ngIf="formProduct.controls.price.hasError('required')">
                     El precio es <strong>obligatorio.</strong>
-                </mat-error>
-                <mat-error *ngIf="formProduct.controls.price.hasError('pattern')">
-                    Por favor ingresa solamente <strong>valores numéricos.</strong>
                 </mat-error>
                 <mat-error *ngIf="formProduct.controls.price.errors?.min">
                     El precio debe ser <strong> mayor que 100 pesos.</strong>

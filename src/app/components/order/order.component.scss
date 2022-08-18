@@ -1,9 +1,13 @@
+mat-card {
+    background-image: url("/assets/illustrations/fondo-order.webp");
+}
+
 .cart-title {
     font: bold;
 }
 
 .img-order {
-    width: 80px;
+    width: 40%;
     border-radius: 100%;
     object-fit: cover;
 }

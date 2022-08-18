@@ -203,7 +203,7 @@ export class OrderRequestComponent implements OnInit {
             duration: 2000
           });
         }
-        this.sendNotification();
+        this.sendNotification(order);
       }, (err) =>  {
         console.log(err);
         
@@ -214,11 +214,9 @@ export class OrderRequestComponent implements OnInit {
     });
   }
 
-  sendNotification() {
-    this.orderRequest.forEach(order => {
+  sendNotification(order: Order) {
       this.notificationsService.sendPurchaseRequest(order)
         .subscribe();
-    });
   }
 
 }
