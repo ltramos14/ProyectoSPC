@@ -10,17 +10,18 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatOptionModule, MatRippleModule } from "@angular/material/core";
-import { MatMenuModule } from "@angular/material/menu";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { IconModule } from "@visurel/iconify-angular";
+import { CarouselModule } from "primeng/carousel";
 import { ContainerModule } from "src/@vex/directives/container/container.module";
 import { ScrollbarModule } from "src/@vex/components/scrollbar/scrollbar.module";
 
@@ -53,6 +54,7 @@ import { OrdersTableDataComponent } from './orders-table-data/orders-table-data.
   ],
   imports: [
     CommonModule,
+    CarouselModule,
     ContainerModule,
     FormsModule,
     FlexLayoutModule,

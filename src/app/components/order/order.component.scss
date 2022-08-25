@@ -1,32 +1,17 @@
 mat-card {
-    background-image: url("/assets/illustrations/fondo-order.webp");
+    background-image: url("/assets/illustrations/bg-order.jpg");
+    background-size: cover;
 }
 
-.cart-title {
-    font: bold;
+.card-total {
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .img-order {
-    width: 40%;
+    width: 7em;
     border-radius: 100%;
     object-fit: cover;
-}
-
-.status-text {
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.pending {
-    color: orange
-}
-
-.delivered {
-    color: green
-}
-
-.paid {
-    color: yellow
 }
 
 .mat-card-content {
@@ -34,10 +19,9 @@ mat-card {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-.mat-card-content div, 
-.mat-card-content .ng-container, 
-.mat-card-content .ng-template
-{
+.mat-card-content div,
+.mat-card-content .ng-container,
+.mat-card-content .ng-template {
     padding: 10px 0;
 }
 
@@ -47,15 +31,12 @@ mat-card {
 }
 
 .product-info {
-    list-style: none;  
+    list-style: none;
 }
 
 .product-info li {
     padding: 5px 0;
-    margin-left: 5px;
-}
-
-.product-info span {
+    margin-left: 10px;
     font-weight: 600;
 }
 
@@ -64,9 +45,48 @@ mat-card {
     padding: 0 5px;
 }
 
-.chosen-payment-container .payment-name,
+.chosen-payment-container,
 .chosen-payment-container span {
     font-weight: 700;
 }
 
+.status-container {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
 
+.pending {
+    background-color: #6c757d56;
+    border-radius: 6px;
+    color: #6C757D;
+    padding: 0.7em 2em 0.7em 2em;
+}
+
+.paid {
+    background-color: #19875448;
+    border-radius: 6px;
+    color: #198754;
+    padding: 0.7em 2em 0.7em 2em;
+}
+
+.cancelled {
+    background-color: #dc354649;
+    border-radius: 6px;
+    color: #DC3545;
+    padding: 0.7em 2em 0.7em 2em;
+}
+
+.preparing {
+    background-color: #ffc10746;
+    border-radius: 6px;
+    color: #FFC107;
+    padding: 0.7em 2em 0.7em 2em;
+}
+
+.delivered {
+    background-color: #0d6dfd57;
+    border-radius: 6px;
+    color: #0D6EFD;
+    padding: 0.7em 2em 0.7em 2em;
+}
