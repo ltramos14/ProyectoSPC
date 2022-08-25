@@ -1,27 +1,63 @@
-<h1>TUS PEDIDOS</h1>
+<ng-container *ngIf="tableData?.length > 0; else elseData">
+  <div class="h-full flex flex-col mb-5">
+    <div class="px-gutter pt-20 pb-20 bg-accent-light flex-none">
+      <div class="flex items-center" vexContainer>
+        <button (click)="openMenu()" @scaleIn class="sm:hidden text-accent text-3xl" mat-icon-button type="button">
+          <mat-icon [icIcon]="icMenu"></mat-icon>
+        </button>
 
-<div *ngIf="loading">
+        <h2 class="headline text-primary-contrast m-0 flex items-center w-full max-w-xxxs mr-6">
+          <ic-icon @scaleIn [icon]="icShopTwo" class="hidden sm:block text-accent"></ic-icon>
+          <span @fadeInRight class="ml-4 block text-accent">MIS PEDIDOS</span>
+        </h2>
+
+        <div
+          class="hidden sm:flex items-center bg-card rounded-full overflow-hidden relative ltr:pl-5 rtl:pr-5 h-12 max-w-md w-full shadow-8 mx-auto">
+          <ic-icon [icon]="icSearch" class="text-secondary flex-none" size="24px"></ic-icon>
+          <input [formControl]="searchCtrl"
+            class="border-0 h-12 outline-none ltr:pl-4 rtl:pr-4 placeholder:text-secondary bg-card flex-auto"
+            placeholder="Buscar pedido..." type="text" />
+        </div>
+      </div>
+    </div>
+
+    <div class="-mt-14 pt-0 overflow-hidden flex" vexContainer>
+
+      <mat-drawer-container class="bg-transparent flex-auto flex">
+        <mat-drawer [(opened)]="menuOpen" mode="over">
+          <spc-orders-table-menu [ordersData]="tableData" (filterChange)="setData($event)" class="sm:hidden">
+          </spc-orders-table-menu>
+        </mat-drawer>
+        <mat-drawer-content class="p-gutter pt-0 flex-auto flex items-start">
+          <spc-orders-table-menu [ordersData]="tableData" (filterChange)="setData($event)" class="hidden sm:block mr-6">
+          </spc-orders-table-menu>
+
+          <div class="card h-full overflow-hidden flex-auto">
+            <spc-orders-table-data (openOrderDetail)="openOrderDetails($event)" [columns]="tableColumns"
+              [data]="tableData" [searchStr]="searchStr$ | async"></spc-orders-table-data>
+          </div>
+        </mat-drawer-content>
+
+      </mat-drawer-container>
+    </div>
+  </div>
+</ng-container>
+<ng-template #elseData>
+  <ng-container *ngIf="loading; else elseTemplate">
     <spc-spinner></spc-spinner>
-</div>
-
-<div *ngIf="producerOrders">
-    <div *ngIf="producerOrders && producerOrders.length > 0 else noproducerOrders">
-        <div class="orders" *ngFor="let order of producerOrders">
-            <spc-order [order]="order" [user]="'productor'"></spc-order>
-        </div>
-    </div>
-</div>
-
-<ng-template #noproducerOrders>
+  </ng-container>
+  <ng-template #elseTemplate>
     <div class="w-full p-gutter text-center">
-        <img class="w-full max-w-lg mx-auto mb-0" src="./assets/illustrations/empty.png" alt="Sin informacion" />
-        
-        <h2 class="display-1 m-0">Ups, ¡aún no tienes pedidos solicitados!</h2>
-        <h3 class="text-secondary m-2">Conecta con más consumidores y haz de tu trabajo SPC una verdadera experiencia del campo</h3>
-        <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
-            <button routerLink="/" color="primary" fxFlex="none" mat-raised-button type="button">
-                <span>Ir al inicio</span>
-            </button>
-        </div>
+      <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png" alt="Sin pedidos">
+
+      <h2 class="display-1 m-0">Ups, ¡aún no tienes pedidos solicitados!</h2>
+      <h3 class="text-secondary m-2">Conecta con más consumidores y haz de tu trabajo SPC una verdadera experiencia del
+        campo</h3>
+      <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
+        <button routerLink="/" color="primary" fxFlex="none" mat-raised-button type="button">
+          <span>Ir al inicio</span>
+        </button>
+      </div>
     </div>
+  </ng-template>
 </ng-template>

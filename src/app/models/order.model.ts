@@ -5,13 +5,13 @@ import { PaymentMethod } from "./payment-method.model";
 export class Order {
     idProducer: string;
     idConsumer: string;
-    orderDate: Date;
+    orderDate: any;
     products: ProductOrder[];
     address: Address;
     total: number;
     chosenPayment: PaymentMethod;
     status: string;
-    paymentLimitDate?: Date;
+    paymentLimitDate?: any;
     idCarrier?: string;
     id?: string;
 

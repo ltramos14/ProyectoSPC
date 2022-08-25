@@ -86,8 +86,8 @@
   [responsiveOptions]="responsiveOptions">
   <ng-template pTemplate="header">
     <h1>Productos Destacados</h1>
+    <ng-template let-products pTemplate="item">
   </ng-template>
-  <ng-template let-products pTemplate="item">
     <app-product-card [product]="products"></app-product-card>
   </ng-template>
 </p-carousel>

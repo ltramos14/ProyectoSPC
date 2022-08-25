@@ -1,0 +1,63 @@
+<vex-scrollbar class="h-full relative">
+    <div fxLayout="column" fxLayoutAlign="space-between">
+        <table [dataSource]="dataSource" class="w-full" fxFlex="auto" mat-table matSort>
+            <ng-container *ngFor="let column of columns">
+                <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+                    <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.label }}</th>
+                    <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+                </ng-container>
+
+                <ng-container *ngIf="column.type === 'button'" [matColumnDef]="column.property">
+                    <ng-container *ngIf="column.property === 'status'">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.label }}</th>
+                        <td *matCellDef="let row" mat-cell>
+                            <div (click)="$event.stopPropagation()"
+                                [ngClass]="[row.status.textClass, row.status.bgClass]"
+                                class="rounded px-2 py-1 font-medium text-sm text-center" style="display:block">
+                                {{ row.status.text }}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container *ngIf="column.property === 'menu'">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.label }}</th>
+                        <td *matCellDef="let row" [ngClass]="column.cssClasses" class="w-10" mat-cell>
+                            <button (click)="$event.stopPropagation()" [matMenuTriggerFor]="contactMenu" mat-icon-button
+                                type="button">
+                                <mat-icon [icIcon]="icMoreVert"></mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+
+
+            <tr *matHeaderRowDef="visibleColumns; sticky: true" mat-header-row></tr>
+            <!--suppress UnnecessaryLabelJS -->
+            <tr (click)="openOrderDetail.emit(row.id)" *matRowDef="let row; columns: visibleColumns;"
+                class="hover:bg-hover cursor-pointer" mat-row></tr>
+        </table>
+
+        <div *ngIf="dataSource.filteredData.length === 0" fxFlex="auto" fxLayout="column"
+            fxLayoutAlign="center center">
+            <img class="mt-5 h-64" src="assets/illustrations/empty-order.png" alt="Sin pedidos">
+            <h2 class="headline my-5 text-center text-secondary">¡Aún no existen pedidos con el estado seleccionado!</h2>
+        </div>
+
+        <mat-paginator [fxHide]="dataSource.filteredData.length === 0" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" class="sticky bottom-0 left-0 right-0 border-t" fxFlex="none">
+        </mat-paginator>
+    </div>
+</vex-scrollbar>
+
+<mat-menu #contactMenu="matMenu" xPosition="before" yPosition="below">
+    <button mat-menu-item>
+        <mat-icon [icIcon]="icEdit"></mat-icon>
+        <span>Edit Contact</span>
+    </button>
+
+    <button mat-menu-item>
+        <mat-icon [icIcon]="icDeleteForever"></mat-icon>
+        <span>Delete Contact</span>
+    </button>
+</mat-menu>

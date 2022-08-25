@@ -28,7 +28,7 @@ import { SpcModule } from './pages/spc/spc.module';
 import { InterceptorService } from './service/interceptors/interceptor.service';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
-import { AuthGuard } from './guards/auth.guard';
+
 
 @NgModule({
   declarations: [
@@ -60,8 +60,7 @@ import { AuthGuard } from './guards/auth.guard';
     CarrierModule,
     ConsumerModule,
     ProducerModule,
-    SpcModule,
-
+    SpcModule
   ],
   providers: [
     AngularFirestore,
