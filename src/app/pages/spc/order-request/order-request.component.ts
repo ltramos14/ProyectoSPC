@@ -194,7 +194,7 @@ export class OrderRequestComponent implements OnInit {
 
   confirmOrder() {
     this.orderRequest.forEach((orderRequest, index) => {
-      const order: Order = this.orderService.confirmrOrder(orderRequest, this.idConsumer);
+      const order: Order = this.orderService.confirmOrder(orderRequest, this.idConsumer);
       this.orderService.saveOrder(order).then(id => {
         if (index === this.orderRequest.length - 1) {
           this.cartService.removeAllProductsFromShoppingCart().then(() => {});

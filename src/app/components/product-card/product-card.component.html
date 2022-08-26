@@ -1,26 +1,26 @@
 <div class="card overflow-hidden">
     <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
-        (click)="goToProductDetails(product.id)" matRipple>
-        <img [src]="product.image || imageDefault" class="avatar h-24 w-24 mx-auto">
-        <h3 class="mb-1 mt-3 bold">{{ product.name }}</h3>
+        (click)="goToProductDetails(product?.id)" matRipple>
+        <img [src]="product?.image || imageDefault" class="avatar h-24 w-24 mx-auto">
+        <h3 class="mb-1 mt-3 bold">{{ product?.name }}</h3>
 
         <div class="body-2 text-secondary"
-            [ngClass]="{'available': product.productiveStatus === 'Disponible', 'harvest': product.productiveStatus === 'En cosecha'}">
-            <mat-icon [icIcon]="product.productiveStatus === 'Disponible' ? icCheck: icWait" class="ltr:mr-1 rtl:ml-1"
+            [ngClass]="{'available': product?.productiveStatus === 'Disponible', 'harvest': product?.productiveStatus === 'En cosecha'}">
+            <mat-icon [icIcon]="product?.productiveStatus === 'Disponible' ? icCheck: icWait" class="ltr:mr-1 rtl:ml-1"
                 inline="true"></mat-icon>
-            <span> {{ product.productiveStatus }} </span>
+            <span> {{ product?.productiveStatus }} </span>
         </div>
 
         <div class="body-2 text-secondary">
             <h2 class="mb-1 mt-5" style="color: #EE731B; font-size: 22px; font-weight: bold;">
-                <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ product.price| number | money }}
+                <mat-icon [icIcon]="icMoney" inline="true"></mat-icon> {{ product?.price| number | money }}
             </h2>
-            <span> Precio por {{ product.unit }} </span>
+            <span> Precio por {{ product?.unit }} </span>
         </div>
     </div>
 
     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-evenly center"
-        *ngIf="!isWorker && product.productiveStatus === 'Disponible'">
+        *ngIf="!isWorker && product?.productiveStatus === 'Disponible'">
         <button class="text-secondary" (click)="confirmOrder(product)" matTooltip="Comprar Ahora" type="button" mat-icon-button>
             <mat-icon [icIcon]="icBuyNow"></mat-icon>
         </button>
@@ -31,9 +31,9 @@
         </button>
     </div>
     <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-evenly center"
-        *ngIf="!isWorker && product.productiveStatus === 'En cosecha'">
-        <a class="text-primary" mat-icon-button (click)="goToProductDetails(product.id)"
-            [matTooltip]="'Este producto estará disponible a partir de la fecha: '.concat(product.availabilityDate.toDate() | date: 'd/M/yy')">
+        *ngIf="!isWorker && product?.productiveStatus === 'En cosecha'">
+        <a class="text-primary" mat-icon-button (click)="goToProductDetails(product?.id)"
+            [matTooltip]="'Este producto estará disponible a partir de la fecha: '.concat(product?.availabilityDate.toDate() | date: 'd/M/yy')">
             <mat-icon [icIcon]="icNotification"></mat-icon>
         </a>
     </div>

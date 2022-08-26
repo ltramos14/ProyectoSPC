@@ -12,6 +12,9 @@ import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
 
 import icDelete from "@iconify/icons-ic/twotone-close";
+import icDeleteForever from "@iconify/icons-ic/twotone-delete-forever";
+import { DeleteDialogComponent } from "src/app/components/delete-dialog/delete-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-shopping-cart",
@@ -21,6 +24,7 @@ import icDelete from "@iconify/icons-ic/twotone-close";
 export class ShoppingCartComponent implements OnInit, AfterViewInit {
 
   icDelete = icDelete;
+  icDeleteForever = icDeleteForever;
 
   products: Product[]
 
@@ -62,6 +66,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
     private productsService: ProductsService,
     private router: Router,
     private snackbar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.responsiveOptions = [
       {
@@ -136,6 +141,33 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
       },
       (err) => console.error(err)
     );
+  }
+
+  deleteAllProducts() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: '¿Está seguro de que desea vaciar el carrito de compras?',
+        buttonText: {
+          ok: "Sí, vaciar",
+          cancel: "Cancelar"
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.cartService.removeAllProductsFromShoppingCart()
+          .then(() => 
+            this.snackbar.open('Carrito de compras vaciado satisfactoriamente', 'OK', {
+              duration: 3000 
+            })
+          )
+          .catch(() => 
+            this.snackbar.open('Error al vaciar el carrito de compras', 'OK', {
+              duration: 2000 
+            })
+          )
+      }
+    })
   }
 
   updateQuantity(idCart: string, price: number, quantity: any) {

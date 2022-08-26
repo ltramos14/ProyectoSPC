@@ -7,6 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { IconModule } from '@visurel/iconify-angular';
@@ -32,6 +33,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     MatSelectModule,
     MatSortModule,
     MatTableModule,
+    MatTooltipModule,
     PipesModule,
     ScrollbarModule,
     RouterModule

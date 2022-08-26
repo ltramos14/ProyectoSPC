@@ -77,7 +77,7 @@ export class CartService {
         const result = await this.shoppingCartCollection.get().subscribe(res => {
           res.forEach(document => document.ref.delete());
         });
-        return result;
+        resolve();
       } catch (err) {
         reject(err.message);
       }

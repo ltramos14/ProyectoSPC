@@ -38,6 +38,10 @@ export class OrderService {
     );
   }
 
+  getOrderById(orderId: string) {
+    return this.afs.collection('orders').doc(orderId).valueChanges() as Observable<Order>;
+  }
+
   saveOrder(order: Order): Promise<string> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -51,7 +55,7 @@ export class OrderService {
     })
   }
 
-  confirmrOrder(orderRequest: OrderRequest, idConsumer: string): Order {
+  confirmOrder(orderRequest: OrderRequest, idConsumer: string): Order {
     const order: Order = {
       idProducer: orderRequest.idProducer,
       idConsumer,
@@ -64,6 +68,17 @@ export class OrderService {
       paymentLimitDate: this.setPaymentLimitDate(),
     }
     return order;
+  }
+
+  deleteOrder(orderId: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.ordersCollection.doc(orderId).delete();
+        resolve(result);
+      } catch (error) {
+        reject(error.message);
+      }
+    });
   }
 
   setPaymentLimitDate(): Date {
