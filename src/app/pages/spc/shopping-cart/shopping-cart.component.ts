@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -8,13 +9,12 @@ import { MatTableDataSource } from "@angular/material/table";
 import { AuthService } from "src/app/service/auth/auth.service";
 import { Cart } from "src/app/models/cart.model";
 import { CartService } from "src/app/service/consumer/cart.service";
+import { MessageDialogComponent } from "src/app/components/message-dialog/message-dialog.component";
 import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
 
 import icDelete from "@iconify/icons-ic/twotone-close";
 import icDeleteForever from "@iconify/icons-ic/twotone-delete-forever";
-import { DeleteDialogComponent } from "src/app/components/delete-dialog/delete-dialog.component";
-import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-shopping-cart",
@@ -144,7 +144,7 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
   }
 
   deleteAllProducts() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message: '¿Está seguro de que desea vaciar el carrito de compras?',
         buttonText: {

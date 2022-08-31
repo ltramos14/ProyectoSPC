@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { MyRoutesCreateUpdateComponent } from './my-routes-create-update/my-routes-create-update.component';
 import { Route } from 'src/app/models/routes.model';
 import { RoutesService } from 'src/app/service/carrier/routes.service';
@@ -161,7 +161,7 @@ export class MyRoutesComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteDialog(id: string) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message: '¿Estás seguro de que deseas eliminar la ruta seleccionada?',
         buttonText: {

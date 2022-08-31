@@ -1,0 +1,83 @@
+<div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <img src="./assets/images/logotipos/LogoSPCv1.png" class="avatar mr-5">
+
+    <h2 class="headline text-accent m-0 font-bold" fxFlex="auto">Detalles del pedido # {{order?.id.slice(0,8) |
+        uppercase}} </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+        <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content fxLayout="column">
+    <div class="text-center my-8">
+        <h3>Fecha de solicitud: {{ order?.orderDate.toDate() | date: 'd/M/yy, h:mm a'}}</h3>
+    </div>
+
+    <div>
+        <p-carousel [value]="order?.products" [numVisible]="1" [numScroll]="1" [circular]="false">
+            <ng-template let-product pTemplate="item">
+                <div fxLayoutAlign="space-evenly center">
+                    <div fxLayout="row" fxLayout.lt-sm="column">
+                        <img [src]="product.image" alt="Imagen producto pedido" class="w-48 object-cover rounded-full">
+                        <ul class="text-accent font-bold text-xl ml-10" fxLayout="column" fxLayoutAlign="center center">
+                            <li>{{ product.name }}</li>
+                            <li>{{ product.quantity + " " + product.unit | lowercase }}<span
+                                    *ngIf="product.quantity > 1">s</span>
+                            </li>
+                            <li>$ {{ product.subtotal | number | money }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+
+    <div class="my-6" fxLayoutAlign="space-evenly center">
+        <span class="text-base"> Medio de pago elegido:</span>
+        <img [src]="order?.chosenPayment.image" class="w-32 object-cover rounded-full" alt="Medio de pago">
+    </div>
+
+    <span class="text-base">Información consumidor:</span>
+    <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="mt-6 flex-auto">
+            <mat-label>Nombre</mat-label>
+            <input cdkFocusInitial readonly="readonly" matInput
+                [value]="consumerInfo?.names + ' ' + consumerInfo?.lastnames">
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+            <mat-label>Télefono de contacto</mat-label>
+            <input cdkFocusInitial readonly="readonly" matInput [value]="consumerInfo?.phone">
+            <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+    </div>
+
+    <span class="text-base">Información de envío:</span>
+    <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="mt-6 flex-auto">
+            <mat-label>Dirección</mat-label>
+            <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.address">
+            <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+            <mat-label>Municipio</mat-label>
+            <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.municipality">
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+    </div>
+    
+    <div class="text-center my-8">
+        <ng-container *ngIf="carrierInfo; else elseCarrier">
+            <h3>Información de tranportador: si tiene!!</h3>
+        </ng-container>
+        <ng-template #elseCarrier>
+            <h3>Transportador: pendiente por asignar</h3>
+        </ng-template>
+    </div>
+
+</mat-dialog-content>

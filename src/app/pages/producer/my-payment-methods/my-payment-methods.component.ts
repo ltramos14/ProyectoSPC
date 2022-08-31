@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { PaymentMethod } from 'src/app/models/payment-method.model';
 import { PaymentsMethodsService } from 'src/app/service/producer/payments-methods.service';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -15,7 +16,6 @@ import icPhone from "@iconify/icons-ic/twotone-phone";
 import icWeb from "@iconify/icons-ic/twotone-web";
 import icEdit from "@iconify/icons-ic/twotone-edit";
 import icDelete from "@iconify/icons-ic/twotone-delete";
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-my-payment-methods',
@@ -81,7 +81,7 @@ export class MyPaymentMethodsComponent implements OnInit {
   }
 
   confirmDeleteDialog(paymentMethod: PaymentMethod) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message: `¿Estás seguro de que deseas eliminar tu medio de pago "${paymentMethod.name}"?`,
         buttonText: {

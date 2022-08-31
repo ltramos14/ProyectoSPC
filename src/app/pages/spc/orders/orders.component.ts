@@ -11,8 +11,10 @@ import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
 import { OrderService } from 'src/app/service/users/order.service';
 
 import icSearch from '@iconify/icons-ic/twotone-search';
-import icShopTwo from '@iconify/icons-ic/twotone-shopping-basket';
 import icMenu from '@iconify/icons-ic/twotone-menu';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { UsersService } from 'src/app/service/users/users.service';
 
 export const aioTableLabels = [
   {
@@ -61,7 +63,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   loading: boolean = false;
 
-  subscription: Subscription;
+  subscriptions: Subscription[] = [];
 
   searchCtrl = new FormControl();
 
@@ -70,14 +72,22 @@ export class OrdersComponent implements OnInit, OnDestroy {
   );
 
   menuOpen = false;
+
   activedCategory: 'all' | 'Pendiente de pago' | 'Pagado' | 'Cancelado' | 'En camino' | 'Entregado';
+
   tableData: Order[];
+
+  typeUser: string;
+
+  icSearch = icSearch;
+  icMenu = icMenu;
+
   tableColumns: TableColumn<Order>[] = [
     {
       label: 'ID',
       property: 'id',
       type: 'text',
-      cssClasses: ['font-medium']
+      cssClasses: ['font-medium', 'uppercase'],
     },
     {
       label: 'MEDIO DE PAGO',
@@ -101,7 +111,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       label: 'TOTAL',
       property: 'total',
       type: 'text',
-      cssClasses: ['text-secondary']
+      cssClasses: ['font-medium']
     },
     {
       label: 'FECHA DEL PEDIDO',
@@ -114,7 +124,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       property: 'status',
       type: 'button'
     },
-     {
+    {
       label: '',
       property: 'menu',
       type: 'button',
@@ -122,47 +132,55 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   ];
 
-  icSearch = icSearch;
-  icShopTwo = icShopTwo;
-  icMenu = icMenu;
-
   constructor(
     private authService: AuthService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private userService: UsersService,
+    private dialog: MatDialog,
   ) { }
 
   async ngOnInit() {
     this.loading = true;
     const { uid } = await this.authService.getCurrentUser();
     this.getOrders(uid);
+    this.getUserInfo(uid);
   }
 
-  ngOnDestroy() : void{
-    this.subscription.unsubscribe();
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  getUserInfo(uid: string) {
+    this.subscriptions.push(this.userService.getUserInfo(uid).subscribe(res => {
+      this.typeUser = res.typeuser;
+    }))
   }
 
   getOrders(uid: string) {
-    this.subscription = this.orderService.getOrdersByUser(uid, 'idProducer')
+    this.subscriptions.push(this.orderService.getOrdersByUser(uid, 'idProducer')
       .subscribe(data => {
         const array: any = data.map(order => {
           const found = aioTableLabels.find(label => label.text === order.status);
-          return { 
-            id: order.id.slice(0, 5),
+          return {
+            id: order.id,
             chosenPayment: order.chosenPayment.name,
             municipality: order.address.municipality,
             phone: order.address.phone,
-            total: `$ ${ order.total }`,
+            total: `$ ${order.total}`,
             orderDate: order.orderDate.toDate().toLocaleDateString(),
             status: found
           }
         })
         this.tableData = array;
         this.loading = false;
-      });
+      }));
   }
 
   openOrderDetails(id?: Order['id']): void {
-
+    this.dialog.open(OrderDetailsComponent, {
+      data: { id, typeUser: this.typeUser },
+      width: '700px'
+    });
   }
 
   setData(data: Order[]) {

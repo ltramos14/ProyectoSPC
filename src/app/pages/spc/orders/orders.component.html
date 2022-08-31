@@ -1,4 +1,8 @@
-<ng-container *ngIf="tableData?.length > 0; else elseData">
+<ng-container *ngIf="loading; else elseLoading">
+  <spc-spinner></spc-spinner>
+</ng-container>
+
+<ng-template #elseLoading>
   <div class="h-full flex flex-col mb-5">
     <div class="px-gutter pt-20 pb-20 bg-accent-light flex-none">
       <div class="flex items-center" vexContainer>
@@ -6,9 +10,8 @@
           <mat-icon [icIcon]="icMenu"></mat-icon>
         </button>
 
-        <h2 class="headline text-primary-contrast m-0 flex items-center w-full max-w-xxxs mr-6">
-          <ic-icon @scaleIn [icon]="icShopTwo" class="hidden sm:block text-accent"></ic-icon>
-          <span @fadeInRight class="ml-4 block text-accent">MIS PEDIDOS</span>
+        <h2 class="headline text-primary-contrast m-0 flex items-center w-full max-w-xs">
+          <h1 @fadeInRight class="block text-accent text-5xl">MIS PEDIDOS</h1>
         </h2>
 
         <div
@@ -34,30 +37,11 @@
 
           <div class="card h-full overflow-hidden flex-auto">
             <spc-orders-table-data (openOrderDetail)="openOrderDetails($event)" [columns]="tableColumns"
-              [data]="tableData" [searchStr]="searchStr$ | async"></spc-orders-table-data>
+              [data]="tableData" [searchStr]="searchStr$ | async" [userType]="typeUser"></spc-orders-table-data>
           </div>
         </mat-drawer-content>
 
       </mat-drawer-container>
     </div>
   </div>
-</ng-container>
-<ng-template #elseData>
-  <ng-container *ngIf="loading; else elseTemplate">
-    <spc-spinner></spc-spinner>
-  </ng-container>
-  <ng-template #elseTemplate>
-    <div class="w-full p-gutter text-center">
-      <img class="w-full max-w-lg mx-auto mb-0" src="assets/illustrations/empty.png" alt="Sin pedidos">
-
-      <h2 class="display-1 m-0">Ups, ¡aún no tienes pedidos solicitados!</h2>
-      <h3 class="text-secondary m-2">Conecta con más consumidores y haz de tu trabajo SPC una verdadera experiencia del
-        campo</h3>
-      <div class="m-5" fxLayout="row" fxLayoutAlign="center center">
-        <button routerLink="/" color="primary" fxFlex="none" mat-raised-button type="button">
-          <span>Ir al inicio</span>
-        </button>
-      </div>
-    </div>
-  </ng-template>
 </ng-template>

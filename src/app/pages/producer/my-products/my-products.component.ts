@@ -10,7 +10,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { Product } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/service/producer/products.service';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -233,13 +233,11 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteDialog(product: Product, products: Product[], message: string, isAllProducts: boolean) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message,
-        buttonText: {
-          ok: "Sí, eliminar",
-          cancel: "Cancelar"
-        }
+        confirmButton: { text: 'Sí, eliminar', color: 'warn' },
+        cancelButton: { text: 'Cancelar', color: 'basic' }
       }
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
@@ -287,14 +285,12 @@ export class MyProductsComponent implements OnInit, AfterViewInit {
     column.visible = !column.visible;
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :

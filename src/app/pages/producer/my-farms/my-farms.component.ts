@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { Farm } from 'src/app/models/farm.model';
 import { FarmsService } from 'src/app/service/producer/farms.service';
 import { MyFarmsCreateUpdateComponent } from './my-farms-create-update/my-farms-create-update.component';
@@ -81,7 +81,7 @@ export class MyFarmsComponent implements OnInit {
   }
 
   confirmDeleteDialog(farm: Farm) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message: `¿Estás seguro de que deseas desvincular la finca "${farm.name}" ?`,
         buttonText: {

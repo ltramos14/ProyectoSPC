@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CreateUpdateMyVehicleComponent } from './create-update-my-vehicle/create-update-my-vehicle.component';
-import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { Vehicle } from 'src/app/models/vehicle.model';
 import { VehiclesService } from 'src/app/service/carrier/vehicles.service';
 
@@ -85,7 +85,7 @@ export class MyVehicleComponent implements OnInit {
   }
 
   confirmDeleteDialog(vehicle: Vehicle) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message: `¿Estás seguro de que deseas eliminar de tu perfil el vehículo de placa "${vehicle.licensePlate}" ?`,
         buttonText: {
