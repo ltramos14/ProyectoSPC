@@ -83,6 +83,7 @@ export class OrderService {
   setPaymentLimitDate(): Date {
     const d = new Date();
     d.setDate(d.getDate() + 5);
+    d.setHours(23, 59, 59, 59);
     return d
   }
 

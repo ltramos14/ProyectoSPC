@@ -39,11 +39,13 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   public carrierInfo: User;
   public producerInfo: User;
   public subscriptions: Subscription[] = [];
+  public today = new Date();
+  public loading: boolean = false;
 
   constructor(
     private orderService: OrderService,
     private userService: UsersService,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnDestroy(): void {
@@ -55,6 +57,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   getOrderById(orderId: string) {
+    this.loading = true;
     this.orderService.getOrderById(orderId).subscribe((res) => {
       this.order = res;
       this.subscriptions.push(
@@ -72,9 +75,10 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       this.data?.typeUser === "Transportador" &&
         this.subscriptions.push(
           this.getUserInfo(res.idProducer).subscribe(
-            (data) => (this.carrierInfo = data)
+            (data) => (this.producerInfo = data)
           )
         );
+      this.loading = false;
     });
   }
 

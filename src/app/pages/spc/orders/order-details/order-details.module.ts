@@ -7,6 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { ComponentsModule } from 'src/app/components/components.module';
 import { CarouselModule } from 'primeng/carousel';
 import { IconModule } from '@visurel/iconify-angular';
 import { OrderDetailsComponent } from './order-details.component';
@@ -17,6 +18,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
   imports: [
     CarouselModule,
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     MatButtonModule,
     MatDialogModule,

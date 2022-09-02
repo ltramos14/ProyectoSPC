@@ -11,7 +11,8 @@ export class AvailableCarriersComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private usersService: UsersService
+    private usersService: UsersService,
+    
   ) { }
 
   ngOnInit(): void {

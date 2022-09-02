@@ -32,7 +32,7 @@
                         </th>
                         <td *matCellDef="let row" [ngClass]="column.cssClasses" class="w-10" mat-cell>
                             <button (click)="$event.stopPropagation()" [matMenuTriggerData]="{ order: row }"
-                                [matMenuTriggerFor]="orderMenu" mat-icon-button type="button">
+                                [matMenuTriggerFor]="orderMenu" mat-icon-button type="button" *ngIf="row.status.text !== 'Entregado'">
                                 <mat-icon [icIcon]="icMoreVert"></mat-icon>
                             </button>
                         </td>
@@ -43,7 +43,9 @@
             <tr *matHeaderRowDef="visibleColumns; sticky: true" mat-header-row></tr>
 
             <tr (click)="openOrderDetail.emit(row.id)" *matRowDef="let row; columns: visibleColumns"
-                class="hover:bg-hover cursor-pointer" mat-row></tr>
+                class="hover:bg-hover" mat-row
+                [ngClass]="[(row.limitDate <= today) ? 'bg-warn-light hover:bg-warn' : 'hover:bg-hover', 'cursor-pointer', 'transition-all']"
+                ></tr>
         </table>
 
         <div *ngIf="dataSource.filteredData.length === 0" fxFlex="auto" fxLayout="column" fxLayoutAlign="center center">
@@ -66,33 +68,34 @@
     <ng-template let-order="order" matMenuContent>
         <mat-label>Cambiar el estado del pedido a:</mat-label>
         <div *ngIf="order.status.text === 'Pendiente de pago'">
-            <button class="text-green" mat-menu-item
+            <button class="text-green" mat-menu-item [disabled]="userType !== 'Productor'"
                 (click)="confirmStatusChangeDialog('¿Estás seguro de cambiar el estado del pedido a ~Pagado~ ?', order.id, 'Pagado')">
                 <mat-icon [icIcon]="icCheck" style="color: green;"></mat-icon>
                 <span>Pagado</span>
             </button>
-            <button class="text-red" mat-menu-item
-                (click)="confirmStatusChangeDialog('¿Estás seguro de cambiar el estado del pedido a ~Cancelado~ ?', order.id, 'Cancelado')">
+            <button class="text-red" mat-menu-item [disabled]="userType !== 'Productor'"
+                (click)="confirmStatusChangeDialog('¿Estás seguro de cambiar el estado del pedido a ~Cancelado~ ?', order.id, 'Cancelado')"
+                *ngIf="order.limitDate <= today">
                 <mat-icon [icIcon]="icCancel" style="color: red;"></mat-icon>
                 <span>Cancelado</span>
             </button>
         </div>
-        <div *ngIf="order.status.text === 'Pagado'">
-            <button class="text-gray" mat-menu-item
+        <div *ngIf="order.status.text === 'Pagado'" >
+            <button class="text-gray" mat-menu-item [disabled]="userType !== 'Productor'"
                 (click)="confirmStatusChangeDialog('¿Estás seguro de cambiar el estado del pedido a ~En Camino~ ?', order.id, 'En camino')">
                 <mat-icon [icIcon]="icSend" style="color: gray;"></mat-icon>
                 <span>En camino</span>
             </button>
         </div>
         <div *ngIf="order.status.text === 'Cancelado'">
-            <button class="text-red" mat-menu-item
+            <button class="text-red" mat-menu-item [disabled]="userType !== 'Productor'"
                 (click)="confirmStatusChangeDialog('¿Estás seguro de eliminar el pedido?', order.id, 'Eliminado')">
                 <mat-icon [icIcon]="icDeleteForever" style="color: red;"></mat-icon>
                 <span>Eliminar pedido</span>
             </button>
         </div>
         <div *ngIf="order.status.text === 'En camino'">
-            <button class="text-cyan" mat-menu-item
+            <button class="text-cyan" mat-menu-item  [disabled]="userType !== 'Transportador'"
                 (click)="confirmStatusChangeDialog('¿Estás seguro de cambiar el estado del pedido a ~Entregado~ ?', order.id, 'Entregado')">
                 <mat-icon [icIcon]="icWhereToVote" style="color: cyan;"></mat-icon>
                 <span>Entregado</span>

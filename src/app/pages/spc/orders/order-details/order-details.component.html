@@ -10,74 +10,118 @@
 </div>
 
 <mat-divider class="-mx-6 text-border"></mat-divider>
-
-<mat-dialog-content fxLayout="column">
-    <div class="text-center my-8">
-        <h3>Fecha de solicitud: {{ order?.orderDate.toDate() | date: 'd/M/yy, h:mm a'}}</h3>
-    </div>
-
-    <div>
-        <p-carousel [value]="order?.products" [numVisible]="1" [numScroll]="1" [circular]="false">
-            <ng-template let-product pTemplate="item">
-                <div fxLayoutAlign="space-evenly center">
-                    <div fxLayout="row" fxLayout.lt-sm="column">
-                        <img [src]="product.image" alt="Imagen producto pedido" class="w-48 object-cover rounded-full">
-                        <ul class="text-accent font-bold text-xl ml-10" fxLayout="column" fxLayoutAlign="center center">
-                            <li>{{ product.name }}</li>
-                            <li>{{ product.quantity + " " + product.unit | lowercase }}<span
-                                    *ngIf="product.quantity > 1">s</span>
-                            </li>
-                            <li>$ {{ product.subtotal | number | money }}</li>
-                        </ul>
-                    </div>
+<ng-container *ngIf="loading; else elseLoading">
+    <spc-spinner></spc-spinner>
+</ng-container>
+<ng-template #elseLoading>
+    <mat-dialog-content fxLayout="column">
+        <div *ngIf="order" class="text-center my-8">
+            <ng-container *ngIf="order?.paymentLimitDate.toDate() <= today; else elseTemplate">
+                <div class="bg-warn rounded-lg py-3">
+                    <h3 class="text-white">La fecha límite de pago de este pedido ya expiró!!!</h3>
                 </div>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <h4>Fecha de solicitud: {{ order?.orderDate.toDate() | date: 'd/M/yy, h:mm a'}}</h4>
+                <h4 *ngIf="order?.paymentLimitDate" class="mt-3">Fecha límite de pago: {{ order?.paymentLimitDate.toDate() | date: 'd/M/yy, h:mm a'}}</h4>          
             </ng-template>
-        </p-carousel>
-    </div>
-
-    <div class="my-6" fxLayoutAlign="space-evenly center">
-        <span class="text-base"> Medio de pago elegido:</span>
-        <img [src]="order?.chosenPayment.image" class="w-32 object-cover rounded-full" alt="Medio de pago">
-    </div>
-
-    <span class="text-base">Información consumidor:</span>
-    <div class="flex flex-col sm:flex-row">
-        <mat-form-field class="mt-6 flex-auto">
-            <mat-label>Nombre</mat-label>
-            <input cdkFocusInitial readonly="readonly" matInput
-                [value]="consumerInfo?.names + ' ' + consumerInfo?.lastnames">
-            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field>
-
-        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-            <mat-label>Télefono de contacto</mat-label>
-            <input cdkFocusInitial readonly="readonly" matInput [value]="consumerInfo?.phone">
-            <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field>
-    </div>
-
-    <span class="text-base">Información de envío:</span>
-    <div class="flex flex-col sm:flex-row">
-        <mat-form-field class="mt-6 flex-auto">
-            <mat-label>Dirección</mat-label>
-            <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.address">
-            <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field>
-
-        <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-            <mat-label>Municipio</mat-label>
-            <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.municipality">
-            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field>
-    </div>
+        </div>
+        <div>
+            <p-carousel [value]="order?.products" [numVisible]="1" [numScroll]="1" [circular]="false">
+                <ng-template let-product pTemplate="item">
+                    <div fxLayoutAlign="space-evenly center">
+                        <div fxLayout="row" fxLayout.lt-sm="column">
+                            <img [src]="product.image" alt="Imagen producto pedido" class="w-48 object-cover rounded-full">
+                            <ul class="text-accent font-bold text-xl ml-10" fxLayout="column" fxLayoutAlign="center center">
+                                <li>{{ product.name }}</li>
+                                <li>{{ product.quantity + " " + product.unit | lowercase }}<span
+                                        *ngIf="product.quantity > 1">s</span>
+                                </li>
+                                <li>$ {{ product.subtotal | number | money }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div>
     
-    <div class="text-center my-8">
-        <ng-container *ngIf="carrierInfo; else elseCarrier">
-            <h3>Información de tranportador: si tiene!!</h3>
-        </ng-container>
-        <ng-template #elseCarrier>
-            <h3>Transportador: pendiente por asignar</h3>
-        </ng-template>
-    </div>
+        <div class="my-6" fxLayoutAlign="space-evenly center">
+            <span class="text-base"> Medio de pago elegido:</span>
+            <img [src]="order?.chosenPayment.image" class="w-32 object-cover rounded-full" alt="Medio de pago">
+        </div>
+    
+        <span class="text-base">Información consumidor:</span>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Nombre</mat-label>
+                <input cdkFocusInitial readonly="readonly" matInput
+                    [value]="consumerInfo?.names + ' ' + consumerInfo?.lastnames">
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+            </mat-form-field>
+    
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Teléfono de contacto</mat-label>
+                <input cdkFocusInitial readonly="readonly" matInput [value]="consumerInfo?.phone">
+                <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+            </mat-form-field>
+        </div>
+    
+        <span class="text-base">Información de envío:</span>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Dirección</mat-label>
+                <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.address">
+                <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+            </mat-form-field>
+    
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Municipio</mat-label>
+                <input cdkFocusInitial readonly="readonly" matInput [value]="order?.address.municipality">
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="text-center my-8" *ngIf="data?.typeUser === 'Productor'">
+            <ng-container *ngIf="carrierInfo; else elseCarrier">
+                <span class="text-base">Información transportador:</span>
+                <div class="flex flex-col sm:flex-row">
+                    <mat-form-field class="mt-6 flex-auto">
+                        <mat-label>Nombre</mat-label>
+                        <input cdkFocusInitial readonly="readonly" matInput
+                            [value]="carrierInfo?.names + ' ' + carrierInfo?.lastnames">
+                        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
+            
+                    <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                        <mat-label>Teléfono de contacto</mat-label>
+                        <input cdkFocusInitial readonly="readonly" matInput [value]="carrierInfo?.phone">
+                        <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </ng-container>
+            <ng-template #elseCarrier>
+                <h3 *ngIf="!carrierInfo">Transportador no asignado</h3>
+            </ng-template>
+        </div>
+    
+        <div class="text-center my-8" *ngIf="data?.typeUser === 'Transportador'">
+            <span class="text-base">Información productor:</span>
+            <div class="flex flex-col sm:flex-row">
+                <mat-form-field class="mt-6 flex-auto">
+                    <mat-label>Nombre</mat-label>
+                    <input cdkFocusInitial readonly="readonly" matInput
+                        [value]="producerInfo?.names + ' ' + producerInfo?.lastnames">
+                    <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+        
+                <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                    <mat-label>Teléfono de contacto</mat-label>
+                    <input cdkFocusInitial readonly="readonly" matInput [value]="producerInfo?.phone">
+                    <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    
+    </mat-dialog-content>
+</ng-template>
 
-</mat-dialog-content>
+

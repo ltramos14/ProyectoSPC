@@ -4,11 +4,12 @@ import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@ang
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
-import { Order } from 'src/app/models/order.model';
+import { NotificationsService } from 'src/app/service/messaging/notifications.service';
 import { OrderService } from 'src/app/service/users/order.service';
+import { Order } from 'src/app/models/order.model';
 
 import icCancel from '@iconify/icons-ic/twotone-cancel';
 import icCheck from '@iconify/icons-ic/twotone-check-circle';
@@ -53,10 +54,13 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
   icSend = icSend;
   icWhereToVote = icWhereToVote;
 
+  today = new Date();
+
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private notificationService: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -106,6 +110,18 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
       
     setTimeout(() => {
       this.orderService.saveOrder(newOrder).then(() => {
+        switch(newStatus) {
+          case 'Pagado':
+            this.notificationService.notifyPaidOrder(newOrder).subscribe();
+            break;
+          case 'En camino':
+            break;
+          case 'Entregado':
+            break;
+          default:
+            break;
+
+        }
         this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0, 8)} a ${newStatus.toLocaleUpperCase()}`,
           'OK', { duration: 1000 });
       });

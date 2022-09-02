@@ -18,4 +18,8 @@ export class NotificationsService {
     return this.http.post(`${ baseUrl }/purchase-request`, order);
   }
 
+  notifyPaidOrder(order: Order) {
+    return this.http.post(`${ baseUrl }/order-paid`, order);
+  }
+
 }
