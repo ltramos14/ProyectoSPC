@@ -87,4 +87,8 @@ export class OrderService {
     return d
   }
 
+  SearchCarriersByMunicipality(municipalities: string[]) {
+    return this.http.post<any[]>(`${ baseUrl }/available-carriers`, municipalities);
+  }
+
 }

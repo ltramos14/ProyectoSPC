@@ -1,19 +1,11 @@
 <div class="detail-container">
-  <h1 mat-dialog-title> <span>Consumidor del pedido:</span> {{ consumer }}</h1>
+  <h1 mat-dialog-title>{{ title }}</h1>
   <div mat-dialog-content>
     <div *ngIf="elements">
       <ul *ngFor="let element of elements">
         <li>
           <span>&#10003;</span> {{ element }}
         </li>
-      </ul>
-    </div>
-    <div *ngIf="address">
-      <h2>Dirección: {{ address.address }}</h2>
-      <ul>
-        <li><strong>Municipio: </strong>{{ address.municipality }}</li>
-        <li><strong>Teléfono: </strong>{{ address.phone }}</li>
-        <li><strong>Información adicional: </strong>{{ address.addtionalInfo }}</li>
       </ul>
     </div>
   </div>

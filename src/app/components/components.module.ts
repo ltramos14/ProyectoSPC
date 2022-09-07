@@ -25,7 +25,6 @@ import { CarouselModule } from "primeng/carousel";
 import { ContainerModule } from "src/@vex/directives/container/container.module";
 import { ScrollbarModule } from "src/@vex/components/scrollbar/scrollbar.module";
 
-import { AvailableCarriersComponent } from "./available-carriers/available-carriers.component";
 import { MessageDialogComponent } from "./message-dialog/message-dialog.component";
 import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { IncrementerComponent } from "./incrementer/incrementer.component";
@@ -40,7 +39,6 @@ import { OrdersTableDataComponent } from './orders-table-data/orders-table-data.
 
 @NgModule({
   declarations: [
-    AvailableCarriersComponent,
     GoogleMapsComponent,
     IncrementerComponent,
     MessageDialogComponent,
@@ -82,7 +80,6 @@ import { OrdersTableDataComponent } from './orders-table-data/orders-table-data.
     ScrollbarModule,
   ],
   exports: [
-    AvailableCarriersComponent,
     GoogleMapsComponent,
     IncrementerComponent,
     MessageDialogComponent,

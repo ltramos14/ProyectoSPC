@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { mergeMap, take } from 'rxjs/operators';
+import { AvailableCarriersComponent } from 'src/app/pages/spc/orders/available-carriers/available-carriers.component';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
 import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 import { NotificationsService } from 'src/app/service/messaging/notifications.service';
@@ -17,6 +19,7 @@ import icDeleteForever from '@iconify/icons-ic/twotone-delete-forever';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import icSend from '@iconify/icons-ic/twotone-send';
 import icWhereToVote from '@iconify/icons-ic/twotone-where-to-vote';
+
 
 @Component({
   selector: 'spc-orders-table-data',
@@ -93,7 +96,7 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
         cancelButton: { text: 'Cancelar', color: 'warn' }
       }
     });
-    dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.onChangeOrderStatus(orderId, statusToChange)
       }
@@ -103,12 +106,47 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
   onChangeOrderStatus(id: string, newStatus: string): void {
     let newOrder: any = {}
     this.orderService.getOrderById(id)
-      .subscribe(order => {
-        order.status = newStatus;
-        newOrder = order
+      .pipe(
+        take(1),
+        mergeMap((order: Order) => {
+          const dialogRef = this.dialog.open(AvailableCarriersComponent, {
+            maxWidth: '100vw',
+            maxHeight: '100vh',
+            width: '70%',
+          })
+          order.status = newStatus;
+          newOrder = order
+
+          return dialogRef.afterClosed();
+        }),
+      ).subscribe((carrierId) => {
+        if (carrierId) {
+          newOrder.idCarrier = carrierId;
+          this.orderService.saveOrder(newOrder).then(() => {
+            switch(newStatus) {
+              case 'Pagado':
+                this.notificationService.notifyPaidOrder(newOrder).subscribe();
+                break;
+              case 'En camino':
+                break;
+              case 'Entregado':
+                break;
+              default:
+                break;
+    
+            }
+            this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0, 8)} a ${newStatus.toLocaleUpperCase()}`,
+              'OK', { duration: 1000 });
+              
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        }
       })
+
       
-    setTimeout(() => {
+/*     setTimeout(() => {
       this.orderService.saveOrder(newOrder).then(() => {
         switch(newStatus) {
           case 'Pagado':
@@ -125,11 +163,9 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
         this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0, 8)} a ${newStatus.toLocaleUpperCase()}`,
           'OK', { duration: 1000 });
       });
-    }, 1000)
+    }, 1000) */
 
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000)
+   
   }
 
 }

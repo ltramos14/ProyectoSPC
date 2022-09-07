@@ -8,17 +8,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ViewDetailDialogComponent {
 
-  consumer: string = '';
+  title: string = '';
   elements: string[] = [];
-  address: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
     if (data) {
-      this.consumer = data.consumer || this.consumer;
+      this.title = data.title || this.title;
       this.elements = data.elements || this.elements;
-      this.address = data.address || this.address;
     }
     
   }
