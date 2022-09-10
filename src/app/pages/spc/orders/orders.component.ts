@@ -90,34 +90,34 @@ export class OrdersComponent implements OnInit, OnDestroy {
       cssClasses: ["font-medium", "uppercase"],
     },
     {
+      label: "FECHA",
+      property: "orderDate",
+      type: "text",
+      cssClasses: ["text-secondary", "text-justify"],
+    },
+    {
       label: "MEDIO DE PAGO",
       property: "chosenPayment",
       type: "text",
-      cssClasses: ["text-secondary"],
+      cssClasses: ["text-secondary", "text-center"],
+    },
+    {
+      label: "TOTAL A PAGAR PEDIDO",
+      property: "total",
+      type: "text",
+      cssClasses: ["font-medium", "text-center"],
     },
     {
       label: "DESTINO",
       property: "municipality",
       type: "text",
-      cssClasses: ["text-secondary"],
+      cssClasses: ["text-secondary", "text-justify"],
     },
     {
-      label: "TELÉFONO",
+      label: "TELÉFONO CONTACTO",
       property: "phone",
       type: "text",
-      cssClasses: ["text-secondary"],
-    },
-    {
-      label: "TOTAL",
-      property: "total",
-      type: "text",
-      cssClasses: ["font-medium"],
-    },
-    {
-      label: "FECHA DEL PEDIDO",
-      property: "orderDate",
-      type: "text",
-      cssClasses: ["text-secondary"],
+      cssClasses: ["text-secondary", "text-center"],
     },
     {
       label: "ESTADO DEL PEDIDO",
@@ -128,7 +128,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       label: "",
       property: "menu",
       type: "button",
-      cssClasses: ["text-secondary", "w-10"],
+      cssClasses: ["text-secondary", "w-10", "text-center"],
     },
   ];
 
@@ -173,7 +173,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
               total: `$ ${order.total}`,
               orderDate: order.orderDate.toDate().toLocaleDateString(),
               status: found,
-              limitDate: order.paymentLimitDate.toDate() || ""
+              limitDate: order.paymentLimitDate?.toDate() || ""
             };
           });
           this.tableData = array;

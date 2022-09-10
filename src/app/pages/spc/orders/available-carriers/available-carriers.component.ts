@@ -48,10 +48,13 @@ export class AvailableCarriersComponent {
 
   filterCarriers() {
     this.getAvailableCarriers(this.municipality.value);
+    this.selectedValue = '';
   }
 
   onChange(radio: MatRadioChange) {
-    this.selectedValue = radio.value; 
+    this.selectedValue = radio.value;
+    console.log(radio.value);
+    
   }
 
   onSelectCarrier() {

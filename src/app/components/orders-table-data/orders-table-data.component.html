@@ -44,7 +44,7 @@
 
             <tr (click)="openOrderDetail.emit(row.id)" *matRowDef="let row; columns: visibleColumns"
                 class="hover:bg-hover" mat-row
-                [ngClass]="[(row.limitDate <= today) ? 'bg-warn-light hover:bg-warn' : 'hover:bg-hover', 'cursor-pointer', 'transition-all']"
+                [ngClass]="[(row.limitDate && row.limitDate <= today) ? 'bg-warn-light hover:bg-warn' : 'hover:bg-hover', 'cursor-pointer', 'transition-all']"
                 ></tr>
         </table>
 

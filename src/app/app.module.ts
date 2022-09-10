@@ -60,7 +60,7 @@ import { ENTER, SPACE } from '@angular/cdk/keycodes';
     CarrierModule,
     ConsumerModule,
     ProducerModule,
-    SpcModule
+    SpcModule,
   ],
   providers: [
     AngularFirestore,

@@ -1,40 +1,54 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { mergeMap, take } from 'rxjs/operators';
-import { AvailableCarriersComponent } from 'src/app/pages/spc/orders/available-carriers/available-carriers.component';
-import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
-import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
-import { NotificationsService } from 'src/app/service/messaging/notifications.service';
-import { OrderService } from 'src/app/service/users/order.service';
-import { Order } from 'src/app/models/order.model';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import {
+  MatFormFieldDefaultOptions,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+} from "@angular/material/form-field";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatTableDataSource } from "@angular/material/table";
+import { mergeMap, take } from "rxjs/operators";
+import { AvailableCarriersComponent } from "src/app/pages/spc/orders/available-carriers/available-carriers.component";
+import { TableColumn } from "src/@vex/interfaces/table-column.interface";
+import { MessageDialogComponent } from "../message-dialog/message-dialog.component";
+import { NotificationsService } from "src/app/service/messaging/notifications.service";
+import { OrderService } from "src/app/service/users/order.service";
+import { Order } from "src/app/models/order.model";
 
-import icCancel from '@iconify/icons-ic/twotone-cancel';
-import icCheck from '@iconify/icons-ic/twotone-check-circle';
-import icDeleteForever from '@iconify/icons-ic/twotone-delete-forever';
-import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
-import icSend from '@iconify/icons-ic/twotone-send';
-import icWhereToVote from '@iconify/icons-ic/twotone-where-to-vote';
-
+import icCancel from "@iconify/icons-ic/twotone-cancel";
+import icCheck from "@iconify/icons-ic/twotone-check-circle";
+import icDeleteForever from "@iconify/icons-ic/twotone-delete-forever";
+import icMoreVert from "@iconify/icons-ic/twotone-more-vert";
+import icSend from "@iconify/icons-ic/twotone-send";
+import icWhereToVote from "@iconify/icons-ic/twotone-where-to-vote";
+import { from, Observable } from "rxjs";
 
 @Component({
-  selector: 'spc-orders-table-data',
-  templateUrl: './orders-table-data.component.html',
+  selector: "spc-orders-table-data",
+  templateUrl: "./orders-table-data.component.html",
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {
-        appearance: 'standard'
-      } as MatFormFieldDefaultOptions
-    }
+        appearance: "standard",
+      } as MatFormFieldDefaultOptions,
+    },
   ],
 })
-export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterViewInit {
-
+export class OrdersTableDataComponent<T>
+  implements OnInit, OnChanges, AfterViewInit
+{
   @Input() data: T[];
   @Input() columns: TableColumn<T>[];
   @Input() pageSize = 20;
@@ -42,7 +56,7 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
   @Input() searchStr: string;
   @Input() userType: string;
 
-  @Output() openOrderDetail = new EventEmitter<Order['id']>();
+  @Output() openOrderDetail = new EventEmitter<Order["id"]>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -64,14 +78,13 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
     private snackbar: MatSnackBar,
     private orderService: OrderService,
     private notificationService: NotificationsService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.columns) {
-      this.visibleColumns = this.columns.map(column => column.property);
+      this.visibleColumns = this.columns.map((column) => column.property);
     }
 
     if (changes.data) {
@@ -79,7 +92,7 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
     }
 
     if (changes.searchStr) {
-      this.dataSource.filter = (this.searchStr || '').trim().toLowerCase();
+      this.dataSource.filter = (this.searchStr || "").trim().toLowerCase();
     }
   }
 
@@ -88,84 +101,100 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
     this.dataSource.sort = this.sort;
   }
 
-  confirmStatusChangeDialog(message: string, orderId: string, statusToChange: string) {
+  confirmStatusChangeDialog(
+    message: string,
+    orderId: string,
+    statusToChange: string
+  ) {
     const dialogRef = this.dialog.open(MessageDialogComponent, {
       data: {
         message,
-        confirmButton: { text: 'Sí, cambiar estado', color: 'accent' },
-        cancelButton: { text: 'Cancelar', color: 'warn' }
-      }
+        confirmButton: { text: "Sí, cambiar estado", color: "accent" },
+        cancelButton: { text: "Cancelar", color: "warn" },
+      },
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.onChangeOrderStatus(orderId, statusToChange)
+        this.onChangeOrderStatus(orderId, statusToChange);
       }
-    })
+    });
   }
 
   onChangeOrderStatus(id: string, newStatus: string): void {
-    let newOrder: any = {}
-    this.orderService.getOrderById(id)
+    if (newStatus === "Pagado") {
+      this.onConfirmOrderPayment(id);
+    } else {
+      let newOrderData: any = {};
+      this.orderService.getOrderById(id).pipe(take(1)).subscribe(
+        (order) => {
+          order.status = newStatus;
+          newOrderData = order;
+          this.orderService.saveOrder(newOrderData).then(() => {
+            switch (newStatus) {
+              case "Pagado":
+                this.notificationService.notifyPaidOrder(order).subscribe();
+                break;
+              case "En camino":
+                break;
+              case "Entregado":
+                break;
+              default:
+                break;
+            }
+            this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)}
+              a ${newStatus.toLocaleUpperCase()}`, "OK", { duration: 1000 });
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          });
+        },
+        () => {
+          this.snackbar.open('Ocurrió un error al momento de cambiar el estado del pedido', "OK", { duration: 1000 });
+        }
+      );
+    }
+  }
+
+  onConfirmOrderPayment(id: string) {
+    console.log(id);
+    
+    let newOrder: any = {};
+    this.orderService
+      .getOrderById(id)
       .pipe(
         take(1),
         mergeMap((order: Order) => {
           const dialogRef = this.dialog.open(AvailableCarriersComponent, {
-            maxWidth: '100vw',
-            maxHeight: '100vh',
-            width: '70%',
-          })
-          order.status = newStatus;
-          newOrder = order
-
+            maxWidth: "100vw",
+            maxHeight: "100vh",
+            width: "70%",
+          });
+          order.status = "Pagado";
+          delete order["paymentLimitDate"];
+          newOrder = order;
           return dialogRef.afterClosed();
-        }),
-      ).subscribe((carrierId) => {
+        })
+      )
+      .subscribe((carrierId) => {
         if (carrierId) {
           newOrder.idCarrier = carrierId;
           this.orderService.saveOrder(newOrder).then(() => {
-            switch(newStatus) {
-              case 'Pagado':
-                this.notificationService.notifyPaidOrder(newOrder).subscribe();
-                break;
-              case 'En camino':
-                break;
-              case 'Entregado':
-                break;
-              default:
-                break;
-    
-            }
-            this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0, 8)} a ${newStatus.toLocaleUpperCase()}`,
-              'OK', { duration: 1000 });
-              
+            this.notificationService.notifyPaidOrder(newOrder).subscribe();
+            this.snackbar.open(
+              `Se ha cambiado el estado del pedido # ${newOrder.id.slice(
+                0,
+                8
+              )} a PEDIENTE DE PAGO`,
+              "OK",
+              { duration: 1000 }
+            );
           });
           setTimeout(() => {
             window.location.reload();
           }, 3000);
         }
-      })
-
-      
-/*     setTimeout(() => {
-      this.orderService.saveOrder(newOrder).then(() => {
-        switch(newStatus) {
-          case 'Pagado':
-            this.notificationService.notifyPaidOrder(newOrder).subscribe();
-            break;
-          case 'En camino':
-            break;
-          case 'Entregado':
-            break;
-          default:
-            break;
-
-        }
-        this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0, 8)} a ${newStatus.toLocaleUpperCase()}`,
-          'OK', { duration: 1000 });
+      }, () => {
+        this.snackbar.open('Ocurrió un error al validar el pago del pedido', "OK", { duration: 1000 });
       });
-    }, 1000) */
-
-   
   }
-
 }

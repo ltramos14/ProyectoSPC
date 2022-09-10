@@ -5,7 +5,7 @@ import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-fou
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
   {
-    path: 'dashboard',
+    path: '',
     loadChildren: () => import('./custom-layout/custom-layout.module').then(m => m.CustomLayoutModule)
   },
   {

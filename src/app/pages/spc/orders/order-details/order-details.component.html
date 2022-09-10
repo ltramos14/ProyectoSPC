@@ -16,7 +16,7 @@
 <ng-template #elseLoading>
     <mat-dialog-content fxLayout="column">
         <div *ngIf="order" class="text-center my-8">
-            <ng-container *ngIf="order?.paymentLimitDate.toDate() <= today; else elseTemplate">
+            <ng-container *ngIf="order?.paymentLimitDate && order?.paymentLimitDate?.toDate() <= today; else elseTemplate">
                 <div class="bg-warn rounded-lg py-3">
                     <h3 class="text-white">La fecha límite de pago de este pedido ya expiró!!!</h3>
                 </div>
