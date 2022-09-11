@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Tariff } from 'src/app/interfaces/tariff.interface';
 import { OrderRequest } from 'src/app/models/order-request.model';
 import { Order } from 'src/app/models/order.model';
 import { environment } from 'src/environments/environment';
@@ -87,8 +88,12 @@ export class OrderService {
     return d
   }
 
-  SearchCarriersByMunicipality(municipalities: string[]) {
+  searchCarriersByMunicipality(municipalities: string[]) {
     return this.http.post<any[]>(`${ baseUrl }/available-carriers`, municipalities);
+  }
+
+  calculateOrderTariff(data: Tariff): Observable<string> {
+    return this.http.post<string>(`${ baseUrl }/calculate-order-tariff`, data)
   }
 
 }

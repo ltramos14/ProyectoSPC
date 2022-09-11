@@ -80,7 +80,7 @@
                 <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
             </mat-form-field>
         </div>
-        <div class="text-center my-8" *ngIf="data?.typeUser === 'Productor'">
+        <div class="mt-5" *ngIf="data?.typeUser === 'Productor'">
             <ng-container *ngIf="carrierInfo; else elseCarrier">
                 <span class="text-base">Información transportador:</span>
                 <div class="flex flex-col sm:flex-row">
@@ -103,13 +103,13 @@
             </ng-template>
         </div>
     
-        <div class="text-center my-8" *ngIf="data?.typeUser === 'Transportador'">
+        <div class="mt-5" *ngIf="data?.typeUser === 'Transportador'">
             <span class="text-base">Información productor:</span>
             <div class="flex flex-col sm:flex-row">
                 <mat-form-field class="mt-6 flex-auto">
                     <mat-label>Nombre</mat-label>
                     <input cdkFocusInitial readonly="readonly" matInput
-                        [value]="producerInfo?.names + ' ' + producerInfo?.lastnames">
+                    [value]="producerInfo?.names + ' ' + producerInfo?.lastnames">
                     <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
         
@@ -118,6 +118,10 @@
                     <input cdkFocusInitial readonly="readonly" matInput [value]="producerInfo?.phone">
                     <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
+            </div>
+            <div *ngIf="order?.tariff">
+                <span class="text-base">Tarifa de envío calculada:</span>
+                <p class="text-2xl text-center font-bold text-green mt-5">$ {{ order?.tariff | number | money }}</p>
             </div>
         </div>
     

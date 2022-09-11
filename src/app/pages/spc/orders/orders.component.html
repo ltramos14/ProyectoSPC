@@ -37,7 +37,7 @@
 
           <div class="card h-full overflow-hidden flex-auto">
             <spc-orders-table-data (openOrderDetail)="openOrderDetails($event)" [columns]="tableColumns"
-              [data]="tableData" [searchStr]="searchStr$ | async" [userType]="typeUser"></spc-orders-table-data>
+              [data]="tableData" [searchStr]="searchStr$ | async" [userType]="typeUser" [userMunicipality]="userMunicipality"></spc-orders-table-data>
           </div>
         </mat-drawer-content>
 

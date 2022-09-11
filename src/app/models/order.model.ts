@@ -12,6 +12,7 @@ export class Order {
     chosenPayment: PaymentMethod;
     status: string;
     paymentLimitDate?: any;
+    tariff?: number;
     idCarrier?: string;
     id?: string;
 

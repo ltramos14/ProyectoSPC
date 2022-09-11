@@ -38,7 +38,7 @@ export class AvailableCarriersComponent {
   getAvailableCarriers(municipalities: string[]) {
     if (municipalities.length <= 9) {
       this.loading = true;
-      this.orderService.SearchCarriersByMunicipality(municipalities)
+      this.orderService.searchCarriersByMunicipality(municipalities)
         .subscribe(carriers => {
           this.carriers = carriers;
           this.loading = false;
