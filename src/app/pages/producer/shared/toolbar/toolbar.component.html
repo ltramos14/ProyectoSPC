@@ -49,7 +49,7 @@
 
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" [routerLink]="['/perfil-productor/buzon-pqr']">
+    <button mat-button class="menu-button" [routerLink]="['/perfil-productor/buzon-pqr', user?.uid ]">
       <mat-icon [icIcon]="icMarkUnReadMailbox"></mat-icon>
       <span>BUZÓN PQR</span>
     </button>

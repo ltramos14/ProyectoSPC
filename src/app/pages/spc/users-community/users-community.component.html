@@ -1,0 +1,36 @@
+<div class="mt-20 mb-20 flex flex-col md:flex-row md:items-start">
+    <div class="flex-auto md:ltr:ml-6 mt-6 md:mt-0">
+        <div fxLayout="column">
+            <h1 class="title m-0 mb-8">NUESTRA COMUNIDAD DE {{userType | uppercase}}</h1>
+            <ng-container *ngIf="loading; else elseTemplate">
+                <spc-spinner></spc-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <div *ngIf="users" fxFlex="none">
+                    <div class="p-gutter" gdColumns="1fr 1fr 1fr" gdColumns.lt-md="1fr 1fr" gdColumns.xs="1fr"
+                        gdGap="24px">
+                        <div class="card overflow-hidden" *ngFor="let user of users">
+                            <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
+                                matRipple>
+                                <img [src]="user?.profileURL" class="avatar h-24 w-24 mx-auto">
+                                <h3 class="mb-1 mt-3 bold">{{ user?.names + " " + user?.lastnames}}</h3>
+
+                                <div class="body-2 text-secondary">
+                                    <span> {{ user?.email }} </span>
+                                </div>
+
+                                <div class="body-2 text-secondary">
+                                    <h2 class="mb-1 mt-5" style="color: #EE731B; font-size: 22px; font-weight: bold;">
+                                        <mat-icon [icIcon]="icLocation" inline="true"></mat-icon>
+                                        {{ user?.municipality }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ import { ConsumerComponent } from './consumer.component';
 import { MyDataComponent } from './profile-consumer/my-data/my-data.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { ProfileConsumerComponent } from './profile-consumer/profile-consumer.component';
+import { PqrMailboxcoComponent } from './pqr-mailboxco/pqr-mailboxco.component';
 
 const routes: Routes = [
     {
@@ -17,8 +18,9 @@ const routes: Routes = [
                 ]
             },
             { path: 'mis-pedidos/:id', component: MyOrdersComponent, data: { title: 'Mis pedidos' } },
+            { path: 'buzon-pqr/:id', component: PqrMailboxcoComponent, data: { title: 'Buzón PQR' } },
             { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
-        ], canActivate: [ AuthGuard, ProfileGuard ], canLoad: [ AuthGuard ]
+        ], canActivate: [AuthGuard, ProfileGuard], canLoad: [AuthGuard]
     }
 ];
 

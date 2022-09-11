@@ -8,6 +8,7 @@ import { ProducerComponent } from './producer.component';
 import { ProfileProducerModule } from './profile-producer/profile-producer.module';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
 import { ProducerRouting } from './producer.routing';
+import { PqrMailboxprModule } from './pqr-mailboxpr/pqr-mailboxpr.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ProducerRouting } from './producer.routing';
     CommonModule,
     MyFarmsModule,
     MyProductsModule,
+    PqrMailboxprModule,
     ProfileProducerModule,
     ProducerRouting,
     RouterModule,

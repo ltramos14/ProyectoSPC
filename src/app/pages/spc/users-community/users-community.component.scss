@@ -1,0 +1,19 @@
+h1 {
+    color: #058d38;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+h3 {
+    color: darkslategray;
+    font-size: 20px;
+}
+
+.card {
+    border: 1px solid var(--surface-d);
+    border-radius: 5px;
+    margin: .5rem;
+    text-align: center;
+    background-image: url("/assets/illustrations/fondoc.jpg");
+}

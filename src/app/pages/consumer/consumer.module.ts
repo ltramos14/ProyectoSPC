@@ -7,6 +7,7 @@ import { MyOrdersModule } from './my-orders/my-orders.module';
 import { ProfileConsumerModule } from './profile-consumer/profile-consumer.module';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
 import { ConsumerRouting } from "./consumer.routing";
+import { PqrMailboxcoModule } from "./pqr-mailboxco/pqr-mailboxco.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ConsumerRouting } from "./consumer.routing";
     ConsumerRouting,
     MyOrdersModule,
     ProfileConsumerModule,
+    PqrMailboxcoModule,
     RouterModule,
     ToolbarModule,
   ]

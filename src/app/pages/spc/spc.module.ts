@@ -14,7 +14,7 @@ import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 import { SpcComponent } from './spc.component';
 import { SPCRoutingModule } from './spc.routing';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
-import { UsersModule } from './users/users.module';
+import { UsersCommunityModule } from './users-community/users-community.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { UsersModule } from './users/users.module';
     ShoppingCartModule,
     SPCRoutingModule,
     ToolbarModule,
-    UsersModule,
+    UsersCommunityModule,
   ]
 })
 export class SpcModule { }

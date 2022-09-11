@@ -8,6 +8,7 @@ import { MyVehicleModule } from './my-vehicle/my-vehicle.module';
 import { ProfileCarrierModule } from './profile-carrier/profile-carrier.module';
 import { ToolbarModule } from './shared/toolbar/toolbar.module';
 import { CarrierRouting } from './carrier.routing';
+import { PqrMailboxcaModule } from './pqr-mailboxca/pqr-mailboxca.module';
 
 @NgModule({
   declarations: [CarrierComponent],
@@ -17,8 +18,9 @@ import { CarrierRouting } from './carrier.routing';
     MyOrdersModule,
     MyVehicleModule,
     ProfileCarrierModule,
-    ToolbarModule,
+    PqrMailboxcaModule,
     RouterModule,
+    ToolbarModule,
   ]
 })
 export class CarrierModule { }

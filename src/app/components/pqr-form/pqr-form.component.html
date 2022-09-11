@@ -1,0 +1,43 @@
+<div class="mt-6" fxLayout="column">
+    <div class="text-center">
+        <form [formGroup]="formPQR">
+            <div class="flex flex-col sm:flex-col mb-6">      
+                <mat-form-field class="lg:px-24 md:px-24 sm:px-0 flex-auto">
+                    <mat-label>Seleccionar tipo de asunto</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let option of pqrOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon [icIcon]="icContact" class="mr-3" matPrefix></mat-icon>
+                    <mat-error *ngIf="formPQR.controls.type.hasError('required')">
+                        El tipo de asunto<strong> es obligatorio.</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="lg:px-24 md:px-24 sm:px-0 flex-auto">
+                    <mat-label>Descripción asunto</mat-label>
+                    <textarea #description minlenght="30" maxlength="300" formControlName="description"
+                    matInput></textarea>
+                    <mat-hint align="end">{{description.value.length}} / 300</mat-hint>
+                    <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
+                    <mat-error *ngIf="formPQR.controls.description.hasError('required')">
+                        La descripción del asunto<strong> es obligatoria.</strong>
+                    </mat-error>
+                    <mat-error *ngIf="formPQR.controls.description.errors?.minlength">
+                        La descripción debe contener como <strong> mínimo 30 caracteres.</strong>
+                    </mat-error>
+                    <mat-error *ngIf="formPQR.controls.description.errors?.maxlength">
+                        La descripción debe contener <strong> máximo 300 caracteres.</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="flex-auto">
+                <button class="w-56 mb-5" color="accent" (click)="sendPqrUser()" [disabled]="formPQR.invalid" mat-raised-button>Enviar PQR</button>
+                <p class="text-secondary">Nota: Ten en cuenta que los tiempos de respuesta a tu solicitud pueden variar de 5 a 10 días hábiles.
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

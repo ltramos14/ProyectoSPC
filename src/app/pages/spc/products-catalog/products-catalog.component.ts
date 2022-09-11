@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Observable, ReplaySubject, Subscription } from "rxjs";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { ProductsService } from "src/app/service/producer/products.service";
 import { Product } from "src/app/models/product.model";
 import { Cart } from "src/app/models/cart.model";
-import { CartService } from "src/app/service/consumer/cart.service";
 import { scaleIn400ms } from "../../../../@vex/animations/scale-in.animation";
 import { fadeInRight400ms } from "../../../../@vex/animations/fade-in-right.animation";
 import { stagger40ms } from "../../../../@vex/animations/stagger.animation";

@@ -21,11 +21,7 @@ export class IncrementerComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.quantityControl = new FormControl(this.quantity, Validators.required);
-
-    for (let i = 1; i <= this.stock; i++) {
-      this.quantityList.push(i);
-    }
+  
   }
 
   onChanges() {

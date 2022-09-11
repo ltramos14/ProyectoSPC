@@ -35,9 +35,7 @@ export class MyOrdersComponent implements OnInit {
 
   constructor(
     private activedRoute: ActivatedRoute,
-    private orderService: OrderService,
-    private usersService: UsersService
-  ) { }
+    private orderService: OrderService  ) { }
 
   ngOnInit(): void {
     this.loading = true;

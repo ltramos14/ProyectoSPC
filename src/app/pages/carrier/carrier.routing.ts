@@ -8,6 +8,7 @@ import { MyDataComponent } from './profile-carrier/my-data/my-data.component';
 import { MyRoutesComponent } from './my-routes/my-routes.component';
 import { MyVehicleComponent } from './my-vehicle/my-vehicle.component';
 import { ProfileCarrierComponent } from './profile-carrier/profile-carrier.component';
+import { PqrMailboxcaComponent } from './pqr-mailboxca/pqr-mailboxca.component';
 
 const routes: Routes = [
     {
@@ -17,8 +18,9 @@ const routes: Routes = [
                     { path: 'informacion-perfil/:id', component: MyDataComponent, data: { title: 'Mis datos' } },
                 ]
             },
-            { path: 'mi-vehiculo/:id', component: MyVehicleComponent, data: { title: 'Mis vehículos' } },
+            { path: 'mi-vehiculo/:id', component: MyVehicleComponent, data: { title: 'Mi vehículo' } },
             { path: 'mis-rutas/:id', component: MyRoutesComponent, data: { title: 'Mis rutas' } },
+            { path: 'buzon-pqr/:id', component: PqrMailboxcaComponent, data: { title: 'Buzón PQR' } },
             { path: '', redirectTo: '/informacion-perfil/:id', pathMatch: 'full' },
         ], canActivate: [AuthGuard, ProfileGuard], canLoad: [ AuthGuard ]
     }

@@ -12,7 +12,7 @@ import { ProductsCatalogComponent } from './products-catalog/products-catalog.co
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { SpcComponent } from './spc.component';
-import { UsersComponent } from './users/users.component';
+import { UsersCommunityComponent } from './users-community/users-community.component';
 
 const routes: Routes = [
     {
@@ -25,7 +25,7 @@ const routes: Routes = [
             { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard, ProfileGuard] },
             { path: 'solicitar-pedido', component: OrderRequestComponent, data: { title: 'Solicitud de pedido' }, canActivate: [AuthGuard, ProfileGuard] },
             { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard] },
-            { path: 'usuarios', component: UsersComponent },
+            { path: 'usuarios/:tipo', component: UsersCommunityComponent, data: { title: 'Comunidad de usuarios' }},
         ]
     },
 ];

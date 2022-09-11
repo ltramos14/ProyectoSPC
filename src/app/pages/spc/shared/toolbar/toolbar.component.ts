@@ -2,17 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../service/auth/auth.service';
 import { MenuHome } from './toolbar-user/interfaces/menu-home';
 import { CartService } from 'src/app/service/consumer/cart.service';
-import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/service/users/users.service';
-import { ProductsService } from 'src/app/service/producer/products.service';
-import { Product } from 'src/app/models/product.model';
-import { FormControl } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
+import { OrderService } from 'src/app/service/users/order.service';
 
-import icSearch from '@iconify/icons-ic/twotone-search';
-import icArrow from '@iconify/icons-ic/twotone-arrow-right-alt';
-import icClose from '@iconify/icons-ic/twotone-close';
-import icHome from '@iconify/icons-ic/twotone-home';
 import icShoppingCart from '@iconify/icons-ic/twotone-shopping-cart';
 import icLocalShipping from '@iconify/icons-ic/twotone-local-shipping';
 import icMenu from '@iconify/icons-ic/twotone-menu';
@@ -25,7 +17,6 @@ import faPhone from '@iconify/icons-fa-solid/phone';
 import faSpa from '@iconify/icons-fa-solid/spa';
 import faTractor from '@iconify/icons-fa-solid/tractor';
 import faShippingFast from '@iconify/icons-fa-solid/shipping-fast';
-import { OrderService } from 'src/app/service/users/order.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -101,12 +92,12 @@ export class ToolbarComponent implements OnInit {
         {
           name: 'Productores',
           icon: faTractor,
-          router: '/productores'
+          router: '/usuarios/productores'
         },
         {
           name: 'Transportadores',
           icon: faShippingFast,
-          router: '/transportadores'
+          router: '/usuarios/transportadores'
         }
       ]
     },
