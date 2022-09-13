@@ -25,5 +25,9 @@ export class NotificationsService {
   notifyOrderOnTheWay(order: Order) {
     return this.http.post(`${ baseUrl }/order-on-the-way`, order);
   }
+  
+  notifyOrderDelivered(order: Order) {
+    return this.http.post(`${ baseUrl }/order-delivered`, order);
+  }
 
 }

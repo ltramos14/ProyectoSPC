@@ -92,8 +92,8 @@ export class OrderService {
     return this.http.post<any[]>(`${ baseUrl }/available-carriers`, municipalities);
   }
 
-  calculateOrderTariff(data: Tariff): Observable<string> {
-    return this.http.post<string>(`${ baseUrl }/calculate-order-tariff`, data)
+  calculateOrderTariff(data: Tariff): Observable<any> {
+    return this.http.post(`${ baseUrl }/calculate-order-tariff`, data)
   }
 
 }

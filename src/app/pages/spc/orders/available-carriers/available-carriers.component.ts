@@ -52,9 +52,7 @@ export class AvailableCarriersComponent {
   }
 
   onChange(radio: MatRadioChange) {
-    this.selectedValue = radio.value;
-    console.log(radio.value);
-    
+    this.selectedValue = radio.value;    
   }
 
   onSelectCarrier() {

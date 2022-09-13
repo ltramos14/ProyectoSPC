@@ -25,7 +25,7 @@
         <div class="products-container" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayout.lt-sm="column">
             <img [src]="product.image" alt="Imagen producto pedido" class="img-order">
-            <ul class="product-info text-accent">
+            <ul class="product-info">
               <li>{{ product.name }}</li>
               <li>{{ product.quantity + " " + product.unit | lowercase }}<span *ngIf="product.quantity > 1">s</span>
               </li>
@@ -36,27 +36,43 @@
       </ng-template>
     </p-carousel>
 
-    <div class="chosen-payment-container" fxLayout="column" fxLayoutAlign="space-evenly center">
+    <div class="chosen-payment-container mb-8" fxLayout="column" fxLayoutAlign="space-evenly center">
       <img [src]="order.chosenPayment.image" class="img-order mb-5">
       <p><span>Medio de pago:</span> {{ order.chosenPayment.name }}</p>
       <p><span>Teléfono:</span> {{ order.chosenPayment.phone }}</p>
       <p><span>Identificación:</span> {{ order.chosenPayment.identification }}</p>
-      <p><span>Total a pagar:</span> ${{ order.total | number | money }}</p>
+      <p><span *ngIf="order.status === 'Pendiente de pago'">TOTAL A PAGAR:</span> <span *ngIf="order.status !== 'Pendiente de pago'">TOTAL PAGADO:</span> ${{ order.total | number | money }}</p>
     </div>
 
-    <div class="users-container" fxLayoutAlign="space-around stretch" fxLayout="column">
+    <div class="users-container" fxLayoutAlign="space-evenly center" fxLayout="column">
       <!-- Info productor -->
-      <div>
-        <h3 class="text-primary text-bold">Productor a cargo del pedido: </h3>
-        <p>{{ producer?.names + ' ' + producer?.lastnames }}</p>
-      </div>
+      <h3 class="text-primary text-bold">Productor a cargo del pedido: </h3>
+      <p>{{ producer?.names + ' ' + producer?.lastnames }}</p>
 
       <!-- Info transportador -->
-      <div>
-        <h3 class="text-primary text-bold">Transportador asignado: </h3>
+      <h3 class="text-primary text-bold">Transportador asignado: </h3>
+      <ng-container *ngIf="carrier; else elseNoCarrier">
+        <p>{{carrier?.names + ' ' + carrier?.lastnames}}</p>
+        <p>Teléfono: {{ carrier?.phone}}</p>
+      </ng-container>
+      <ng-template #elseNoCarrier>
         <p>Pendiente por asignar</p>
-      </div>
-
+      </ng-template>
     </div>
   </mat-card-content>
+  <mat-card-footer class="text-center mb-3">
+    <div *ngIf="order.status !== 'Pendiente de pago' && order.status !== 'Pagado'">
+      <h3 class="text-accent text-bold">
+      <ng-container *ngIf="order.status === 'En camino'; else elseOnWay">
+        Tarifa de envío a pagar: 
+      </ng-container>
+      <ng-template #elseOnWay>
+        Tarifa de envío pagada: 
+      </ng-template>
+      <div class="card-total">
+        ${{ order.tariff | number | money }}
+      </div>
+    </h3>
+    </div>
+  </mat-card-footer>
 </mat-card>

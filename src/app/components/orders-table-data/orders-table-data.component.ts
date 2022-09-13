@@ -46,8 +46,9 @@ import { Tariff } from "src/app/interfaces/tariff.interface";
     },
   ],
 })
-export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterViewInit {
-
+export class OrdersTableDataComponent<T>
+  implements OnInit, OnChanges, AfterViewInit
+{
   @Input() data: T[];
   @Input() columns: TableColumn<T>[];
   @Input() pageSize = 20;
@@ -125,34 +126,47 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
       this.onConfirmOrderPayment(id);
     } else {
       let newOrderData: any = {};
-      this.orderService.getOrderById(id).pipe(take(1)).subscribe(
-        (order) => {
-          order.status = newStatus;
-          newOrderData = order;
-          this.orderService.saveOrder(newOrderData).then(() => {
-            switch (newStatus) {
-              case "Pagado":
-                this.notificationService.notifyPaidOrder(order).subscribe();
-                this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)}
-                  a ${newStatus.toUpperCase()}`, "OK", { duration: 1000 });
-                setTimeout(() => {
-                  window.location.reload();
-                }, 3000);
-                break;
-              case "En camino":
-                this.onConfirmOrderOnTheWay(order);
-                break;
-              case "Entregado":
-                break;
-              default:
-                break;
-            }
-          });
-        },
-        () => {
-          this.snackbar.open('Ocurrió un error al momento de cambiar el estado del pedido', "OK", { duration: 1000 });
-        }
-      );
+      this.orderService
+        .getOrderById(id)
+        .pipe(take(1))
+        .subscribe(
+          (order) => {
+            order.status = newStatus;
+            newOrderData = order;
+            this.orderService.saveOrder(newOrderData).then(() => {
+              switch (newStatus) {
+                case "Cancelado":
+                  this.snackbar.open(
+                    `Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)} a ${newStatus.toUpperCase()}`, "OK", { duration: 1000 });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                  break;
+                case "En camino":
+                  this.onConfirmOrderOnTheWay(order);
+                  break;
+                case "Entregado":
+                  this.notificationService.notifyOrderDelivered(order).subscribe(() => {
+                    this.snackbar.open(
+                      `Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)} a ${newStatus.toUpperCase()}`, "OK", { duration: 1000 });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 3000);
+                  });
+                  break;
+                default:
+                  break;
+              }
+            });
+          },
+          () => {
+            this.snackbar.open(
+              "Ocurrió un error al momento de cambiar el estado del pedido",
+              "OK",
+              { duration: 1000 }
+            );
+          }
+        );
     }
   }
 
@@ -174,63 +188,103 @@ export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterView
           return dialogRef.afterClosed();
         })
       )
-      .subscribe((carrierId) => {
-        if (carrierId) {
-          newOrder.idCarrier = carrierId;
-          this.orderService.saveOrder(newOrder).then(() => {
-            this.notificationService.notifyPaidOrder(newOrder).subscribe();
-            this.snackbar.open(
-              `Se ha cambiado el estado del pedido # ${newOrder.id.slice(
-                0,
-                8
-              )} a PEDIENTE DE PAGO`,
-              "OK",
-              { duration: 1000 }
-            );
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+      .subscribe(
+        (carrierId) => {
+          if (carrierId) {
+            newOrder.idCarrier = carrierId;
+            this.orderService.saveOrder(newOrder).then(() => {
+              this.notificationService.notifyPaidOrder(newOrder).subscribe();
+              this.snackbar.open(
+                `Se ha cambiado el estado del pedido # ${newOrder.id.slice(
+                  0,
+                  8
+                )} a PAGADO`,
+                "OK",
+                { duration: 1000 }
+              );
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        },
+        () => {
+          this.snackbar.open(
+            "Ocurrió un error al validar el pago del pedido",
+            "OK",
+            { duration: 1000 }
+          );
         }
-      }, () => {
-        this.snackbar.open('Ocurrió un error al validar el pago del pedido', "OK", { duration: 1000 });
-      });
+      );
   }
 
   onConfirmOrderOnTheWay(order: Order) {
     const directionService = new google.maps.DirectionsService();
     const directionRender = new google.maps.DirectionsRenderer();
 
-    directionService.route({
-      origin: this.userMunicipality,
-      destination: `${order.address.address}, ${order.address.municipality}`,
-      travelMode: google.maps.TravelMode.DRIVING
-    }, res => {
-      console.log(res);
-      directionRender.setDirections(res);
-      const values: Tariff = {
-        distance: res.routes[0].legs[0].distance.text,
-        idOrder: order.id
+    directionService.route(
+      {
+        origin: this.userMunicipality,
+        destination: `${order.address.address}, ${order.address.municipality}`,
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (res) => {
+        directionRender.setDirections(res);
+        const values: Tariff = {
+          distance: res.routes[0].legs[0].distance.text,
+          idOrder: order.id,
+        };
+
+        this.orderService
+          .calculateOrderTariff(values)
+          .pipe(
+            take(1),
+            mergeMap((res) => {
+              order.tariff = res.tariff;
+              return this.notificationService.notifyOrderOnTheWay(order);
+            })
+          )
+          .subscribe((res) => {
+            if (res) {
+              this.snackbar.open(
+                `Se ha cambiado el estado del pedido # ${order.id.slice(0, 8)}
+              a ${order.status.toUpperCase()}`,
+                "OK",
+                { duration: 1000 }
+              );
+              setTimeout(() => {
+                window.location.reload();
+              }, 3000);
+            }
+          });
       }
-      
-      this.orderService.calculateOrderTariff(values)
-        .pipe(
-          take(1),
-          mergeMap((res) => {
-              return this.notificationService.notifyOrderOnTheWay(order)
-          })
-        ).subscribe(res => {
-          if (res) {
-            this.snackbar.open(`Se ha cambiado el estado del pedido # ${order.id.slice(0,8)}
-              a ${order.status.toUpperCase()}`, "OK", { duration: 1000 });
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
-          }
-        })
-      
-    })
+    );
   }
 
+  onDeleteOrder(orderId: string) {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
+      data: {
+        message: "¿Estás seguro de eliminar este pedido?",
+        confirmButton: { text: "Sí, eliminar", color: "warn" },
+        cancelButton: { text: "Cancelar", color: "basic" },
+      },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteOrder(orderId);
+      }
+    });
+  }
+
+  private deleteOrder(orderId: string) {
+    this.orderService
+     .deleteOrder(orderId)
+     .then(() => {
+      this.snackbar.open("Pedido eliminado satisfactoriamente", "OK", { duration: 3000 });
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+     });
+  }
 
 }

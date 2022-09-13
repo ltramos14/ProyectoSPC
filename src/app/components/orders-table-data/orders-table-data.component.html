@@ -89,7 +89,7 @@
         </div>
         <div *ngIf="order.status.text === 'Cancelado'">
             <button class="text-red" mat-menu-item [disabled]="userType !== 'Productor'"
-                (click)="confirmStatusChangeDialog('¿Estás seguro de eliminar el pedido?', order.id, 'Eliminado')">
+                (click)="onDeleteOrder(order.id)">
                 <mat-icon [icIcon]="icDeleteForever" style="color: red;"></mat-icon>
                 <span>Eliminar pedido</span>
             </button>
