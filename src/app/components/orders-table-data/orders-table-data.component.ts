@@ -32,7 +32,7 @@ import icDeleteForever from "@iconify/icons-ic/twotone-delete-forever";
 import icMoreVert from "@iconify/icons-ic/twotone-more-vert";
 import icSend from "@iconify/icons-ic/twotone-send";
 import icWhereToVote from "@iconify/icons-ic/twotone-where-to-vote";
-import { from, Observable } from "rxjs";
+import { Tariff } from "src/app/interfaces/tariff.interface";
 
 @Component({
   selector: "spc-orders-table-data",
@@ -46,15 +46,15 @@ import { from, Observable } from "rxjs";
     },
   ],
 })
-export class OrdersTableDataComponent<T>
-  implements OnInit, OnChanges, AfterViewInit
-{
+export class OrdersTableDataComponent<T> implements OnInit, OnChanges, AfterViewInit {
+
   @Input() data: T[];
   @Input() columns: TableColumn<T>[];
   @Input() pageSize = 20;
   @Input() pageSizeOptions = [10, 20, 50];
   @Input() searchStr: string;
   @Input() userType: string;
+  @Input() userMunicipality: string;
 
   @Output() openOrderDetail = new EventEmitter<Order["id"]>();
 
@@ -133,19 +133,20 @@ export class OrdersTableDataComponent<T>
             switch (newStatus) {
               case "Pagado":
                 this.notificationService.notifyPaidOrder(order).subscribe();
+                this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)}
+                  a ${newStatus.toUpperCase()}`, "OK", { duration: 1000 });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000);
                 break;
               case "En camino":
+                this.onConfirmOrderOnTheWay(order);
                 break;
               case "Entregado":
                 break;
               default:
                 break;
             }
-            this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrderData.id.slice(0,8)}
-              a ${newStatus.toLocaleUpperCase()}`, "OK", { duration: 1000 });
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
           });
         },
         () => {
@@ -156,8 +157,6 @@ export class OrdersTableDataComponent<T>
   }
 
   onConfirmOrderPayment(id: string) {
-    console.log(id);
-    
     let newOrder: any = {};
     this.orderService
       .getOrderById(id)
@@ -197,4 +196,41 @@ export class OrdersTableDataComponent<T>
         this.snackbar.open('Ocurrió un error al validar el pago del pedido', "OK", { duration: 1000 });
       });
   }
+
+  onConfirmOrderOnTheWay(order: Order) {
+    const directionService = new google.maps.DirectionsService();
+    const directionRender = new google.maps.DirectionsRenderer();
+
+    directionService.route({
+      origin: this.userMunicipality,
+      destination: `${order.address.address}, ${order.address.municipality}`,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, res => {
+      console.log(res);
+      directionRender.setDirections(res);
+      const values: Tariff = {
+        distance: res.routes[0].legs[0].distance.text,
+        idOrder: order.id
+      }
+      
+      this.orderService.calculateOrderTariff(values)
+        .pipe(
+          take(1),
+          mergeMap((res) => {
+              return this.notificationService.notifyOrderOnTheWay(order)
+          })
+        ).subscribe(res => {
+          if (res) {
+            this.snackbar.open(`Se ha cambiado el estado del pedido # ${order.id.slice(0,8)}
+              a ${order.status.toUpperCase()}`, "OK", { duration: 1000 });
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        })
+      
+    })
+  }
+
+
 }

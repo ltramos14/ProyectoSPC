@@ -79,6 +79,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   typeUser: string;
 
+  userMunicipality: string;
+
   icSearch = icSearch;
   icMenu = icMenu;
 
@@ -157,6 +159,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
           mergeMap((res: User) => {
             const filter = (res.typeuser === 'Productor') ? 'idProducer' : 'idCarrier';
             this.typeUser = res.typeuser;
+            this.userMunicipality = res.municipality;
             return this.orderService.getOrdersByUser(uid, filter);
           }),
         )
