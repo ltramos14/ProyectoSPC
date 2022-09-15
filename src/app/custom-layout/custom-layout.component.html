@@ -8,15 +8,11 @@
                class="vex-toolbar"></vex-toolbar>
 </ng-template>
 
-<ng-template #footerRef>
-  <vex-footer *ngIf="isFooterVisible$ | async" class="vex-footer"></vex-footer>
-</ng-template>
-
 <ng-template #quickpanelRef>
   <vex-quickpanel></vex-quickpanel>
 </ng-template>
 
-<vex-layout [footerRef]="footerRef"
+<vex-layout
             [quickpanelRef]="quickpanelRef"
             [sidenavRef]="sidenavRef"
             [toolbarRef]="toolbarRef"></vex-layout>

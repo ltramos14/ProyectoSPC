@@ -12,65 +12,6 @@
     <h1 [fxHide]="mobileQuery" class="title ltr:pl-4 rtl:pr-4 m-0 select-none">VEX</h1>
   </a>
 
-  <button *ngIf="isHorizontalLayout$ | async"
-          [fxHide]="mobileQuery"
-          [matMenuTriggerFor]="addNewMenu"
-          color="primary"
-          mat-raised-button
-          type="button">ADD NEW
-  </button>
-
-  <mat-menu #addNewMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icPersonAdd"></mat-icon>
-      <span>Add Contact</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icDoneAll"></mat-icon>
-      <span>Add Task</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icAssignmentTurnedIn"></mat-icon>
-      <span>Add Project</span>
-    </button>
-
-    <button [matMenuTriggerFor]="documentMenu" mat-menu-item>
-      <mat-icon [icIcon]="icBallot"></mat-icon>
-      <span>Add Document</span>
-    </button>
-  </mat-menu>
-
-  <mat-menu #documentMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icDescription"></mat-icon>
-      <span>Add Quote</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icAssignment"></mat-icon>
-      <span>Add Invoice</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icReceipt"></mat-icon>
-      <span>Add Receipt</span>
-    </button>
-  </mat-menu>
-
-  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
-    <button *ngIf="isHorizontalLayout$ | async"
-            [fxHide]="mobileQuery"
-            (click)="openMegaMenu(megaMenuOriginRef)"
-            color="primary"
-            mat-button
-            type="button">MEGA MENU
-      <ic-icon [icon]="icArrowDropDown" class="ltr:-mr-1 rtl:-ml-1" inline="true"></ic-icon>
-    </button>
-  </div>
-
-
   <div *ngIf="(isVerticalLayout$ | async) && isNavbarInToolbar$ | async"
        [fxHide]="mobileQuery"
        class="px-gutter"
@@ -84,42 +25,8 @@
 
   <div class="-mx-1 flex items-center">
     <div class="px-1">
-      <button (click)="openSearch()" mat-icon-button type="button">
-        <mat-icon [icIcon]="icSearch"></mat-icon>
-      </button>
-    </div>
-
-    <div class="px-1">
-      <vex-toolbar-notifications></vex-toolbar-notifications>
-    </div>
-
-    <div class="px-1">
-      <button (click)="openQuickpanel()" mat-icon-button type="button">
-        <mat-icon [icIcon]="icBookmarks"></mat-icon>
-      </button>
-    </div>
-
-    <div class="px-1">
-      <button [matMenuTriggerFor]="languageMenu" mat-icon-button type="button">
-        <mat-icon [icIcon]="emojioneUS"></mat-icon>
-      </button>
-    </div>
-
-    <div class="px-1">
       <vex-toolbar-user></vex-toolbar-user>
     </div>
-
-    <mat-menu #languageMenu="matMenu" overlapTrigger="false" xPosition="before" yPosition="below">
-      <button mat-menu-item>
-        <mat-icon [icIcon]="emojioneUS"></mat-icon>
-        <span>English</span>
-      </button>
-
-      <button mat-menu-item>
-        <mat-icon [icIcon]="emojioneDE"></mat-icon>
-        <span>German</span>
-      </button>
-    </mat-menu>
   </div>
 </div>
 

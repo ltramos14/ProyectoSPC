@@ -23,8 +23,10 @@ import { AvailableCarriersComponent } from "src/app/pages/spc/orders/available-c
 import { TableColumn } from "src/@vex/interfaces/table-column.interface";
 import { MessageDialogComponent } from "../message-dialog/message-dialog.component";
 import { NotificationsService } from "src/app/service/messaging/notifications.service";
+import { ProductsService } from "src/app/service/producer/products.service";
 import { OrderService } from "src/app/service/users/order.service";
 import { Order } from "src/app/models/order.model";
+import { Tariff } from "src/app/interfaces/tariff.interface";
 
 import icCancel from "@iconify/icons-ic/twotone-cancel";
 import icCheck from "@iconify/icons-ic/twotone-check-circle";
@@ -32,7 +34,6 @@ import icDeleteForever from "@iconify/icons-ic/twotone-delete-forever";
 import icMoreVert from "@iconify/icons-ic/twotone-more-vert";
 import icSend from "@iconify/icons-ic/twotone-send";
 import icWhereToVote from "@iconify/icons-ic/twotone-where-to-vote";
-import { Tariff } from "src/app/interfaces/tariff.interface";
 
 @Component({
   selector: "spc-orders-table-data",
@@ -77,8 +78,9 @@ export class OrdersTableDataComponent<T>
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
-    private orderService: OrderService,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    private productService: ProductsService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {}
@@ -171,7 +173,7 @@ export class OrdersTableDataComponent<T>
   }
 
   onConfirmOrderPayment(id: string) {
-    let newOrder: any = {};
+    let newOrder: Order;
     this.orderService
       .getOrderById(id)
       .pipe(
@@ -193,19 +195,19 @@ export class OrdersTableDataComponent<T>
           if (carrierId) {
             newOrder.idCarrier = carrierId;
             this.orderService.saveOrder(newOrder).then(() => {
-              this.notificationService.notifyPaidOrder(newOrder).subscribe();
-              this.snackbar.open(
-                `Se ha cambiado el estado del pedido # ${newOrder.id.slice(
-                  0,
-                  8
-                )} a PAGADO`,
-                "OK",
-                { duration: 1000 }
-              );
+              this.productService.reduceProductStock(newOrder)
+                .pipe(
+                  take(1),
+                  mergeMap(() => {
+                    return this.notificationService.notifyPaidOrder(newOrder);
+                  })
+                ).subscribe(() => {
+                  this.snackbar.open(`Se ha cambiado el estado del pedido # ${newOrder.id.slice(0,8)} a PAGADO`, "OK", { duration: 1000 });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                });
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 3000);
           }
         },
         () => {

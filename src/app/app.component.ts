@@ -4,7 +4,6 @@ import { Settings } from 'luxon';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
-import icLayers from '@iconify/icons-ic/twotone-layers';
 import { LayoutService } from '../@vex/services/layout.service';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
@@ -13,6 +12,9 @@ import { SplashScreenService } from '../@vex/services/splash-screen.service';
 import { Style, StyleService } from '../@vex/services/style.service';
 import { ConfigName } from '../@vex/interfaces/config-name.model';
 import { Subscription } from 'rxjs';
+import icDashboard from '@iconify/icons-ic/twotone-dashboard';
+import icPeople from '@iconify/icons-ic/twotone-people';
+import icMailbox from '@iconify/icons-ic/twotone-markunread-mailbox';
 
 @Component({
   selector: 'vex-root',
@@ -20,7 +22,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent {
 
-  public title: string;
+  public title: string = "Proyecto SPC";
   public titleSub$: Subscription;
 
   constructor(private configService: ConfigService,
@@ -40,21 +42,14 @@ export class AppComponent {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
 
-    /**
-     * Customize the template to your needs with the ConfigService
-     * Example:
-     *  this.configService.updateConfig({
-     *    sidenav: {
-     *      title: 'Custom App',
-     *      imageUrl: '//placehold.it/100x100',
-     *      showCollapsePin: false
-     *    },
-     *    showConfigButton: false,
-     *    footer: {
-     *      visible: false
-     *    }
-     *  });
-     */
+     this.configService.updateConfig({
+      sidenav: {
+        title: 'Administrador SPC',
+        imageUrl: '../assets/images/logotipos/LogoSPCv1.png',
+        showCollapsePin: false
+      },
+     
+      });
 
     /**
      * Config Related Subscriptions
@@ -88,8 +83,20 @@ export class AppComponent {
       {
         type: 'link',
         label: 'Dashboard',
-        route: '/',
-        icon: icLayers
+        route: '/administrador/dashboard',
+        icon: icDashboard
+      },
+      {
+        type: 'link',
+        label: 'Usuarios',
+        route: '/administrador/usuarios',
+        icon: icPeople
+      },
+      {
+        type: 'link',
+        label: 'Buzón de PQRs',
+        route: '/administrador/pqrs',
+        icon: icMailbox
       }
     ];
   }

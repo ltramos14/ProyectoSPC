@@ -22,7 +22,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   trackById = trackById;
   icChevronRight = icChevronRight;
-
+  typeUser: string;
   items: MenuItem[] = [
     {
       id: "1",
@@ -58,9 +58,13 @@ export class ToolbarUserDropdownComponent implements OnInit {
   profileUrl() {
     this.userService.getUserInfo(this.user.uid).subscribe(data => {
       const { typeuser } = data;
+      this.typeUser = typeuser;
       let routeProfile;
 
       switch(typeuser) {
+        case 'Administrador':
+          routeProfile = "/administrador/dashboard"
+          break;
         case 'Productor':
           routeProfile = "/perfil-productor/mis-datos/informacion-perfil"
           break;

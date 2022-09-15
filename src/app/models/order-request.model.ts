@@ -1,6 +1,8 @@
 import { Address } from './address.model';
 import { PaymentMethod } from './payment-method.model';
+
 export interface ProductOrder {
+    id: string,
     name: string,
     quantity: number,
     subtotal: number,

@@ -17,6 +17,7 @@ import faPhone from '@iconify/icons-fa-solid/phone';
 import faSpa from '@iconify/icons-fa-solid/spa';
 import faTractor from '@iconify/icons-fa-solid/tractor';
 import faShippingFast from '@iconify/icons-fa-solid/shipping-fast';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'app-toolbar',
@@ -56,6 +57,10 @@ export class ToolbarComponent implements OnInit {
    * Bandera que valida si el usuario en sesión es un productor o un transportador
    */
   isWorker: boolean = false;
+
+  isAdmin: boolean = false;
+
+  typeUser: string;
 
   /**
    * Arreglo del menú que se muestra en la vista
@@ -159,7 +164,10 @@ export class ToolbarComponent implements OnInit {
    */
   getUserRole(uid: string) {
     this.userService.getUserInfo(uid).subscribe(({ typeuser }) => {
-      if (typeuser === 'Productor' || typeuser === 'Transportador') {
+      this.typeUser = typeuser;
+      if (typeuser === "Administrador") {
+        this.isAdmin = true;
+      } else if (typeuser === 'Productor' || typeuser === 'Transportador') {
         this.isWorker = true;
       }
       this.countProducts(typeuser, uid);

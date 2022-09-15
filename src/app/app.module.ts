@@ -45,7 +45,6 @@ import { ENTER, SPACE } from '@angular/cdk/keycodes';
     IconModule,
 
     // Vex
-    CustomLayoutModule,
     VexModule,
 
     //Firebase
@@ -59,6 +58,7 @@ import { ENTER, SPACE } from '@angular/cdk/keycodes';
     AuthModule,
     CarrierModule,
     ConsumerModule,
+    CustomLayoutModule,
     ProducerModule,
     SpcModule,
   ],

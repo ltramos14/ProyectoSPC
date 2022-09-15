@@ -8,6 +8,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Product } from 'src/app/models/product.model';
 import { convertTimestampsPipe } from 'convert-firebase-timestamp'
 import { environment } from './../../../environments/environment';
+import { Order } from 'src/app/models/order.model';
 
 const baseUrl = environment.apiUrl + '/products';
 
@@ -189,5 +190,10 @@ export class ProductsService {
   getProductsWithQuery(limit: number) {
     return this.afs.collection('products', ref => ref.limit(limit)).valueChanges() as Observable<Product[]>;
   }
+
+  reduceProductStock(order: Order) {
+    return this.http.put(`${ baseUrl }/reduce-product-stock`, order);
+  }
+
 
 }

@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
 import { PageNotFoundComponent } from './pages/error/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-  {
-    path: '',
-    loadChildren: () => import('./custom-layout/custom-layout.module').then(m => m.CustomLayoutModule)
-  },
-  {
-    path: '',
-    loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule)
-  },
   {
     path: '',
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
@@ -32,6 +25,16 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/spc/spc.module').then(m => m.SpcModule)
+  },
+  {
+    path: '',
+    component: CustomLayoutComponent,
+    children: [
+      {
+        path: 'administrador', 
+        loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule)
+      }
+    ]
   },
   {
     path: '**',

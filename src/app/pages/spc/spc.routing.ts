@@ -24,7 +24,7 @@ const routes: Routes = [
             { path: 'detalles-producto/:id', component: ProductDetailComponent, data: { title: 'Detalles Producto' } },
             { path: 'carrito', component: ShoppingCartComponent, data: { title: 'Carrito de compras' }, canActivate: [AuthGuard, ProfileGuard] },
             { path: 'solicitar-pedido', component: OrderRequestComponent, data: { title: 'Solicitud de pedido' }, canActivate: [AuthGuard, ProfileGuard] },
-            { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard] },
+            { path: 'mis-ordenes', component: OrdersComponent, data: { title: 'Mis pedidos' }, canActivate: [AuthGuard, ProfileGuard] },
             { path: 'usuarios/:tipo', component: UsersCommunityComponent, data: { title: 'Comunidad de usuarios' }},
         ]
     },

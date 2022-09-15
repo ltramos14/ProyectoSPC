@@ -28,7 +28,7 @@ export class AuthService {
     this.getNotificationsToken();
   }
 
-  login(email: string, password: string): Promise<any> {
+  login(email: string, password: string): Promise<firebase.default.User> {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {

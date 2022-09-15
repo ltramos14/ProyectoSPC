@@ -131,12 +131,18 @@ export class RegisterComponent implements OnInit {
     const password = this.generalDataFormGroup.get('password').value;
 
     const user: User = {
-      ...this.typeUserFormGroup.value,
-      ...this.especificDataFormGroup.value,
-      ...this.generalDataFormGroup.value,
+      typeuser: this.typeUserFormGroup.get('typeuser').value,
+      names: this.generalDataFormGroup.get('names').value,
+      lastnames: this.generalDataFormGroup.get('lastnames').value,
+      email: this.generalDataFormGroup.get('email').value,
+      dateBirth: this.generalDataFormGroup.get('dateBirth').value,
+      identificationType: this.especificDataFormGroup.get('identificationType').value,
+      identification: this.especificDataFormGroup.get('identification').value,
+      phone: this.especificDataFormGroup.get('phone').value,
+      municipality: this.especificDataFormGroup.get('municipality').value,
       profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
       stateUser: true,
-      notificationsToken: []
+      notificationsToken: ""
     }
 
     this.authService.register(user, password)

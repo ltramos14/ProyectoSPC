@@ -62,24 +62,30 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password)
       .then((rest) => {
-        if (rest && rest.emailVerified) {
-          if (this.form.get('remember').value) {
-            localStorage.setItem('spc-email', this.form.get('email').value);
-            this.cryptoService.encryptUsingAES256(this.form.get('password').value);
-            localStorage.setItem('isRemember', this.form.get('remember').value);
-          } else {
-            localStorage.removeItem('spc-email');
-          }
-          this.snackbar.open(`¡Bienvenido ${rest.displayName}! 🥑`, 'OK', {
+        if (rest.email === "proyectospcudec@gmail.com") {
+          this.snackbar.open(`¡Bienvenido administrador! 🍇`, 'OK', {
             duration: 2000
           });
-          this.router.navigate(['/']);
+          this.router.navigate(['/administrador/dashboard']);
         } else {
-          this.snackbar.open('Lo sentimos, ¡La cuenta aún no ha sido verificada!', 'OK', {
-            duration: 2000
-          });
+          if (rest && rest.emailVerified) {
+            if (this.form.get('remember').value) {
+              localStorage.setItem('spc-email', this.form.get('email').value);
+              this.cryptoService.encryptUsingAES256(this.form.get('password').value);
+              localStorage.setItem('isRemember', this.form.get('remember').value);
+            } else {
+              localStorage.removeItem('spc-email');
+            }
+            this.snackbar.open(`¡Bienvenido ${rest.displayName}! 🥑`, 'OK', {
+              duration: 2000
+            });
+            this.router.navigate(['/']);
+          } else {
+            this.snackbar.open('Lo sentimos, ¡La cuenta aún no ha sido verificada!', 'OK', {
+              duration: 2000
+            });
+          }
         }
-
       })
       .catch((error) => {
         let message;

@@ -15,7 +15,7 @@
     <ng-template #elseTemplate>
       <a (click)="close()"
          *ngFor="let item of items; trackBy: trackById"
-         [routerLink]="[item.route, user?.uid]"
+         [routerLink]="(typeUser !== 'Administrador') ? [item.route, user?.uid] : [item.route]"
          class="notification"
          fxLayout="row"
          fxLayoutAlign="start center"

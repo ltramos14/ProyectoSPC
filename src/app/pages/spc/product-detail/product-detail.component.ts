@@ -119,7 +119,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (user) {
       this.subscriptions.push(
         this.userService.getUserInfo(user.uid).subscribe(({ typeuser }) => {
-          if (typeuser === "Productor" || typeuser === "Transportador")
+          if (typeuser === "Productor" || typeuser === "Transportador" || typeuser === "Administrador")
             this.isWorker = true;
         })
       );

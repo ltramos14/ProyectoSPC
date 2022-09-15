@@ -24,6 +24,9 @@ export class ProfileGuard implements CanActivate {
         this.userService.getUserInfo(uid).subscribe(async (data) => {
           const { typeuser } = data;
           switch (typeuser) {
+            case 'Administrador':
+              this.router.navigate(['/administrador/dashboard']).then(() => false);
+              break;
             case 'Productor':
               this.router.navigate([`/perfil-${typeuser.toLowerCase()}/mis-datos/informacion-perfil/${uid}`]).then(() => false);
               break;
@@ -39,15 +42,28 @@ export class ProfileGuard implements CanActivate {
 
         });
       }
-      if (activeUrl.includes('solicitar-pedido') || activeUrl.includes('carrito')) {
-        this.userService.getUserInfo(uid).subscribe(async (data) => {
-          const { typeuser } = data;
-          if (typeuser !== 'Consumidor') {
+      this.userService.getUserInfo(uid).subscribe(async (data) => {
+        const { typeuser } = data;
+        if (activeUrl.includes('solicitar-pedido') || activeUrl.includes('carrito')) {
+            if (typeuser !== 'Consumidor') {
+              this.router.navigateByUrl('')
+              return false;
+            }
+        }
+        if (activeUrl.includes('mis-ordenes')) {
+          if (typeuser !== 'Transportador' || 'Productor') {
             this.router.navigateByUrl('')
             return false;
           }
-        });
-      }
+        }
+        
+        if (activeUrl.includes('administrador')) {
+          if (typeuser !== 'Administrador') {
+            this.router.navigateByUrl('')
+            return false;
+          }
+        }
+      });
     })
     return true;
   }
