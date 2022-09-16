@@ -141,7 +141,7 @@ export class RegisterComponent implements OnInit {
       phone: this.especificDataFormGroup.get('phone').value,
       municipality: this.especificDataFormGroup.get('municipality').value,
       profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
-      stateUser: true,
+      isActive: true,
       notificationsToken: ""
     }
 

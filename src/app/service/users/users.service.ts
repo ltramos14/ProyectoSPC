@@ -58,6 +58,10 @@ export class UsersService {
     return this.afs.collection('users', ref => ref.where('typeuser', '==', type)).valueChanges() as Observable<User[]>;
   }
 
+  getUserToAdministrator(): Observable<User[]> {
+    return this.afs.collection('users', ref => ref.where('typeuser', '!=', 'Administrador')).valueChanges() as Observable<User[]>;
+  }
+
   updateUserDocument(user: User) {
     this.userDoc.update(user);
   }
