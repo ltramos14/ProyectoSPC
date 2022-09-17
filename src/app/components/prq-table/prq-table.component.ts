@@ -7,6 +7,7 @@ import { UsersService } from 'src/app/service/users/users.service';
 import { ViewDetailDialogComponent } from '../view-detail-dialog/view-detail-dialog.component';
 
 import icShow from '@iconify/icons-ic/twotone-remove-red-eye';
+import { PqrsService } from 'src/app/service/users/pqrs.service';
 
 @Component({
   selector: 'spc-prq-table',
@@ -28,11 +29,11 @@ export class PrqTableComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private userService: UsersService) { }
+    private pqrService: PqrsService) { }
 
   ngOnInit(): void {
     this.loading = true;
-    this.userService.getPqrsByUser(this.idUser).subscribe(data => {
+    this.pqrService.getPqrsByUser(this.idUser).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.loading = false;
     })

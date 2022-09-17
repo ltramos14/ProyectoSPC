@@ -17,9 +17,9 @@
 
                 <mat-form-field class="lg:px-24 md:px-24 sm:px-0 flex-auto">
                     <mat-label>Descripción asunto</mat-label>
-                    <textarea #description minlenght="30" maxlength="300" formControlName="description"
+                    <textarea #description minlenght="30" maxlength="250" formControlName="description"
                     matInput></textarea>
-                    <mat-hint align="end">{{description.value.length}} / 300</mat-hint>
+                    <mat-hint align="end">{{description.value.length}} / 250</mat-hint>
                     <mat-icon matPrefix [icIcon]="icDescription"></mat-icon>
                     <mat-error *ngIf="formPQR.controls.description.hasError('required')">
                         La descripción del asunto<strong> es obligatoria.</strong>
@@ -28,7 +28,7 @@
                         La descripción debe contener como <strong> mínimo 30 caracteres.</strong>
                     </mat-error>
                     <mat-error *ngIf="formPQR.controls.description.errors?.maxlength">
-                        La descripción debe contener <strong> máximo 300 caracteres.</strong>
+                        La descripción debe contener <strong> máximo 250 caracteres.</strong>
                     </mat-error>
                 </mat-form-field>
             </div>

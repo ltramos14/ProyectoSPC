@@ -99,14 +99,4 @@ export class UsersService {
     });
   }
 
-  getPqrInformation(pqrId: string) {
-    this.pqrDoc = this.afs.doc<PqrMailbox>(`pqrMailbox/${pqrId}`);
-    this.pqr = this.pqrDoc.valueChanges();
-    return this.pqr;
-  }
-
-  getPqrsByUser(idUser: string): Observable<PqrMailbox[]> {
-    return this.afs.collection('pqrMailbox', ref => ref.where('idUser', '==', idUser)).valueChanges() as Observable<PqrMailbox[]>;
-  }
-
 }

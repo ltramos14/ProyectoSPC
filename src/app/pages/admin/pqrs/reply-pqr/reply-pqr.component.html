@@ -1,0 +1,55 @@
+<form (ngSubmit)="responseRequest()" [formGroup]="formReplyPqr">
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
+      {{ defaults.type + ' #' + defaults.id.slice(0, 8) | uppercase }}</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="mt-6 flex-auto">
+        <mat-label>Usuario</mat-label>
+        <input cdkFocusInitial [value]="user?.names + ' ' + user?.lastnames" readonly="readonly" matInput>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+        <mat-label>Rol</mat-label>
+        <input cdkFocusInitial [value]="user?.typeuser" readonly="readonly" matInput>
+        <mat-icon [icIcon]="icRole" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex-auto my-6">
+      <mat-label class="font-bold">Descripción de la solicitud realizada por el usuario:</mat-label>
+      <p class="my-3 text-secondary"> {{ defaults?.description }} </p>
+    </div>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>Responder...</mat-label>
+      <textarea #answer minlenght="30" maxlength="250" formControlName="answer" matInput></textarea>
+      <mat-hint align="end">{{answer.value.length}} / 250</mat-hint>
+      <mat-error *ngIf="formReplyPqr.controls.answer.hasError('required')">
+        La respuesta a la solicitud<strong> es obligatoria.</strong>
+      </mat-error>
+      <mat-error *ngIf="formReplyPqr.controls.answer.errors?.minlength">
+        La respuesta a la solicitud <strong> mínimo 30 caracteres.</strong>
+      </mat-error>
+      <mat-error *ngIf="formReplyPqr.controls.answer.errors?.maxlength">
+        La respuesta a la solicitud <strong> máximo 250 caracteres.</strong>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button *ngIf="this.defaults.answer === 'Pendiente'" color="accent" mat-raised-button type="submit" [disabled]="formReplyPqr.invalid">ENVIAR RESPUESTA</button>
+    <button *ngIf="this.defaults.answer !== 'Pendiente'" color="primary" mat-stroked-button type="submit" [disabled]="formReplyPqr.invalid">ACTUALIZAR RESPUESTA</button>
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+  </mat-dialog-actions>
+</form>
