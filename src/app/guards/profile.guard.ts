@@ -51,7 +51,7 @@ export class ProfileGuard implements CanActivate {
             }
         }
         if (activeUrl.includes('mis-ordenes')) {
-          if (typeuser !== 'Transportador' || 'Productor') {
+          if (typeuser !== 'Productor' && typeuser !== 'Transportador') {
             this.router.navigateByUrl('')
             return false;
           }
