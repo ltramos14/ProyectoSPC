@@ -9,5 +9,6 @@ export const environment = {
     appId: "1:314363157691:web:f18bdf84472d4ab5b35d9e",
     measurementId: "G-YGZJ6VYD32"
   },
+  secretPassword: 'YourSecretKeyForEncryption&Descryption',
   apiUrl: "https://api-proyecto-spc.herokuapp.com/api"
 };
