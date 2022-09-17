@@ -7,6 +7,7 @@ import { User } from 'src/app/interfaces/user.interface';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize, map } from 'rxjs/operators';
 import { PqrMailbox } from 'src/app/models/pqr.model';
+import { convertTimestampsPipe } from 'convert-firebase-timestamp';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,10 @@ export class UsersService {
       type = 'Transportador';
     }
     return this.afs.collection('users', ref => ref.where('typeuser', '==', type)).valueChanges() as Observable<User[]>;
+  }
+
+  getUserToAdministrator(): Observable<User[]> {
+    return this.afs.collection('users', ref => ref.where('typeuser', '!=', 'Administrador')).valueChanges().pipe(convertTimestampsPipe()) as Observable<User[]>;
   }
 
   updateUserDocument(user: User) {

@@ -13,8 +13,7 @@ const routes: VexRoutes = [
     path: "",
     component: UsersComponent,
     data: {
-      scrollDisabled: true,
-      toolbarShadowEnabled: false,
+      toolbarShadowEnabled: true,
     },
   },
 ];

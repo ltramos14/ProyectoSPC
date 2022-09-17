@@ -1,46 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
-import { UsersComponent } from './users.component';
-import { UsersRoutingModule } from './users-routing.module';
-import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BreadcrumbsModule } from 'src/@vex/components/breadcrumbs/breadcrumbs.module';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
+import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { IconModule } from '@visurel/iconify-angular';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ContainerModule } from 'src/@vex/directives/container/container.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { IconModule } from '@visurel/iconify-angular';
+import { BreadcrumbsModule } from 'src/@vex/components/breadcrumbs/breadcrumbs.module';
+import { ContainerModule } from 'src/@vex/directives/container/container.module';
+import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
 
+import { ComponentsModule } from 'src/app/components/components.module';
+import { UsersComponent } from './users.component';
+import { UsersRoutingModule } from './users-routing.module';
+import { UpdateUserModule } from './update-user/update-user.module';
 
 
 @NgModule({
   declarations: [UsersComponent],
   imports: [
-    CommonModule,
-    UsersRoutingModule,
-    PageLayoutModule,
-    FlexLayoutModule,
     BreadcrumbsModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
+    CommonModule,
+    ComponentsModule,
+    ContainerModule,
+    FlexLayoutModule,
+    FormsModule,
+    IconModule,
+    MatButtonModule,
     MatCheckboxModule,
     MatIconModule,
-    MatButtonModule,
     MatMenuModule,
-    IconModule,
-    FormsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatTableModule,
     MatTooltipModule,
+    PageLayoutModule,
     ReactiveFormsModule,
-    ContainerModule,
-    MatSelectModule
+    UpdateUserModule,
+    UsersRoutingModule,
   ]
 })
 export class UsersModule { }

@@ -9,7 +9,7 @@ export interface User {
     phone: string,
     municipality: string,
     profileURL: string,
-    stateUser: boolean,
+    isActive: boolean,
     notificationsToken?: string,
     uid?: string,
 }

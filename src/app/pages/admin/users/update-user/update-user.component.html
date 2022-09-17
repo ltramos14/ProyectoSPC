@@ -1,0 +1,152 @@
+<form (ngSubmit)="updateUser()" [formGroup]="userForm">
+    <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+        <img *ngIf="defaults.profileURL" [src]="defaults.profileURL" class="avatar mr-5"
+            alt="`Imagen producto ${{ defaults.uid }}`">
+        <h2 *ngIf="userForm.get('names').value" class="headline m-0" fxFlex="auto">
+            {{ userForm.get("names").value }}
+            {{ userForm.get("lastnames").value }}
+        </h2>
+        <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+    <mat-divider class="mx-6 text-border"></mat-divider>
+    <mat-dialog-content fxLayout="column">
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Nombre</mat-label>
+                <input #messagename minlength="3" maxlength="20" cdkFocusInitial formControlName="names" matInput>
+                <mat-hint align="end">{{messagename.value.length}} / 30</mat-hint>
+                <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="userForm.controls.names.hasError('required')">
+                    El nombre es <strong>obligatorio.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.names.hasError('pattern')">
+                    El nombre solo puede contener<strong> letras.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.names.errors?.minlength">
+                    El nombre debe tener mínimo <strong>3 caracteres.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.names.errors?.maxlength">
+                    El nombre debe tener máximo <strong>20 caracteres.</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Apellido</mat-label>
+                <input #messagelastname minlength="3" maxlength="20" cdkFocusInitial formControlName="lastnames"
+                    matInput>
+                <mat-hint align="end">{{messagelastname.value.length}} / 30</mat-hint>
+                <mat-icon [icIcon]="icPermIdentity" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="userForm.controls.lastnames.hasError('required')">
+                    El apellido es <strong>obligatorio.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.lastnames.hasError('pattern')">
+                    El apellido solo puede contener<strong> letras.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.lastnames.errors?.minlength">
+                    El apellido debe tener mínimo <strong>3 caracteres.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.lastnames.errors?.maxlength">
+                    El apellido debe tener máximo <strong>20 caracteres.</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+              <mat-label>Correo electrónico</mat-label>
+              <input formControlName="email" matInput/>
+              <mat-icon matPrefix [icIcon]="icEmail"></mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input (click)="formDatepickerRef.open()" (focus)="formDatepickerRef.open()"
+                  [matDatepicker]="formDatepickerRef" formControlName="dateBirth" matInput readonly />
+                <mat-icon matPrefix [icIcon]="icCalendar"></mat-icon>
+
+                <mat-hint>Edad mínima: 15 años</mat-hint>
+                <mat-datepicker #formDatepickerRef></mat-datepicker>
+                <mat-error *ngIf="userForm.controls.dateBirth.hasError('required')">
+                  La fecha de nacimiento es<strong> obligatoria.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.dateBirth.hasError('validAge')">
+                  El usuario debe ser<strong> mayor de 15 años.</strong>
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Tipo de identificación</mat-label>
+                <mat-select formControlName="identificationType">
+                    <mat-option *ngFor="let identificationType of idTypesPrefixOptions" [value]="identificationType">{{
+                        identificationType }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls.identificationType.hasError('required')">
+                    El tipo de identificación es<strong> obligatorio.</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <ng-container *ngIf="userForm.get('identificationType').value ==='Pasaporte';else elseTemplate">
+                <mat-form-field fxFlex="auto">
+                    <mat-label>Identificación</mat-label>
+                    <input formControlName="identification" type="text" matInput required />
+                    <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
+                    <mat-error *ngIf="userForm.controls.identification.hasError('required')">
+                        La identificación es<strong> obligatoria.</strong>
+                    </mat-error>
+                </mat-form-field>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                    <mat-label>Número de identificación</mat-label>
+                    <input formControlName="identification" type="number" matInput required />
+                    <mat-icon matPrefix [icIcon]="icFeaturedVideo"></mat-icon>
+                    <mat-error *ngIf="userForm.controls.identification.hasError('required')">
+                        El número de identificación es<strong> obligatorio.</strong>
+                    </mat-error>
+                </mat-form-field>
+            </ng-template>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field class="mt-6 flex-auto">
+                <mat-label>Número telefónico</mat-label>
+                <input #messagephone minlength="6" maxlength="10" cdkFocusInitial formControlName="phone" matInput>
+                <mat-hint align="end">{{messagephone.value.length}} / 10</mat-hint>
+                <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="userForm.controls.phone.hasError('required')">
+                    El número telefónico es <strong>obligatorio.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.phone.hasError('pattern')">
+                    Por favor ingresa solamente <strong>valores numéricos.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.phone.errors?.minlength">
+                    El teléfono debe contener <strong> mínimo 6 digitos.</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.phone.errors?.maxlength">
+                    El teléfono debe contener <strong> máximo 10 digitos.</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+                <mat-label>Municipio de residencia</mat-label>
+                <mat-select formControlName="municipality">
+                    <mat-option *ngFor="let municipality of municipalities" [value]="municipality.name">
+                        {{ municipality.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icPlace" class="mr-3" matPrefix></mat-icon>
+                <mat-error *ngIf="userForm.controls.municipality.hasError('required')">
+                    El municipio de residencia<strong> es obligatorio.</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button [disabled]="userForm.dirty && userForm.invalid" color="accent" mat-raised-button type="submit">
+            EDITAR USUARIO
+        </button>
+        <button mat-stroked-button mat-dialog-close color="warn" type="button">
+            CANCELAR
+        </button>
+    </mat-dialog-actions>
+</form>
