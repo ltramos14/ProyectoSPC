@@ -20,6 +20,7 @@ import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.mo
 import { ComponentsModule } from 'src/app/components/components.module';
 import { UsersComponent } from './users.component';
 import { UsersRoutingModule } from './users-routing.module';
+import { UpdateUserModule } from './update-user/update-user.module';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { UsersRoutingModule } from './users-routing.module';
     MatTooltipModule,
     PageLayoutModule,
     ReactiveFormsModule,
+    UpdateUserModule,
     UsersRoutingModule,
   ]
 })

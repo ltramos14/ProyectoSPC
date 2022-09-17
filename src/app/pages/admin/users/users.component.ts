@@ -29,6 +29,8 @@ import { UsersService } from 'src/app/service/users/users.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @UntilDestroy()
 @Component({
@@ -54,7 +56,7 @@ export class UsersComponent implements OnInit {
   columns: TableColumn<User>[] = [
     { label: 'Foto perfil', property: 'profileURL', type: 'image', visible: true },
     { label: 'Nombres', property: 'names', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Apellidos', property: 'lastnames', type: 'text', visible: false },
+    { label: 'Apellidos', property: 'lastnames', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Correo electrónico', property: 'email', type: 'text', visible: true },
     { label: 'Municipio', property: 'municipality', type: 'text', visible: true },
     { label: 'Teléfono', property: 'phone', type: 'text', cssClasses: ['text-secondary', 'font-medium'] },
@@ -142,6 +144,29 @@ export class UsersComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  updateUserInfo(user: User) {
+    this.dialog.open(UpdateUserComponent, {
+      data: user
+    }).afterClosed().subscribe((user: User) => {
+      if (user) {
+        this.userService.onSaveUserInformation(user, user.uid)
+          .then((res) => {
+            this.snackbar.open(`Información del usuario ${ user.names + ' ' + user.lastnames } actualizada satisfactoriamente`, 'OK', { duration: 3000 });
+            this.subject$.next(this.users);
+          });
+        }
+        
+    });
+  }
+
+  updateIsActive(ev: MatSlideToggleChange, user: User) {
+    user.isActive = ev.checked;
+    this.userService.onSaveUserInformation(user, user.uid)
+      .then((res) => 
+        this.snackbar.open(`El ${ user.typeuser.toLowerCase() } ${ user.names + ' ' + user.lastnames } ha sido ${ user.isActive ? 'habilitado' : 'inhabilitado' }`, 'OK', { duration: 3000 })
+      );
+  }
+
   onFilterChange(value: string) {
     if (!this.dataSource) {
       return;
@@ -155,18 +180,6 @@ export class UsersComponent implements OnInit {
     event.stopPropagation();
     event.stopImmediatePropagation();
     column.visible = !column.visible;
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   trackByProperty<T>(index: number, column: TableColumn<T>) {
