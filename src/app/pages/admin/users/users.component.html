@@ -3,28 +3,27 @@
         <div class="w-full flex flex-col sm:flex-row justify-between">
             <div>
                 <h1 class="title mt-0 mb-1">Usuarios de SPC</h1>
-                <vex-breadcrumbs [crumbs]="['Dashboard', 'Users']"></vex-breadcrumbs>
+                <vex-breadcrumbs [crumbs]="['Comunidad SPC']"></vex-breadcrumbs>
             </div>
         </div>
     </vex-page-layout-header>
     <vex-page-layout-content class="-mt-6">
         <div class="card overflow-auto -mt-16">
             <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
-                <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+                <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none"
+                    fxHide.xs>
                     <span *ngIf="selection.isEmpty()">Listado de usuarios</span>
-                  </h2>
-                <div class="bg-card rounded-full border px-4" fxFlex="400px" fxFlex.lt-md="auto" fxHide.xs
-                    fxLayout="row" fxLayoutAlign="start center">
+                </h2>
+                <div class="bg-card rounded-full border px-4" fxFlex="400px" fxFlex.lt-md="auto" fxLayout="row"
+                    fxLayoutAlign="start center">
                     <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
                     <input [formControl]="searchCtrl" class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-                        placeholder="Search..." type="search">
+                        placeholder="Buscar usuario..." type="search">
                 </div>
                 <span fxFlex></span>
-                <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
-                    <mat-icon [icIcon]="icSearch"></mat-icon>
-                </button>
+
                 <button [matMenuTriggerFor]="columnFilterMenu" class="ml-4" fxFlex="none" mat-icon-button
-                    matTooltip="Filter Columns" type="button">
+                    matTooltip="Filtrar Columnas" type="button">
                     <mat-icon [icIcon]="icFilterList"></mat-icon>
                 </button>
             </div>
@@ -38,22 +37,28 @@
                 </ng-container>
                 <!-- Text Columns -->
                 <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-                    <ng-container *ngIf="column.property === 'email'; else elseTemplate" [matColumnDef]="column.property">
+                    <ng-container *ngIf="column.property === 'email'; else elseTemplate"
+                        [matColumnDef]="column.property">
                         <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
                         <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell #tooltip="matTooltip"
                             [matTooltip]="row[column.property]">
-                            {{  row[column.property] | slice:0:15 }}
+                            {{ row[column.property] | slice:0:15 }}
                             {{ (row[column.property].length > 16) ? '...' : ''}}
-                        </td>    
+                        </td>
                     </ng-container>
                     <ng-template #elseTemplate>
                         <ng-container *ngIf="column.property === 'dateBirth'" [matColumnDef]="column.property">
-                            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell class="text-center">{{ row[column.property] | date: 'dd/MM/yyyy' }}</td>
+                            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+                            </th>
+                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell class="text-center">{{
+                                row[column.property] | date: 'dd/MM/yyyy' }}</td>
                         </ng-container>
-                        <ng-container *ngIf="column.type === 'text' && column.property !== 'dateBirth'" [matColumnDef]="column.property">
-                            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+                        <ng-container *ngIf="column.type === 'text' && column.property !== 'dateBirth'"
+                            [matColumnDef]="column.property">
+                            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+                            </th>
+                            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}
+                            </td>
                         </ng-container>
                     </ng-template>
                 </ng-container>
@@ -61,7 +66,8 @@
                 <ng-container matColumnDef="isActive">
                     <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Activo</th>
                     <td *matCellDef="let row" mat-cell>
-                        <mat-slide-toggle (click)="$event.stopPropagation()" color="primary" (change)="updateIsActive($event, row)"  [checked]="row.isActive"></mat-slide-toggle>
+                        <mat-slide-toggle (click)="$event.stopPropagation()" color="primary"
+                            (change)="updateIsActive($event, row)" [checked]="row.isActive"></mat-slide-toggle>
                     </td>
                 </ng-container>
                 <!-- Typeuser Column -->
@@ -70,9 +76,8 @@
                     <td *matCellDef="let row" mat-cell>
                         <div (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="4px">
                             <span
-                                [ngClass]="(row.typeuser === 'Consumidor') ? ['text-green', 'bg-green-light'] : (row.typeuser === 'Transportador') ? ['text-cyan', 'bg-cyan-light'] : ['text-amber', 'bg-amber-light']" 
-                                class="rounded px-2 py-1 font-medium text-xs"
-                                fxFlex="none">
+                                [ngClass]="(row.typeuser === 'Consumidor') ? ['text-green', 'bg-green-light'] : (row.typeuser === 'Transportador') ? ['text-cyan', 'bg-cyan-light'] : ['text-amber', 'bg-amber-light']"
+                                class="rounded px-2 py-1 font-medium text-xs" fxFlex="none">
                                 {{ row.typeuser }}
                             </span>
 
@@ -83,15 +88,16 @@
                 <ng-container matColumnDef="actions">
                     <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
                     <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-                        <button (click)="$event.stopPropagation()" *ngIf="row.isActive"  [matMenuTriggerData]="{ user: row }"
-                            [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+                        <button (click)="$event.stopPropagation()" *ngIf="row.isActive"
+                            [matMenuTriggerData]="{ user: row }" [matMenuTriggerFor]="actionsMenu" mat-icon-button
+                            type="button">
                             <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
                         </button>
                     </td>
                 </ng-container>
                 <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-                <tr (click)="row.isActive && updateUserInfo(row)" *matRowDef="let row; columns: visibleColumns;" @fadeInUp
-                    [ngClass]="!row.isActive && 'bg-red-light'"
+                <tr (click)="row.isActive && updateUserInfo(row)" *matRowDef="let row; columns: visibleColumns;"
+                    @fadeInUp [ngClass]="!row.isActive && 'bg-red-light'"
                     class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
             </table>
             <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0">
@@ -111,7 +117,11 @@
     <ng-template let-user="user" matMenuContent>
         <button (click)="updateUserInfo(user)" mat-menu-item>
             <mat-icon [icIcon]="icEdit"></mat-icon>
-            <span>Modify</span>
+            <span>Editar</span>
+        </button>
+        <button *ngIf="!user.isVerifiedPerson" (click)="onVerifiedPerson(user)" mat-menu-item>
+            <mat-icon [icIcon]="icVerified"></mat-icon>
+            <span>Verificar cuenta</span>
         </button>
     </ng-template>
 </mat-menu>

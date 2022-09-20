@@ -1,10 +1,25 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { Observable, ReplaySubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
+import { MessageDialogComponent } from 'src/app/components/message-dialog/message-dialog.component';
 import { User } from 'src/app/interfaces/user.interface';
+import { UsersService } from 'src/app/service/users/users.service';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icDelete from '@iconify/icons-ic/twotone-delete';
@@ -17,20 +32,8 @@ import icMap from '@iconify/icons-ic/twotone-map';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import icVerified from '@iconify/icons-ic/twotone-verified-user';
 import icWait from '@iconify/icons-ic/twotone-access-time';
-import { Observable, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UsersService } from 'src/app/service/users/users.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatSelectChange } from '@angular/material/select';
-import { UpdateUserComponent } from './update-user/update-user.component';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @UntilDestroy()
 @Component({
@@ -66,19 +69,6 @@ export class UsersComponent implements OnInit {
     { label: 'Acciones', property: 'actions', type: 'button', visible: true }
   ];
 
-  icAdd = icAdd;
-  icCheck = icCheck;
-  icDelete = icDelete;
-  icEdit = icEdit;
-  icFilterList = icFilterList;
-  icFolder = icFolder;
-  icMail = icMail;
-  icMap = icMap;
-  icMoreHoriz = icMoreHoriz;
-  icSearch = icSearch;
-  icPhone = icPhone;
-  icWait = icWait;
-
   imageDefault: string = './assets/illustrations/no-product.png';
 
   visible = false;
@@ -101,6 +91,20 @@ export class UsersComponent implements OnInit {
   searchCtrl = new FormControl();
 
   loading: boolean = false;
+
+  icAdd = icAdd;
+  icCheck = icCheck;
+  icDelete = icDelete;
+  icEdit = icEdit;
+  icFilterList = icFilterList;
+  icFolder = icFolder;
+  icMail = icMail;
+  icMap = icMap;
+  icMoreHoriz = icMoreHoriz;
+  icSearch = icSearch;
+  icPhone = icPhone;
+  icVerified = icVerified;
+  icWait = icWait;
 
   constructor(
     private dialog: MatDialog,
@@ -164,6 +168,29 @@ export class UsersComponent implements OnInit {
     this.userService.onSaveUserInformation(user, user.uid)
       .then((res) => 
         this.snackbar.open(`El ${ user.typeuser.toLowerCase() } ${ user.names + ' ' + user.lastnames } ha sido ${ user.isActive ? 'habilitado' : 'inhabilitado' }`, 'OK', { duration: 3000 })
+      );
+  }
+
+  onVerifiedPerson(user: User) {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
+      data: {
+        message: `¿Estás seguro que deseas verificar y conceder los permisos al usuario ${user.names + " " + user.lastnames}?`,
+        confirmButton: { text: "Sí, verificar", color: "accent" },
+        cancelButton: { text: "Cancelar", color: "warn" },
+      },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.verifiedUserSpc(user);
+      }
+    });
+  }
+
+  verifiedUserSpc(user: User) {
+    user.isVerifiedPerson = true;
+    this.userService.onSaveUserInformation(user, user.uid)
+      .then((res) => 
+        this.snackbar.open(`El ${ user.typeuser.toLowerCase() } ${ user.names + ' ' + user.lastnames } ha sido verificado exitosamente.`, 'OK', { duration: 0 })
       );
   }
 

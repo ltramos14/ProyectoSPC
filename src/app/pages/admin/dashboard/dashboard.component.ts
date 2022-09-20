@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
 import { defaultChartOptions } from '../../../../@vex/utils/default-chart-options';
+import { Order } from 'src/app/models/order.model';
+
 import icGroup from '@iconify/icons-ic/twotone-group';
 import icPageView from '@iconify/icons-ic/twotone-pageview';
 import icCloudOff from '@iconify/icons-ic/twotone-cloud-off';
 import icTimer from '@iconify/icons-ic/twotone-timer';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
-
-import { Order } from 'src/app/models/order.model';
 
 @Component({
   selector: 'spc-dashboard',

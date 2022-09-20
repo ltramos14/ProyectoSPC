@@ -49,6 +49,10 @@ export class RegisterComponent implements OnInit {
   usertypesPrefixOptions = ['Productor', 'Transportador', 'Consumidor'];
   idTypesPrefixOptions = ['Cédula de ciudadanía', 'Tarjeta de identidad', 'Cédula de extranjería', 'Pasaporte', 'NIT']
 
+  passwordInputType = 'password';
+
+  municipalities = municipalities;
+
   icDoneAll = icDoneAll;
   icDescription = icDescription;
   icVerticalSplit = icVerticalSplit;
@@ -62,10 +66,6 @@ export class RegisterComponent implements OnInit {
   icPhone = icPhone;
   icFeaturedVideo = icFeaturedVideo;
   icPlace = icPlace;
-
-  passwordInputType = 'password';
-
-  municipalities = municipalities;
 
 
   constructor(
@@ -142,20 +142,21 @@ export class RegisterComponent implements OnInit {
       municipality: this.especificDataFormGroup.get('municipality').value,
       profileURL: 'https://firebasestorage.googleapis.com/v0/b/bdproyectospc.appspot.com/o/Profile%20Image%2Fuseravatar.png?alt=media&token=4324a567-afd6-4ec2-9f74-068962639f7d',
       isActive: true,
+      isVerifiedPerson: this.typeUserFormGroup.get('typeuser').value === 'Consumidor' ? true : false,
       notificationsToken: ""
     }
 
     this.authService.register(user, password)
-    .then(res => {
-      this.snackbar.open(`Revisa tu correo: ${user.email}, allí te hemos enviamos un mensaje de verificación de cuenta.`, 'OK', {
-        duration: 5000
+      .then(res => {
+        this.snackbar.open(`Revisa tu correo: ${user.email}, allí te hemos enviamos un mensaje de verificación de cuenta.`, 'OK', {
+          duration: 5000
+        });
+        this.router.navigate(['/verificacion-cuenta']);
+      }).catch(error => {
+        this.snackbar.open('¡Oops! Ocurrió un error al crear la cuenta en SPC.', 'OK', {
+          duration: 5000
+        });
       });
-      this.router.navigate(['/verificacion-cuenta']);
-    }).catch(error => {
-      this.snackbar.open('¡Oops! Ocurrió un error al crear la cuenta en SPC.', 'OK', {
-        duration: 5000
-      });
-    });
 
   }
 }

@@ -1,15 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+import { MenuItem } from "../interfaces/menu-item.interface";
+import { AuthService } from "src/app/service/auth/auth.service";
+import { UsersService } from "src/app/service/users/users.service";
 import { PopoverRef } from "../../../../../../../@vex/components/popover/popover-ref";
 import { trackById } from "../../../../../../../@vex/utils/track-by";
 
 import icAccountCircle from "@iconify/icons-ic/twotone-account-circle";
 import icChevronRight from "@iconify/icons-ic/twotone-chevron-right";
-
-import { MenuItem } from "../interfaces/menu-item.interface";
-import { AuthService } from "src/app/service/auth/auth.service";
-import { UsersService } from "src/app/service/users/users.service";
 
 @Component({
   selector: "app-toolbar-user-dropdown",
@@ -18,11 +17,6 @@ import { UsersService } from "src/app/service/users/users.service";
 })
 export class ToolbarUserDropdownComponent implements OnInit {
 
-  public user: any;
-
-  trackById = trackById;
-  icChevronRight = icChevronRight;
-  typeUser: string;
   items: MenuItem[] = [
     {
       id: "1",
@@ -34,16 +28,23 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
+  public user: any;
+
+  typeUser: string;
+
   loading: boolean = false;
 
+  isVerifiedPerson: boolean = false;
+  
+  trackById = trackById;
+  icChevronRight = icChevronRight;
+
   constructor(
+    private authService: AuthService,
     private popoverRef: PopoverRef<ToolbarUserDropdownComponent>,
     private router: Router,
-    private authService: AuthService,
     private userService: UsersService
-  ) {
-
-  }
+  ) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -57,8 +58,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   profileUrl() {
     this.userService.getUserInfo(this.user.uid).subscribe(data => {
-      const { typeuser } = data;
+      const { typeuser, isVerifiedPerson } = data;
+
+      this.isVerifiedPerson = isVerifiedPerson;
       this.typeUser = typeuser;
+
       let routeProfile;
 
       switch(typeuser) {
@@ -75,7 +79,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
           routeProfile = "/perfil-transportador/mis-datos/informacion-perfil"
           break;
         default:
-          console.error("No hay una ruta de perfil especficada");
+          console.error("No hay una ruta de perfil especificada");
       }
       this.items[0].route = routeProfile;
       this.loading = false;

@@ -10,6 +10,7 @@ export interface User {
     municipality: string,
     profileURL: string,
     isActive: boolean,
+    isVerifiedPerson: boolean,
     notificationsToken?: string,
     uid?: string,
 }

@@ -13,28 +13,48 @@
       <spc-spinner></spc-spinner>
     </ng-container>
     <ng-template #elseTemplate>
-      <a (click)="close()"
-         *ngFor="let item of items; trackBy: trackById"
-         [routerLink]="(typeUser !== 'Administrador') ? [item.route, user?.uid] : [item.route]"
-         class="notification"
-         fxLayout="row"
-         fxLayoutAlign="start center"
-         matRipple>
-        <mat-icon [icIcon]="item.icon"
-                  [ngClass]="item.colorClass"
-                  class="notification-icon"
-                  fxFlex="none"></mat-icon>
-        <div fxFlex="auto">
-          <div class="notification-label">{{ item.label }}</div>
-          <div class="notification-description">{{ item.description }}</div>
+      <ng-container *ngIf="!isVerifiedPerson; else elseVerifiedPerson">
+        <div class="bg-warn-light border-t-8 border-warn rounded-b text-warn px-4 py-3 shadow-md" role="alert">
+          <div>
+            <p class="font-bold mb-2">¡OH NO, AÚN NO ESTÁS VERIFICADO!</p>
+            <p class="text-lg text-justify mb-5">Para poder acceder a las funcionalidades correspondientes a tu rol de
+              usuario,
+              tendrás que enviar los siguientes documentos a través de un correo electrónico a:
+              <strong>proyectospcudec@gmail.com</strong>
+            </p>
+            <ol class="list-decimal mb-3 mx-6">
+              <li>Fotocopia del documento de identidad</li>
+              <li>Registro de antecedentes</li>
+              <li *ngIf="typeUser === 'Transportador'">Licencia de conducción vigente</li>
+              <li *ngIf="typeUser === 'Transportador'">Tarjeta de propiedad del vehículo</li>
+              <li *ngIf="typeUser === 'Transportador'">SOAT del vehículo</li>
+            </ol>
+            <p class="text-lg text-justify mt-6">Una vez hayas enviado los documentos, tu perfil pasará por un proceso
+              de
+              verificación en el cual se definirá si eres apto o no para trabajar en pro de la productividad en el
+              campo.
+            </p>
+          </div>
         </div>
-        <mat-icon [icIcon]="icChevronRight" class="notification-chevron" fxFlex="none"></mat-icon>
-      </a>  
+      </ng-container>
+
+      <ng-template #elseVerifiedPerson>
+        <a (click)="close()" *ngFor="let item of items; trackBy: trackById"
+          [routerLink]="(typeUser !== 'Administrador') ? [item.route, user?.uid] : [item.route]" class="notification"
+          fxLayout="row" fxLayoutAlign="start center" matRipple>
+          <mat-icon [icIcon]="item.icon" [ngClass]="item.colorClass" class="notification-icon" fxFlex="none"></mat-icon>
+          <div fxFlex="auto">
+            <div class="notification-label">{{ item.label }}</div>
+            <div class="notification-description">{{ item.description }}</div>
+          </div>
+          <mat-icon [icIcon]="icChevronRight" class="notification-chevron" fxFlex="none"></mat-icon>
+        </a>
+      </ng-template>
     </ng-template>
-    
+
   </div>
 
   <div class="dropdown-footer">
-      <a (click)="close()" (click)="onLogout()" color="primary" mat-button>CERRAR SESIÓN</a>
+    <a (click)="close()" (click)="onLogout()" color="primary" mat-button>CERRAR SESIÓN</a>
   </div>
 </div>
