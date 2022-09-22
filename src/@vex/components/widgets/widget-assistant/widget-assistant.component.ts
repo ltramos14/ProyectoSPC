@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import icCheckCircle from '@iconify/icons-ic/twotone-not-listed-location';
 
 @Component({
@@ -7,6 +7,9 @@ import icCheckCircle from '@iconify/icons-ic/twotone-not-listed-location';
   styleUrls: ['./widget-assistant.component.scss']
 })
 export class WidgetAssistantComponent implements OnInit {
+
+  @Input() usersToVerify: number;
+  @Input() pqrsToResponse: number;
 
   icCheckCircle = icCheckCircle;
 

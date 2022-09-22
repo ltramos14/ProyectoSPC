@@ -1,4 +1,4 @@
-<div class="card bg-gray" fxLayout="row" fxLayout.xs="column">
+<div class="card bg-green" fxLayout="row" fxLayout.xs="column">
   <div class="p-4 ml-4" fxFlex="none" fxFlexAlign="center">
     <img src="assets/illustrations/checklist.svg" style="height: 168px; width: 152px">
   </div>
@@ -9,12 +9,12 @@
 
     <div class="mt-4" fxLayout="row" fxLayoutAlign="start center">
       <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">23 Usuarios pendientes por verificar. </span>
+      <span class="body-2 cursor-pointer">{{ usersToVerify?.toString() }} Usuarios pendientes por verificar. </span>
     </div>
 
     <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
       <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">16 Solicitudes pendientes por responder.</span>
+      <span class="body-2 cursor-pointer">{{ pqrsToResponse?.toString() }} Solicitudes pendientes por responder.</span>
     </div>
 
   </div>
