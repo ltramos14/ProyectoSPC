@@ -51,12 +51,12 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      id: [this.defaults.uid || ''],
-      names: [this.defaults.names || '', [
+      uid: [this.defaults.uid || ''],
+      names: [{value: this.defaults.names || '', disabled: true}, [
         Validators.minLength(3),
         Validators.maxLength(20)
       ]],
-      lastnames: [this.defaults.lastnames || '', [
+      lastnames: [{value: this.defaults.lastnames || '', disabled: true}, [
         Validators.minLength(3),
         Validators.maxLength(20),
       ]],

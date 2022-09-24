@@ -12,6 +12,11 @@
   </div>
 
   <div class="pt-3 pb-1 pr-6">
-    <vex-chart [options]="options" [series]="series"></vex-chart>
+    <ng-container *ngIf="series.length > 0; else elseTemplate">
+      <vex-chart [options]="options" [series]="series"></vex-chart>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <spc-spinner></spc-spinner>
+    </ng-template>
   </div>
 </div>

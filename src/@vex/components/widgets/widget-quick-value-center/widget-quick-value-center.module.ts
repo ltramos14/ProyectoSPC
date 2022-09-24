@@ -7,12 +7,14 @@ import { IconModule } from '@visurel/iconify-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { ShareBottomSheetModule } from '../../share-bottom-sheet/share-bottom-sheet.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
   declarations: [WidgetQuickValueCenterComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     FlexLayoutModule,
     MatIconModule,
     IconModule,

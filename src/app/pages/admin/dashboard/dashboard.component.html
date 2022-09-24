@@ -31,7 +31,7 @@
   ></vex-widget-quick-value-center>
 
   <vex-widget-quick-value-center
-    [icon]="icPageView"
+    [icon]="icNature"
     iconClass="text-orange bg-orange-light"
     gdColumn.lt-sm="1"
     helpText="Cantidad de productos"
@@ -39,16 +39,14 @@
     [value]="productsQuantity"
   ></vex-widget-quick-value-center>
 
-  <div *ngIf="usersByTypeSeries.length > 0" gdColumn="1 / 3"
+  <vex-widget-large-chart gdColumn="1 / 3"
     gdColumn.lt-md="1 / -1"
-    gdColumn.lt-sm="1">
-    <vex-widget-large-chart
-      title="Gráfico de usuarios por tipo"
-      [series]="usersByTypeSeries"
-      [options]="usersByTypeOptions"
-    >
-    </vex-widget-large-chart>
-  </div>
+    gdColumn.lt-sm="1"
+    title="Gráfico de usuarios por tipo"
+    [series]="usersByTypeSeries"
+    [options]="usersByTypeOptions"
+  >
+  </vex-widget-large-chart>
 
   <vex-widget-table
     [columns]="tableColumns"

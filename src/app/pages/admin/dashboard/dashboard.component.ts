@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TableColumn } from "src/@vex/interfaces/table-column.interface";
 import { defaultChartOptions } from "../../../../@vex/utils/default-chart-options";
 
@@ -6,12 +6,11 @@ import { Order } from "src/app/models/order.model";
 import { AnalyticsService } from "src/app/service/analytics/analytics.service";
 
 import icGroup from "@iconify/icons-ic/twotone-group";
-import icPageView from "@iconify/icons-ic/twotone-pageview";
+import icNature from "@iconify/icons-ic/twotone-nature";
 import icCloudOff from "@iconify/icons-ic/twotone-cloud-off";
 import icTimer from "@iconify/icons-ic/twotone-timer";
 import icMoreVert from "@iconify/icons-ic/twotone-more-vert";
 import { Subscription, forkJoin } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Component({
   selector: "spc-dashboard",
@@ -49,6 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       cssClasses: ["text-secondary"],
     },
   ];
+
   tableData = [];
 
   productsQuantity: number;
@@ -57,13 +57,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pqrsToResponse: number;
 
   subscriptions: Subscription[] = [];
-
-  series: ApexAxisChartSeries = [
-    {
-      name: "Subscribers",
-      data: [28, 40, 36, 0, 52, 38, 60, 55, 67, 33, 89, 44],
-    },
-  ];
 
   usersByTypeSeries = [];
   usersByTypeOptions = defaultChartOptions({
@@ -119,15 +112,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         horizontal: true
       }
     },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 0.9,
-        opacityFrom: 0.7,
-        opacityTo: 0.5,
-        stops: [0, 90, 100]
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#000']
       }
     },
+    colors: ['#EE731B'],
     labels: [
       "Frutas",
       "Hortalizas",
@@ -163,35 +154,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         horizontal: 4,
         vertical: 4
       }
-    },
-    dataLabels: {
-      enabled: true
-    },
-  });
-
-  salesSeries: ApexAxisChartSeries = [
-    {
-      name: "Sales",
-      data: [28, 40, 36, 0, 52, 38, 60, 55, 99, 54, 38, 87],
-    },
-  ];
-
-  uniqueUsersOptions = defaultChartOptions({
-    chart: {
-      type: "area",
-      height: 100,
-    },
-    colors: ["#ff9800"],
+    }
   });
 
   icGroup = icGroup;
-  icPageView = icPageView;
+  icNature = icNature;
   icCloudOff = icCloudOff;
   icTimer = icTimer;
   icMoreVert = icMoreVert;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private analyticsService: AnalyticsService
   ) {}
 
@@ -200,17 +172,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getQuatities();
     this.getUsersByType();
     this.getProductsByType();
-    setTimeout(() => {
-      const temp = [
-        {
-          name: "Subscribers",
-          data: [55, 213, 55, 0, 213, 55, 33, 55],
-        },
-        {
-          name: "",
-        },
-      ];
-    }, 3000);
   }
 
   ngOnDestroy(): void {

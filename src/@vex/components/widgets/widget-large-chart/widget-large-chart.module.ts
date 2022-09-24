@@ -6,12 +6,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { IconModule } from '@visurel/iconify-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ChartModule } from '../../chart/chart.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
   declarations: [WidgetLargeChartComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     MatIconModule,
     MatButtonModule,
     IconModule,

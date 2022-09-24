@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Observable, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/@vex/animations/stagger.animation';
 import { TableColumn } from 'src/@vex/interfaces/table-column.interface';
@@ -151,7 +151,7 @@ export class UsersComponent implements OnInit {
   updateUserInfo(user: User) {
     this.dialog.open(UpdateUserComponent, {
       data: user
-    }).afterClosed().subscribe((user: User) => {
+    }).afterClosed().pipe(take(1)).subscribe((user: User) => {
       if (user) {
         this.userService.onSaveUserInformation(user, user.uid)
           .then((res) => {

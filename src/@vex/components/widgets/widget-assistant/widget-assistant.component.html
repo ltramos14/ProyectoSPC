@@ -9,12 +9,12 @@
 
     <div class="mt-4" fxLayout="row" fxLayoutAlign="start center">
       <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">{{ usersToVerify?.toString() }} Usuarios pendientes por verificar. </span>
+      <span class="body-2 cursor-pointer">{{ usersToVerify?.toString() }} Usuario<span *ngIf="usersToVerify === 0 || usersToVerify !== 1">s</span> pendiente<span *ngIf="usersToVerify === 0 || usersToVerify !== 1">s</span> por verificar. </span>
     </div>
 
     <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
       <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">{{ pqrsToResponse?.toString() }} Solicitudes pendientes por responder.</span>
+      <span class="body-2 cursor-pointer">{{ pqrsToResponse?.toString() }} Solicitud<span *ngIf="usersToVerify === 0 || usersToVerify !== 1">es</span> pendiente<span *ngIf="usersToVerify === 0 || usersToVerify !== 1">s</span> por responder.</span>
     </div>
 
   </div>

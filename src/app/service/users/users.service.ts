@@ -37,9 +37,16 @@ export class UsersService {
     this.pqrsCollection = afs.collection<PqrMailbox>('pqrMailbox');
   }
 
-  async onSaveUserInformation(user: User, uid: string) {
-    const data = { uid, ...user }
-    await this.usersCollection.doc(uid).set(data)
+  onSaveUserInformation(user: User, uid: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data = { uid, ...user }
+        this.usersCollection.doc(uid).set(data)
+        resolve(uid);
+      } catch (err) {
+        reject(err);
+      }
+    })
   }
 
   getUserInfo(userId: string) {
