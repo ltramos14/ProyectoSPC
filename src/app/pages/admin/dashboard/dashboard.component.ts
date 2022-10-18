@@ -157,6 +157,119 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   });
 
+  topMunicipalitiesSeries: ApexAxisChartSeries = [{
+    data: []
+  }];
+
+  topMunicipalitiesOptions = defaultChartOptions({
+    grid: {
+      show: true,
+      strokeDashArray: 3,
+      padding: {
+        left: 16
+      }
+    },
+    chart: {
+      type: 'bar',
+      height: 350,
+      sparkline: {
+        enabled: false
+      },
+      zoom: {
+        enabled: false
+      }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '50%',
+        colors: {
+          backgroundBarRadius: 50
+        }
+      }
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#000']
+      }
+    },
+    xaxis: {
+      type: 'category',
+      labels: {
+        show: true
+      },
+    },
+    yaxis: {
+      axisTicks: {
+        show: true
+      },
+      labels: {
+        show: true
+      },
+    },
+    legend: {
+      show: true,
+      itemMargin: {
+        horizontal: 4,
+        vertical: 4
+      }
+    }
+  })
+
+  activeOrdersSeries = [];
+  activeOrdersOptions = defaultChartOptions({
+    chart: {
+      type: "radialBar",
+      height: 350,
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+      },
+    ],
+    plotOptions: {
+      radialBar: {
+        offsetY: 0,
+        startAngle: 0,
+        endAngle: 270,
+        hollow: {
+          margin: 5,
+          size: "30%",
+          background: "transparent",
+          image: undefined
+        },
+        dataLabels: {
+          name: {
+            show: false
+          },
+          value: {
+            show: false
+          }
+        }
+      }
+    },
+    colors: ["#FF9800", "#4CAF50", "#9E9E9E"],
+    labels: ["Pendientes de pago", "Pagados", "En camino"],
+    legend: {
+      show: true,
+        floating: true,
+        fontSize: "12px",
+        position: "left",
+        offsetX: 50,
+        offsetY: 10,
+        labels: {
+          useSeriesColors: true
+        },
+        formatter: function(seriesName, opts) {
+          return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
+        },
+        itemMargin: {
+          horizontal: 3
+        }
+    },
+  });
+
+
   icGroup = icGroup;
   icNature = icNature;
   icCloudOff = icCloudOff;
@@ -172,6 +285,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getQuatities();
     this.getUsersByType();
     this.getProductsByType();
+    this.getTopMunicipalities();
+    this.getActiveOrders();
   }
 
   ngOnDestroy(): void {
@@ -220,4 +335,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     )
   }
+
+  getTopMunicipalities() {
+    this.subscriptions.push(
+      this.analyticsService.getTopMunicipalities().subscribe((res) => {
+        res.forEach(municipality => {
+          this.topMunicipalitiesSeries[0].data.push(municipality.quantity);
+          this.topMunicipalitiesOptions.labels.push(municipality.name as never)
+        })
+      })
+    )
+  }
+
+  getActiveOrders() {
+    this.subscriptions.push(
+      this.analyticsService.getActiveOrders().subscribe((res) => {
+        Object.keys(res).forEach((key) => {
+          this.activeOrdersSeries.push(res[key]);
+        });
+      })
+    )
+  }
+
 }

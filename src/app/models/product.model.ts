@@ -11,6 +11,7 @@ export class Product {
     availabilityDate: any;
     description: string;
     image: string;
+    municipality: string;
 
     constructor(product?: Product) {
     }

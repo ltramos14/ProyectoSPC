@@ -76,7 +76,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.getFarmsData();
-
+    
     if (this.defaults instanceof Object) {
       this.mode = "update";
     } else {
@@ -153,6 +153,7 @@ export class ProductsCreateUpdateComponent implements OnInit {
     product.stock = this.formProduct.get("stock").value;
     product.unit = this.formProduct.get("unit").value;
     product.productiveStatus = this.formProduct.get("productiveStatus").value;
+    product.municipality = this.farm.find(f => f.name === this.formProduct.get("farm").value).municipality;
 
     if (this.formProduct.get("productiveStatus").value === "Disponible")
       product.availabilityDate = null;

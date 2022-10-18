@@ -38,4 +38,12 @@ export class AnalyticsService {
     return this.http.get<any>(`${baseUrl}/products-by-type`);
   }
 
+  getTopMunicipalities(): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/top-municipalities`);
+  }
+
+  getActiveOrders(): Observable<any> {
+      return this.http.get<any>(`${baseUrl}/active-orders`)
+  }
+
 }

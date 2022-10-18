@@ -57,7 +57,7 @@
     gdColumn.lt-sm="1"
   ></vex-widget-table>
 
-  <div *ngIf="productsByTypeSeries[0].data.length > 0"gdColumn="1 / -1"
+  <div *ngIf="productsByTypeSeries[0].data.length > 0"gdColumn="1 / 3"
     gdColumn.lt-sm="1">
     <vex-widget-large-chart
       title="Gráfico de productos por tipo"
@@ -67,11 +67,23 @@
     </vex-widget-large-chart>
   </div>
 
-<!--   <vex-widget-large-goal-chart
-    [series]="salesSeries"
-    gdColumn="1 / -1"
+  <vex-widget-large-chart gdColumn="3 / -1"
+    gdColumn.lt-md="1 / -1"
     gdColumn.lt-sm="1"
-    total="4,374"
+    title="Gráfico de pedidos activos"
+    [series]="activeOrdersSeries"
+    [options]="activeOrdersOptions"
   >
-  </vex-widget-large-goal-chart> -->
+  </vex-widget-large-chart>
+
+  <div *ngIf="topMunicipalitiesSeries[0].data.length > 0"gdColumn="1 / -1"
+    gdColumn.lt-sm="1">
+    <vex-widget-large-chart
+      title="Top 10 de municipios con más productos"
+      [series]="topMunicipalitiesSeries"
+      [options]="topMunicipalitiesOptions"
+    >
+    </vex-widget-large-chart>
+  </div>
+
 </div>
