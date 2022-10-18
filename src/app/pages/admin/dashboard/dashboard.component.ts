@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     dataLabels: {
       enabled: true,
       formatter: function (val) {
-        return val.toFixed() + "%";
+        return val.toFixed(1) + "%";
       },
     },
     labels: ["Productores", "Consumidores", "Transportadores"],

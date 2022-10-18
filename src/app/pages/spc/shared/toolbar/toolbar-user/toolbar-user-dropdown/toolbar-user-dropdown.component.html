@@ -25,9 +25,12 @@
             <ol class="list-decimal mb-3 mx-6">
               <li>Fotocopia del documento de identidad</li>
               <li>Registro de antecedentes</li>
+              <li>Foto 4x5 reciente</li>
+              <li *ngIf="typeUser === 'Productor'">RUT y/o Cámara de Comercio</li>
               <li *ngIf="typeUser === 'Transportador'">Licencia de conducción vigente</li>
               <li *ngIf="typeUser === 'Transportador'">Tarjeta de propiedad del vehículo</li>
               <li *ngIf="typeUser === 'Transportador'">SOAT del vehículo</li>
+              <li *ngIf="typeUser === 'Transportador'">Certificado de la revisión técnico-mecánica</li>
             </ol>
             <p class="text-lg text-justify mt-6">Una vez hayas enviado los documentos, tu perfil pasará por un proceso
               de
