@@ -30,12 +30,7 @@
               "src/README.md",
               "src/CHANGELOG.md",
               "src/firebase-messaging-sw.js",
-              "src/manifest.json",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@builder.io/partytown/lib",
-                "output": "/~partytown"
-              }
+              "src/manifest.json"
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",
