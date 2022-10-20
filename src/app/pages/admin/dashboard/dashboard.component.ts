@@ -64,11 +64,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       type: "donut",
       height: 384,
     },
-    responsive: [
-      {
-        breakpoint: 480,
-      },
-    ],
     colors: ["#058d38", "#ee731b", "#4E3620"],
     dataLabels: {
       enabled: true,
@@ -222,11 +217,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       type: "radialBar",
       height: 350,
     },
-    responsive: [
-      {
-        breakpoint: 480,
-      },
-    ],
     plotOptions: {
       radialBar: {
         offsetY: 0,
