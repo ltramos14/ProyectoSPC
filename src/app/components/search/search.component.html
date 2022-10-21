@@ -7,7 +7,7 @@
         <mat-option *ngFor="let product of filteredProducts | async" [value]="product.name"
             [routerLink]="['/detalles-producto/', product.id]">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <img class="avatar h-50 w-50 mr-5" [src]="product.image">
+                <img class="avatar h-50 w-50 mr-5" [src]="product.image" alt="Imagen producto">
                 <span>{{product.name}} </span>
                 <ic-icon [icIcon]="icArrow" size="25px" color="#058D38"></ic-icon>
                 <small>{{product.productType}}</small>

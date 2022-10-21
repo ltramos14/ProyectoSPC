@@ -8,7 +8,7 @@
       <th *matHeaderCellDef mat-header-cell></th>
       <td *matCellDef="let element" class="w-20 min-w-20 pr-0" mat-cell>
         <a [routerLink]="['/detalles-producto/', element.product.id]"><img [src]="element.product.image || imageDefault"
-            class="avatar h-20 w-20 align-middle"></a>
+            class="avatar h-20 w-20 align-middle" alt="Imagen producto"></a>
       </td>
     </ng-container>
 

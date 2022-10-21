@@ -1,6 +1,6 @@
 <form (ngSubmit)="save()" [formGroup]="formPaymentMethod">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5" alt="Medio de pago">
 
         <h2 *ngIf="defaults.id" class="headline m-0" fxFlex="auto">
             Editar información medio de pago
@@ -73,7 +73,7 @@
 
         <div class="flex flex-col sm:flex-row">
             <div class="sm:mt-6 sm:ml-6 flex-auto" fxLayout="column" fxFlexAlign="center">
-                <img id="imgFoto" width="150" height="150" class="d-block" [src]="defaults.image || imageDefault" />
+                <img id="imgFoto" width="150" height="150" class="d-block" [src]="defaults.image || imageDefault" alt="Medio de pago seleccionado"/>
             </div>
         </div>
     </mat-dialog-content>

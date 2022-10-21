@@ -15,7 +15,7 @@ export class OwnValidations {
 
             age = dateNow.getFullYear() - date.getFullYear();
 
-            if (dateNow.getMonth <= date.getMonth && date.getDate() < date.getDate()) {
+            if (dateNow.getMonth <= date.getMonth && dateNow.getDate() < date.getDate() + 1) {
                 age = age - 1;
             }
 

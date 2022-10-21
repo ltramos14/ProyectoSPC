@@ -86,7 +86,7 @@
                                     </mat-expansion-panel-header>
                                     <div @stagger class="px-gutter" gdColumns="1fr 1fr 1fr" gdColumns.lt-lg="1fr 1fr"
                                         gdColumns.xs="1fr 1fr" *ngFor="let product of order.products">
-                                        <img @scaleIn class="avatar w-20 h-20" [src]="product.image || imageDefault"/>
+                                        <img @scaleIn class="avatar w-20 h-20" [src]="product.image || imageDefault" alt="Imagen producto"/>
                                         <div class="column py-4">
                                             <h4>Producto: <strong>{{ product.name }}</strong></h4>
                                             <h4>Cantidad: <strong>{{ product.quantity }}
@@ -158,7 +158,7 @@
                                             (change)="addPaymentSelected(payment, paymentMethod.idProducer)" checked>
                                             <div @stagger class="px-gutter mt-6 py-5" gdColumns="1fr 1fr 1fr 1fr"
                                                 gdColumns.lt-lg="1fr 1fr" gdColumns.xs="1fr">
-                                                <img @scaleIn class="avatar w-20 h-20" [src]="payment.image" />
+                                                <img @scaleIn class="avatar w-20 h-20" [src]="payment.image" alt="Imagen medio de pago" />
                                                 <div class="column p-4 text-center">
                                                     <h3>
                                                         Medio de pago:

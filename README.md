@@ -22,8 +22,9 @@ El Sistema de Productividad para el Campo consiste en una plataforma web que per
 ## Imágenes y Código Destacado
 
 
-![Imgur](https://i.imgur.com/9V5zV49.png)
+![Imgur](https://i.imgur.com/Zm0G7n6.png)
 
+![Imgur](https://i.imgur.com/CuipNCi.png)
 
 ## Tipos de usuarios que interactúan
 
@@ -33,11 +34,15 @@ El Sistema de Productividad para el Campo consiste en una plataforma web que per
 
  * Transportadores
 
+![Imgur](https://i.imgur.com/L6lc2mk.png)
 
  * Consumidores
 
 ![Imgur](https://i.imgur.com/WyLJnA6.png)
 
+* Administrador
+
+![Imgur](https://i.imgur.com/k2q7det.png)
 
 # 
 

@@ -1,6 +1,6 @@
 <form (ngSubmit)="saveChanges()" [formGroup]="formVehicle">
     <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5">
+        <img *ngIf="defaults.image" [src]="defaults.image" class="avatar mr-5" alt="Imagen vehiculo">
 
         <h2 *ngIf="formVehicle.get('licensePlate').value" class="headline m-0" fxFlex="auto"
             style="text-transform: uppercase;">

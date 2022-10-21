@@ -4,7 +4,7 @@
      [class.open]="collapsed && collapsedOpen$ | async"
      class="sidenav flex flex-col">
   <div class="sidenav-toolbar flex-none flex items-center">
-    <img [src]="imageUrl$ | async" class="w-6 select-none flex-none">
+    <img [src]="imageUrl$ | async" class="w-6 select-none flex-none" alt="select-sidenav">
     <h2 class="title ltr:pl-4 rtl:pr-4 select-none flex-auto">{{ title$ | async }}</h2>
     <button (click)="toggleCollapse()"
             *ngIf="showCollapsePin$ | async"

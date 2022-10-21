@@ -12,7 +12,7 @@
                         <div class="card overflow-hidden" *ngFor="let user of users">
                             <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
                                 matRipple>
-                                <img [src]="user?.profileURL" class="avatar h-24 w-24 mx-auto">
+                                <img [src]="user?.profileURL" class="avatar h-24 w-24 mx-auto" alt="Imagen usuario">
                                 <h3 class="mb-1 mt-3 bold">{{ user?.names + " " + user?.lastnames}}</h3>
 
                                 <div class="body-2 text-secondary">
