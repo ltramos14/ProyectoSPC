@@ -1,1 +1,39 @@
-<p>about-us works!</p>
+<h1>¿QUIÉNES SOMOS?</h1>
+
+<section class="flex sm:flex-row flex-col gap-5 items-center justify-center my-10">
+    <div class="sm:mt-5 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+        *ngFor="let person of persons"
+    >
+        <div class="flex justify-end px-4 pt-4">
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon [icIcon]="icMore"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <div *ngFor="let contact of person.contacts">
+                    <ng-container *ngIf="contact.name.includes('Correo'); else elseTemplate">
+                        <a [href]="'mailto:' + contact.url" >
+                            <mat-icon [icIcon]="contact.icon"></mat-icon>
+                            <span>
+                                {{ contact.name }}
+                            </span>
+                        </a>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <a [href]="contact.url" target="_blank" >
+                            <mat-icon [icIcon]="contact.icon"></mat-icon>
+                            <span>
+                                {{ contact.name }}
+                            </span>
+                        </a>
+                    </ng-template>
+                    
+                </div>
+            </mat-menu>
+        </div>
+        <div class="flex flex-col items-center pb-10">
+            <img class="mb-3 w-24 h-24 rounded-full shadow-lg" [src]="person.image" alt="person.image"/>
+            <h5 class="mb-1 text-xl font-medium text-accent dark:text-white">{{ person.names }}</h5>
+            <span class="text-sm text-primary italic dark:text-gray-400">{{ person.profesion }}</span>
+        </div>
+    </div>
+</section>
