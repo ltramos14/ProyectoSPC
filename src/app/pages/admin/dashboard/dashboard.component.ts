@@ -109,7 +109,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     },
     plotOptions: {
       bar: {
-        horizontal: true
+        horizontal: true,
+        distributed: true
       }
     },
     dataLabels: {
@@ -118,7 +119,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         colors: ['#000']
       }
     },
-    colors: ['#EE731B'],
+    colors: ['#FFC107', '#E91E63', '#6366F1', '#009688', '#FF5722'],
     labels: [
       "Frutas",
       "Hortalizas",
@@ -158,7 +159,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   });
 
   topMunicipalitiesSeries: ApexAxisChartSeries = [{
-    data: []
+    data: [],
   }];
 
   topMunicipalitiesOptions = defaultChartOptions({
@@ -182,11 +183,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     plotOptions: {
       bar: {
         columnWidth: '50%',
-        colors: {
-          backgroundBarRadius: 50
-        }
+        distributed: true
       }
     },
+    labels: [],
+    colors: ['#009688', '#F44336', '#9C27B0', '#E91E63', '#A5978B', '#FF9800', '#4CAF50', '#9E9E9E', '#673AB7', '#FF5722', '#00BCD4'],
     dataLabels: {
       enabled: true,
       style: {
@@ -339,10 +340,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getTopMunicipalities() {
     this.subscriptions.push(
       this.analyticsService.getTopMunicipalities().subscribe((res) => {
-        res.forEach(municipality => {
+        res.forEach((municipality, i) => {
           this.topMunicipalitiesSeries[0].data.push(municipality.quantity);
-          this.topMunicipalitiesOptions.labels.push(municipality.name as never)
-        })
+          this.topMunicipalitiesOptions.labels.push(municipality.name as never);
+        });
+           
       })
     )
   }

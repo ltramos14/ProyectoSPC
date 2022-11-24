@@ -35,7 +35,7 @@ export class OwnValidations {
             let date: Date = new Date(control.value);
             let dateNow = new Date();
 
-            if (date.getDate() <= dateNow.getDate()) {
+            if (date.getTime() < dateNow.getTime()) {
                 return { futureDate: true }
             }
         }

@@ -216,8 +216,15 @@ export class ProductsCreateUpdateComponent implements OnInit {
     if (value.value === "Disponible") {
       this.formProduct.controls["availabilityDate"].clearValidators()
     } else {
-      this.formProduct.get('availabilityDate').setValue(new Date());
+      this.formProduct.get('availabilityDate').setValue(this.addDaysToDate(1));
       this.formProduct.controls["availabilityDate"].setValidators([Validators.required, OwnValidations.futureDate])
     }
   }
+
+  private addDaysToDate(days: number) {
+    let res = new Date();
+    res.setDate(res.getDate() + days);
+    return res;
+  }
+  
 }
